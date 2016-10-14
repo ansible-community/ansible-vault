@@ -3,11 +3,10 @@
 ![](https://travis-ci.org/brianshumate/ansible-vault.svg?branch=master)
 
 This Ansible role performs a basic [Vault](https://vault.io/) installation,
-including filesystem structure, example configuration, and Vault UI
-installation.
+including filesystem structure and example configuration.
 
-It can also bootstrap a minimal development or evaluation cluster of 3 server
-agents running in a Vagrant and VirtualBox based environment. See
+It can also bootstrap a minimal development or evaluation server in a
+Vagrant and VirtualBox based environment. See
 [README_VAGRANT.md](https://github.com/brianshumate/ansible-vault/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-vault/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 ## Requirements
