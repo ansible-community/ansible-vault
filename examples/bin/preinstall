@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# File: examples/bin/preinstall - convenience script to add Vault
+# VM node host information to /etc/hosts for Vagrant
+
+vault="10\.1\.42\.240"
+
+# Log stuff
+function logmsg {
+    msgtype="$1"
+    msgtxt="$2"
+    case "${msgtype}" in
+        greeting)
+            printf "🌞  ${txtylw}${msgtxt}\n"
+            ;;
+        info)
+            printf "💬  ${txtwht}${msgtxt}\n"
+            ;;
+        success)
+            printf "✅  ${txtgrn}${msgtxt}\n"
+            ;;
+        notice)
+            printf "🚩  ${txtylw}${msgtxt}\n"
+            ;;
+        alert)
+            printf "⛔️  ${txtred}${msgtxt}\n" >&2
+            ;;
+        *)
+            printf "⁉️  ${txtwht}${msgtxt}\n" >&2
+            ;;
+    esac
+}
+
+# Check if sudo will need password
+function sudocheck {
+  logmsg info "Enter your user account password for sudo if prompted"
+  sudo true
+}
+
+# Add hosts entries if necessary
+function add_host {
+  if grep vault /etc/hosts > /dev/null 2>&1; then
+    logmsg success "Vault VM server information present in /etc/hosts"
+  else
+    sudocheck
+    sudo sh -c "echo '# Vault Vagrant virtual machine host
+10.1.42.210 vault.local vault
+' >> /etc/hosts"
+    logmsg success "Vault server host information added to /etc/hosts"
+  fi
+}
+
+add_host

@@ -1,0 +1,27 @@
+### BEGIN INIT INFO
+# Provides:          vault
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Vault agent
+# Description:       Vault secret management tool
+### END INIT INFO
+
+[Unit]
+Description=Vault secret management tool
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+User={{ vault_user }}
+Group={{ vault_group }}
+PIDFile=/var/run/vault/vault.pid
+ExecStart=/usr/local/bin/vault server -config={{ vault_main_config }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+---
+# File: site.yml - Example Vault site playbook
+
+- name: Install Vault
+  hosts: vault_nodes
+  any_errors_fatal: true
+  become: yes
+  become_user: root
+  roles:
+    - { role: brianshumate.vault }

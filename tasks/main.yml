@@ -1,0 +1,66 @@
+---
+# File: tasks/main.yml - Main tasks for Vault
+
+- name: Create cluster groupings
+  group_by: key=os_{{ ansible_os_family }}
+
+- name: "Add Vault user"
+  user: name=vault comment="Vault user" uid=1043 group=bin
+
+- name: "Distribution specific variables"
+  include_vars: main.yml
+
+- name: "CentOS tasks"
+  include: CentOS.yml
+  when: ansible_distribution  == "CentOS"
+
+- name: "Debian tasks"
+  include: Debian.yml
+  when: ansible_distribution  == "Debian"
+
+- name: "Red Hat tasks"
+  include: RedHat.yml
+  when: ansible_distribution  == "RedHat"
+
+- name: "Ubuntu tasks"
+  include: Ubuntu.yml
+  when: ansible_distribution  == "Ubuntu"
+
+- name: Enable non root mlock capability
+  command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+
+- name: Vault directory
+  file: "dest=/opt/vault state=directory owner={{ vault_user }} group={{ vault_group}}"
+
+- name: Vault data directory
+  file: "dest=/var/vault state=directory owner={{ vault_user }} group={{ vault_group}}"
+
+- name: Vault log directory
+  file: "dest=/var/log/vault state=directory owner={{ vault_user }} group={{ vault_group}}"
+
+- name: Vault PID directory
+  file: "dest=/var/run/vault state=directory owner={{ vault_user }} group={{ vault_group}}"
+
+- name: Vault dot d directory
+  file: "dest=/etc/vault.d state=directory owner={{ vault_user }} group={{ vault_group}}"
+
+- name: Vault server configuration
+  template: src=vault_main.hcl.j2 dest={{ vault_config_path }}/vault_main.hcl
+
+- name: SYSV init script
+  template: src=vault_sysvinit.j2 dest=/etc/init.d/vault owner=root group=root mode=755
+  when: not ansible_distribution == "Debian"
+
+- name: Debian init script
+  template: src=vault_debian.init.j2 dest=/etc/init.d/vault owner=root group=root mode=755
+  when: ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
+
+- name: systemd script
+  template: src=vault_systemd.service.j2 dest=/lib/systemd/system/vault.service owner=root group=root mode=644
+  when: ansible_distribution_major_version|int >= 7
+
+- name: Start Vault
+  service: name=vault state=started enabled=yes
+
+- name: Vault running?
+  wait_for: port=8200 delay=10
