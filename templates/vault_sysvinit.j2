@@ -1,0 +1,90 @@
+#!/bin/bash
+#
+# chkconfig:   2345 95 95
+# description: Vault secret management tool
+# processname: vault
+# pidfile: /var/run/vault/pidfile
+
+{% if ansible_distribution == "Ubuntu" %}
+. /lib/lsb/init-functions
+{% else %}
+. /etc/init.d/functions
+{% endif %}
+
+VAULT=/usr/local/bin/vault
+CONFIG=/etc/vault.d/{{ vault_node_role }}
+PID_FILE=/var/run/vault/vault.pid
+
+[ -e /etc/sysconfig/vault ] && . /etc/sysconfig/vault
+
+export GOMAXPROCS=$(nproc)
+
+mkrundir() {
+        [ ! -d /var/run/vault ] && mkdir -p /var/run/vault
+        chown {{ vault_user }} /var/run/vault
+}
+
+KILLPROC_OPT="-p ${PID_FILE}"
+mkpidfile() {
+        mkrundir
+        [ ! -f $PID_FILE ] && pidofproc $VAULT > $PID_FILE
+        chown {{ vault_user }} /var/run/vault
+        if [ $? -ne 0 ] ; then
+            rm $PID_FILE
+            KILLPROC_OPT=""
+        fi
+}
+
+start() {
+        echo -n "Starting vault: "
+        mkrundir
+        [ -f $PID_FILE ] && rm $PID_FILE
+        daemon --user={{ vault_user }} \
+            --pidfile="$PID_FILE" \
+            "$VAULT" server -config={{ vault_main_config }} &
+        retcode=$?
+        touch /var/lock/subsys/vault
+        return $retcode
+}
+
+stop() {
+        echo -n "Shutting down vault: "
+        if ("${VAULT}" info 2>/dev/null | grep -q 'server = false' 2>/dev/null) ; then
+            "$VAULT" leave
+        fi
+
+        mkpidfile
+        killproc $KILLPROC_OPT $VAULT -9
+
+        retcode=$?
+        rm -f /var/lock/subsys/vault $PID_FILE
+        return $retcode
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        "$VAULT" info
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    reload)
+        mkpidfile
+        killproc $KILLPROC_OPT $VAULT -HUP
+        ;;
+    condrestart)
+        [ -f /var/lock/subsys/vault ] && restart || :
+        ;;
+    *)
+        echo "Usage: vault {start|stop|status|reload|restart}"
+        exit 1
+        ;;
+esac
+exit $?

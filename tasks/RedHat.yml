@@ -1,0 +1,27 @@
+---
+# File: tasks/Red Hat.yml - Red Hat tasks for Vault
+
+- name: "Distribution specific variables"
+  include_vars: main.yml
+
+- name: OS packages
+  yum: "name={{ item }} state=present"
+  with_items: "{{ vault_redhat_os_packages }}"
+  tags: installation
+
+- name: dnsmasq package
+  yum: name=dnsmasq state=present
+  when: "vault_dnsmasq == true"
+  tags: installation
+
+- name: Download Vault
+  get_url: "url={{ vault_zip_url }} dest=/tmp/{{ vault_redhat_pkg }} sha256sum={{ vault_redhat_sha256 }} timeout=74"
+  tags: installation
+
+- name: Install Vault
+  unarchive: "copy=no creates=/usr/loca/bin/vault src=/tmp/{{ vault_redhat_pkg }} dest=/usr/local/bin/ owner={{ vault_user }} group={{ vault_group }} mode=0755"
+  tags: installation
+
+- name: Cleanup
+  file: path=/tmp/"{{ vault_redhat_pkg }}" state=absent
+  tags: installation
