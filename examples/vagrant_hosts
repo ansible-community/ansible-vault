@@ -5,7 +5,7 @@
 #     the 'nodeN' pattern for additional nodes past 'vault3'
 #     Do not modify the labels (text appearing between []), however
 
-[vault_nodes]
+[cluster_nodes]
 vault1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/vault1/virtualbox/private_key
 
 # If you want to install Vault onto your Consul VMs installed by the
