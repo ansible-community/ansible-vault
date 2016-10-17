@@ -6,5 +6,7 @@
 ## v1.0.1
 
 - Update documentation
+
+## v1.0.2
 - Set correct RAM amount in Vagrantfile
 - Rename Vagrant inventory back to cluster_nodes
