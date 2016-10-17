@@ -14,7 +14,7 @@ galaxy_info:
   # - Apache
   # - CC-BY
   license: license BSD
-  min_ansible_version: 1.9
+  min_ansible_version: 2.0
   #
   # Below are all platforms currently available. Just uncomment
   # the ones that apply to your role. If you don't see your 
