@@ -5,11 +5,11 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-vault.svg)](http://isitmaintained.com/project/brianshumate/ansible-vault "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-vault.svg)](http://isitmaintained.com/project/brianshumate/ansible-vault "Percentage of issues still open")
 
-This Ansible role performs a basic [Vault](https://vault.io/) installation,
-including filesystem structure and example configuration.
+This Ansible role performs a basic [Vault](https://vaultproject.io/)
+installation, including filesystem structure and example configuration.
 
-It can also bootstrap a minimal development or evaluation server in a
-Vagrant and VirtualBox based environment. See
+It can also bootstrap a minimal development or evaluation server or HA
+Consul-backed cluster in a Vagrant and VirtualBox based environment. See
 [README_VAGRANT.md](https://github.com/brianshumate/ansible-vault/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-vault/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 ## Requirements

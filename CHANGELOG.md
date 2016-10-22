@@ -16,3 +16,9 @@
 
 - Move all vars to defaults
 - Documentation updates
+
+# v1.0.4
+
+- Correct URL in docs
+- Remove vars dir
+- Enable download once / copy many install
