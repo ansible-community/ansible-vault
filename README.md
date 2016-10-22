@@ -1,6 +1,9 @@
 # Vault
 
-![](https://travis-ci.org/brianshumate/ansible-vault.svg?branch=master)
+[![Build Status](https://travis-ci.org/brianshumate/ansible-vault.svg?branch=master)](https://travis-ci.org/brianshumate/ansible-vault)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-brianshumate.vault-blue.svg)](https://galaxy.ansible.com/brianshumate/vault/)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/brianshumate/ansible-vault.svg)](http://isitmaintained.com/project/brianshumate/ansible-vault "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/brianshumate/ansible-vault.svg)](http://isitmaintained.com/project/brianshumate/ansible-vault "Percentage of issues still open")
 
 This Ansible role performs a basic [Vault](https://vault.io/) installation,
 including filesystem structure and example configuration.
@@ -21,7 +24,7 @@ software and versions:
 
 ## Role Variables
 
-The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
+The role defines variables in `defaults/main.yml`:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -47,8 +50,11 @@ The role specifies variables in `defaults/main.yml` and `vars/*.yml`.
 
 ### OS Distribution Variables
 
-The Vault binary works on most Linux platforms and is not distribution
-specific. Some distributions require installation of specific OS packages with different nomenclature, so this role has support for major Linux distributions.
+The `consul` binary works on most Linux platforms and is not distribution
+specific. However, some distributions require installation of specific OS
+packages with different naming, so this role was built with support for
+popular Linux distributions and defines these variables to deal with the
+differences acros distros:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
@@ -71,14 +77,12 @@ specific. Some distributions require installation of specific OS packages with d
 
 ## Dependencies
 
-None
+Ansible requires GNU tar and this role performs some local use of the
+unarchive module, so ensure that your system has `gtar` installed.
 
 ## Example Playbook
 
-
-After you have reviewed and altered any necessary variables, and created a
-host inventory file, basic Vault installation is possible using the
-included `site.yml` playbook example:
+Basic installation is possible using the included `site.yml` playbook:
 
 ```
 ansible-playbook -i hosts site.yml
@@ -106,5 +110,5 @@ BSD
 
 ## Contributors
 
-Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-vault/blob/master/CONTRIBUTORS.md) for their 
+Special thanks to the folks listed in [CONTRIBUTORS.md](https://github.com/brianshumate/ansible-vault/blob/master/CONTRIBUTORS.md) for their
 contributions to this project.

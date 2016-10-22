@@ -8,5 +8,11 @@
 - Update documentation
 
 ## v1.0.2
+
 - Set correct RAM amount in Vagrantfile
 - Rename Vagrant inventory back to cluster_nodes
+
+# v1.0.3
+
+- Move all vars to defaults
+- Documentation updates

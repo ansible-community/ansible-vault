@@ -21,3 +21,41 @@ vault_address: "0.0.0.0"
 vault_port: "8200"
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
+
+# CentOS vars
+vault_centos_pkg: "{{ vault_version }}_linux_amd64.zip"
+vault_centos_url: "{{ vault_zip_url }}"
+vault_centos_sha256: "{{ vault_zip_sha256 }}"
+
+vault_centos_os_packages:
+  - libselinux-python
+  - git
+  - unzip
+
+# Debian vars
+vault_debian_pkg: "{{ vault_version }}_linux_amd64.zip"
+vault_debian_url: "{{ vault_zip_url }}"
+vault_debian_sha256: "{{ vault_zip_sha256 }}"
+
+vault_debian_os_packages:
+  - git
+  - unzip
+
+# Red Hat vars
+vault_redhat_pkg: "{{ vault_version }}_linux_amd64.zip"
+vault_redhat_url: "{{ vault_zip_url }}"
+vault_redhat_sha256: "{{ vault_zip_sha256 }}"
+
+vault_redhat_os_packages:
+  - libselinux-python
+  - git
+  - unzip
+
+# Ubuntu vars
+vault_ubuntu_pkg: "{{ vault_version }}_linux_amd64.zip"
+vault_ubuntu_url: "{{ vault_zip_url }}"
+vault_ubuntu_sha256: "{{ vault_zip_sha256 }}"
+
+vault_ubuntu_os_packages:
+  - git
+  - unzip
