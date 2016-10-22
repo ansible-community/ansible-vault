@@ -16,17 +16,17 @@
 - name: Unarchive Vault
   become: no
   connection: local
-  unarchive: "src={{ role_path }}/files/{{ vault_debian_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/Vault"
+  unarchive: "src={{ role_path }}/files/{{ vault_debian_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/vault"
   run_once: true
   tags: installation
 
 - name: Install Vault
-  copy: "src={{ role_path }}/files/Vault dest=/usr/local/bin/ owner={{ vault_user }} group={{ vault_group }} mode=0755"
+  copy: "src={{ role_path }}/files/vault dest=/usr/local/bin/ owner={{ vault_user }} group={{ vault_group }} mode=0755"
   tags: installation
 
 - name: Cleanup
   become: no
   connection: local
-  file: "dest={{ role_path }}/files/Vault* state=absent"
+  file: "dest={{ role_path }}/files/vault* state=absent"
   run_once: true
   tags: installation
