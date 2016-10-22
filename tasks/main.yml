@@ -1,6 +1,16 @@
 ---
 # File: tasks/main.yml - Main tasks for Vault
 
+- name: Fail if not a new release of Ubuntu
+  fail:
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of Ubuntu for this role"
+  when: ansible_lsb.id|lower == "ubuntu" and ( ansible_distribution_version|version_compare(12.04, '<') or ansible_distribution_version|version_compare(12.10, '=') )
+
+- name: Fail if not a new release of Debian
+  fail:
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of Debian for this role"
+  when: ansible_lsb.id|lower == "debian" and ansible_distribution_version|version_compare(8.5, '<')
+
 - name: Create cluster groupings
   group_by: key=os_{{ ansible_os_family }}
 
