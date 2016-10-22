@@ -14,19 +14,19 @@
 - name: Download Vault
   become: no
   connection: local
-  get_url: "url={{ Vault_zip_url }} dest={{ role_path }}/files/{{ Vault_debian_pkg }} sha256sum={{ Vault_zip_sha256 }} timeout=74"
+  get_url: "url={{ vault_zip_url }} dest={{ role_path }}/files/{{ vault_debian_pkg }} sha256sum={{ vault_zip_sha256 }} timeout=74"
   run_once: true
   tags: installation
 
 - name: Unarchive Vault
   become: no
   connection: local
-  unarchive: "src={{ role_path }}/files/{{ Vault_debian_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/Vault"
+  unarchive: "src={{ role_path }}/files/{{ vault_debian_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/Vault"
   run_once: true
   tags: installation
 
 - name: Install Vault
-  copy: "src={{ role_path }}/files/Vault dest=/usr/local/bin/ owner={{ Vault_user }} group={{ Vault_group }} mode=0755"
+  copy: "src={{ role_path }}/files/Vault dest=/usr/local/bin/ owner={{ vault_user }} group={{ vault_group }} mode=0755"
   tags: installation
 
 - name: Cleanup
