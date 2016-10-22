@@ -26,3 +26,8 @@
 # v1.0.5
 
 - Remove unnecessary include
+
+# v1.0.6
+
+- Add fail on old distro versions
+- Remove all distro specific includes
