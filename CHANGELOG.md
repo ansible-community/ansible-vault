@@ -35,3 +35,7 @@
 # v1.0.7
 
 - Fix var names
+
+# v1.0.8
+
+- Add files dir
