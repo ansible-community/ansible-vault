@@ -12,30 +12,38 @@
 - Set correct RAM amount in Vagrantfile
 - Rename Vagrant inventory back to cluster_nodes
 
-# v1.0.3
+## v1.0.3
 
 - Move all vars to defaults
 - Documentation updates
 
-# v1.0.4
+## v1.0.4
 
 - Correct URL in docs
 - Remove vars dir
 - Enable download once / copy many install
 
-# v1.0.5
+## v1.0.5
 
 - Remove unnecessary include
 
-# v1.0.6
+## v1.0.6
 
 - Add fail on old distro versions
 - Remove all distro specific includes
 
-# v1.0.7
+## v1.0.7
 
 - Fix var names
 
-# v1.0.8
+## v1.0.8
 
 - Add files dir
+
+## v1.0.9
+
+- Add files dir
+
+## v1.0.10
+
+- Fix binary name
