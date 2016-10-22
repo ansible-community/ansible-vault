@@ -31,3 +31,7 @@
 
 - Add fail on old distro versions
 - Remove all distro specific includes
+
+# v1.0.7
+
+- Fix var names
