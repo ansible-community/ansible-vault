@@ -22,3 +22,7 @@
 - Correct URL in docs
 - Remove vars dir
 - Enable download once / copy many install
+
+# v1.0.5
+
+- Remove unnecessary include
