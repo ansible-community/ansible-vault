@@ -47,3 +47,10 @@
 ## v1.0.10
 
 - Fix binary name
+
+## v1.0.11
+
+- Update/validate CentOS 7 box
+- Update documentation
+- Update failure cases for CentOS
+- Fix SysV init script

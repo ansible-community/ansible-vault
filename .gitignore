@@ -3,3 +3,6 @@
 .tm_properties
 *.retry
 examples/hosts
+files/*.zip
+files/vault
+

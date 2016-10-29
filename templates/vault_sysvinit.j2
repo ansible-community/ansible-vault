@@ -12,7 +12,7 @@
 {% endif %}
 
 VAULT=/usr/local/bin/vault
-CONFIG=/etc/vault.d/{{ vault_node_role }}
+CONFIG=/etc/vault.d
 PID_FILE=/var/run/vault/vault.pid
 
 [ -e /etc/sysconfig/vault ] && . /etc/sysconfig/vault
