@@ -31,7 +31,7 @@
 - name: Unarchive vault
   become: no
   connection: local
-  unarchive: "src={{ role_path }}/files/{{ vault_pkg }} dest={{ role_epath }}/files/ creates={{ role_path }}/files/vault"
+  unarchive: "src={{ role_path }}/files/{{ vault_pkg }} dest={{ role_path }}/files/ creates={{ role_path }}/files/vault"
   run_once: true
   tags: installation
 
