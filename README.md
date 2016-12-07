@@ -58,21 +58,21 @@ differences acros distros:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `vault_centos_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
+| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
 | `vault_centos_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_centos_sha256` | SHA256 SUM | Vault download SHA256 summary |
+| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
 | `vault_centos_os_packages` | list | List of OS packages to install |
-| `vault_debian_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
+| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
 | `vault_debian_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_debian_sha256` | SHA256 SUM | Vault download SHA256 summary |
+| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
 | `vault_debian_os_packages` | list | List of OS packages to install |
-| `vault_redhat_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
+| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
 | `vault_redhat_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_redhat_sha256` | SHA256 SUM | Vault download SHA256 summary |
+| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
 | `vault_redhat_os_packages` | list | List of OS packages to install |
-| `vault_ubuntu_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
+| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
 | `vault_ubuntu_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_ubuntu_sha256` | SHA256 SUM | Vault download SHA256 summary |
+| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
 | `vault_ubuntu_os_packages` | list | List of OS packages to install |
 
 ## Dependencies
