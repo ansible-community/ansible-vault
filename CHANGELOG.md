@@ -69,3 +69,7 @@
 ## v1.2.1
 
 - Include installation tasks
+
+## v1.2.2
+
+- Fix variable name
