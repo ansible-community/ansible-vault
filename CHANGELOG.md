@@ -54,3 +54,14 @@
 - Update documentation
 - Update failure cases for CentOS
 - Fix SysV init script
+
+## v1.2.0
+
+- Vault 0.6.3
+- Dynamic SHA
+- Streamline tasks
+- Streamline and consolidate variables
+- Move OS variables to vars
+- Separate install tasks
+- Remove OS specific tasks
+- Update documentation

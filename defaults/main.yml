@@ -1,9 +1,11 @@
 ---
 # File: defaults/main.yml - Main default variables for Vault
 
-vault_version: "0.6.2"
-vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
+vault_version: "0.6.3"
+vault_pkg: "vault_{{ vault_version }}_linux_amd64.zip"
+vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/{{ vault_pkg }}"
 vault_zip_sha256: "91432c812b1264306f8d1ecf7dd237c3d7a8b2b6aebf4f887e487c4e7f69338c"
+vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
 vault_bin_path: "/usr/local/bin"
 vault_config_path: "/etc/vault.d"
 vault_data_path: "/var/vault"
@@ -21,41 +23,3 @@ vault_address: "0.0.0.0"
 vault_port: "8200"
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
-
-# CentOS vars
-vault_centos_pkg: "{{ vault_version }}_linux_amd64.zip"
-vault_centos_url: "{{ vault_zip_url }}"
-vault_centos_sha256: "{{ vault_zip_sha256 }}"
-
-vault_centos_os_packages:
-  - libselinux-python
-  - git
-  - unzip
-
-# Debian vars
-vault_debian_pkg: "{{ vault_version }}_linux_amd64.zip"
-vault_debian_url: "{{ vault_zip_url }}"
-vault_debian_sha256: "{{ vault_zip_sha256 }}"
-
-vault_debian_os_packages:
-  - git
-  - unzip
-
-# Red Hat vars
-vault_redhat_pkg: "{{ vault_version }}_linux_amd64.zip"
-vault_redhat_url: "{{ vault_zip_url }}"
-vault_redhat_sha256: "{{ vault_zip_sha256 }}"
-
-vault_redhat_os_packages:
-  - libselinux-python
-  - git
-  - unzip
-
-# Ubuntu vars
-vault_ubuntu_pkg: "{{ vault_version }}_linux_amd64.zip"
-vault_ubuntu_url: "{{ vault_zip_url }}"
-vault_ubuntu_sha256: "{{ vault_zip_sha256 }}"
-
-vault_ubuntu_os_packages:
-  - git
-  - unzip
