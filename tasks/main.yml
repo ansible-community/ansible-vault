@@ -30,6 +30,9 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
+- name: Install specified packages  
+  include: install.yml
+
 - name: Enable non root mlock capability
   command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
 
