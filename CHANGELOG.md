@@ -65,3 +65,7 @@
 - Separate install tasks
 - Remove OS specific tasks
 - Update documentation
+
+## v1.2.1
+
+- Include installation tasks
