@@ -70,4 +70,4 @@
   service: name=vault state=started enabled=yes
 
 - name: Vault running?
-  wait_for: port=8200 delay=10
+  wait_for: host={{ vault_address}} port=8200 delay=10
