@@ -73,3 +73,7 @@
 ## v1.2.2
 
 - Fix variable name
+
+## v1.2.3
+
+- Vault 0.6.4
