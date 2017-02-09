@@ -80,6 +80,9 @@
 
 ## v1.2.4
 
-- Vault 0.6.5
+- Vaule 0.6.5
+
+## v1.2.5
+
 - Updated configuration templates
 - Updated documentation
