@@ -6,7 +6,11 @@
 #     Do not modify the labels (text appearing between []), however
 
 [cluster_nodes]
-vault1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/vault1/virtualbox/private_key
+vault1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/vault1/virtualbox/private_key vault_node_role=primary
+
+vault1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/vault1/virtualbox/private_key vault_node_role=secondary
+
+vault1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/machines/vault1/virtualbox/private_key vault_node_role=secondary
 
 # If you want to install Vault onto your Consul VMs installed by the
 # brianshumate.consul role, replace all instances of ~/ansible_roles
@@ -14,5 +18,7 @@ vault1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=./.vagrant/ma
 
 [consul_nodes]
 consul1.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/ansible_roles/brianshumate.consul/examples/.vagrant/machines/consul1/virtualbox/private_key
+
 consul2.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/ansible_roles/brianshumate.consul/examples/.vagrant/machines/consul2/virtualbox/private_key
+
 consul3.local ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/ansible_roles/brianshumate.consul/examples/.vagrant/machines/consul3/virtualbox/private_key

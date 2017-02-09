@@ -81,3 +81,5 @@
 ## v1.2.4
 
 - Vault 0.6.5
+- Updated configuration templates
+- Updated documentation
