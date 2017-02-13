@@ -22,7 +22,7 @@
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
 
 - name: Create cluster groupings
-  group_by: key=os_{{ ansible_os_family }}
+  group_by: "key=os_{{ ansible_os_family }}"
 
 - name: "Add Vault user"
   user: name=vault comment="Vault user" uid=1043 group=bin
@@ -52,18 +52,18 @@
   file: "dest=/etc/vault.d state=directory owner={{ vault_user }} group={{ vault_group}}"
 
 - name: Vault server configuration
-  template: src=vault_main.hcl.j2 dest={{ vault_config_path }}/vault_main.hcl
+  template: "src=vault_main.hcl.j2 dest={{ vault_config_path }}/vault_main.hcl"
 
 - name: SYSV init script
-  template: src=vault_sysvinit.j2 dest=/etc/init.d/vault owner=root group=root mode=755
+  template: "src=vault_sysvinit.j2 dest=/etc/init.d/vault owner=root group=root mode=755"
   when: not ansible_distribution == "Debian"
 
 - name: Debian init script
-  template: src=vault_debian.init.j2 dest=/etc/init.d/vault owner=root group=root mode=755
+  template: "src=vault_debian.init.j2 dest=/etc/init.d/vault owner=root group=root mode=755"
   when: ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
 
 - name: systemd script
-  template: src=vault_systemd.service.j2 dest=/lib/systemd/system/vault.service owner=root group=root mode=644
+  template: "src=vault_systemd.service.j2 dest=/lib/systemd/system/vault.service owner=root group=root mode=644"
   when: ansible_distribution_major_version|int >= 7
 
 - name: Start Vault
