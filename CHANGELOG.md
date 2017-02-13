@@ -86,3 +86,7 @@
 
 - Updated configuration templates
 - Updated documentation
+
+## v1.2.6
+
+- Check for local packages and summary files
