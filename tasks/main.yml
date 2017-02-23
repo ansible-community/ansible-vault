@@ -96,5 +96,6 @@
 
 - name: Vault running?
   wait_for:
+    host: "{{ vault_address}}"
     port: 8200
     delay: 10
