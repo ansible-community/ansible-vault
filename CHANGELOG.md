@@ -90,3 +90,9 @@
 ## v1.2.6
 
 - Check for local packages and summary files
+
+## v1.2.7
+
+- Update main tasks
+- Update install tasks
+- Prefer compact YAML format across all tasks files
