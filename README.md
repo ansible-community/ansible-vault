@@ -47,6 +47,7 @@ The role defines variables in `defaults/main.yml`:
 | `vault_main_config` | `{{ vault_config_path }}/vault_main.hcl` | Main configuration file path |
 | `vault_consul` | `127.0.0.1:8500` | Address of Consul backend |
 | `vault_consul_path` | `vault` | Consul path to use |
+| `vault_backend` | `backend_consul.j2` | Backend template filename |
 
 ### OS Distribution Variables
 
@@ -94,6 +95,16 @@ You can also pass variables in using the `--extra-vars` option to the
 ```
 ansible-playbook -i hosts site.yml --extra-vars "vault_datacenter=maui"
 ```
+
+Specify a template file with a different backend definition
+(see `templates/backend_consul.j2`):
+
+```
+ansible-playbook -i hosts site.yml --extra-vars "vault_backed=backend_file.j2"
+```
+
+You need to make sure that the template file `backend_file.j2` is in the
+role directory for this to work.
 
 ### Vagrant and VirtualBox
 
