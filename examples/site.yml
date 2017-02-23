@@ -1,10 +1,20 @@
 ---
 # File: site.yml - Example Vault site playbook
 
+- Group nodes
+  hosts: cluster_nodes
+  become: yes
+  become_user: root
+  tasks:
+  - name: Create cluster grouping
+    group_by: key={{ couchbase_server_node_role }}
+
 - name: Install Vault
   hosts: cluster_nodes
   any_errors_fatal: true
   become: yes
   become_user: root
+  vars:
+    vault_primary_node: "{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"
   roles:
     - { role: brianshumate.vault }

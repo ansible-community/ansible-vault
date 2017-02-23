@@ -18,8 +18,8 @@ This role requires a Debian or RHEL based Linux distribution. It might work
 with other software versions, but does work with the following specific
 software and versions:
 
-* Ansible: 2.1.2.0
-* Vault: 0.6.2
+* Ansible: 2.2.1.0
+* Vault: 0.6.5
 * Debian: 8
 
 ## Role Variables
@@ -28,7 +28,7 @@ The role defines variables in `defaults/main.yml`:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `vault_version` | `0.6.2` | Version to install |
+| `vault_version` | `0.6.5` | Version to install |
 | `vault_zip_url` | `https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip` | Download URL |
 | `vault_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
 | `vault_bin_path` | `/usr/local/bin` | Binary installation path |

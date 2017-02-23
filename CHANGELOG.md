@@ -73,3 +73,26 @@
 ## v1.2.2
 
 - Fix variable name
+
+## v1.2.3
+
+- Vault 0.6.4
+
+## v1.2.4
+
+- Vaule 0.6.5
+
+## v1.2.5
+
+- Updated configuration templates
+- Updated documentation
+
+## v1.2.6
+
+- Check for local packages and summary files
+
+## v1.2.7
+
+- Update main tasks
+- Update install tasks
+- Prefer compact YAML format across all tasks files

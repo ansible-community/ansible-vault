@@ -1,7 +1,11 @@
 backend "consul" {
-  address = "{{ vault_consul }}"
-  path = "{{ vault_consul_path }}"
+  address = "127.0.0.1:8500"
+  redirect_addr = "http://{{ vault_address }}:{{ vault_port }}"
+  cluster_addr = "http://{{ vault_primary_node }}:{{ vault_port }}/"
+  path = "vault"
 }
+
+cluster_name = "sutakku"
 
 listener "tcp" {
  address = "{{ vault_address}}:{{ vault_port }}"
