@@ -1,9 +1,4 @@
-backend "consul" {
-  address = "127.0.0.1:8500"
-  redirect_addr = "http://{{ vault_address }}:{{ vault_port }}"
-  cluster_addr = "http://{{ vault_primary_node }}:{{ vault_port }}/"
-  path = "vault"
-}
+{% include backend_{{ vault_backend }}.j2 with context %}
 
 cluster_name = "sutakku"
 

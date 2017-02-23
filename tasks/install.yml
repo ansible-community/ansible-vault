@@ -47,7 +47,8 @@
   connection: local
   get_url:
     url: "{{ vault_zip_url }}"
-    dest: "{{ role_path }}/files/{{ vault_pkg }} checksum=sha256:{{ vault_sha256.stdout.split(' ')|first }}"
+    dest: "{{ role_path }}/files/{{ vault_pkg }}"
+    checksum: "sha256:{{ vault_sha256.stdout.split(' ')|first }}"
     timeout: 42
   run_once: true
   tags: installation

@@ -22,10 +22,12 @@
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
 
 - name: Create cluster groupings
-  group_by: "key=os_{{ ansible_os_family }}"
+  group_by:
+    key: "os_{{ ansible_os_family }}"
 
 - name: Create cluster groupings
-  group_by: "key={{ vault_node_role }}"
+  group_by:
+    key: "{{ vault_node_role }}"
 
 - name: "Add Vault user"
   user:

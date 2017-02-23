@@ -101,3 +101,4 @@
 
 - Fix issue in wait_for (thanks @pierrefh)
 - Add contributing guidelines in CONTRIBUTING.md
+- Fix checksum var
