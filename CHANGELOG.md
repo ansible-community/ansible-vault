@@ -96,3 +96,8 @@
 - Update main tasks
 - Update install tasks
 - Prefer compact YAML format across all tasks files
+
+## v1.2.8
+
+- Fix issue in wait_for (thanks @pierrefh)
+- Add contributing guidelines in CONTRIBUTING.md
