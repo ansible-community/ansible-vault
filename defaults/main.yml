@@ -1,7 +1,7 @@
 ---
 # File: defaults/main.yml - Main default variables for Vault
 
-vault_version: "0.6.3"
+vault_version: "0.6.5"
 vault_pkg: "vault_{{ vault_version }}_linux_amd64.zip"
 vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/{{ vault_pkg }}"
 vault_zip_sha256: "91432c812b1264306f8d1ecf7dd237c3d7a8b2b6aebf4f887e487c4e7f69338c"
@@ -13,6 +13,7 @@ vault_log_path: "/var/log/vault"
 vault_user: "vault"
 vault_group: "bin"
 vault_group_name: "cluster_nodes"
+vault_cluster_name: "sutakku"
 vault_datacenter: "dc1"
 vault_consul: "127.0.0.1:8500"
 vault_consul_path: "vault"
@@ -23,3 +24,4 @@ vault_address: "0.0.0.0"
 vault_port: "8200"
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
+vault_primary_node: "{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"
