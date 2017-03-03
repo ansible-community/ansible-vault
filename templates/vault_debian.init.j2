@@ -9,12 +9,12 @@
 # Description:       Vault secret management tool
 ### END INIT INFO
 
-PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH="{{ vault_bin_path }}:/usr/sbin:/usr/bin:/sbin:/bin"
 DESC="Vault secret management tool"
 NAME=vault
-DAEMON=/usr/local/bin/$NAME
+DAEMON="{{ vault_bin_path }}/$NAME"
 PIDFILE=/var/run/$NAME/$NAME.pid
-DAEMON_ARGS="server -config={{ vault_main_config }}"
+DAEMON_ARGS="server -config={{ vault_main_config }} -log-level={{ vault_log_level }}"
 USER={{ vault_user }}
 SCRIPTNAME=/etc/init.d/$NAME
 
