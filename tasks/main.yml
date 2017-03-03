@@ -31,10 +31,9 @@
 
 - name: "Add Vault user"
   user:
-    name: vault
+    name: "{{ vault_user }}"
     comment: "Vault user"
-    uid: 1043
-    group: bin
+    group: "{{ vault_group }}"
 
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
@@ -52,16 +51,15 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group}}"
   with_items:
-    - /opt/vault
-    - /var/vault
-    - /var/log/vault
+    - "{{ vault_data_path }}"
+    - "{{ vault_log_path }}"
     - /var/run/vault
-    - /etc/vault.d
+    - "{{ vault_config_path }}"
 
 - name: Vault server configuration
   template:
     src: vault_main.hcl.j2
-    dest: "{{ vault_config_path }}/vault_main.hcl"
+    dest: "{{ vault_main_config }}"
 
 - name: SYSV init script
   template:
