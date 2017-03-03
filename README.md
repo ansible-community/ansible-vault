@@ -34,13 +34,13 @@ The role defines variables in `defaults/main.yml`:
 | `vault_bin_path` | `/usr/local/bin` | Binary installation path |
 | `vault_config_path` | `/etc/vault.d` | Configuration file path |
 | `vault_data_path` | `/var/vault` | Data path |
-| `vault_log_path` | `/var/log/vault` | Log path |
+| `vault_log_path` | `/var/log/vault` | Log path - Not impemented |
 | `vault_user` | `vault` | OS user |
 | `vault_group` | `bin` | OS group |
-| `vault_datacenter` | `dc1` | Datacenter label |
+| `vault_datacenter` | `dc1` | Datacenter label - Not impemented |
 | `vault_log_level` | `INFO` | Log level |
-| `vault_syslog_enable` | `true` | Log to syslog |
-| `vault_iface` | `eth1` | Network interface |
+| `vault_syslog_enable` | `true` | Log to syslog  - Not impemented |
+| `vault_iface` | `eth1` | Network interface - Not impemented |
 | `vault_address` | `{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}` | Primary interface address |
 | `vault_port` | `8200` | TCP port number to use |
 | `vault_node_name` | `{{ inventory_hostname_short }}` | Short node name |

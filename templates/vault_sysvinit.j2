@@ -11,8 +11,8 @@
 . /etc/init.d/functions
 {% endif %}
 
-VAULT=/usr/local/bin/vault
-CONFIG=/etc/vault.d
+VAULT="{{ vault_bin_path }}/vault"
+CONFIG="{{ vault_config_path }}"
 PID_FILE=/var/run/vault/vault.pid
 
 [ -e /etc/sysconfig/vault ] && . /etc/sysconfig/vault
@@ -41,7 +41,7 @@ start() {
         [ -f $PID_FILE ] && rm $PID_FILE
         daemon --user={{ vault_user }} \
             --pidfile="$PID_FILE" \
-            "$VAULT" server -config={{ vault_main_config }} &
+            "$VAULT" server -config={{ vault_main_config }} -log-level={{ vault_log_level }} &
         retcode=$?
         touch /var/lock/subsys/vault
         return $retcode

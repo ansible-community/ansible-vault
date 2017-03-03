@@ -107,3 +107,7 @@
 
 - Fix backend template inclusion
 - Correct backend filename
+
+## v1.2.10
+
+- Use all defined variables

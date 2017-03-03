@@ -67,7 +67,7 @@
 - name: Install Vault
   copy:
     src: "{{ role_path }}/files/vault"
-    dest: "/usr/local/bin/"
+    dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: 0755
