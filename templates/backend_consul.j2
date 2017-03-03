@@ -1,11 +1,6 @@
 backend "consul" {
-<<<<<<< HEAD
   address = "{{ vault_consul }}"
-  redirect_addr = "http://{{ vault_address }}:{{ vault_port }}"
-=======
-  address = "127.0.0.1:8500"
   redirect_addr = "http://{{ vault_redirect_addr }}:{{ vault_port }}"
->>>>>>> devel
   cluster_addr = "http://{{ vault_primary_node }}:{{ vault_port }}/"
   path = "vault"
 }
