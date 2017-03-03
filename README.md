@@ -42,6 +42,7 @@ The role defines variables in `defaults/main.yml`:
 | `vault_syslog_enable` | `true` | Log to syslog  - Not impemented |
 | `vault_iface` | `eth1` | Network interface - Not impemented |
 | `vault_address` | `{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}` | Primary interface address |
+| `vault_redirect_addr` | `{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}` | [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection) |
 | `vault_port` | `8200` | TCP port number to use |
 | `vault_node_name` | `{{ inventory_hostname_short }}` | Short node name |
 | `vault_main_config` | `{{ vault_config_path }}/vault_main.hcl` | Main configuration file path |
