@@ -108,6 +108,9 @@
 - Fix backend template inclusion
 - Correct backend filename
 
+
 ## v1.2.10
 
-- Use all defined variables
+- Use all defined variables (thanks @arledesma)
+- Make redirect_address more specific by adding redirect address variable
+- Update CONTRIBUTORS
