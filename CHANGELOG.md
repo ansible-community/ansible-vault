@@ -114,3 +114,5 @@
 - Use all defined variables (thanks @arledesma)
 - Make redirect_address more specific by adding redirect address variable
 - Update CONTRIBUTORS
+- Fix merge conflict (thanks @arledesma)
+- Fix missed variable (thanks @arledesma)
