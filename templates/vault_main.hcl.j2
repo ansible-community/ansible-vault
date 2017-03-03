@@ -1,6 +1,6 @@
 {% include vault_backend with context %}
 
-cluster_name = "sutakku"
+cluster_name = "{{ vault_cluster_name }}"
 
 listener "tcp" {
  address = "{{ vault_address}}:{{ vault_port }}"

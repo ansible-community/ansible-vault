@@ -1,5 +1,5 @@
 backend "consul" {
-  address = "127.0.0.1:8500"
+  address = "{{ vault_consul }}"
   redirect_addr = "http://{{ vault_address }}:{{ vault_port }}"
   cluster_addr = "http://{{ vault_primary_node }}:{{ vault_port }}/"
   path = "vault"
