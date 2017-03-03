@@ -107,3 +107,7 @@
 
 - Fix backend template inclusion
 - Correct backend filename
+
+## v1.3.0
+
+- Make redirect_address more specific by adding redirect address variable
