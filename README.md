@@ -28,7 +28,7 @@ The role defines variables in `defaults/main.yml`:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `vault_version` | `0.6.5` | Version to install |
+| `vault_version` | `0.6.5` | Version to install - can also be specified or overridden with `VAULT_VERSION` environment variable |
 | `vault_zip_url` | `https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip` | Download URL |
 | `vault_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
 | `vault_bin_path` | `/usr/local/bin` | Binary installation path |

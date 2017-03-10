@@ -38,7 +38,7 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Install specified packages  
+- name: Install OS packages
   include: install.yml
 
 - name: Enable non root mlock capability
@@ -56,9 +56,9 @@
     - /var/run/vault
     - "{{ vault_config_path }}"
 
-- name: Vault server configuration
+- name: Vault listener configuration section
   template:
-    src: vault_main.hcl.j2
+    src: vault_listener.hcl.j2
     dest: "{{ vault_main_config }}"
 
 - name: SYSV init script
@@ -99,4 +99,3 @@
     host: "{{ vault_address}}"
     port: 8200
     delay: 10
-
