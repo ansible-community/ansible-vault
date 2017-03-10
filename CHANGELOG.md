@@ -116,3 +116,10 @@
 - Update CONTRIBUTORS
 - Fix merge conflict (thanks @arledesma)
 - Fix missed variable (thanks @arledesma)
+
+## v1.3.0
+
+- Add support for version specification via VAULT_VERSION environment variable
+- Renamed backend configuration template
+- Renamed main template to be inline with configuration section naming
+- Fix broken unit file

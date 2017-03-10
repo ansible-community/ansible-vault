@@ -4,5 +4,5 @@ cluster_name = "{{ vault_cluster_name }}"
 
 listener "tcp" {
  address = "{{ vault_address}}:{{ vault_port }}"
- tls_disable = 1
+ tls_disable = {{ vault_tls_disable }}
 }
