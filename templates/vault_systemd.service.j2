@@ -17,7 +17,8 @@ After=basic.target network.target
 User={{ vault_user }}
 Group={{ vault_group }}
 PIDFile=/var/run/vault/vault.pid
-ExecStart={{ vault_bin_path }}/vault server -config={{ vault_main_config }} -log-level={{ vault_log_level }}
+ExecStart="{{ vault_bin_path }}/vault" server -config={{ vault_main_config }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}
+{% endif %}
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
