@@ -38,7 +38,7 @@ The role defines variables in `defaults/main.yml`:
 | `vault_user` | `vault` | OS user |
 | `vault_group` | `bin` | OS group |
 | `vault_datacenter` | `dc1` | Datacenter label - Not impemented |
-| `vault_log_level` | `INFO` | Log level |
+| `vault_log_level` | `info` | [Log level](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L1003-L1005) - Supported values: [trace, debug, info, warn, err](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L87-L103) |
 | `vault_syslog_enable` | `true` | Log to syslog  - Not impemented |
 | `vault_iface` | `eth1` | Network interface - Not impemented |
 | `vault_address` | `{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}` | Primary interface address |
