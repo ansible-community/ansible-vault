@@ -123,3 +123,7 @@
 - Renamed backend configuration template
 - Renamed main template to be inline with configuration section naming
 - Fix broken unit file
+
+## v1.3.1
+
+- Fix logging options (thanks @arledesma)
