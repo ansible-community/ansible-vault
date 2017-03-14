@@ -3,6 +3,20 @@
 cluster_name = "{{ vault_cluster_name }}"
 
 listener "tcp" {
- address = "{{ vault_address}}:{{ vault_port }}"
- tls_disable = {{ vault_tls_disable }}
+ address = "{{ vault_address }}:{{ vault_port }}"
+{% if (
+        (vault_tls_disable is not defined) or (vault_tls_disable == '') or (vault_tls_disable == 0) or (vault_tls_disable == "false")
+    ) and (
+        (vault_tls_cert_file is defined and vault_tls_cert_file) and (vault_tls_key_file is defined and vault_tls_key_file)
+    ) %}
+ tls_cert_file = "{{ vault_tls_cert_file_dest }}"
+ tls_key_file  = "{{ vault_tls_key_file_dest }}"
+ tls_min_version  = "{{ vault_tls_min_version | default("tls12") }}" # default "tls12"
+ {% if vault_tls_cipher_suites is defined and vault_tls_cipher_suites %}
+ tls_cipher_suites = "{{ vault_tls_cipher_suites}}"
+ {% endif %}
+ tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites | default("false") }}" # default "false"
+{% else %}
+ tls_disable = "true"
+{% endif %}
 }
