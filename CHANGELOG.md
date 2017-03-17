@@ -123,3 +123,9 @@
 - Renamed backend configuration template
 - Renamed main template to be inline with configuration section naming
 - Fix broken unit file
+
+## v1.3.1
+
+- Vault 0.7.0
+- Initial TLS bits (thanks @arledesma)
+- Update documentation
