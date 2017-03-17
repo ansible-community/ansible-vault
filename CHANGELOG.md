@@ -126,4 +126,7 @@
 
 ## v1.3.1
 
+- Vault 0.7.0
+- Initial TLS bits (thanks @arledesma)
 - Fix logging options (thanks @arledesma)
+- Update documentation
