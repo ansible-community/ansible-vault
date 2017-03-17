@@ -130,3 +130,7 @@
 - Initial TLS bits (thanks @arledesma)
 - Fix logging options (thanks @arledesma)
 - Update documentation
+
+## v1.3.2
+
+- Make vault user a system account
