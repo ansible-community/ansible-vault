@@ -56,6 +56,22 @@
     - /var/run/vault
     - "{{ vault_config_path }}"
 
+- name: Vault SSL Certificate and Key
+  copy:
+    src:    "{{ item.src }}"
+    dest:   "{{ item.dest }}"
+    owner:  "{{ vault_user }}"
+    group:  "{{ vault_group }}"
+    mode:   "{{ item.mode }}"
+  with_items:
+    - src:  "{{ vault_tls_cert_file }}"
+      dest: "{{ vault_tls_cert_file_dest }}"
+      mode: "0644"
+    - src:  "{{ vault_tls_key_file }}"
+      dest: "{{ vault_tls_key_file_dest }}"
+      mode: "0600"
+  when: vault_tls_cert_file is defined and vault_tls_key_file is defined
+
 - name: Vault listener configuration section
   template:
     src: vault_listener.hcl.j2
@@ -97,5 +113,5 @@
 - name: Vault running?
   wait_for:
     host: "{{ vault_address}}"
-    port: 8200
+    port: "{{ vault_port }}"
     delay: 10
