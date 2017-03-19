@@ -10,17 +10,18 @@
 
 [Unit]
 Description=Vault secret management tool
-Wants=basic.target
-After=basic.target network.target
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 User={{ vault_user }}
 Group={{ vault_group }}
 PIDFile=/var/run/vault/vault.pid
-ExecStart="{{ vault_bin_path }}/vault" server -config={{ vault_main_config }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}
+ExecStart={{ vault_bin_path }}/vault server -config={{ vault_main_config }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}
 {% endif %}
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
+KillSignal=SIGTERM
 Restart=on-failure
 RestartSec=42s
 
