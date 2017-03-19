@@ -134,3 +134,7 @@
 ## v1.3.2
 
 - Make vault user a system account
+
+## v1.3.3
+
+- Update systemd unit file
