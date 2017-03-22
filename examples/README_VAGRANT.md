@@ -90,8 +90,8 @@ BOX_NAME="centos/7" vagrant up
 1. This project functions with the following software versions:
   * Vault version 0.7.0
   * Ansible: 2.2.1.0
-  * VirtualBox version 5.1.14
-  * Vagrant version 1.9.2
+  * VirtualBox version 5.1.18
+  * Vagrant version 1.9.3
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable

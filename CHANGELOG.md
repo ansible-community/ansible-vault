@@ -138,3 +138,9 @@
 ## v1.3.3
 
 - Update systemd unit file
+
+## v1.3.4
+
+- Use vault_port+1 in cluster_addr for HA vault (thanks @arledesma)
+- Update CHANGELOG
+- Update Vagrant README
