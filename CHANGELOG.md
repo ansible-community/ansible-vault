@@ -144,3 +144,7 @@
 - Use vault_port+1 in cluster_addr for HA vault (thanks @arledesma)
 - Update CHANGELOG
 - Update Vagrant README
+
+## v1.3.5
+
+- Remove explicit cluster_addr and let Vault default the value for now
