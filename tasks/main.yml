@@ -29,7 +29,7 @@
   group_by:
     key: "{{ vault_node_role }}"
 
-- name: "Add Vault user
+- name: "Add Vault user"
   user:
     name: "{{ vault_user }}"
     comment: "Vault user"
