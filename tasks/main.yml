@@ -29,7 +29,7 @@
   group_by:
     key: "{{ vault_node_role }}"
 
-- name: "Add Vault user"
+- name: "Add Vault user
   user:
     name: "{{ vault_user }}"
     comment: "Vault user"
@@ -52,10 +52,10 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group}}"
   with_items:
+    - "{{ vault_config_path }}"
     - "{{ vault_data_path }}"
     - "{{ vault_log_path }}"
-    - /var/run/vault
-    - "{{ vault_config_path }}"
+    - "{{ vault_run_path }}"
 
 - name: Vault SSL Certificate and Key
   copy:
@@ -67,13 +67,13 @@
   with_items:
     - src:  "{{ vault_tls_cert_file }}"
       dest: "{{ vault_tls_cert_file_dest }}"
-      mode: "0644"
+      mode: 0644
     - src:  "{{ vault_tls_key_file }}"
       dest: "{{ vault_tls_key_file_dest }}"
-      mode: "0600"
+      mode: 0600
   when: vault_tls_cert_file is defined and vault_tls_key_file is defined
 
-- name: Vault listener configuration section
+- name: Vault listener configuration
   template:
     src: vault_listener.hcl.j2
     dest: "{{ vault_main_config }}"
@@ -96,7 +96,7 @@
     mode: 0755
   when: ansible_distribution == "Debian" and ansible_distribution_major_version|int <= 7
 
-- name: systemd script
+- name: systemd unit
   template:
     src: vault_systemd.service.j2
     dest: /lib/systemd/system/vault.service
@@ -111,7 +111,7 @@
     state: started
     enabled: yes
 
-- name: Vault running?
+- name: Vault API reachable?
   wait_for:
     host: "{{ vault_address}}"
     port: "{{ vault_port }}"
