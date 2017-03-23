@@ -155,3 +155,11 @@
 - Cleanup tasks
 - Consistent variable style
 - Cleanup meta
+
+## v1.3.7
+
+- Replace lost double quote (thanks @arledesma)
+- Add explicit vault user permissions to config (thanks @arledesma)
+- Remove duplicate cluster_address var
+- Update README / consistent variable style / more links to docs
+

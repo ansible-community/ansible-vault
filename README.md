@@ -28,27 +28,42 @@ The role defines variables in `defaults/main.yml`:
 
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-| `vault_version` | `0.7.0` | Version to install - can also be specified or overridden with `VAULT_VERSION` environment variable |
-| `vault_zip_url` | `https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip` | Download URL |
-| `vault_zip_sha256` | SHA256 SUM | Archive SHA256 summary |
+| `vault_version` | *0.7.0* | Version to install - can also be specified or overridden with `VAULT_VERSION` environment variable |
+| `vault_pkg` | `"vault_{{ vault_version }}_linux_amd64.zip"` | Package filename |
+| `vault_zip_url` | `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"` | Download URL |
+| `vault_checksum_file_url` | `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"` | URL to SHA summaries |
 | `vault_bin_path` | `/usr/local/bin` | Binary installation path |
 | `vault_config_path` | `/etc/vault.d` | Configuration file path |
 | `vault_data_path` | `/var/vault` | Data path |
 | `vault_log_path` | `/var/log/vault` | Log path - Not impemented |
-| `vault_user` | `vault` | OS user |
-| `vault_group` | `bin` | OS group |
-| `vault_datacenter` | `dc1` | Datacenter label - Not impemented |
-| `vault_log_level` | `info` | [Log level](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L1003-L1005) - Supported values: [trace, debug, info, warn, err](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L87-L103) |
-| `vault_syslog_enable` | `true` | Log to syslog  - Not impemented |
+| `vault_run_path`| `/var/run/vault` | PID file location |
+| `vault_user` | *vault* | OS user |
+| `vault_group` | *bin* | OS group |
+| `vault_group_name` | `cluster_nodes` | Inventory group name |
+| `vault_cluster_name` | *sutakku* | Cluster name label |
+| `vault_datacenter` | *dc1* | Datacenter label - Not impemented |
+| `vault_consul` | *127.0.0.1:8500* | host:port for Consul HA backend |
+ `vault_consul_path` | *vault* | Name of Vault's Consul K/V root path |
+| `vault_log_level` | *info* | [Log level](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L1003-L1005) - Supported values: [trace, debug, info, warn, err](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L87-L103) |
+| `vault_syslog_enable` | *true* | Log to syslog  - Not impemented |
 | `vault_iface` | `eth1` | Network interface - Not impemented |
-| `vault_address` | `{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}` | Primary interface address |
-| `vault_redirect_addr` | `{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}` | [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection) |
-| `vault_port` | `8200` | TCP port number to use |
-| `vault_node_name` | `{{ inventory_hostname_short }}` | Short node name |
-| `vault_main_config` | `{{ vault_config_path }}/vault_main.hcl` | Main configuration file path |
-| `vault_consul` | `127.0.0.1:8500` | Address of Consul backend |
-| `vault_consul_path` | `vault` | Consul path to use |
+| `vault_address` | `"{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"` | Primary interface address |
+| `vault_redirect_addr` | `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"` | [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection) |
+| `vault_port` | *8200* | TCP port number to use |
+| `vault_node_name` | `"{{ inventory_hostname_short }}"` | Short node name |
+| `vault_main_config` | `"{{ vault_config_path }}/vault_main.hcl"` | Main configuration file path |
+| `vault_primary_node` | `"{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"` | Active node FQDN |
 | `vault_backend` | `backend_consul.j2` | Backend template filename |
+| `vault_cluster_address` | `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"` | Address for intra-cluster communication |
+| `vault_cluster_disable` | *false* | Disable HA clustering |
+| `vault_tls_disable` | *1* | [Disable TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable) |
+| `vault_tls_cert_file` | None | [Vault TLS certificate file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cert_file) |
+| `vault_tls_cert_file_dest` | `"{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt` | Destination path for Vault TLS certificate |
+| `vault_tls_key_file` | None | [Vault TLS key file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_key_file) |
+| `vault_tls_key_file_dest` | `"{{ vault_config_path }}/vault.key"` | Destination path for Vault TLS key |
+| `vault_tls_min_version` | *tls12* | [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version) |
+| `vault_tls_cipher_suites` | None | [comma-separated list of supported ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cipher_suites) |
+| `vault_tls_prefer_server_cipher_suites`  | false | [prefer the server's ciphersuite over the client ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites) |
 
 ### OS Distribution Variables
 

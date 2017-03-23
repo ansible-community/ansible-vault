@@ -27,7 +27,6 @@ vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_primary_node: "{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"
 vault_backend: vault_backend_consul.j2
-vault_cluster_address: "{{hostvars[groups['primary'][0]]['ansible_default_ipv4']['address']}}"
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_tls_disable: 1
