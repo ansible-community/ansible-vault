@@ -77,6 +77,9 @@
   template:
     src: vault_listener.hcl.j2
     dest: "{{ vault_main_config }}"
+    owner:  "{{ vault_user }}"
+    group:  "{{ vault_group }}"
+    mode: 0400
 
 - name: SYSV init script
   template:
