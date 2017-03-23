@@ -30,9 +30,9 @@ vault_backend: vault_backend_consul.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_tls_disable: 1
-vault_tls_cert_file:
+vault_tls_cert_file: "../files/dummy.crt"
 vault_tls_cert_file_dest: "{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt
-vault_tls_key_file:
+vault_tls_key_file: "../files/dummy.key"
 vault_tls_key_file_dest: "{{ vault_config_path }}/vault.key" # "/etc/pki/tls/private/vault.key"
 vault_tls_min_version: tls12
 vault_tls_cipher_suites:
