@@ -57,21 +57,9 @@
     - "{{ vault_log_path }}"
     - "{{ vault_run_path }}"
 
-- name: Vault SSL Certificate and Key
-  copy:
-    src:    "{{ item.src }}"
-    dest:   "{{ item.dest }}"
-    owner:  "{{ vault_user }}"
-    group:  "{{ vault_group }}"
-    mode:   "{{ item.mode }}"
-  with_items:
-    - src:  "{{ vault_tls_cert_file }}"
-      dest: "{{ vault_tls_cert_file_dest }}"
-      mode: 0644
-    - src:  "{{ vault_tls_key_file }}"
-      dest: "{{ vault_tls_key_file_dest }}"
-      mode: 0600
-  when: vault_tls_cert_file is defined and vault_tls_key_file is defined
+- name: TLS configuration
+  include: ../tasks/tls.yml
+  when: vault_tls_disable == 0
 
 - name: Vault listener configuration
   template:

@@ -163,3 +163,10 @@
 - Remove duplicate cluster_address var
 - Update README / consistent variable style / more links to docs
 
+## v1.3.8
+
+- Move TLS bits to separate task
+- Short circuit TLS bits as bad things™ were happening due to the empty
+  cert and key values during the Vault SSL Certificate and Key copy ops
+  (probably an Ansible bug, copying entire contents of files to vault etc dir)
+  No bueno
