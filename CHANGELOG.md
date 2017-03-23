@@ -174,3 +174,7 @@
 ## v1.3.9
 
 - Fix quote removal/type finagling YAML sadness (thanks @arledesma)
+
+## v1.3.10
+
+- Fix other modes / types ノ( ゜-゜ノ)

@@ -49,7 +49,7 @@
     url: "{{ vault_zip_url }}"
     dest: "{{ role_path }}/files/{{ vault_pkg }}"
     checksum: "sha256:{{ vault_sha256.stdout.split(' ')|first }}"
-    timeout: 42
+    timeout: "42"
   run_once: true
   tags: installation
   when: vault_package.stat.exists == False
@@ -70,7 +70,7 @@
     dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: 0755
+    mode: "0755"
   tags: installation
 
 - name: Cleanup
