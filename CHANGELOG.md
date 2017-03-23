@@ -170,3 +170,7 @@
   cert and key values during the Vault SSL Certificate and Key copy ops
   (probably an Ansible bug, copying entire contents of files to vault etc dir)
   No bueno
+
+## v1.3.9
+
+- Fix quote removal/type finagling YAML sadness (thanks @arledesma)
