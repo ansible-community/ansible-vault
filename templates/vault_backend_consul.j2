@@ -1,5 +1,9 @@
+{% set _vault_plus_one_port = vault_port | int + 1 | abs %}
+
 backend "consul" {
   address = "{{ vault_consul }}"
-  redirect_addr = "http://{{ vault_redirect_addr }}:{{ vault_port }}"
   path = "vault"
+  redirect_addr = "http://{{ vault_redirect_addr }}:{{ vault_port }}"
+  cluster_addr = "http://{{ vault_cluster_address }}:{{ _vault_plus_one_port }}"
+  disable_clustering = "{{ vault_cluster_disable }}"
 }

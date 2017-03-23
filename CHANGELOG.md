@@ -148,3 +148,10 @@
 ## v1.3.5
 
 - Remove explicit cluster_addr and let Vault default the value for now
+
+## v1.3.6
+
+- Handle cluster_addre differently
+- Cleanup tasks
+- Consistent variable style
+- Cleanup meta
