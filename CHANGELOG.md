@@ -178,3 +178,7 @@
 ## v1.3.10
 
 - Fix other modes / types ノ( ゜-゜ノ)
+
+## v1.3.11
+
+- Update init scripts
