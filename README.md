@@ -46,7 +46,7 @@ The role defines variables in `defaults/main.yml`:
  `vault_consul_path` | *vault* | Name of Vault's Consul K/V root path |
 | `vault_log_level` | *info* | [Log level](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L1003-L1005) - Supported values: [trace, debug, info, warn, err](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L87-L103) |
 | `vault_syslog_enable` | *true* | Log to syslog  - Not impemented |
-| `vault_iface` | `eth1` | Network interface - Not impemented |
+| `vault_iface` | `eth1` | Network interface can be overridden with `VAULT_IFACE` environment variable |
 | `vault_address` | `"{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"` | Primary interface address |
 | `vault_redirect_addr` | `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"` | [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection) |
 | `vault_port` | *8200* | TCP port number to use |

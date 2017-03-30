@@ -182,3 +182,7 @@
 ## v1.3.11
 
 - Update init scripts
+
+## v1.3.12
+
+- Made CONSUL_IFACE environment variable override
