@@ -19,7 +19,7 @@ vault_consul: 127.0.0.1:8500
 vault_consul_path: vault
 vault_log_level: info
 vault_syslog_enable: true
-vault_iface: eth1
+vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
 vault_address: "0.0.0.0"
 vault_redirect_addr: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_port: 8200
