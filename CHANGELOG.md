@@ -208,6 +208,10 @@
 
 ## v1.5.0
 
-- Add initial multi-archictecture and OS support
+- Add initial multi-architecture and OS support
 - Add FreeBSD support
 - Update documentation
+
+## v1.5.1
+
+- Fixed vault_tls_cert_file and vault_tls_key_file vars
