@@ -1,0 +1,6 @@
+---
+# File: FreeBSD.yml - FreeBSD OS variables for Vault
+
+vault_os_packages:
+  - git
+  - unzip

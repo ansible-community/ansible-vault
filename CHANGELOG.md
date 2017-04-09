@@ -201,3 +201,13 @@
 ## v1.4.1
 
 - Fix finicky var quoting issue
+
+## v1.4.2
+
+- All quoting issues sorted
+
+## v1.5.0
+
+- Add initial multi-archictecture and OS support
+- Add FreeBSD support
+- Update documentation
