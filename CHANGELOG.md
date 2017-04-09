@@ -185,4 +185,15 @@
 
 ## v1.3.12
 
-- Made CONSUL_IFACE environment variable override
+- Made VAULT_IFACE environment variable override
+
+## v1.4.0
+
+- Updated many variables with environment variable overrides
+- Add `vault_tls_config_path` variable with reasonable default value
+- Set currently/reasonably secure `vault_tls_cipher_suites` defaults
+- Update listener template to finally close #3
+- Improve cleanup task
+- Update versions
+- Update documentation
+- Update ignores

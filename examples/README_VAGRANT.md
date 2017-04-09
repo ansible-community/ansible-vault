@@ -89,7 +89,7 @@ BOX_NAME="centos/7" vagrant up
 
 1. This project functions with the following software versions:
   * Vault version 0.7.0
-  * Ansible: 2.2.1.0
+  * Ansible: 2.2.2.0
   * VirtualBox version 5.1.18
   * Vagrant version 1.9.3
   * Vagrant Hosts version 2.8.0

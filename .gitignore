@@ -1,8 +1,8 @@
 .DS_Store
 .vagrant
-.tm_properties
+*.crt
+*.key
 *.retry
+*.zip
 examples/hosts
-files/*.zip
 files/vault
-
