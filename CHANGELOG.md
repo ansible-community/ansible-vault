@@ -197,3 +197,7 @@
 - Update versions
 - Update documentation
 - Update ignores
+
+## v1.4.1
+
+- Fix finicky var quoting issue
