@@ -16,6 +16,11 @@
     msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
   when: ansible_distribution == "Debian" and ansible_distribution_version|version_compare(8.5, '<')
 
+- name: Fail if not a new release of FreeBSD
+  fail:
+    msg: "{{ ansible_distribution_version }} is not a supported version."
+  when: ansible_distribution == "FreeBSD" and ansible_distribution_version|version_compare(10, '<')
+
 - name: Fail if not a new release of Ubuntu
   fail:
     msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
@@ -69,13 +74,22 @@
     group:  "{{ vault_group }}"
     mode: "0400"
 
+- name: BSD init script
+  template:
+    src: consul_bsdinit.j2
+    dest: /etc/rc.d/consul
+    owner: root
+    group: wheel
+    mode: "0755"
+  when: ansible_os_family == "FreeBSD"
+
 - name: SYSV init script
   template:
     src: vault_sysvinit.j2
     dest: /etc/init.d/vault
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   when: not ansible_service_mgr == "systemd" and not ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
 - name: Debian init script
@@ -84,7 +98,7 @@
     dest: /etc/init.d/vault
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
 - name: systemd unit
@@ -93,7 +107,7 @@
     dest: /lib/systemd/system/vault.service
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: ansible_service_mgr == "systemd" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
 - name: Start Vault

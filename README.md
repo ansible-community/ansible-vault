@@ -14,13 +14,17 @@ Consul-backed cluster in a Vagrant and VirtualBox based environment. See
 
 ## Requirements
 
-This role requires a Debian or RHEL based Linux distribution. It might work
-with other software versions, but does work with the following specific
-software and versions:
+This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
+might work with other software versions, but does work with the following
+specific software and versions:
 
 * Ansible: 2.2.2.0
 * Vault: 0.7.0
 * Debian: 8
+* FreeBSD 11
+* Ubuntu 16.04
+
+Sorry, there is no planned support at the moment for Windows.
 
 ## Role Variables
 

@@ -2,8 +2,15 @@
 # File: defaults/main.yml - Main default variables for Vault
 
 vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.7.0', true) }}"
-vault_pkg: "vault_{{ vault_version }}_linux_amd64.zip"
-vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/{{ vault_pkg }}"
+vault_architecture_map:
+  # this first entry seems... redundant (but it's required for reasons)
+  amd64: amd64
+  x86_64: amd64
+  armv7l: arm
+  aarch64: arm64
+vault_architecture: "{{ vault_architecture_map[ansible_architecture] }}"
+vault_os: "{{ ansible_system|lower }}"
+vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
 vault_bin_path: /usr/local/bin
 vault_config_path: /etc/vault.d
@@ -44,4 +51,10 @@ vault_tls_key_file: "../files/{{ vault_node_name.key }}"
 vault_tls_key_file_dest: "{{ vault_tls_config_path }}/vault.key"
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12') }}"
 vault_tls_cipher_suites: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
-vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER_CIPHER_SUITES') | default("false") }}"
+vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false') }}"
+
+## Distribution
+
+### Vault
+
+vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
