@@ -13,7 +13,7 @@ vault_run_path: /var/run/vault
 vault_user: vault
 vault_group: bin
 vault_group_name: cluster_nodes
-vault_cluster_name: sutakku
+vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_consul: 127.0.0.1:8500
 vault_consul_path: vault
@@ -29,11 +29,19 @@ vault_primary_node: "{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"
 vault_backend: vault_backend_consul.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
-vault_tls_disable: 1
-vault_tls_cert_file: "../files/dummy.crt"
-vault_tls_cert_file_dest: "{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt
-vault_tls_key_file: "../files/dummy.key"
-vault_tls_key_file_dest: "{{ vault_config_path }}/vault.key" # "/etc/pki/tls/private/vault.key"
-vault_tls_min_version: tls12
-vault_tls_cipher_suites:
-vault_tls_prefer_server_cipher_suites: false
+
+## TLS
+
+vault_tls_config_path: /etc/vault/tls
+vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
+vault_tls_cert_file: "../files/{{ vault_node_name.crt }}"
+# /etc/pki/tls/certs/vault.crt is distribution-specific/not a good default
+# a distribution-specific play to link into expected destination is preferred
+vault_tls_cert_file_dest: "{{ vault_tls_config_path }}/vault.crt"
+vault_tls_key_file: "../files/{{ vault_node_name.key }}"
+# "/etc/pki/tls/private/vault.key" is distribution-specific/not a good default
+# a distribution-specific play to link into expected destination is preferred
+vault_tls_key_file_dest: "{{ vault_tls_config_path }}/vault.key"
+vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default("tls12") }}"
+vault_tls_cipher_suites: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
+vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER_CIPHER_SUITES') | default("false") }}"

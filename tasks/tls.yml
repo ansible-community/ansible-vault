@@ -15,5 +15,3 @@
     - src:  "{{ vault_tls_key_file }}"
       dest: "{{ vault_tls_key_file_dest }}"
       mode: "0600"
-  # These checks fail even though there are no values for the vars
-  when: vault_tls_cert_file is defined and vault_tls_key_file is defined

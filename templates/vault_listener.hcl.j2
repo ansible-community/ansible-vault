@@ -11,11 +11,11 @@ listener "tcp" {
     ) %}
  tls_cert_file = "{{ vault_tls_cert_file_dest }}"
  tls_key_file  = "{{ vault_tls_key_file_dest }}"
- tls_min_version  = "{{ vault_tls_min_version | default("tls12") }}" # default "tls12"
+ tls_min_version  = "{{ vault_tls_min_version }}"
  {% if vault_tls_cipher_suites is defined and vault_tls_cipher_suites %}
  tls_cipher_suites = "{{ vault_tls_cipher_suites}}"
  {% endif %}
- tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites | default("false") }}" # default "false"
+ tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites }}"
 {% else %}
  tls_disable = "true"
 {% endif %}

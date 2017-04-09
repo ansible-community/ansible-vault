@@ -21,7 +21,7 @@
     msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
 
-- name: Create cluster groupings
+- name: Create cluster grouping
   group_by:
     key: "os_{{ ansible_os_family }}"
 
@@ -36,7 +36,7 @@
     group: "{{ vault_group }}"
     system: yes
 
-- name: Include OS-specific variables.
+- name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Install OS packages
@@ -61,7 +61,7 @@
   include: ../tasks/tls.yml
   when: vault_tls_disable == 0
 
-- name: Vault listener configuration
+- name: Listener configuration
   template:
     src: vault_listener.hcl.j2
     dest: "{{ vault_main_config }}"
@@ -87,7 +87,7 @@
     mode: 0755
   when: not ansible_service_mgr == "systemd" and ansible_os_family == "Debian" and not ansible_os_family == "FreeBSD" and not ansible_os_family == "Solaris"
 
-- name: systemd script
+- name: systemd unit
   template:
     src: vault_systemd.service.j2
     dest: /lib/systemd/system/vault.service

@@ -18,7 +18,7 @@ This role requires a Debian or RHEL based Linux distribution. It might work
 with other software versions, but does work with the following specific
 software and versions:
 
-* Ansible: 2.2.1.0
+* Ansible: 2.2.2.0
 * Vault: 0.7.0
 * Debian: 8
 
@@ -26,71 +26,281 @@ software and versions:
 
 The role defines variables in `defaults/main.yml`:
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `vault_version` | *0.7.0* | Version to install - can also be specified or overridden with `VAULT_VERSION` environment variable |
-| `vault_pkg` | `"vault_{{ vault_version }}_linux_amd64.zip"` | Package filename |
-| `vault_zip_url` | `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"` | Download URL |
-| `vault_checksum_file_url` | `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"` | URL to SHA summaries |
-| `vault_bin_path` | `/usr/local/bin` | Binary installation path |
-| `vault_config_path` | `/etc/vault.d` | Configuration file path |
-| `vault_data_path` | `/var/vault` | Data path |
-| `vault_log_path` | `/var/log/vault` | Log path - Not impemented |
-| `vault_run_path`| `/var/run/vault` | PID file location |
-| `vault_user` | *vault* | OS user |
-| `vault_group` | *bin* | OS group |
-| `vault_group_name` | `cluster_nodes` | Inventory group name |
-| `vault_cluster_name` | *sutakku* | Cluster name label |
-| `vault_datacenter` | *dc1* | Datacenter label - Not impemented |
-| `vault_consul` | *127.0.0.1:8500* | host:port for Consul HA backend |
- `vault_consul_path` | *vault* | Name of Vault's Consul K/V root path |
-| `vault_log_level` | *info* | [Log level](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L1003-L1005) - Supported values: [trace, debug, info, warn, err](https://github.com/hashicorp/vault/blob/b1ed578f3da3263ca1973d16dcb33490125486b8/command/server.go#L87-L103) |
-| `vault_syslog_enable` | *true* | Log to syslog  - Not impemented |
-| `vault_iface` | `eth1` | Network interface can be overridden with `VAULT_IFACE` environment variable |
-| `vault_address` | `"{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"` | Primary interface address |
-| `vault_redirect_addr` | `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"` | [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection) |
-| `vault_port` | *8200* | TCP port number to use |
-| `vault_node_name` | `"{{ inventory_hostname_short }}"` | Short node name |
-| `vault_main_config` | `"{{ vault_config_path }}/vault_main.hcl"` | Main configuration file path |
-| `vault_primary_node` | `"{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"` | Active node FQDN |
-| `vault_backend` | `backend_consul.j2` | Backend template filename |
-| `vault_cluster_address` | `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"` | Address for intra-cluster communication |
-| `vault_cluster_disable` | *false* | Disable HA clustering |
-| `vault_tls_disable` | *1* | [Disable TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable) |
-| `vault_tls_cert_file` | None | [Vault TLS certificate file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cert_file) |
-| `vault_tls_cert_file_dest` | `"{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt` | Destination path for Vault TLS certificate |
-| `vault_tls_key_file` | None | [Vault TLS key file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_key_file) |
-| `vault_tls_key_file_dest` | `"{{ vault_config_path }}/vault.key"` | Destination path for Vault TLS key |
-| `vault_tls_min_version` | *tls12* | [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version) |
-| `vault_tls_cipher_suites` | None | [comma-separated list of supported ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cipher_suites) |
-| `vault_tls_prefer_server_cipher_suites`  | false | [prefer the server's ciphersuite over the client ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites) |
 
-### OS Distribution Variables
+### `vault_version`
+
+- version to install - can be overridden with `VAULT_VERSION` environment variable
+- Default value: *0.7.0*
+
+### `vault_pkg`
+
+- package filename
+- Default value: `"vault_{{ vault_version }}_linux_amd64.zip"`
+
+### `vault_zip_url`
+
+- Package download URL
+- Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"`
+
+### `vault_checksum_file_url`
+
+- SHA summaries URL
+- Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"`
+
+### `vault_bin_path`
+
+- Binary installation path
+- Default value: `/usr/local/bin`
+
+### `vault_config_path`
+
+- Configuration file path
+- Default value: `/etc/vault.d`
+
+### `vault_data_path`
+
+- Data path
+- Default value: `/var/vault`
+
+### `vault_log_path`
+
+- Log path - (not yet implemented)
+- Default value: `/var/log/vault`
+
+### `vault_run_path`
+
+- PID file location
+- Default value: `/var/run/vault`
+
+### `vault_user`
+
+- OS user name
+- Default value: *vault*
+
+### `vault_group`
+
+- OS group name
+- Default value: *bin*
+
+### `vault_group_name`
+
+- Inventory group name
+- Default value: `cluster_nodes`
+
+### `vault_cluster_name`
+
+- Cluster name label
+- Default value: *dc1*
+
+### `vault_datacenter`
+
+- Datacenter label
+- Default value:  *dc1*
+
+### `vault_consul`
+
+- host:port value for connecting to Consul HA backend
+- Default value: *127.0.0.1:8500*
+
+### `vault_consul_path`
+
+- Name of Vault's Consul K/V root path
+- Default value: *vault*
+
+### `vault_log_level`
+
+- [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
+  - Supported values: trace, debug, info, warn, err
+- Default value: *info*
+
+### `vault_syslog_enable`
+
+- Log to syslog (not yet impemented)
+- Default value: *true*
+
+### `vault_iface`
+
+- Network interface can be overridden with `VAULT_IFACE` environment variable
+- Default value: `eth1`
+
+### `vault_address`
+
+- Primary network interface address to use
+- Default value: `"{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"`
+
+### `vault_redirect_addr`
+
+- [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection)
+- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
+
+### `vault_port`
+
+- TCP port number to on which to listen
+- Default value: *8200*
+
+### `vault_node_name`
+
+- Short node name
+- Default value: `"{{ inventory_hostname_short }}"`
+
+### `vault_main_config`
+
+- Main configuration file name (full path)
+- Default value: `"{{ vault_config_path }}/vault_main.hcl"`
+
+### `vault_primary_node`
+
+- Active node FQDN
+- Default value: `"{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"`
+
+### `vault_backend`
+
+- Backend template filename
+- Default value: `backend_consul.j2`
+
+### `vault_cluster_address`
+
+- Address for intra-cluster communication
+- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
+
+### `vault_cluster_disable`
+
+- Disable HA clustering
+- Default value: *false*
+
+### `vault_tls_config_path`
+
+- Path to TLS certificate and key
+- Default value `/etc/vault/tls`
+
+### `vault_tls_disable`
+
+- [Disable TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable)
+- Default value: *1*
+
+### `vault_tls_cert_file`
+
+- [Vault TLS certificate file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cert_file)
+- Default value: None
+
+### `vault_tls_cert_file_dest`
+
+- Vault TLS certificate destination (full path)
+- Default value: `"{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
+
+### `vault_tls_key_file`
+
+- [Vault TLS key file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_key_file)
+- Default value: None
+
+### `vault_tls_key_file_dest`
+
+- Vault TLS key destination (full path)
+- Default value: `"{{ vault_config_path }}/vault.key"`
+
+### `vault_tls_min_version`
+
+- [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version) can be overridden with `VAULT_TLS_MIN_VERSION` environment variable
+- Default value: *tls12*
+
+### `vault_tls_cipher_suites`
+
+- [Comma-separated list of supported ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cipher_suites)
+- Default value: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
+
+### `vault_tls_prefer_server_cipher_suites`
+
+- [Prefer server's cipher suite over client cipher suite](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites) can be overridden by `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
+- Default value: *false*
+
+## OS Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
 specific. However, some distributions require installation of specific OS
 packages with different naming, so this role was built with support for
 popular Linux distributions and defines these variables to deal with the
-differences acros distros:
+differences across distributions:
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
-| `vault_centos_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
-| `vault_centos_os_packages` | list | List of OS packages to install |
-| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
-| `vault_debian_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
-| `vault_debian_os_packages` | list | List of OS packages to install |
-| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
-| `vault_redhat_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
-| `vault_redhat_os_packages` | list | List of OS packages to install |
-| `vault_pkg` | `{{ vault_version }}_linux_amd64.zip` | Vault package filename |
-| `vault_ubuntu_url` | `{{ vault_zip_url }}` | Vault package download URL |
-| `vault_sha256` | SHA256 SUM | Vault download SHA256 summary |
-| `vault_ubuntu_os_packages` | list | List of OS packages to install |
+
+### `vault_pkg`
+
+- Vault package filename
+- Default value: `{{ vault_version }}_linux_amd64.zip`
+
+### `vault_centos_url`
+
+- Vault package download URL
+- Default value: `{{ vault_zip_url }}`
+
+### `vault_sha256`
+
+- Vault download SHA256 summary
+- Default value: SHA256 SUM
+
+### `vault_centos_os_packages`
+
+- List of OS packages to install
+- Default value: list
+
+### `vault_pkg`
+
+- Vault package filename
+- Default value: `"{{ vault_version }}_linux_amd64.zip"`
+
+### `vault_debian_url`
+
+- Vault package download URL
+- Default value: `"{{ vault_zip_url }}"`
+
+### `vault_sha256`
+
+- Vault download SHA256 summary
+- Default value: SHA256 SUM
+
+### `vault_debian_os_packages`
+
+- List of OS packages to install
+- Default value: list
+
+### `vault_pkg`
+
+- Vault package filename
+- Default value: `"{{ vault_version }}_linux_amd64.zip"`
+
+### `vault_redhat_url`
+
+- Vault package download URL
+- Default value: `"{{ vault_zip_url }}"`
+
+### `vault_sha256`
+
+- Vault package SHA256 summary
+- Default value: SHA256 SUM
+
+### `vault_redhat_os_packages`
+
+- List of OS packages to install
+- Default value: list
+
+### `vault_pkg`
+
+- Vault package filename
+- Default value: `"{{ vault_version }}_linux_amd64.zip"`
+
+### `vault_ubuntu_url`
+
+- Vault package download URL
+- Default value: `"{{ vault_zip_url }}"`
+
+### `vault_sha256`
+
+- Vault package SHA256 summary
+- Default value: SHA256 SUM
+
+### `vault_ubuntu_os_packages`
+
+- List of OS packages to install
+- Default value: list
 
 ## Dependencies
 

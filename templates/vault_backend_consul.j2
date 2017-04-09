@@ -2,6 +2,7 @@
 
 backend "consul" {
   address = "{{ vault_consul }}"
+  datacenter = "{{ vault_datacenter }}"
   path = "vault"
   redirect_addr = "http://{{ vault_redirect_addr }}:{{ vault_port }}"
   cluster_addr = "http://{{ vault_cluster_address }}:{{ _vault_plus_one_port }}"
