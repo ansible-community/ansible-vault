@@ -219,3 +219,9 @@
 ## v1.5.2
 
 - Switch to local actions (addresses #13)
+
+## v1.5.3
+
+- Revert local_action tasks
+  - They are broken in every case I tested, and connection local is perfectly
+    valid for running things on the local host -_-
