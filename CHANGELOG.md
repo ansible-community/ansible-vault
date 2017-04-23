@@ -225,3 +225,7 @@
 - Revert local_action tasks
   - They are broken in every case I tested, and connection local is perfectly
     valid for running things on the local host -_-
+
+## v1.5.4
+
+- Update documentation on new netaddr dependency :sweat:
