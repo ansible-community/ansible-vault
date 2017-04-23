@@ -308,8 +308,23 @@ differences across distributions:
 
 ## Dependencies
 
+> **NOTE**: Read these before executing the role to avoid certain frequently
+encountered issues which are resolved by installing the correct dependencies.
+
+### `gtar`
+
 Ansible requires GNU tar and this role performs some local use of the
 unarchive module, so ensure that your system has `gtar` installed.
+
+### Python netaddr
+
+The role depends on `python-netaddr` so:
+
+```
+pip install netaddr
+```
+
+on the Ansible control host prior to executing the role.
 
 ## Example Playbook
 
