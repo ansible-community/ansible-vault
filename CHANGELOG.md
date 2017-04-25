@@ -235,3 +235,7 @@
 - Back to local_action for the download and unzip tasks
 - Already using grep, so let's just awk for the SHA and then register it
 - Add remote install capability (thanks @bilke)
+
+## v1.5.6
+
+- Update remote tasks
