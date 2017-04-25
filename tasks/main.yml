@@ -44,8 +44,13 @@
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Install OS packages
+- name: Install OS packages and vault - locally
   include: install.yml
+  when: not vault_install_remotely
+
+- name: Install OS packages and vault - remotely
+  include: install_remote.yml
+  when: vault_install_remotely
 
 - name: Enable non root mlock capability
   command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
