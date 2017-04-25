@@ -58,3 +58,6 @@ vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER
 ### Vault
 
 vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+
+### Install Method
+vault_install_remotely: false
