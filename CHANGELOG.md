@@ -229,3 +229,9 @@
 ## v1.5.4
 
 - Update documentation on new netaddr dependency :sweat:
+
+## v1.5.5
+
+- Back to local_action for the download and unzip tasks
+- Already using grep, so let's just awk for the SHA and then register it
+- Add remote install capability (thanks @bilke)
