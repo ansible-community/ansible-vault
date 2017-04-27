@@ -1,7 +1,7 @@
 ---
 # File: tasks/tls.yml - TLS tasks for Vault
 
-- name: Create tls directory
+- name: Create TLS directory
   file:
     dest: "{{ item }}"
     state: directory

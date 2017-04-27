@@ -239,3 +239,10 @@
 ## v1.5.6
 
 - Update remote tasks
+
+## v1.5.7
+
+- Add TLS directory task to TLS tasks (thanks @cwill747)
+- Update CONTRIBUTORS
+- Update CONTRIBUTING
+- Update documentation
