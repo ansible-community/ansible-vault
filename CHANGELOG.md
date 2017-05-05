@@ -254,6 +254,7 @@
 - Update when statements to avoid warnings about template delimiters
 - Update documentation
 
-## v1.6.1 (UNRELEASED)
+## v1.6.1
 
+- Vault version 0.7.1
 - Further task cleanup

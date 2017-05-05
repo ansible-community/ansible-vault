@@ -1,7 +1,7 @@
 ---
 # File: defaults/main.yml - Main default variables for Vault
 
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.7.0', true) }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.7.1', true) }}"
 vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
