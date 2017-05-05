@@ -33,13 +33,26 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_version`
 
-- version to install - can be overridden with `VAULT_VERSION` environment variable
+- version to install
+  - Can be overridden with `VAULT_VERSION` environment variable
 - Default value: *0.7.0*
+
+### `vault_enterprise`
+
+- Set this to true when installing Vault Enterprise; this is not currently
+  possible as a "remote only" install method
+  - Can be overridden with `VAULT_ENTERPRISE` environment variable
+- Default value: *false*
 
 ### `vault_pkg`
 
 - package filename
 - Default value: `"vault_{{ vault_version }}_linux_amd64.zip"`
+
+### `vault_enterprise_pkg`
+
+- package filename
+- Default value: `"vault-enterprise_{{ vault_version }}+ent_{{ vault_os }}_{{ vault_architecture }}.zip"`
 
 ### `vault_zip_url`
 
@@ -50,6 +63,16 @@ The role defines variables in `defaults/main.yml`:
 
 - SHA summaries URL
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"`
+
+### `vault_shasums`
+
+- SHA summaries filename (included for convenience not for modification)
+- Default value: `"vault_{{ vault_version }}_SHA256SUMS"`
+
+### `vault_enterprise_shasums`
+
+- SHA summaries filename (included for convenience not for modification)
+- Default value: `"vault-enterprise_{{ vault_version }}+ent_SHA256SUMS"`
 
 ### `vault_bin_path`
 
@@ -124,7 +147,8 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_iface`
 
-- Network interface can be overridden with `VAULT_IFACE` environment variable
+- Network interface
+  - Can be overridden with `VAULT_IFACE` environment variable
 - Default value: `eth1`
 
 ### `vault_address`
@@ -180,6 +204,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_tls_disable`
 
 - [Disable TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable)
+  - Can be overridden with `VAULT_TLS_DISABLE` environment variable
 - Default value: *1*
 
 ### `vault_tls_cert_file`
@@ -204,7 +229,8 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_tls_min_version`
 
-- [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version) can be overridden with `VAULT_TLS_MIN_VERSION` environment variable
+- [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version)
+  - Can be overridden with `VAULT_TLS_MIN_VERSION` environment variable
 - Default value: *tls12*
 
 ### `vault_tls_cipher_suites`
@@ -214,7 +240,8 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_tls_prefer_server_cipher_suites`
 
-- [Prefer server's cipher suite over client cipher suite](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites) can be overridden by `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
+- [Prefer server's cipher suite over client cipher suite](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites)
+  - Can be overridden with `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
 - Default value: *false*
 
 ## OS Distribution Variables
@@ -235,11 +262,6 @@ differences across distributions:
 
 - Vault package download URL
 - Default value: `{{ vault_zip_url }}`
-
-### `vault_sha256`
-
-- Vault download SHA256 summary
-- Default value: SHA256 SUM
 
 ### `vault_centos_os_packages`
 
@@ -355,6 +377,14 @@ role directory for this to work.
 
 See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
 under VirtualBox for testing, etc.
+
+## Vault Enterprise
+
+The role can install Vault Enterprise based instances.
+
+Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
+`vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
+variable.
 
 ## License
 

@@ -26,11 +26,11 @@
     msg: "{{ ansible_distribution_version }} is not an acceptable version of {{ ansible_distribution }} for this role"
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version|version_compare(13.04, '<')
 
-- name: Create cluster grouping
+- name: Create OS cluster grouping
   group_by:
     key: "os_{{ ansible_os_family }}"
 
-- name: Create cluster groupings
+- name: Create node role cluster groupings
   group_by:
     key: "{{ vault_node_role }}"
 
@@ -44,13 +44,23 @@
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
+- name: Install OS packages and Vault Enterprise
+  include: install.yml
+  when:
+    - vault_enterprise | bool
+    - not vault_install_remotely | bool
+
 - name: Install OS packages and vault - locally
   include: install.yml
-  when: not vault_install_remotely
+  when:
+    - not vault_enterprise | bool
+    - not vault_install_remotely | bool
 
 - name: Install OS packages and vault - remotely
   include: install_remote.yml
-  when: vault_install_remotely
+  when:
+    - not vault_enterprise | bool
+    - vault_install_remotely | bool
 
 - name: Enable non root mlock capability
   command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"

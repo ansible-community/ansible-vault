@@ -15,18 +15,18 @@
 
 - name: Check Vault package checksum file
   stat:
-    path: "/tmp/vault/vault_{{ vault_version }}_SHA256SUMS"
+    path: "/tmp/vault/{{ vault_shasums }}"
   register: vault_checksum
 
 - name: Get Vault package checksum file
   get_url:
     url: "{{ vault_checksum_file_url }}"
-    dest: "/tmp/vault/vault_{{ vault_version }}_SHA256SUMS"
+    dest: "/tmp/vault/{{ vault_shasums }}"
   tags: installation
-  when: vault_checksum.stat.exists == False
+  when: not vault_checksum.stat.exists | bool
 
 - name: Get Vault package checksum
-  shell: "grep {{ vault_pkg }} /tmp/vault/vault_{{ vault_version }}_SHA256SUMS"
+  shell: "grep {{ vault_pkg }} /tmp/vault/{{ vault_shasums }}"
   register: vault_sha256
   tags: installation
 
@@ -43,7 +43,7 @@
     checksum: "sha256:{{ vault_sha256.stdout.split(' ')|first }}"
     timeout: "42"
   tags: installation
-  when: vault_package.stat.exists == False
+  when: not vault_package.stat.exists | bool
 
 - name: Unarchive Vault and install binary
   unarchive:

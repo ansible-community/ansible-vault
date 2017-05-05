@@ -2,6 +2,7 @@
 # File: defaults/main.yml - Main default variables for Vault
 
 vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.7.0', true) }}"
+vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -58,6 +59,12 @@ vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER
 ### Vault
 
 vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
+
+### Vault Enterprise
+
+vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}+ent_{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}+ent_SHA256SUMS"
 
 ### Install Method
 vault_install_remotely: false

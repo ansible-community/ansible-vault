@@ -85,6 +85,14 @@ the following:
 BOX_NAME="centos/7" vagrant up
 ```
 
+## Vault Enterprise
+
+The role can install Vault Enterprise based instances.
+
+Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
+`vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
+variable.
+
 ## Notes
 
 1. This project functions with the following software versions:
