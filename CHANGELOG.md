@@ -253,3 +253,7 @@
 - Add initial Vault Enterprise installation tasks
 - Update when statements to avoid warnings about template delimiters
 - Update documentation
+
+## v1.6.1 (UNRELEASED)
+
+- Further task cleanup
