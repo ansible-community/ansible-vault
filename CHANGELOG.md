@@ -246,3 +246,10 @@
 - Update CONTRIBUTORS
 - Update CONTRIBUTING
 - Update documentation
+
+## v1.6.0
+
+- Add initial Vault Enterprise variables
+- Add initial Vault Enterprise installation tasks
+- Update when statements to avoid warnings about template delimiters
+- Update documentation

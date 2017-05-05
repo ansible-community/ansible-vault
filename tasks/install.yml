@@ -9,21 +9,21 @@
   tags: installation
 
 - name: Check Vault package checksum file
-  local_action: stat path="{{ role_path }}/files/vault_{{ vault_version }}_SHA256SUMS"
+  local_action: stat path="{{ role_path }}/files/{{ vault_shasums }}"
   become: no
   run_once: true
   register: vault_checksum
 
 - name: Get Vault package checksum file
   local_action: get_url url="{{ vault_checksum_file_url }}"
-    dest="{{ role_path }}/files/vault_{{ vault_version }}_SHA256SUMS"
+    dest="{{ role_path }}/files/{{ vault_shasums }}"
   become: no
   run_once: true
   tags: installation
-  when: vault_checksum.stat.exists == False
+  when: not vault_checksum.stat.exists | bool
 
 - name: Get Vault package checksum
-  local_action: shell grep "{{ vault_pkg }}" "{{ role_path }}/files/vault_{{ vault_version }}_SHA256SUMS" | awk '{print $1}'
+  local_action: shell grep "{{ vault_pkg }}" "{{ role_path }}/files/{{ vault_shasums }}" | awk '{print $1}'
   become: no
   run_once: true
   register: vault_sha256
@@ -40,7 +40,7 @@
   become: no
   run_once: true
   tags: installation
-  when: vault_package.stat.exists == False
+  when: not vault_package.stat.exists | bool
 
 - name: Unarchive Vault
   local_action: unarchive src="{{ role_path }}/files/{{ vault_pkg }}" dest="{{ role_path }}/files/" creates="{{ role_path }}/files/vault"
