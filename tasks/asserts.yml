@@ -1,0 +1,35 @@
+---
+# File: tasks/asserts.yml - Asserts for this role
+
+- name: Check distribution compatibility
+  fail:
+    msg: "{{ ansible_distribution }} is not supported by this role"
+  when: ansible_distribution not in ['RedHat', 'CentOS', 'Debian', 'Ubuntu']
+
+- name: Fail if not a new release of Red Hat / CentOS
+  fail:
+    msg: "{{ ansible_distribution_version }} is not a supported version of {{ ansible_distribution }} for this role"
+  when:
+    - ansible_distribution in ['RedHat', 'CentOS']
+    - ansible_distribution_version|version_compare(7, '<')
+
+- name: Fail if not a new release of Debian
+  fail:
+    msg: "{{ ansible_distribution_version }} is not a supported version of {{ ansible_distribution }} for this role"
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_version|version_compare(8.5, '<')
+
+- name: Fail if not a new release of FreeBSD
+  fail:
+    msg: "{{ ansible_distribution_version }} is not a supported version."
+  when:
+    - ansible_distribution == "FreeBSD"
+    - ansible_distribution_version|version_compare(10, '<')
+
+- name: Fail if not a new release of Ubuntu
+  fail:
+    msg: "{{ ansible_distribution_version }} is not a supported version of {{ ansible_distribution }} for this role"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version|version_compare(13.04, '<')
