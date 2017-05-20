@@ -49,7 +49,7 @@
   run_once: true
   tags: installation
 
-- name: Install Vault Enterprise
+- name: "Install Vault Enterprise v{{ vault_enterprise_version }}"
   copy:
     src: "{{ role_path }}/files/vault"
     dest: "{{ vault_bin_path }}"
