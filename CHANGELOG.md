@@ -258,3 +258,7 @@
 
 - Vault version 0.7.1
 - Further task cleanup
+
+## v1.6.2 (UNRELEASED)
+
+- Minor play updates
