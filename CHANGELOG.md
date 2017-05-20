@@ -262,3 +262,4 @@
 ## v1.6.2 (UNRELEASED)
 
 - Minor play updates
+- Move asserts to asserts.yml file (thanks @groggemans)
