@@ -259,7 +259,8 @@
 - Vault version 0.7.1
 - Further task cleanup
 
-## v1.6.2 (UNRELEASED)
+## v1.6.2
 
+- Vault version 0.7.2
 - Minor play updates
 - Move asserts to asserts.yml file (thanks @groggemans)
