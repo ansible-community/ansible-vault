@@ -264,3 +264,7 @@
 - Vault version 0.7.2
 - Minor play updates
 - Move asserts to asserts.yml file (thanks @groggemans)
+
+## v1.6.3
+
+- Correct Vault Enterprise variables to address #18
