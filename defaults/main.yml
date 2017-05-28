@@ -1,9 +1,7 @@
 ---
 # File: defaults/main.yml - Main default variables for Vault
 
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.7.1', true) }}"
-vault_version: "{{ lookup('env','VAULT_ENTERPRISE_VERSION') | default('0.7.2', true) }}"
-vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.7.2', true) }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -64,7 +62,8 @@ vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
 
 ### Vault Enterprise
 
-vault_enterprise_pkg: "vault-enterprise_{{ vault_enterorise_version }}+ent_{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
+vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}+ent_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_enterprise_shasums: "vault-enterprise_{{ vault_enterprise_version }}+ent_SHA256SUMS"
 
 ### Install Method
