@@ -269,9 +269,13 @@
 
 - Correct Vault Enterprise variables to address #18
 
-## v1.6.4 (UNRELEASED)
+## v1.6.4
 
 - Enable Vault Enterprise tasks
 - Remove `redirect_addr` in favor of request forwarding
 - Make `vault_log_level` environment variable override
 - Update documentation
+
+## v1.6.5
+
+- Correct main tasks
