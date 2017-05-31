@@ -24,7 +24,7 @@ vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_consul: 127.0.0.1:8500
 vault_consul_path: vault
-vault_log_level: info
+vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_syslog_enable: true
 vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
 vault_address: "0.0.0.0"

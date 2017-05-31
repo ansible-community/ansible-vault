@@ -272,3 +272,6 @@
 ## v1.6.4 (UNRELEASED)
 
 - Enable Vault Enterprise tasks
+- Remove `redirect_addr` in favor of request forwarding
+- Make `vault_log_level` environment variable override
+- Update documentation
