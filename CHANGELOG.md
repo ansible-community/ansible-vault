@@ -268,3 +268,7 @@
 ## v1.6.3
 
 - Correct Vault Enterprise variables to address #18
+
+## v1.6.4 (UNRELEASED)
+
+- Enable Vault Enterprise tasks

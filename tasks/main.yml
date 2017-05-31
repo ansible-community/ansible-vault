@@ -1,127 +1,431 @@
 ---
-# File: tasks/main.yml - Main tasks for Vault
+# File: main.yml - Main tasks for Consul
+#
+# Unfortunately, this playbook violates DRY somewhat to handle installation
+# on both non-Windows and Windows systems due to such bad words as casting
+# dicts, and being so over YAML that this stuff just needs to get pitched
+# into the rubbish bin at some point in the immediate future :lol:
 
-- name: Include asserts
+- name: Include checks/asserts
   include: asserts.yml
-
-- name: Create OS cluster grouping
-  group_by:
-    key: "os_{{ ansible_os_family }}"
-
-- name: Create node role cluster groupings
-  group_by:
-    key: "{{ vault_node_role }}"
-
-- name: "Add Vault user"
-  user:
-    name: "{{ vault_user }}"
-    comment: "Vault user"
-    group: "{{ vault_group }}"
-    system: yes
 
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
+  tags: always
 
-- name: Install OS packages and Vault Enterprise via control host
-  include: install.yml
-  when:
-    - vault_enterprise | bool
-    - not vault_install_remotely | bool
+#############################################################################
+# Tasks for all *NIX operating systems
+#############################################################################
+- block:
 
-- name: Install OS packages and Vault via control host
-  include: install.yml
-  when:
-    - not vault_enterprise | bool
-    - not vault_install_remotely | bool
+    # Gathers facts (bind address) from servers not currently targeted.
+    # 'delegate_facts' is currently rather buggy in Ansible so this might not
+    # always work. Hence 'consul_gather_server_facts' defaults to 'no'.
+    - name: Gather facts from other servers
+      setup:
+      delegate_to: "{{ item }}"
+      delegate_facts: True
+      with_items: "{{ consul_servers | difference(play_hosts) }}"
+      ignore_errors: yes
+      when: consul_gather_server_facts | bool
 
-- name: Install OS packages and Vault via remote hosts
-  include: install_remote.yml
-  when:
-    - not vault_enterprise | bool
-    - vault_install_remotely | bool
+    - name: Expose bind_address, datacenter and node_role as facts
+      set_fact:
+        consul_bind_address: "{{ consul_bind_address }}"
+        consul_datacenter: "{{ consul_datacenter }}"
+        consul_node_role: "{{ consul_node_role }}"
 
-- name: Enable non root mlock capability
-  command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+    - name: Read bootstrapped state
+      stat:
+        path: "{{ consul_bootstrap_state }}"
+      register: bootstrap_state
+      ignore_errors: true
+      tags: always
 
-- name: Create directories
-  file:
-    dest: "{{ item }}"
-    state: directory
-    owner: "{{ vault_user }}"
-    group: "{{ vault_group}}"
-  with_items:
-    - "{{ vault_config_path }}"
-    - "{{ vault_data_path }}"
-    - "{{ vault_log_path }}"
-    - "{{ vault_run_path }}"
+    - name: Include user and group settings
+      include: user_group.yml
 
-- name: TLS configuration
-  include: ../tasks/tls.yml
-  when: vault_tls_disable == 0
+    - name: Include directory settings
+      include: dirs.yml
 
-- name: Listener configuration
-  template:
-    src: vault_listener.hcl.j2
-    dest: "{{ vault_main_config }}"
-    owner:  "{{ vault_user }}"
-    group:  "{{ vault_group }}"
-    mode: "0400"
+    - name: Check for existing Consul binary
+      stat:
+        path: "{{ consul_binary }}"
+      register: consul_binary_installed
 
-- name: BSD init script
-  template:
-    src: consul_bsdinit.j2
-    dest: /etc/rc.d/consul
-    owner: root
-    group: wheel
-    mode: "0755"
-  when: ansible_os_family == "FreeBSD"
+    - name: Install OS packages and consul - locally
+      include: install.yml
+      when:
+        - not consul_binary_installed.stat.exists | bool
+        - not consul_install_remotely | bool
 
-- name: SYSV init script
-  template:
-    src: vault_sysvinit.j2
-    dest: /etc/init.d/vault
-    owner: root
-    group: root
-    mode: "0755"
-  when:
-    - not ansible_service_mgr == "systemd"
-    - not ansible_os_family == "Debian"
-    - not ansible_os_family == "FreeBSD"
-    - not ansible_os_family == "Solaris"
+    - name: Install OS packages and consul - remotely
+      include: install_remote.yml
+      when:
+        - not consul_binary_installed.stat.exists | bool
+        - consul_install_remotely | bool
 
-- name: Debian init script
-  template:
-    src: vault_debian.init.j2
-    dest: /etc/init.d/vault
-    owner: root
-    group: root
-    mode: "0755"
-  when:
-    - not ansible_service_mgr == "systemd"
-    - ansible_os_family == "Debian"
-    - not ansible_os_family == "FreeBSD"
-    - not ansible_os_family == "Solaris"
+    # XXX: Individual gossip tasks are deprecated and need to be removed
+    # - include: ../tasks/encrypt_gossip.yml
 
-- name: systemd unit
-  template:
-    src: vault_systemd.service.j2
-    dest: /lib/systemd/system/vault.service
-    owner: root
-    group: root
-    mode: "0644"
-  when:
-    - ansible_service_mgr == "systemd"
-    - not ansible_os_family == "FreeBSD"
-    - not ansible_os_family == "Solaris"
+    - block:
+        - name: Check for gossip encryption key on previously boostrapped server
+          slurp:
+            src: "{{ consul_config_path }}/config.json"
+          register: consul_config_b64
+          ignore_errors: yes
 
-- name: Start Vault
-  service:
-    name: vault
-    state: started
-    enabled: yes
+        - name: Deserialize existing configuration
+          set_fact:
+            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
+          when: consul_config_b64.content is defined
 
-- name: Vault API reachable?
-  wait_for:
-    host: "{{ vault_address}}"
-    port: "{{ vault_port }}"
-    delay: "10"
+        - name: Save gossip encryption key from existing configuration
+          set_fact:
+            consul_raw_key: "{{ consul_config.encrypt }}"
+          when: consul_config is defined
+
+      no_log: true
+      when:
+        - consul_raw_key is not defined
+        - bootstrap_state.stat.exists | bool
+        - inventory_hostname in consul_servers
+
+    # Key provided by extra vars or the above block
+    - name: Write gossip encryption key locally for use with new servers
+      copy:
+        content: "{{ consul_raw_key }}"
+        dest: '/tmp/consul_raw.key'
+      become: no
+      no_log: true
+      run_once: true
+      register: consul_local_key
+      delegate_to: localhost
+      when: consul_raw_key is defined
+
+    # Generate new key if non was found
+    - block:
+        - name: Generate gossip encryption key
+          shell: "PATH={{ consul_bin_path }}:$PATH consul keygen"
+          register: consul_keygen
+
+        - name: Write key locally to share with other nodes
+          copy:
+            content: "{{ consul_keygen.stdout }}"
+            dest: '/tmp/consul_raw.key'
+          become: no
+          delegate_to: localhost
+
+      no_log: true
+      run_once: true
+      when:
+        - not consul_local_key.changed
+        - not bootstrap_state.stat.exists | bool
+
+    - name: Read gossip encryption key for servers that require it
+      set_fact:
+        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+      no_log: true
+      when:
+        - consul_raw_key is not defined
+
+    - name: Delete gossip encryption key file
+      file:
+        path: '/tmp/consul_raw.key'
+        state: absent
+      become: no
+      run_once: true
+      delegate_to: localhost
+
+    - name: Create Consul configuration
+      include: config.yml
+
+    - name: Create ACL configuration
+      include: acl.yml
+      when: consul_acl_enable | bool
+
+    - name: Create TLS configuration
+      include: tls.yml
+      when: consul_tls_enable | bool
+
+    - block:
+
+      - name: Create BSD init script
+        template:
+          src: consul_bsdinit.j2
+          dest: /etc/rc.d/consul
+          owner: root
+          group: wheel
+          mode: 0755
+        when: ansible_os_family == "FreeBSD"
+
+      - name: Create SYSV init script
+        template:
+          src: consul_sysvinit.j2
+          dest: /etc/init.d/consul
+          owner: root
+          group: root
+          mode: 0755
+        when:
+          - not ansible_service_mgr == "systemd"
+          - not ansible_os_family == "Debian"
+          - not ansible_os_family == "FreeBSD"
+          - not ansible_os_family == "Solaris"
+
+      - name: Create Debian init script
+        template:
+          src: consul_debianinit.j2
+          dest: /etc/init.d/consul
+          owner: root
+          group: root
+          mode: 0755
+        when:
+          - not ansible_service_mgr == "systemd"
+          - ansible_os_family == "Debian"
+          - not ansible_os_family == "FreeBSD"
+          - not ansible_os_family == "Solaris"
+
+      - name: Create systemd script
+        template:
+          src: consul_systemd.service.j2
+          dest: /lib/systemd/system/consul.service
+          owner: root
+          group: root
+          mode: 0644
+        when:
+          - ansible_service_mgr == "systemd"
+          - not ansible_os_family == "FreeBSD"
+          - not ansible_os_family == "Solaris"
+
+      - name: Create smf manifest
+        template:
+          src: consul_smf_manifest.j2
+          dest: "{{ consul_smf_manifest }}"
+          owner: root
+          group: root
+          mode: 0644
+        when: ansible_os_family == "Solaris"
+        register: smfmanifest
+
+      - name: Import smf manifest
+        shell: "svccfg import {{ consul_smf_manifest }}"
+        when:
+          - smfmanifest | changed
+          - ansible_os_family == "Solaris"
+
+      - name: Import smf script
+        shell: "svcadm refresh consul"
+        when:
+          - smfmanifest | changed
+          - ansible_os_family == "Solaris"
+
+
+      - name: Start Consul
+        service:
+          name: consul
+          state: started
+          enabled: yes
+
+      - name: Check Consul HTTP API
+        wait_for:
+          delay: 15
+          port: 8500
+
+      - name: Create bootstrapped state file
+        file:
+          dest: /etc/consul/.consul_bootstrapped
+          state: touch
+
+      - include: ../tasks/dnsmasq.yml
+        when: consul_dnsmasq_enable | bool
+
+      - include: ../tasks/iptables.yml
+        when: consul_iptables_enable | bool
+
+      - include: ../tasks/client.yml
+        when:
+          - consul_node_role == "client"
+          - ansible_os_family == "Debian"
+
+      when: not bootstrap_state.stat.exists
+
+  when: ansible_os_family != 'Windows'
+
+#############################################################################
+# End of tasks for all *NIX operating systems
+#############################################################################
+
+#############################################################################
+# Tasks for Windows
+#############################################################################
+
+- block:
+
+    # Gathers facts (bind address) from servers not currently targeted.
+    # 'delegate_facts' is currently rather buggy in Ansible so this might not
+    # always work. Hence 'consul_gather_server_facts' defaults to 'no'.
+    - name: (Windows) Gather facts from other servers
+      setup:
+      delegate_to: "{{ item }}"
+      delegate_facts: True
+      with_items: "{{ consul_servers | difference(play_hosts) }}"
+      ignore_errors: yes
+      when: consul_gather_server_facts | bool
+
+    - name: (Windows) Expose bind_address, datacenter and node_role as facts
+      set_fact:
+        consul_bind_address: "{{ consul_bind_address }}"
+        consul_datacenter: "{{ consul_datacenter }}"
+        consul_node_role: "{{ consul_node_role }}"
+
+    - name: (Windows) Read bootstrapped state
+      win_stat:
+        path: "{{ consul_bootstrap_state }}"
+      register: bootstrap_state
+      ignore_errors: true
+      tags: always
+
+    - name: (Windows) Include directory settings
+      include: dirs.yml
+
+    - name: (Windows) Check for existing Consul binary
+      win_stat:
+        path: "{{ consul_binary }}"
+      register: consul_binary_installed
+
+    - name: (Windows) Install OS packages and consul
+      include: install_windows.yml
+      when:
+        - not consul_binary_installed.stat.exists | bool
+
+    - block:
+        - name: (Windows) Check for gossip encryption key on previously boostrapped server
+          slurp:
+            src: "{{ consul_config_path }}/config.json"
+          register: consul_config_b64
+          ignore_errors: yes
+
+        - name: (Windows) Deserialize existing configuration
+          set_fact:
+            consul_config: "{{ consul_config_b64.content | b64decode | from_json }}"
+          when: consul_config_b64.content is defined
+
+        - name: (Windows) Save gossip encryption key from existing configuration
+          set_fact:
+            consul_raw_key: "{{ consul_config.encrypt }}"
+          when: consul_config is defined
+
+      no_log: true
+      when:
+        - consul_raw_key is not defined
+        - bootstrap_state.stat.exists | bool
+        - inventory_hostname in consul_servers
+
+    # Key provided by extra vars or the above block
+    - name: (Windows) Write gossip encryption key locally for use with new servers
+      copy:
+        content: "{{ consul_raw_key }}"
+        dest: '/tmp/consul_raw.key'
+      become: no
+      no_log: true
+      run_once: true
+      register: consul_local_key
+      delegate_to: localhost
+      when: consul_raw_key is defined
+
+    # Generate new key if non was found
+    - block:
+
+        - name: (Windows) Generate gossip encryption key
+          win_shell: "{{consul_binary}} keygen"
+          register: consul_keygen
+
+        - name: (Windows) Write key locally to share with other nodes
+          copy:
+            content: "{{ consul_keygen.stdout }}"
+            dest: '/tmp/consul_raw.key'
+          become: no
+          delegate_to: localhost
+
+      no_log: true
+      run_once: true
+      when:
+        - not consul_local_key.changed
+        - not bootstrap_state.stat.exists | bool
+
+    - name: (Windows) Read gossip encryption key for servers that require it
+      set_fact:
+        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+      no_log: true
+      when:
+        - consul_raw_key is not defined
+
+    - name: (Windows) Delete gossip encryption key file
+      file:
+        path: '/tmp/consul_raw.key'
+        state: absent
+      become: no
+      run_once: true
+      delegate_to: localhost
+
+    - name: (Windows) Create Consul configuration
+      include: config_windows.yml
+
+    - name: (Windows) Ensure neither ACL nor TLS are requested
+      fail:
+        msg: "ACL and TLS are not supported on Windows hosts yet."
+      when:
+        - (consul_acl_enable | bool) or (consul_tls_enable | bool)
+
+    - name: (Windows) Create ACL configuration
+      include: acl.yml
+      when: consul_acl_enable | bool
+
+    - name: (Windows) Create TLS configuration
+      include: tls.yml
+      when: consul_tls_enable | bool
+
+    - block:
+
+      - name: (Windows) Install NSSM
+        win_chocolatey:
+          name: nssm
+          state: latest
+
+      - name: (Windows) Start Consul on Windows
+        win_nssm:
+          name: consul
+          state: started
+          application: "{{ consul_binary }}"
+          app_parameters_free_form: "agent -config-file='{{ consul_config_path }}/config.json' -config-dir='{{ consul_configd_path }}'"
+          stdout_file: "{{ consul_log_path }}/consul-nssm-output.log"
+          stderr_file: "{{ consul_log_path }}/consul-nssm-error.log"
+
+      - name: (Windows) Check Consul HTTP API
+        local_action:
+          module: wait_for
+          delay: 5
+          host: "{{inventory_hostname_short}}"
+          port: 8500
+
+
+      - name: (Windows) Create bootstrapped state file
+        win_file:
+          dest: "{{consul_bootstrap_state}}"
+          state: touch
+        when: ansible_os_family == "Windows"
+
+      - include: ../tasks/dnsmasq.yml
+        when: consul_dnsmasq_enable | bool
+
+      - include: ../tasks/iptables.yml
+        when: consul_iptables_enable | bool
+
+      - include: ../tasks/client.yml
+        when:
+          - consul_node_role == "client"
+          - ansible_os_family == "Debian"
+
+      when: not bootstrap_state.stat.exists
+
+  when: ansible_os_family == 'Windows'
