@@ -10,6 +10,7 @@
     comment: "Vault user"
     group: "{{ vault_group }}"
     system: yes
+  when: vault_manage_user | bool
 
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
