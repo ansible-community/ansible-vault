@@ -99,6 +99,11 @@ The role defines variables in `defaults/main.yml`:
 - PID file location
 - Default value: `/var/run/vault`
 
+### `vault_manage_user`
+
+- Should this role manage the vault user?
+- Default value: *true*
+
 ### `vault_user`
 
 - OS user name
@@ -380,6 +385,9 @@ The role can install Vault Enterprise based instances.
 Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
 variable.
+
+Aditionaly enable or disable the UI with the `vault_enterprise_ui` option
+(default *true*).
 
 ## License
 
