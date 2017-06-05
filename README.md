@@ -176,11 +176,6 @@ The role defines variables in `defaults/main.yml`:
 - Main configuration file name (full path)
 - Default value: `"{{ vault_config_path }}/vault_main.hcl"`
 
-### `vault_primary_node`
-
-- Active node FQDN
-- Default value: `"{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"`
-
 ### `vault_backend`
 
 - Backend template filename
