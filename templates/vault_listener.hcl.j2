@@ -11,11 +11,11 @@ listener "tcp" {
     {% endif -%}
     tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites }}"
   {% endif -%}
-  tls_disable = {{ vault_tls_disable | bool | lower }}
+  tls_disable = "{{ vault_tls_disable | bool | lower }}"
 }
 
 {% include vault_backend with context %}
 
 {% if vault_enterprise -%}
-  ui = true
+  ui = {{ vault_enterprise_ui | bool | lower }}
 {% endif -%}
