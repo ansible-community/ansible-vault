@@ -279,3 +279,15 @@
 ## v1.6.5
 
 - Correct main tasks
+
+## v1.6.6
+
+- Explicit Vault address (0.0.0.0 is not good for HA mode)
+- Update listener template (thanks @groggemans)
+- Add vault_consul_path in consul storage template (thanks @groggemans)
+- Fix BSD init task and remove unused grouping (thanks @groggemans)
+- Update defaults order (thanks @groggemans)
+- Make vault user management configurable (thanks @groggemans)
+- Add UI switch (enterprise) and fix tls_disable (thanks @groggemans)
+- Remove no longer used 'primary_node' variable (thanks @groggemans)
+- Add missing README entries (thanks @groggemans)
