@@ -14,7 +14,5 @@
   any_errors_fatal: true
   become: yes
   become_user: root
-  vars:
-    vault_primary_node: "{{hostvars[groups['primary'][0]]['ansible_fqdn']}}"
   roles:
     - { role: brianshumate.vault }

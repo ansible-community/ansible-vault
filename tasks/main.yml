@@ -4,20 +4,13 @@
 - name: Include asserts
   include: asserts.yml
 
-- name: Create OS cluster grouping
-  group_by:
-    key: "os_{{ ansible_os_family }}"
-
-- name: Create node role cluster groupings
-  group_by:
-    key: "{{ vault_node_role }}"
-
 - name: "Add Vault user"
   user:
     name: "{{ vault_user }}"
     comment: "Vault user"
     group: "{{ vault_group }}"
     system: yes
+  when: vault_manage_user | bool
 
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
@@ -69,7 +62,7 @@
 
 - name: BSD init script
   template:
-    src: consul_bsdinit.j2
+    src: vault_bsdinit.j2
     dest: /etc/rc.d/consul
     owner: root
     group: wheel
