@@ -291,3 +291,8 @@
 - Add UI switch (enterprise) and fix tls_disable (thanks @groggemans)
 - Remove no longer used 'primary_node' variable (thanks @groggemans)
 - Add missing README entries (thanks @groggemans)
+
+## v1.6.7
+
+- Vault version 0.7.3
+- Update documentation
