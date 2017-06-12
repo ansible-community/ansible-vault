@@ -296,3 +296,9 @@
 
 - Vault version 0.7.3
 - Update documentation
+
+## v1.6.8 (UNRELEASED)
+
+- Enterprise task changes
+- Add `vault_install_remotely` docs
+- Add `vault_remote_tmp` variable and use it

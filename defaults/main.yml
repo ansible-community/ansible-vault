@@ -18,8 +18,11 @@ vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
 vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
 
-### Install Method
+### Install Methods
+
+#### Remote host method
 vault_install_remotely: false
+vault_remote_tmp: /tmp/vault
 
 ### Paths
 vault_bin_path: /usr/local/bin
@@ -75,5 +78,5 @@ vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER
 
 vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
 vault_enterprise_ui: "{{ lookup('env', 'VAULT_ENTERPRISE_UI') | default(true, true) }}"
-vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}+ent_{{ vault_os }}_{{ vault_architecture }}.zip"
-vault_enterprise_shasums: "vault-enterprise_{{ vault_enterprise_version }}+ent_SHA256SUMS"
+vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_enterprise_shasums: "vault-enterprise_{{ vault_enterprise_version }}_SHA256SUMS"
