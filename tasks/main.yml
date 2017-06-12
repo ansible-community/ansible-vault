@@ -16,7 +16,7 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Install OS packages and Vault Enterprise via control host
-  include: install.yml
+  include: install_enterprise.yml
   when:
     - vault_enterprise | bool
     - not vault_install_remotely | bool
