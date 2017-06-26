@@ -52,7 +52,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_enterprise_pkg`
 
 - package filename
-- Default value: `"vault-enterprise_{{ vault_version }}+ent_{{ vault_os }}_{{ vault_architecture }}.zip"`
+- Default value: `"vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"`
 
 ### `vault_zip_url`
 
@@ -72,7 +72,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_enterprise_shasums`
 
 - SHA summaries filename (included for convenience not for modification)
-- Default value: `"vault-enterprise_{{ vault_version }}+ent_SHA256SUMS"`
+- Default value: `"vault-enterprise_{{ vault_version }}_SHA256SUMS"`
 
 ### `vault_bin_path`
 
