@@ -2,39 +2,31 @@
 # File: tasks/install_enterprise.yml
 #       Vault Enterprise package installation tasks
 
-- name: "[Enterprise] Install OS packages"
+- name: OS packages
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ vault_os_packages }}"
   tags: installation
 
-- name: "[Enterprise] Check for {{ role_path }}/files/{{ vault_enterprise_shasums }}"
+- name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_shasums }}
   local_action: stat path="{{ role_path }}/files/{{ vault_enterprise_shasums }}"
   become: no
   run_once: true
   register: vault_checksum
 
-- fail:
-    msg: "[Enterprise] FATAL - no Vault Enterprise SHASUMs file found. Please add the zip file to this role's files directory."
-  when: not vault_checksum.stat.exists | bool
-
-- name: "[Enterprise] Get checksum from {{ role_path }}/files/{{ vault_enterprise_shasums }}"
+- name: "[Enterprise] Get SHA SUM from {{ role_path }}/files/{{ vault_enterprise_shasums }}"
   local_action: shell grep "{{ vault_enterprise_pkg }}" "{{ role_path }}/files/{{ vault_enterprise_shasums }}" | awk '{print $1}'
   become: no
   run_once: true
   register: vault_sha256
   tags: installation
 
-- name: "[Enterprise] Check for {{ role_path }}/files/{{ vault_enterprise_pkg }}"
+- name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_pkg }}
   local_action: stat path="{{ role_path }}/files/{{ vault_enterprise_pkg }}"
   become: no
   run_once: true
   register: vault_package
-
-- fail:
-    msg: "[Enterprise] FATAL - no Vault Enterprise binary package file found. Please add the zip file to this role's files directory."
-  when: not vault_package.stat.exists | bool
 
 - name: "[Enterprise] Unzip {{ role_path }}/files/{{ vault_enterprise_pkg }}"
   local_action: unarchive src="{{ role_path }}/files/{{ vault_enterprise_pkg }}" dest="{{ role_path }}/files/" creates="{{ role_path }}/files/vault"
@@ -42,7 +34,7 @@
   run_once: true
   tags: installation
 
-- name: "[Enterprise] Install Vault Enterprise v{{ vault_enterprise_version }} from {{ role_path }}/files/vault"
+- name: "[Enterprise] Install version {{ vault_version }}"
   copy:
     src: "{{ role_path }}/files/vault"
     dest: "{{ vault_bin_path }}"
