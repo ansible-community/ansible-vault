@@ -9,7 +9,7 @@
   with_items: "{{ vault_os_packages }}"
   tags: installation
 
-- name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_shasums }}
+- name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_shasums }}"
   local_action: stat path="{{ role_path }}/files/{{ vault_enterprise_shasums }}"
   become: no
   run_once: true
