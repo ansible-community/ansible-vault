@@ -22,7 +22,7 @@
   register: vault_sha256
   tags: installation
 
-- name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_pkg }}
+- name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_pkg }}"
   local_action: stat path="{{ role_path }}/files/{{ vault_enterprise_pkg }}"
   become: no
   run_once: true
