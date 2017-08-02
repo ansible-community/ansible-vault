@@ -117,7 +117,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_group_name`
 
 - Inventory group name
-- Default value: `cluster_nodes`
+- Default value: `vault_instances`
 
 ### `vault_cluster_name`
 

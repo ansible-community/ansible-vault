@@ -297,8 +297,9 @@
 - Vault version 0.7.3
 - Update documentation
 
-## v1.6.8 (UNRELEASED)
+## v1.6.8
 
 - Enterprise task changes
 - Add `vault_install_remotely` docs
 - Add `vault_remote_tmp` variable and use it
+- Rename `cluster_nodes` label to `vault_instances`

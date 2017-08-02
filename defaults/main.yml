@@ -35,7 +35,7 @@ vault_manage_group: no
 vault_group: bin
 
 ### Vault settings
-vault_group_name: cluster_nodes
+vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"

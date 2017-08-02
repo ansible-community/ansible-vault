@@ -2,7 +2,7 @@
 # File: site.yml - Example Vault site playbook
 
 - Group nodes
-  hosts: cluster_nodes
+  hosts: vault_instances
   become: yes
   become_user: root
   tasks:
@@ -10,7 +10,7 @@
     group_by: key={{ couchbase_server_node_role }}
 
 - name: Install Vault
-  hosts: cluster_nodes
+  hosts: vault_instances
   any_errors_fatal: true
   become: yes
   become_user: root
