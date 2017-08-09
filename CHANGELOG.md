@@ -306,4 +306,6 @@
 
 ## v1.6.9 (UNRELEASED)
 
+- Fix Missing Defaults for TLS (thanks @marc-sensenich)
 - Add missing redirect_addr in HA consul config (thanks @groggemans)
+- Update CONTRIBUTORS
