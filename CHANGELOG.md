@@ -303,3 +303,7 @@
 - Add `vault_install_remotely` docs
 - Add `vault_remote_tmp` variable and use it
 - Rename `cluster_nodes` label to `vault_instances`
+
+## v1.6.9 (UNRELEASED)
+
+- Add missing redirect_addr in HA consul config (thanks @groggemans)
