@@ -304,8 +304,9 @@
 - Add `vault_remote_tmp` variable and use it
 - Rename `cluster_nodes` label to `vault_instances`
 
-## v1.6.9 (UNRELEASED)
+## v1.7.0
 
+- Vault v0.8.0
 - Fix Missing Defaults for TLS (thanks @marc-sensenich)
 - Add missing redirect_addr in HA consul config (thanks @groggemans)
 - Update CONTRIBUTORS
