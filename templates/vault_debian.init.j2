@@ -87,6 +87,7 @@ case "$1" in
         2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
     esac
     ;;
+  restart)
     log_daemon_msg "Restarting $DESC" "$NAME"
     do_stop
     case "$?" in
