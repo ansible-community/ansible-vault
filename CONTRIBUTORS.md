@@ -5,5 +5,6 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@pierrefh](https://github.com/pierrefh)
 - [@arledesma](https://github.com/arledesma)
 - [@bilke](https://github.com/bilke)
-- [@cwill747](https://github.com/bilke/cwill747)
-- [@marc-sensenich](https://github.com/bilke/marc-sensenich)
+- [@cwill747](https://github.com/cwill747)
+- [@marc-sensenich](https://github.com/marc-sensenich)
+- [@Gerrrr](https://github.com/Gerrrr)
