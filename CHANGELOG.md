@@ -310,3 +310,7 @@
 - Fix Missing Defaults for TLS (thanks @marc-sensenich)
 - Add missing redirect_addr in HA consul config (thanks @groggemans)
 - Update CONTRIBUTORS
+
+## v1.7.1
+
+- Vault v0.8.1
