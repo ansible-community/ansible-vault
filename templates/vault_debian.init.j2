@@ -39,17 +39,12 @@ do_start() {
         $DAEMON_ARGS \
         || return 2
 
+    RETVAL=0
     for i in `seq 1 30`; do
         if ! start-stop-daemon --quiet --stop --test --pidfile $PIDFILE --exec $DAEMON --user $USER; then
             RETVAL=2
             sleep 1
             continue
-        fi
-
-        if "$DAEMON" status >/dev/null; then
-            return 0
-        else
-          RETVAL=2
         fi
     done
     return "$RETVAL"
