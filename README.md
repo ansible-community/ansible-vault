@@ -35,7 +35,7 @@ The role defines variables in `defaults/main.yml`:
 
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
-- Default value: *0.8.0*
+- Default value: *0.8.1*
 
 ### `vault_enterprise`
 
@@ -159,7 +159,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_address`
 
 - Primary network interface address to use
-- Default value: `"{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"`
+- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
 
 ### `vault_redirect_addr`
 
