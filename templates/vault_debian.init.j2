@@ -45,8 +45,11 @@ do_start() {
             sleep 1
             continue
         fi
-        if "$DAEMON" info >/dev/null; then
+
+        if "$DAEMON" status >/dev/null; then
             return 0
+        else
+          RETVAL=2
         fi
     done
     return "$RETVAL"
