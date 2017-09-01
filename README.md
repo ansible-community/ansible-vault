@@ -139,6 +139,11 @@ The role defines variables in `defaults/main.yml`:
 - Name of Vault's Consul K/V root path
 - Default value: *vault*
 
+### `vault_consul_service`
+
+- Name of the Vault service to register in Consul
+- Default value: *vault*
+
 ### `vault_log_level`
 
 - [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
