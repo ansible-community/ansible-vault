@@ -220,7 +220,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_tls_cert_file_dest`
 
 - Vault TLS certificate destination (full path)
-- Default value: `"{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
+- Default value: `"{{ vault_tls_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
 
 ### `vault_tls_key_file`
 
@@ -230,7 +230,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_tls_key_file_dest`
 
 - Vault TLS key destination (full path)
-- Default value: `"{{ vault_config_path }}/vault.key"`
+- Default value: `"{{ vault_tls_config_path }}/vault.key"`
 
 ### `vault_tls_min_version`
 
