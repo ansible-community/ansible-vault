@@ -318,3 +318,7 @@
 ## v1.7.2
 
 - Vault v0.8.2
+- Update README (thanks @Gerrrr)
+- Update init scripts (thanks @Gerrrr)
+- Add vault_consul_service in consul storage template (thanks @Gerrrr)
+- Update CONTRIBUTORS.md (thanks @groggemans)
