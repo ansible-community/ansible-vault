@@ -54,6 +54,7 @@ vault_redirect_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]
 ### Consul
 vault_consul: 127.0.0.1:8500
 vault_consul_path: vault
+vault_consul_service: vault
 
 ## TLS
 
