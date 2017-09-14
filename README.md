@@ -19,7 +19,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Ansible: 2.3.0.0
-* Vault: 0.8.1
+* Vault: 0.8.2
 * Debian: 8
 * FreeBSD 11
 * Ubuntu 16.04
