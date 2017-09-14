@@ -35,7 +35,7 @@ The role defines variables in `defaults/main.yml`:
 
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
-- Default value: *0.8.0*
+- Default value: *0.8.1*
 
 ### `vault_enterprise`
 
@@ -139,6 +139,11 @@ The role defines variables in `defaults/main.yml`:
 - Name of Vault's Consul K/V root path
 - Default value: *vault*
 
+### `vault_consul_service`
+
+- Name of the Vault service to register in Consul
+- Default value: *vault*
+
 ### `vault_log_level`
 
 - [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
@@ -159,7 +164,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_address`
 
 - Primary network interface address to use
-- Default value: `"{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"`
+- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
 
 ### `vault_redirect_addr`
 
@@ -215,7 +220,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_tls_cert_file_dest`
 
 - Vault TLS certificate destination (full path)
-- Default value: `"{{ vault_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
+- Default value: `"{{ vault_tls_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
 
 ### `vault_tls_key_file`
 
@@ -225,7 +230,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_tls_key_file_dest`
 
 - Vault TLS key destination (full path)
-- Default value: `"{{ vault_config_path }}/vault.key"`
+- Default value: `"{{ vault_tls_config_path }}/vault.key"`
 
 ### `vault_tls_min_version`
 
