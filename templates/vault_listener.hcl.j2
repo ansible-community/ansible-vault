@@ -1,4 +1,6 @@
 cluster_name = "{{ vault_cluster_name }}"
+max_lease_ttl = "{{ vault_max_lease_ttl }}"
+default_lease_ttl = "{{ vault_default_lease_ttl }}"
 
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"
