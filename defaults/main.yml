@@ -51,6 +51,9 @@ vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_redirect_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 
+vault_max_lease_ttl: "768h"
+vault_default_lease_ttl: "768h"
+
 ### Consul
 vault_consul: 127.0.0.1:8500
 vault_consul_path: vault
