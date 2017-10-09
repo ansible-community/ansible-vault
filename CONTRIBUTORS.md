@@ -8,3 +8,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@cwill747](https://github.com/cwill747)
 - [@marc-sensenich](https://github.com/marc-sensenich)
 - [@Gerrrr](https://github.com/Gerrrr)
+- [@groggemans](https://github.com/groggemans)

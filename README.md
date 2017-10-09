@@ -181,6 +181,16 @@ The role defines variables in `defaults/main.yml`:
 - Short node name
 - Default value: `"{{ inventory_hostname_short }}"`
 
+### `vault_max_lease_ttl`
+
+- Configures the [maximum possible lease duration](https://www.vaultproject.io/docs/config/#max_lease_ttl) for tokens and secrets.
+- Default value: `768h` (32 days)
+
+### `vault_default_lease_ttl`
+
+- Configures the [default lease duration](https://www.vaultproject.io/docs/config/#default_lease_ttl) for tokens and secrets.
+- Default value: `768h` (32 days)
+
 ### `vault_main_config`
 
 - Main configuration file name (full path)
