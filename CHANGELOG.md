@@ -322,3 +322,7 @@
 - Update init scripts (thanks @Gerrrr)
 - Add vault_consul_service in consul storage template (thanks @Gerrrr)
 - Update CONTRIBUTORS.md (thanks @groggemans)
+
+## v1.7.3 (UNRELEASED)
+
+- Updated versions
