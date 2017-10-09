@@ -323,7 +323,7 @@
 - Add vault_consul_service in consul storage template (thanks @Gerrrr)
 - Update CONTRIBUTORS.md (thanks @groggemans)
 
-## v1.7.3 (UNRELEASED)
+## v1.7.3
 
 - Vault v0.8.3
 - Updated supporting software versions
