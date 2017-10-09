@@ -325,5 +325,6 @@
 
 ## v1.7.3 (UNRELEASED)
 
-- Updated versions
+- Vault v0.8.3
+- Updated supporting software versions
 - Add vault_max_lease_ttl and vault_default_lease_ttl (thanks @bilke)
