@@ -5,7 +5,7 @@ backend "consul" {
   datacenter = "{{ vault_datacenter }}"
   path = "{{ vault_consul_path }}"
   service = "{{ vault_consul_service }}"
-  cluster_addr = "http://{{ vault_cluster_address }}:{{ _vault_plus_one_port }}"
-  redirect_addr = "http://{{ vault_redirect_address }}:{{ vault_port }}"
+  cluster_addr = "{{vault_protocol}}://{{ vault_cluster_address }}:{{ _vault_plus_one_port }}"
+  redirect_addr = "{{vault_protocol}}://{{ vault_redirect_address }}:{{ vault_port }}"
   disable_clustering = "{{ vault_cluster_disable }}"
 }

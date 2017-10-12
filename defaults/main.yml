@@ -63,6 +63,7 @@ vault_consul_service: vault
 
 vault_tls_config_path: /etc/vault/tls
 vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
+vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
 vault_tls_cert_file: "../files/{{ vault_node_name }}.crt"
 # /etc/pki/tls/certs/vault.crt is distribution-specific/not a good default
 # a distribution-specific play to link into expected destination is preferred
