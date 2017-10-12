@@ -328,3 +328,8 @@
 - Vault v0.8.3
 - Updated supporting software versions
 - Add vault_max_lease_ttl and vault_default_lease_ttl (thanks @bilke)
+
+## v1.7.4 (UNRELEASED)
+
+- Use HTTPS when TLS is enabled (thanks @tbartelmess)
+- Update CONTRIBUTORS.md
