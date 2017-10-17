@@ -8,4 +8,7 @@ backend "consul" {
   cluster_addr = "{{vault_protocol}}://{{ vault_cluster_address }}:{{ _vault_plus_one_port }}"
   redirect_addr = "{{vault_protocol}}://{{ vault_redirect_address }}:{{ vault_port }}"
   disable_clustering = "{{ vault_cluster_disable }}"
+  {% if vault_consul_token is defined and vault_consul_token %}
+    token = "{{ vault_consul_token }}"
+  {% endif %}
 }
