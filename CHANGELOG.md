@@ -332,4 +332,5 @@
 ## v1.7.4 (UNRELEASED)
 
 - Use HTTPS when TLS is enabled (thanks @tbartelmess)
+- Add Consul ACL token option to configuration (thanks @Lavoaster)
 - Update CONTRIBUTORS.md
