@@ -144,6 +144,11 @@ The role defines variables in `defaults/main.yml`:
 - Name of the Vault service to register in Consul
 - Default value: *vault*
 
+### `vault_consul_token`
+
+- ACL token for accessing Consul
+- Default value: *none*
+
 ### `vault_log_level`
 
 - [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
