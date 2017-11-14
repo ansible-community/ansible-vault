@@ -329,8 +329,9 @@
 - Updated supporting software versions
 - Add vault_max_lease_ttl and vault_default_lease_ttl (thanks @bilke)
 
-## v1.7.4 (UNRELEASED)
+## v1.7.4
 
+- Vault version 0.9.0
 - Use HTTPS when TLS is enabled (thanks @tbartelmess)
 - Add Consul ACL token option to configuration (thanks @Lavoaster)
 - Update CONTRIBUTORS.md
