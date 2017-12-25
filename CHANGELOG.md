@@ -335,3 +335,8 @@
 - Use HTTPS when TLS is enabled (thanks @tbartelmess)
 - Add Consul ACL token option to configuration (thanks @Lavoaster)
 - Update CONTRIBUTORS.md
+
+## v1.7.5
+
+- Vault version 0.9.1
+- Update documentation
