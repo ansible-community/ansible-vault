@@ -340,3 +340,8 @@
 
 - Vault version 0.9.1
 - Update documentation
+
+## v1.7.6
+
+- Vault version 0.9.2
+- Update documentation
