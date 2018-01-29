@@ -19,7 +19,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Ansible: 2.4.2.0
-* Vault: 0.9.1
+* Vault: 0.9.2
 * Debian: 8
 * FreeBSD 11
 * Ubuntu 16.04
@@ -35,7 +35,7 @@ The role defines variables in `defaults/main.yml`:
 
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
-- Default value: *0.9.1*
+- Default value: *0.9.2*
 
 ### `vault_enterprise`
 
