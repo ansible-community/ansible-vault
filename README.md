@@ -264,6 +264,11 @@ The role defines variables in `defaults/main.yml`:
   - Can be overridden with `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
 - Default value: *false*
 
+### `vault_tls_files_remote_src`
+
+- Copy from remote source if TLS files are already on host
+- Default value: *no*
+
 ## OS Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
