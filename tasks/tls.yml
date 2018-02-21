@@ -12,6 +12,7 @@
 
 - name: Vault SSL Certificate and Key
   copy:
+    remote_src: "{{ vault_tls_files_remote_src }}"
     src:    "{{ item.src }}"
     dest:   "{{ item.dest }}"
     owner:  "{{ vault_user }}"
