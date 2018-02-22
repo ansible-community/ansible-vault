@@ -354,4 +354,5 @@
 ## v1.7.8
 
 - Vault version 0.9.4
+- TLS already on remote source option (thanks @calebtonn)
 - Update documentation

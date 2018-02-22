@@ -11,3 +11,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@groggemans](https://github.com/groggemans)
 - [@tbartelmess](https://github.com/tbartelmess)
 - [@Lavoaster](https://github.com/Lavoaster)
+- [@calebtonn](https://github.com/calebtonn)
