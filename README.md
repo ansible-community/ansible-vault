@@ -18,8 +18,8 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.4.2.0
-* Vault: 0.9.3
+* Ansible: 2.4.3.0
+* Vault: 0.9.4
 * Debian: 8
 * FreeBSD 11
 * Ubuntu 16.04
@@ -35,7 +35,7 @@ The role defines variables in `defaults/main.yml`:
 
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
-- Default value: *0.9.3*
+- Default value: *0.9.4*
 
 ### `vault_enterprise`
 
