@@ -356,3 +356,13 @@
 - Vault version 0.9.4
 - TLS already on remote source option (thanks @calebtonn)
 - Update documentation
+
+## v1.7.9
+
+- Vault version 0.9.5
+- Remove abs check on cluster_address in Consul backend to fix #33
+- Update documentation
+
+## v1.8.0
+
+- Update versions

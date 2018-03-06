@@ -4,7 +4,7 @@
 ## Core
 
 ### Package
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.9.4', true) }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.9.5', true) }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64

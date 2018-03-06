@@ -96,9 +96,9 @@ variable.
 ## Notes
 
 1. This project functions with the following software versions:
-  * Vault version 0.9.4
+  * Vault version 0.9.5
   * Ansible: 2.4.3.0
-  * VirtualBox version 5.2.6
+  * VirtualBox version 5.2.8
   * Vagrant version 2.0.2
   * Vagrant Hosts version 2.8.0
 2. This project uses Debian 8 (Jessie) by default, but you can choose another

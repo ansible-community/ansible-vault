@@ -1,4 +1,4 @@
-{% set _vault_plus_one_port = vault_port | int + 1 | abs -%}
+{% set _vault_plus_one_port = vault_port | int + 1 -%}
 
 backend "consul" {
   address = "{{ vault_consul }}"
