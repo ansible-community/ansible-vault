@@ -363,6 +363,7 @@
 - Remove abs check on cluster_address in Consul backend to fix #33
 - Update documentation
 
-## v1.8.0
+## v1.8.0 (UNRELEASED)
 
-- Update versions
+- Update example versions
+- Update license date
