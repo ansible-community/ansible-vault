@@ -365,5 +365,9 @@
 
 ## v1.8.0 (UNRELEASED)
 
+- Vault version 0.9.6
+- Update is Vault API reachable task (thanks @rarguelloF)
 - Update example versions
 - Update license date
+- Update CONTRIBUTORS
+- Update documentation
