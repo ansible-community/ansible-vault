@@ -113,8 +113,12 @@
     state: started
     enabled: yes
 
+- name: Restart Vault if needed
+  meta: flush_handlers
+
 - name: Vault API reachable?
   wait_for:
-    host: "{{ vault_address}}"
+    host: "{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
     port: "{{ vault_port }}"
     delay: "10"
+    timeout: "60"
