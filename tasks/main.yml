@@ -63,7 +63,7 @@
 - name: BSD init script
   template:
     src: vault_bsdinit.j2
-    dest: /etc/rc.d/consul
+    dest: /etc/rc.d/vault
     owner: root
     group: wheel
     mode: "0755"
