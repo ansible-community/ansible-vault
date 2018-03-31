@@ -363,10 +363,11 @@
 - Remove abs check on cluster_address in Consul backend to fix #33
 - Update documentation
 
-## v1.8.0 (UNRELEASED)
+## v1.8.0
 
 - Vault version 0.9.6
 - Update is Vault API reachable task (thanks @rarguelloF)
+- File storage backend (thanks @aarnaud)
 - Update example versions
 - Update license date
 - Update CONTRIBUTORS
