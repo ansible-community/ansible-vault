@@ -372,3 +372,9 @@
 - Update license date
 - Update CONTRIBUTORS
 - Update documentation
+
+## v2.0.0
+
+- Vault version 0.10.0
+- Update documentation
+- Update Vagrant documentation
