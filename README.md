@@ -129,6 +129,11 @@ The role defines variables in `defaults/main.yml`:
 - Datacenter label
 - Default value:  *dc1*
 
+### `vault_ui`
+
+- Enable vault web ui
+- Default value:  *false*
+
 ### `vault_consul`
 
 - host:port value for connecting to Consul HA backend
@@ -411,8 +416,6 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
 variable.
 
-Aditionaly enable or disable the UI with the `vault_enterprise_ui` option
-(default *true*).
 
 ## License
 

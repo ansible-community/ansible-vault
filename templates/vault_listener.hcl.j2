@@ -18,6 +18,6 @@ listener "tcp" {
 
 {% include vault_backend with context %}
 
-{% if vault_enterprise -%}
-  ui = {{ vault_enterprise_ui | bool | lower }}
+{% if vault_ui -%}
+  ui = {{ vault_ui | bool | lower }}
 {% endif -%}
