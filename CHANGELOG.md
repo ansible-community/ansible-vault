@@ -378,3 +378,9 @@
 - Vault version 0.10.0
 - Update documentation
 - Update Vagrant documentation
+
+## v2.0.1 (UNRELEASED)
+
+- enable_ui option (thanks @aarnaud)
+- Enhance API reachable check (thanks @aarnaud)
+- Update documentation
