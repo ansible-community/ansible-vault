@@ -96,7 +96,7 @@ variable.
 ## Notes
 
 1. This project functions with the following software versions:
-  * Vault version 0.10.0
+  * Vault version 0.10.1
   * Ansible: 2.5.0
   * VirtualBox version 5.2.8
   * Vagrant version 2.0.3
