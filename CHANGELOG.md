@@ -5,6 +5,7 @@
 - enable_ui option (thanks @aarnaud)
 - Enhance API reachable check (thanks @aarnaud)
 - Update documentation
+- Add support for HTTPS in Consul backend
 
 ## v2.0.0
 
