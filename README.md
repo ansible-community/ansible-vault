@@ -139,6 +139,12 @@ The role defines variables in `defaults/main.yml`:
 - host:port value for connecting to Consul HA backend
 - Default value: *127.0.0.1:8500*
 
+### `vault_consul_scheme`
+
+- Scheme for Consul backend
+- Supported values: http, https
+- Default value: *http*
+
 ### `vault_consul_path`
 
 - Name of Vault's Consul K/V root path
