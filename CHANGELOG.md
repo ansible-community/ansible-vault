@@ -1,3 +1,8 @@
+## v2.0.2
+
+- Option to disable cert validation during API reachability (thanks @eripa)
+- Update systemd unit to address #41
+
 ## v2.0.1
 
 - Vault v0.10.1
