@@ -227,6 +227,11 @@ The role defines variables in `defaults/main.yml`:
 - Disable HA clustering
 - Default value: *false*
 
+### `validate_certs_during_api_reachable_check`
+
+- Disable Certificate Validation for API reachability check
+- Default value: *false*
+
 ### `vault_tls_config_path`
 
 - Path to TLS certificate and key
