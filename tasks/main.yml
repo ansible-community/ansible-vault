@@ -59,6 +59,8 @@
     owner:  "{{ vault_user }}"
     group:  "{{ vault_group }}"
     mode: "0400"
+  notify: Restart vault
+
 
 - name: BSD init script
   template:
