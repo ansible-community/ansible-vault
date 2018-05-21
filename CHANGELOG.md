@@ -1,9 +1,17 @@
-## v2.0.1 (UNRELEASED)
+## v2.0.2
+
+- Option to disable cert validation during API reachability (thanks @eripa)
+- Update systemd unit to address #41
+
+## v2.0.1
 
 - Vault v0.10.1
 - Simplify cleanup task in remote install
 - enable_ui option (thanks @aarnaud)
 - Enhance API reachable check (thanks @aarnaud)
+- Add support for HTTPS in Consul backend (thanks @eripa)
+- Add support for HTTP 429 when vault_cluster_disable false (thanks @eripa)
+- Update CONTRIBUTORS
 - Update documentation
 
 ## v2.0.0

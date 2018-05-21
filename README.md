@@ -139,6 +139,12 @@ The role defines variables in `defaults/main.yml`:
 - host:port value for connecting to Consul HA backend
 - Default value: *127.0.0.1:8500*
 
+### `vault_consul_scheme`
+
+- Scheme for Consul backend
+- Supported values: http, https
+- Default value: *http*
+
 ### `vault_consul_path`
 
 - Name of Vault's Consul K/V root path
@@ -219,6 +225,11 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_cluster_disable`
 
 - Disable HA clustering
+- Default value: *false*
+
+### `validate_certs_during_api_reachable_check`
+
+- Disable Certificate Validation for API reachability check
 - Default value: *false*
 
 ### `vault_tls_config_path`

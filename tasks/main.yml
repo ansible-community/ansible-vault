@@ -118,9 +118,11 @@
 
 - name: Vault API reachable? If not please unseal it
   uri:
+    validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
     url: "{{ vault_tls_disable | ternary('http', 'https') }}://{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}:{{ vault_port }}/v1/sys/health"
     method: GET
-    status_code: 200 # if initialized, unsealed, and active
+    # 200 if initialized, unsealed, and active. 429 is also OK for HA cluster (means standby + unsealed in HA)
+    status_code: "{{ vault_cluster_disable | ternary('200', '200, 429') }}"
     body_format: json
   register: check_result
   retries: 30
