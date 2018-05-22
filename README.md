@@ -365,6 +365,11 @@ differences across distributions:
 - Vault package SHA256 summary
 - Default value: SHA256 SUM
 
+### `logrotate_freq`
+
+- Determines how frequently to rotate vault logs
+- Default value: *7*
+
 ### `vault_ubuntu_os_packages`
 
 - List of OS packages to install

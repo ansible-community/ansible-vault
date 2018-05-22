@@ -48,6 +48,14 @@
     - "{{ vault_log_path }}"
     - "{{ vault_run_path }}"
 
+- name: Enable logrotate for vault
+  template: 
+    src: vault_logrotate.j2
+    dest: /etc/logrotate.d/vault
+    owner:  root
+    group:  root
+    mode: 0644
+
 - name: TLS configuration
   include: ../tasks/tls.yml
   when: vault_tls_disable == 0
