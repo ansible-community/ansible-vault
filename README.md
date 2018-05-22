@@ -35,6 +35,7 @@ The role defines variables in `defaults/main.yml`:
 
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
+  - Will include "+prem" if vault_enterprise_premium=True
 - Default value: *0.10.1*
 
 ### `vault_enterprise`
@@ -427,6 +428,10 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
 variable.
 
+### `vault_enterprise_premium`
+
+- Installs using premium binary. Include "+prem" in "vault_version" var
+- Default value: *False*
 
 ## License
 
