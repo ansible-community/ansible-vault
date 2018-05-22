@@ -430,7 +430,7 @@ variable.
 
 ### `vault_enterprise_premium`
 
-- Installs using premium binary. Include "+prem" in "vault_version" var
+- Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
 - Default value: *False*
 
 ## License
