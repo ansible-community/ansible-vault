@@ -4,7 +4,7 @@
 ## Core
 
 ### Package
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.10.1', true) }}{{"+prem" if vault_enterprise_premium else '' }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.10.1', true) }}{{'+prem'" if vault_enterprise_premium else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
