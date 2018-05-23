@@ -59,6 +59,8 @@ The role defines variables in `defaults/main.yml`:
 
 - Package download URL
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"`
+- Override this var if you have your zip hosted locally
+- Works for enterprise installs also
 
 ### `vault_checksum_file_url`
 
@@ -436,7 +438,7 @@ The role can install Vault Enterprise based instances.
 
 Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
-variable.
+variable. Attempts to download the package from `vault_zip_url` if zip is not found in files/.
 
 ### `vault_enterprise_premium`
 
