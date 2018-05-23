@@ -55,6 +55,7 @@
     owner:  root
     group:  root
     mode: 0644
+  when: vault_enable_logrotate
 
 - name: TLS configuration
   include: ../tasks/tls.yml

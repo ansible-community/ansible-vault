@@ -35,7 +35,8 @@ vault_manage_group: no
 vault_group: bin
 
 ### Logging
-logrotate_freq: 7
+vault_enable_logrotate: false
+vault_logrotate_freq: 7
 
 ### Vault settings
 vault_group_name: vault_instances

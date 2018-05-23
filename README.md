@@ -365,7 +365,12 @@ differences across distributions:
 - Vault package SHA256 summary
 - Default value: SHA256 SUM
 
-### `logrotate_freq`
+### `vault_enable_logrotate`
+
+- Enable logrotation for systemd based systems
+- Default value: *false*
+
+### `vault_logrotate_freq`
 
 - Determines how frequently to rotate vault logs
 - Default value: *7*

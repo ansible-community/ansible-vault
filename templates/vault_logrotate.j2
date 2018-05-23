@@ -1,7 +1,7 @@
 {{ vault_log_path }}/vault.log 
 {
     missingok
-    rotate {{ logrotate_freq }}
+    rotate {{ vault_logrotate_freq }}
     daily
     dateext
     compress
