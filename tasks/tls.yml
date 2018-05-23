@@ -25,3 +25,6 @@
     - src:  "{{ vault_tls_key_file }}"
       dest: "{{ vault_tls_key_file_dest }}"
       mode: "0600"
+    - src:  "{{ vault_tls_src_files}}/{{ vault_tls_ca_file }}"
+      dest: "{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
+      mode: "0644"
