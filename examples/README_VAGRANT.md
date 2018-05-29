@@ -82,7 +82,7 @@ can also install CentOS 7 based nodes by changing the command in step 4 to
 the following:
 
 ```
-BOX_NAME="centos/7" vagrant up
+BOX_NAME="centos/8" vagrant up
 ```
 
 ## Vault Enterprise
@@ -97,10 +97,10 @@ variable.
 
 1. This project functions with the following software versions:
   * Vault version 0.10.1
-  * Ansible: 2.5.0
-  * VirtualBox version 5.2.8
-  * Vagrant version 2.0.3
-  * Vagrant Hosts version 2.8.0
+  * Ansible: 2.5.1
+  * VirtualBox version 5.2.12
+  * Vagrant version 2.1.1
+  * Vagrant Hosts version 2.8.1
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:

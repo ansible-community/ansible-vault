@@ -6,7 +6,7 @@
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
 BOX_MEM = ENV['BOX_MEM'] || "1536"
-BOX_NAME =  ENV['BOX_NAME'] || "debian/jessie64"
+BOX_NAME =  ENV['BOX_NAME'] || "debian/stretch64"
 VAULT_HOSTS = ENV['VAULT_HOSTS'] || "vagrant_hosts"
 LOGLEVEL = ENV['VAULT_LOGLEVEL'] || "info"
 VAGRANTFILE_API_VERSION = "2"

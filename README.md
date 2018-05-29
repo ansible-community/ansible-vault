@@ -20,7 +20,7 @@ specific software and versions:
 
 * Ansible: 2.5.0
 * Vault: 0.10.1
-* Debian: 8
+* Debian: 9
 * FreeBSD 11
 * Ubuntu 16.04
 
