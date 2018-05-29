@@ -8,6 +8,16 @@
   with_items: "{{ vault_os_packages }}"
   tags: installation
 
+# Temporary place for one-off version diff packages, etc.
+- name: OS packages diff (Debian 9)
+  package:
+    name: "libcap2-bin"
+    state: present
+  tags: installation
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_version|version_compare(8.5, '>')
+
 - name: Check Vault package checksum file
   local_action: stat path="{{ role_path }}/files/{{ vault_shasums }}"
   become: no
