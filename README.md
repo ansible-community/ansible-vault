@@ -35,6 +35,7 @@ The role defines variables in `defaults/main.yml`:
 
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
+  - Will include "+prem" if vault_enterprise_premium=True
 - Default value: *0.10.1*
 
 ### `vault_enterprise`
@@ -364,6 +365,16 @@ differences across distributions:
 - Vault package SHA256 summary
 - Default value: SHA256 SUM
 
+### `vault_enable_logrotate`
+
+- Enable logrotation for systemd based systems
+- Default value: *false*
+
+### `vault_logrotate_freq`
+
+- Determines how frequently to rotate vault logs
+- Default value: *7*
+
 ### `vault_ubuntu_os_packages`
 
 - List of OS packages to install
@@ -427,6 +438,10 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
 variable.
 
+### `vault_enterprise_premium`
+
+- Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
+- Default value: *False*
 
 ## License
 

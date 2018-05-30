@@ -4,7 +4,7 @@
 ## Core
 
 ### Package
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.10.1', true) }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.10.1', true) }}{{'+prem' if vault_enterprise_premium else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -33,6 +33,10 @@ vault_manage_user: yes
 vault_user: vault
 vault_manage_group: no
 vault_group: bin
+
+### Logging
+vault_enable_logrotate: false
+vault_logrotate_freq: 7
 
 ### Vault settings
 vault_group_name: vault_instances
@@ -89,3 +93,4 @@ vault_tls_files_remote_src: no
 vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
 vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
+vault_enterprise_premium: false
