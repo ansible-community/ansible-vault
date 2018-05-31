@@ -59,6 +59,8 @@ The role defines variables in `defaults/main.yml`:
 
 - Package download URL
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"`
+- Override this var if you have your zip hosted locally
+- Works for enterprise installs also
 
 ### `vault_checksum_file_url`
 
@@ -244,25 +246,39 @@ The role defines variables in `defaults/main.yml`:
   - Can be overridden with `VAULT_TLS_DISABLE` environment variable
 - Default value: *1*
 
-### `vault_tls_cert_file`
+### `vault_tls_gossip`
 
-- [Vault TLS certificate file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cert_file)
-- Default value: None
+- Enable TLS Gossip to Consul Backend
+- Default value: *0*
 
-### `vault_tls_cert_file_dest`
+### `vault_tls_src_files`
 
-- Vault TLS certificate destination (full path)
-- Default value: `"{{ vault_tls_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
+- User-specified source directory for TLS files
+  - Override with `VAULT_TLS_SRC_FILES` environment variable
+- Default value: `{{ role_path }}/files`
+
+### `vault_tls_config_path`
+
+- Path to TLS certificate and key
+- Default value `/etc/vault/tls`
+
+### `vault_tls_ca_file`
+
+- CA certificate filename
+  - Override with `VAULT_TLS_CA_CRT` environment variable
+- Default value: `ca.crt`
+
+### `vault_tls_server_crt_file`
+
+- Server certificate
+  - Override with `VAULT_TLS_SERVER_CRT` environment variable
+- Default value: `server.crt`
 
 ### `vault_tls_key_file`
 
-- [Vault TLS key file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_key_file)
-- Default value: None
-
-### `vault_tls_key_file_dest`
-
-- Vault TLS key destination (full path)
-- Default value: `"{{ vault_tls_config_path }}/vault.key"`
+- Server key
+  - Override with `VAULT_TLS_SERVER_KEY` environment variable
+- Default value: `server.key`
 
 ### `vault_tls_min_version`
 
@@ -436,7 +452,7 @@ The role can install Vault Enterprise based instances.
 
 Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
-variable.
+variable. Attempts to download the package from `vault_zip_url` if zip is not found in files/.
 
 ### `vault_enterprise_premium`
 
