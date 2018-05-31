@@ -44,7 +44,7 @@ function add_host {
   else
     sudocheck
     sudo sh -c "echo '# Vault Vagrant virtual machine host
-10.1.42.210 vault.local vault
+10.1.42.240 vault.local vault
 ' >> /etc/hosts"
     logmsg success "Vault server host information added to /etc/hosts"
   fi

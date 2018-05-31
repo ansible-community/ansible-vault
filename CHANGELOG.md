@@ -1,3 +1,10 @@
+## v2.0.3 (UNRELEASED)
+
+- Vault version 0.10.2
+- Debian 9 support
+- Update support for enterprise versions (thanks @drewmullen)
+- Log rotation updates (thanks @drewmullen)
+
 ## v2.0.2
 
 - Option to disable cert validation during API reachability (thanks @eripa)
