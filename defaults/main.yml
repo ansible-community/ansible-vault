@@ -72,17 +72,19 @@ vault_consul_scheme: http
 # self-signed certificates you might need to change the below to false
 validate_certs_during_api_reachable_check: true
 
-vault_tls_config_path: /etc/vault/tls
+vault_tls_config_path: "{{ lookup('env','VAULT_TLS_DIR') | default('/etc/vault/tls', true) }}"
+vault_tls_src_files: "{{ lookup('env','VAULT_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
+
 vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
+vault_tls_gossip: "{{ lookup('env','VAULT_TLS_GOSSIP') | default(0, true) }}"
+
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
-vault_tls_cert_file: "../files/{{ vault_node_name }}.crt"
-# /etc/pki/tls/certs/vault.crt is distribution-specific/not a good default
+vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_SERVER_CRT') | default('vault.crt', true) }}"
+vault_tls_key_file: "{{ lookup('env','VAULT_TLS_SERVER_KEY') | default('vault.key', true) }}"
+vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
+# /etc/pki/tls/certs/server.crt is distribution-specific/not a good default
 # a distribution-specific play to link into expected destination is preferred
-vault_tls_cert_file_dest: "{{ vault_tls_config_path }}/vault.crt"
-vault_tls_key_file: "../files/{{ vault_node_name }}.key"
-# "/etc/pki/tls/private/vault.key" is distribution-specific/not a good default
-# a distribution-specific play to link into expected destination is preferred
-vault_tls_key_file_dest: "{{ vault_tls_config_path }}/vault.key"
+
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
 vault_tls_cipher_suites: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
 vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"
