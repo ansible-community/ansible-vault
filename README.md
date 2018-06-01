@@ -75,6 +75,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_enterprise_shasums`
 
 - SHA summaries filename (included for convenience not for modification)
+- Will attempt to download from `vault_checksum_file_url` if not present in files/
 - Default value: `"vault-enterprise_{{ vault_version }}_SHA256SUMS"`
 
 ### `vault_bin_path`
