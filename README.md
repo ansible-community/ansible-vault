@@ -460,6 +460,11 @@ variable. Attempts to download the package from `vault_zip_url` if zip is not fo
 - Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
 - Default value: *False*
 
+### `vault_enterprise_premium_hsm`
+
+- Set to True if using premium hsm binary. Basically just includes ".hsm" in "vault_version" var
+- Default value: *False*
+
 ## License
 
 BSD
