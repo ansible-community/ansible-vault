@@ -36,6 +36,8 @@ The role defines variables in `defaults/main.yml`:
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
   - Will include "+prem" if vault_enterprise_premium=True
+  - Will include ".hsm" if vault_enterprise_premium_hsm=True
+
 - Default value: *0.10.1*
 
 ### `vault_enterprise`
@@ -65,6 +67,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_checksum_file_url`
 
 - SHA summaries URL
+- Override this var if you have your sha file is hosted internally
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"`
 
 ### `vault_shasums`
