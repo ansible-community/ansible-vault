@@ -59,7 +59,7 @@ The role defines variables in `defaults/main.yml`:
 
 - Package download URL
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"`
-- Override this var if you have your zip hosted locally
+- Override this var if you have your zip hosted internally
 - Works for enterprise installs also
 
 ### `vault_checksum_file_url`
