@@ -51,7 +51,7 @@ vault_ui: "{{ lookup('env', 'VAULT_UI') | default(false, true) }}"
 vault_port: 8200
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
-vault_backend: vault_backend_consul.j2
+vault_backend_consul: vault_backend_consul.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_redirect_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
@@ -96,4 +96,17 @@ vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}
 vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
 vault_enterprise_premium: false
+
+## Vault HSM
 vault_enterprise_premium_hsm: false
+vault_hsm_app: pkcs11
+vault_backend_seal: vault_backend_seal.j2
+vault_seal_lib: /lib64/hsmlibrary.so
+vault_seal_pin: 12345
+vault_seal_key_label: vault-hsm-key
+vault_seal_generate_key: false
+vault_seal_key_mechanism: ''
+vault_seal_token_label: ''
+vault_seal_slot: 0
+vault_softcard_enable: false
+
