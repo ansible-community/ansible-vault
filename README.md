@@ -36,6 +36,8 @@ The role defines variables in `defaults/main.yml`:
 - version to install
   - Can be overridden with `VAULT_VERSION` environment variable
   - Will include "+prem" if vault_enterprise_premium=True
+  - Will include ".hsm" if vault_enterprise_premium_hsm=True
+
 - Default value: *0.10.1*
 
 ### `vault_enterprise`
@@ -59,10 +61,13 @@ The role defines variables in `defaults/main.yml`:
 
 - Package download URL
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"`
+- Override this var if you have your zip hosted internally
+- Works for enterprise installs also
 
 ### `vault_checksum_file_url`
 
 - SHA summaries URL
+- Override this var if you have your sha file is hosted internally
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"`
 
 ### `vault_shasums`
@@ -73,6 +78,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_enterprise_shasums`
 
 - SHA summaries filename (included for convenience not for modification)
+- Will attempt to download from `vault_checksum_file_url` if not present in files/
 - Default value: `"vault-enterprise_{{ vault_version }}_SHA256SUMS"`
 
 ### `vault_bin_path`
@@ -213,9 +219,9 @@ The role defines variables in `defaults/main.yml`:
 - Main configuration file name (full path)
 - Default value: `"{{ vault_config_path }}/vault_main.hcl"`
 
-### `vault_backend`
+### `vault_backend_consul`
 
-- Backend template filename
+- Backend consul template filename
 - Default value: `backend_consul.j2`
 
 ### `vault_cluster_address`
@@ -244,25 +250,39 @@ The role defines variables in `defaults/main.yml`:
   - Can be overridden with `VAULT_TLS_DISABLE` environment variable
 - Default value: *1*
 
-### `vault_tls_cert_file`
+### `vault_tls_gossip`
 
-- [Vault TLS certificate file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cert_file)
-- Default value: None
+- Enable TLS Gossip to Consul Backend
+- Default value: *0*
 
-### `vault_tls_cert_file_dest`
+### `vault_tls_src_files`
 
-- Vault TLS certificate destination (full path)
-- Default value: `"{{ vault_tls_config_path }}/vault.crt" # /etc/pki/tls/certs/vault.crt`
+- User-specified source directory for TLS files
+  - Override with `VAULT_TLS_SRC_FILES` environment variable
+- Default value: `{{ role_path }}/files`
+
+### `vault_tls_config_path`
+
+- Path to TLS certificate and key
+- Default value `/etc/vault/tls`
+
+### `vault_tls_ca_file`
+
+- CA certificate filename
+  - Override with `VAULT_TLS_CA_CRT` environment variable
+- Default value: `ca.crt`
+
+### `vault_tls_server_crt_file`
+
+- Server certificate
+  - Override with `VAULT_TLS_SERVER_CRT` environment variable
+- Default value: `server.crt`
 
 ### `vault_tls_key_file`
 
-- [Vault TLS key file path](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_key_file)
-- Default value: None
-
-### `vault_tls_key_file_dest`
-
-- Vault TLS key destination (full path)
-- Default value: `"{{ vault_tls_config_path }}/vault.key"`
+- Server key
+  - Override with `VAULT_TLS_SERVER_KEY` environment variable
+- Default value: `server.key`
 
 ### `vault_tls_min_version`
 
@@ -436,12 +456,72 @@ The role can install Vault Enterprise based instances.
 
 Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
-variable.
+variable. Attempts to download the package from `vault_zip_url` if zip is not found in files/.
 
 ### `vault_enterprise_premium`
 
 - Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
 - Default value: *False*
+
+## Vault Enterprise with HSM
+
+The role can configure HSM based instances. Make sure to reference the [HSM support page](https://www.vaultproject.io/docs/configuration/seal/index.html) and take notice of the [behavior changes](https://www.vaultproject.io/docs/enterprise/hsm/behavior.html#initialization) after HSM is installed.
+
+### `vault_enterprise_premium_hsm`
+
+- Set to True if using premium hsm binary. Basically just includes ".hsm" in "vault_version" var
+- Default value: *False*
+
+### `vault_hsm_app`
+
+- Set which cryptography app to use. 
+- Default value: *pkcs11*
+
+### `vault_backend_seal`
+
+- Backend seal template filename
+- Default value: *vault_backend_seal.j2*
+
+### `vault_seal_lib`
+
+- Set to the absolute path of the HSM library vault will call
+- Default value: */lib64/hsmlibrary.so*
+
+### `vault_seal_pin`
+
+- The PIN for login. May also be specified by the VAULT_HSM_PIN environment variable. If set via the environment variable, Vault will obfuscate the environment variable after reading it, and it will need to be re-set if Vault is restarted.
+- Default value: *12345*
+
+### `vault_seal_key_label`
+
+- The label of the key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated key. May also be specified by the VAULT_HSM_KEY_LABEL environment variable.
+- Default value: *vault-hsm-key*
+
+### `vault_seal_generate_key`
+
+- If no existing key with the label specified by key_label can be found at Vault initialization time, instructs Vault to generate a key. This is a boolean expressed as a string (e.g. "true"). May also be specified by the VAULT_HSM_GENERATE_KEY environment variable. Vault may not be able to successfully generate keys in all circumstances, such as if proprietary vendor extensions are required to create keys of a suitable type.
+- Default value: *false*
+
+### `vault_seal_key_mechanism`
+
+-  Do not change this unles you know you need to. The encryption/decryption mechanism to use, specified as a decimal or hexadecimal (prefixed by 0x) string. May also be specified by the VAULT_HSM_MECHANISM environment variable.
+- Default value: *''*
+- Example for RSA: *0x0009*
+
+### `vault_seal_token_label`
+
+- The slot token label to use. May also be specified by the VAULT_HSM_TOKEN_LABEL environment variable. This label will only be applied when `vault_softcard_enable` is true.
+- Default value: *''*
+
+### `vault_softcard_enable`
+
+- Enable if you plan to use a softcard on your HSM.
+- Default value: *false*
+
+### `vault_seal_slot`
+
+- The slot number to use, specified as a string (e.g. "0"). May also be specified by the VAULT_HSM_SLOT environment variable. This label will only be applied when `vault_softcard_enable` is false (default).
+- Default value: *0*
 
 ## License
 

@@ -5,19 +5,25 @@ default_lease_ttl = "{{ vault_default_lease_ttl }}"
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"
   {% if not (vault_tls_disable | bool) -%}
-    tls_cert_file = "{{ vault_tls_cert_file_dest }}"
-    tls_key_file  = "{{ vault_tls_key_file_dest }}"
-    tls_min_version  = "{{ vault_tls_min_version }}"
-    {% if vault_tls_cipher_suites is defined and vault_tls_cipher_suites -%}
-      tls_cipher_suites = "{{ vault_tls_cipher_suites}}"
-    {% endif -%}
-    tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites }}"
+  tls_cert_file = "{{ vault_tls_config_path }}/{{ vault_tls_cert_file }}"
+  tls_key_file = "{{ vault_tls_config_path }}/{{ vault_tls_key_file }}"
+  tls_client_ca_file="{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
+  tls_min_version  = "{{ vault_tls_min_version }}"
+  {% if vault_tls_cipher_suites is defined and vault_tls_cipher_suites -%}
+  tls_cipher_suites = "{{ vault_tls_cipher_suites}}"
+  {% endif -%}
+  tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites }}"
   {% endif -%}
   tls_disable = "{{ vault_tls_disable | bool | lower }}"
 }
 
-{% include vault_backend with context %}
+{% include vault_backend_consul with context %}
 
 {% if vault_ui -%}
   ui = {{ vault_ui | bool | lower }}
 {% endif -%}
+
+{% if vault_enterprise_premium_hsm | bool -%}
+  {% include vault_backend_seal with context %}
+{% endif -%}
+

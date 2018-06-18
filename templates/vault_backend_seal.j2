@@ -1,0 +1,16 @@
+seal "{{ vault_hsm_app }}" {
+
+  lib = "{{ vault_seal_lib }}"
+{% if vault_softcard_enable -%}
+	token_label	= "{{ vault_seal_token_label }}"
+{% else -%}
+  slot = "{{ vault_seal_slot }}"
+{% endif -%}
+  pin = "{{ vault_seal_pin }}" 
+  key_label = "{{ vault_seal_key_label }}"
+	generate_key = "{{ vault_seal_generate_key }}"
+{% if vault_seal_key_mechanism != '' -%}
+  mechanism = "{{ vault_seal_key_mechanism }}"
+{% endif -%}
+
+}

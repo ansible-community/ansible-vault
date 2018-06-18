@@ -8,8 +8,14 @@ backend "consul" {
   cluster_addr = "{{vault_protocol}}://{{ vault_cluster_address }}:{{ _vault_plus_one_port }}"
   redirect_addr = "{{vault_protocol}}://{{ vault_redirect_address }}:{{ vault_port }}"
   disable_clustering = "{{ vault_cluster_disable }}"
-{% if vault_consul_token is defined and vault_consul_token %}
+  {% if vault_consul_token is defined and vault_consul_token %}
   token = "{{ vault_consul_token }}"
-{% endif %}
+  {% endif %}
   scheme = "{{ vault_consul_scheme }}"
+  {% if vault_tls_gossip %}
+  tls_cert_file = "{{ vault_tls_config_path }}/{{ vault_tls_cert_file }}"
+  tls_key_file = "{{ vault_tls_config_path }}/{{ vault_tls_key_file }}"
+  tls_ca_file="{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
+  {% endif %}
+
 }
