@@ -272,16 +272,16 @@ The role defines variables in `defaults/main.yml`:
   - Override with `VAULT_TLS_CA_CRT` environment variable
 - Default value: `ca.crt`
 
-### `vault_tls_server_crt_file`
+### `vault_tls_cert_file`
 
 - Server certificate
-  - Override with `VAULT_TLS_SERVER_CRT` environment variable
+  - Override with `VAULT_TLS_CERT_FILE` environment variable
 - Default value: `server.crt`
 
 ### `vault_tls_key_file`
 
 - Server key
-  - Override with `VAULT_TLS_SERVER_KEY` environment variable
+  - Override with `VAULT_TLS_KEY_FILE` environment variable
 - Default value: `server.key`
 
 ### `vault_tls_min_version`

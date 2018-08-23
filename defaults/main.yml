@@ -79,8 +79,8 @@ vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
 vault_tls_gossip: "{{ lookup('env','VAULT_TLS_GOSSIP') | default(0, true) }}"
 
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
-vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_SERVER_CRT') | default('vault.crt', true) }}"
-vault_tls_key_file: "{{ lookup('env','VAULT_TLS_SERVER_KEY') | default('vault.key', true) }}"
+vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('vault.crt', true) }}"
+vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('vault.key', true) }}"
 vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
 # /etc/pki/tls/certs/server.crt is distribution-specific/not a good default
 # a distribution-specific play to link into expected destination is preferred

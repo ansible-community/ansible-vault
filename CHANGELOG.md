@@ -1,3 +1,8 @@
+## v2.0.4 (UNRELEASED)
+
+- Update TLS variable names to match documentation
+- Update documentation
+
 ## v2.0.3
 
 - Vault version 0.10.4
