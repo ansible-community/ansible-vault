@@ -9,21 +9,34 @@
 ### END INIT INFO
 
 [Unit]
-Description=Vault secret management tool
+Description="HashiCorp Vault - A tool for managing secrets"
+Documentation=https://www.vaultproject.io/docs/
 Requires=network-online.target
 After=network-online.target
+ConditionFileNotEmpty={{ vault_main_config }}
 
 [Service]
 User={{ vault_user }}
 Group={{ vault_group }}
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=yes
+PrivateDevices=yes
+SecureBits=keep-caps
+Capabilities=CAP_IPC_LOCK+ep
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+NoNewPrivileges=yes
 ExecStart={{ vault_bin_path }}/vault server -config={{ vault_main_config }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}
 {% endif %}
-ExecReload=/bin/kill -HUP $MAINPID
+ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
-KillSignal=SIGTERM
+KillSignal=SIGINT
 Restart=on-failure
-RestartSec=42s
-# mlock
+RestartSec=5
+TimeoutStopSec=30
+StartLimitIntervalSec=60
+StartLimitBurst=3
+mlock
 LimitMEMLOCK=infinity
 
 [Install]

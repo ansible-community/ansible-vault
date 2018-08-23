@@ -1,9 +1,11 @@
-## v2.0.3 (UNRELEASED)
+## v2.0.3
 
-- Vault version 0.10.2
+- Vault version 0.10.4
 - Debian 9 support
 - Update support for enterprise versions (thanks @drewmullen)
 - Log rotation updates (thanks @drewmullen)
+- Update systemd unit file
+- Update documentation
 
 ## v2.0.2
 

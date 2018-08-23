@@ -96,10 +96,10 @@ variable.
 ## Notes
 
 1. This project functions with the following software versions:
-  * Vault version 0.10.1
-  * Ansible: 2.5.1
-  * VirtualBox version 5.2.12
-  * Vagrant version 2.1.1
+  * Vault version 0.10.4
+  * Ansible: 2.6.3
+  * VirtualBox version 5.2.18
+  * Vagrant version 2.1.2
   * Vagrant Hosts version 2.8.1
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
