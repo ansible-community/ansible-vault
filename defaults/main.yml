@@ -4,7 +4,7 @@
 ## Core
 
 ### Package
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.10.4', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.11.1', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -109,4 +109,3 @@ vault_seal_key_mechanism: ''
 vault_seal_token_label: ''
 vault_seal_slot: 0
 vault_softcard_enable: false
-

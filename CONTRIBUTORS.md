@@ -16,3 +16,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@aarnaud](https://github.com/aarnaud)
 - [@eripa](https://github.com/eripa)
 - [@drewmullen](https://github.com/drewmullen)
+- [@jpiron](https://github.com/jpiron)

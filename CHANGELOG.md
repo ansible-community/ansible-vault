@@ -1,8 +1,10 @@
-## v2.0.4 (UNRELEASED)
+## v2.0.4
 
 - Vault v0.11.1
 - Update tasks/normalize conditionals
 - Update TLS variable names to match documentation
+- Conditional mlock capability (thanks @jpiron)
+- Streamline installation tasks (thanks @jpiron)
 - Update documentation
 
 ## v2.0.3
