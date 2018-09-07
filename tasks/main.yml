@@ -33,8 +33,15 @@
     - not vault_enterprise | bool
     - vault_install_remotely | bool
 
+- name: Check Vault mlock capability
+  command: "setcap -v cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+  changed_when: False  # read-only task
+  ignore_errors: True
+  register: vault_mlock_capability
+
 - name: Enable non root mlock capability
   command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+  when: vault_mlock_capability is failed
 
 - name: Create directories
   file:
