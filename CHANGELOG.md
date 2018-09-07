@@ -1,5 +1,7 @@
 ## v2.0.4 (UNRELEASED)
 
+- Vault v0.11.1
+- Update tasks/normalize conditionals
 - Update TLS variable names to match documentation
 - Update documentation
 

@@ -20,41 +20,41 @@
 
 - name: Check Vault package checksum file
   local_action: stat path="{{ role_path }}/files/{{ vault_shasums }}"
-  become: no
+  become: false
   run_once: true
   register: vault_checksum
 
 - name: Get Vault package checksum file
   local_action: get_url url="{{ vault_checksum_file_url }}"
     dest="{{ role_path }}/files/{{ vault_shasums }}"
-  become: no
+  become: false
   run_once: true
   tags: installation
   when: not vault_checksum.stat.exists | bool
 
 - name: Get Vault package checksum
   local_action: shell grep "{{ vault_pkg }}" "{{ role_path }}/files/{{ vault_shasums }}" | awk '{print $1}'
-  become: no
+  become: false
   run_once: true
   register: vault_sha256
   tags: installation
 
 - name: Check Vault package file
   local_action: stat path="{{ role_path }}/files/{{ vault_pkg }}"
-  become: no
+  become: false
   run_once: true
   register: vault_package
 
 - name: Download Vault
   local_action: get_url url="{{ vault_zip_url }}" dest="{{ role_path }}/files/{{ vault_pkg }}" checksum="sha256:{{ vault_sha256.stdout }}" timeout="42"
-  become: no
+  become: false
   run_once: true
   tags: installation
   when: not vault_package.stat.exists | bool
 
 - name: Unarchive Vault
   local_action: unarchive src="{{ role_path }}/files/{{ vault_pkg }}" dest="{{ role_path }}/files/" creates="{{ role_path }}/files/vault"
-  become: no
+  become: false
   run_once: true
   tags: installation
 
@@ -69,7 +69,7 @@
 
 - name: Cleanup
   local_action: file path="{{ item }}" state="absent"
-  become: no
+  become: false
   with_fileglob: "{{ role_path }}/files/vault"
   run_once: true
   tags: installation

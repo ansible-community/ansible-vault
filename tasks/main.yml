@@ -9,7 +9,7 @@
     name: "{{ vault_user }}"
     comment: "Vault user"
     group: "{{ vault_group }}"
-    system: yes
+    system: true
   when: vault_manage_user | bool
 
 - name: Include OS-specific variables
@@ -49,11 +49,11 @@
     - "{{ vault_run_path }}"
 
 - name: Enable logrotate for vault
-  template: 
+  template:
     src: vault_logrotate.j2
     dest: /etc/logrotate.d/vault
-    owner:  root
-    group:  root
+    owner: root
+    group: root
     mode: 0644
   when: vault_enable_logrotate
 
@@ -65,8 +65,8 @@
   template:
     src: vault_listener.hcl.j2
     dest: "{{ vault_main_config }}"
-    owner:  "{{ vault_user }}"
-    group:  "{{ vault_group }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
     mode: "0400"
   notify: Restart vault
 
@@ -122,7 +122,7 @@
   service:
     name: vault
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Restart Vault if needed
   meta: flush_handlers

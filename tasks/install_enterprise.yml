@@ -11,39 +11,39 @@
 
 - name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_shasums }}"
   local_action: stat path="{{ role_path }}/files/{{ vault_enterprise_shasums }}"
-  become: no
+  become: false
   run_once: true
   register: vault_checksum
 
 - name: "[Enterprise] Download {{ vault_enterprise_shasums }}"
   local_action: get_url url="{{ vault_checksum_file_url }}/{{ vault_enterprise_shasums }}" dest="{{ role_path }}/files/{{ vault_enterprise_shasums }}"
-  become: no
+  become: false
   run_once: true
   when: not vault_checksum.stat.exists
 
 - name: "[Enterprise] Get SHA SUM from {{ role_path }}/files/{{ vault_enterprise_shasums }}"
   local_action: shell grep "{{ vault_enterprise_pkg }}" "{{ role_path }}/files/{{ vault_enterprise_shasums }}" | awk '{print $1}'
-  become: no
+  become: false
   run_once: true
   register: vault_sha256
   tags: installation
 
 - name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_pkg }}"
   local_action: stat path="{{ role_path }}/files/{{ vault_enterprise_pkg }}"
-  become: no
+  become: false
   run_once: true
   register: vault_package
 
 - name: "[Enterprise] Download vault version {{ vault_version }}"
   local_action: get_url  url={{ vault_zip_url }}/{{ vault_enterprise_pkg }} dest={{ role_path }}/files/{{ vault_enterprise_pkg }} checksum=sha256:{{ vault_sha256.stdout }} timeout=42
-  become: no
+  become: false
   run_once: true
   tags: installation
   when: not vault_package.stat.exists | bool
 
 - name: "[Enterprise] Unzip {{ role_path }}/files/{{ vault_enterprise_pkg }}"
   local_action: unarchive src="{{ role_path }}/files/{{ vault_enterprise_pkg }}" dest="{{ role_path }}/files/" creates="{{ role_path }}/files/vault"
-  become: no
+  become: false
   run_once: true
   tags: installation
 
@@ -58,7 +58,7 @@
 
 - name: "[Enterprise] Remove {{ role_path }}/files/vault"
   local_action: file path="{{ item }}" state="absent"
-  become: no
+  become: false
   with_fileglob: "{{ role_path }}/files/vault"
   run_once: true
   tags: installation

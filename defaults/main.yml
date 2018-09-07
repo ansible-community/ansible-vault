@@ -29,9 +29,9 @@ vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
 
 ### System user and group
-vault_manage_user: yes
+vault_manage_user: true
 vault_user: vault
-vault_manage_group: no
+vault_manage_group: false
 vault_group: bin
 
 ### Logging
@@ -88,7 +88,7 @@ vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
 vault_tls_cipher_suites: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
 vault_tls_prefer_server_cipher_suites: "{{ lookup('env','VAULT_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"
-vault_tls_files_remote_src: no
+vault_tls_files_remote_src: false
 
 ## Vault Enterprise
 

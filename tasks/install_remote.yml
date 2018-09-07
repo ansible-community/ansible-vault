@@ -47,7 +47,7 @@
 
 - name: Unarchive Vault and install binary
   unarchive:
-    remote_src: yes
+    remote_src: true
     src: "/tmp/vault/{{ vault_pkg }}"
     dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
