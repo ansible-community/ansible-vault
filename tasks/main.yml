@@ -20,11 +20,13 @@
   register: vault_installation
   changed_when: False
   ignore_errors: True
+  check_mode: False
 
 - name: Get installed Vault version
   shell: "{{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'"
   when: not vault_installation is failed
   changed_when: False
+  check_mode: False
   register: installed_vault_version
 
 - name: Compute if installation is required
