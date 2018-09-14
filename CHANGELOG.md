@@ -1,3 +1,9 @@
+## v2.0.5 (UNRELEASED)
+
+- Update systemd unit
+- Update Consul storage backend template (thanks @jpiron)
+- Configuration updates (thanks @jpiron)
+
 ## v2.0.4
 
 - Vault v0.11.1
