@@ -33,3 +33,8 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version|version_compare(13.04, '<')
+
+- name: Check for vault_redirect_address usage
+  debug:
+    msg: "vault_redirect_address is deprecated. Check for vault_api_addr in the README."
+  when: vault_redirect_address is defined

@@ -189,11 +189,6 @@ The role defines variables in `defaults/main.yml`:
 - Primary network interface address to use
 - Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
 
-### `vault_redirect_addr`
-
-- [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection)
-- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
-
 ### `vault_port`
 
 - TCP port number to on which to listen
@@ -233,6 +228,12 @@ The role defines variables in `defaults/main.yml`:
 
 - Address to advertise to other Vault servers in the cluster for request forwarding
 - Default value: `"{{ vault_protocol }}://{{ vault_cluster_address }}"`
+
+### `vault_api_addr`
+
+- [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection)
+- Default value: `"{{ vault_protocol }}://{{ vault_redirect_address or hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"`
+  - vault_redirect_address is kept for backward compatibility but is deprecated.
 
 ### `vault_cluster_disable`
 

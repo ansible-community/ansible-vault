@@ -4,6 +4,7 @@ default_lease_ttl = "{{ vault_default_lease_ttl }}"
 
 disable_clustering = "{{ vault_cluster_disable }}"
 cluster_addr = "{{ vault_cluster_addr }}"
+api_addr = "{{ vault_api_addr }}"
 
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"

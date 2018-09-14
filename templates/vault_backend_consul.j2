@@ -2,7 +2,6 @@ backend "consul" {
   address = "{{ vault_consul }}"
   path = "{{ vault_consul_path }}"
   service = "{{ vault_consul_service }}"
-  redirect_addr = "{{vault_protocol}}://{{ vault_redirect_address }}:{{ vault_port }}"
   {% if vault_consul_token is defined and vault_consul_token %}
   token = "{{ vault_consul_token }}"
   {% endif %}
@@ -12,5 +11,4 @@ backend "consul" {
   tls_key_file = "{{ vault_tls_config_path }}/{{ vault_tls_key_file }}"
   tls_ca_file="{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
   {% endif %}
-
 }

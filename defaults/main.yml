@@ -55,7 +55,8 @@ vault_backend_consul: vault_backend_consul.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
-vault_redirect_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
+# vault_redirect_address is kept for backward compatibility but is deprecated
+vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
 
 vault_max_lease_ttl: "768h"
 vault_default_lease_ttl: "768h"
