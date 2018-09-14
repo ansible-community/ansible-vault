@@ -2,6 +2,8 @@ cluster_name = "{{ vault_cluster_name }}"
 max_lease_ttl = "{{ vault_max_lease_ttl }}"
 default_lease_ttl = "{{ vault_default_lease_ttl }}"
 
+disable_clustering = "{{ vault_cluster_disable }}"
+
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"
   {% if not (vault_tls_disable | bool) -%}
