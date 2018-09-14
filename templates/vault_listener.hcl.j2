@@ -3,9 +3,11 @@ max_lease_ttl = "{{ vault_max_lease_ttl }}"
 default_lease_ttl = "{{ vault_default_lease_ttl }}"
 
 disable_clustering = "{{ vault_cluster_disable }}"
+cluster_addr = "{{ vault_cluster_addr }}"
 
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"
+  cluster_address = "{{ vault_cluster_address }}"
   {% if not (vault_tls_disable | bool) -%}
   tls_cert_file = "{{ vault_tls_config_path }}/{{ vault_tls_cert_file }}"
   tls_key_file = "{{ vault_tls_config_path }}/{{ vault_tls_key_file }}"
@@ -28,4 +30,3 @@ listener "tcp" {
 {% if vault_enterprise_premium_hsm | bool -%}
   {% include vault_backend_seal with context %}
 {% endif -%}
-

@@ -226,8 +226,13 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_cluster_address`
 
-- Address for intra-cluster communication
-- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"`
+- Address to bind to for cluster server-to-server requests
+- Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"`
+
+### `vault_cluster_addr`
+
+- Address to advertise to other Vault servers in the cluster for request forwarding
+- Default value: `"{{ vault_protocol }}://{{ vault_cluster_address }}"`
 
 ### `vault_cluster_disable`
 
