@@ -1,8 +1,10 @@
-## v2.0.5 (UNRELEASED)
+## v2.0.5
 
+- Vault v0.11.2
 - Update systemd unit
 - Update Consul storage backend template (thanks @jpiron)
 - Configuration updates (thanks @jpiron)
+- Add client cert validation options to listener configuration (thanks @nathkn)
 
 ## v2.0.4
 
