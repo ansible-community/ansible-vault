@@ -18,6 +18,12 @@ listener "tcp" {
   tls_cipher_suites = "{{ vault_tls_cipher_suites}}"
   {% endif -%}
   tls_prefer_server_cipher_suites = "{{ vault_tls_prefer_server_cipher_suites }}"
+  {% if (vault_tls_require_and_verify_client_cert | bool) -%}
+  tls_require_and_verify_client_cert = "{{ vault_tls_require_and_verify_client_cert | bool | lower}}"
+  {% endif -%}
+  {% if (vault_tls_disable_client_certs | bool) -%}
+  tls_disable_client_certs = "{{ vault_tls_disable_client_certs | bool | lower}}"
+  {% endif -%}
   {% endif -%}
   tls_disable = "{{ vault_tls_disable | bool | lower }}"
 }
