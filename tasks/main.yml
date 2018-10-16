@@ -78,7 +78,7 @@
 
 - name: Enable logrotate for vault
   template:
-    src: vault_logrotate.j2
+    src: "{{ vault_logrotate_template }}"
     dest: /etc/logrotate.d/vault
     owner: root
     group: root
@@ -91,7 +91,7 @@
 
 - name: Listener configuration
   template:
-    src: vault_listener.hcl.j2
+    src: "{{ vault_listener_template }}"
     dest: "{{ vault_main_config }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
@@ -101,7 +101,7 @@
 
 - name: BSD init script
   template:
-    src: vault_bsdinit.j2
+    src: "{{ vault_bsdinit_template }}"
     dest: /etc/rc.d/vault
     owner: root
     group: wheel
@@ -110,7 +110,7 @@
 
 - name: SYSV init script
   template:
-    src: vault_sysvinit.j2
+    src: "{{ vault_sysvinit_template }}"
     dest: /etc/init.d/vault
     owner: root
     group: root
@@ -123,7 +123,7 @@
 
 - name: Debian init script
   template:
-    src: vault_debian.init.j2
+    src: "{{ vault_debian_init_template }}"
     dest: /etc/init.d/vault
     owner: root
     group: root
@@ -136,7 +136,7 @@
 
 - name: systemd unit
   template:
-    src: vault_systemd.service.j2
+    src: "{{ vault_systemd_template }}"
     dest: /lib/systemd/system/vault.service
     owner: root
     group: root

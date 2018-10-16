@@ -37,6 +37,7 @@ vault_group: bin
 ### Logging
 vault_enable_logrotate: false
 vault_logrotate_freq: 7
+vault_logrotate_template: vault_logrotate.j2
 
 ### Vault settings
 vault_group_name: vault_instances
@@ -51,6 +52,7 @@ vault_ui: "{{ lookup('env', 'VAULT_UI') | default(false, true) }}"
 vault_port: 8200
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
+vault_listener_template: vault_listener.hcl.j2
 vault_backend_consul: vault_backend_consul.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
@@ -67,6 +69,12 @@ vault_consul_path: vault
 vault_consul_service: vault
 vault_consul_scheme: http
 # vault_consul_token:
+
+### Init templates
+vault_bsdinit_template: vault_bsdinit.j2
+vault_sysvinit_template: vault_sysvinit.j2
+vault_debian_init_template: vault_debian.init.j2
+vault_systemd_template: vault_systemd.service.j2
 
 ## TLS
 
