@@ -214,6 +214,10 @@ The role defines variables in `defaults/main.yml`:
 - Main configuration file name (full path)
 - Default value: `"{{ vault_config_path }}/vault_main.hcl"`
 
+### `vault_listener_template`
+- Vault listener configuration template file
+- Default value: *vault_listener.hcl.j2*
+
 ### `vault_backend_consul`
 
 - Backend consul template filename
@@ -323,6 +327,22 @@ The role defines variables in `defaults/main.yml`:
 - Copy from remote source if TLS files are already on host
 - Default value: *no*
 
+### `vault_bsdinit_template`
+- BSD init template file 
+- Default value: *vault_bsdinit.j2*
+
+### `vault_sysvinit_template`
+- SysV init  template file
+- Default value: *vault_sysvinit.j2*
+
+### `vault_debian_init_template`
+- Debian init template file
+- Default value: *vault_debian.init.j2*
+
+### `vault_systemd_template`
+- Systemd service template file
+- Default value: *vault_systemd.service.j2*
+
 ## OS Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
@@ -411,6 +431,11 @@ differences across distributions:
 
 - Determines how frequently to rotate vault logs
 - Default value: *7*
+
+### `vault_logrotate_template`
+
+- Logrotate template file
+- Default value: *vault_logrotate.j2*
 
 ### `vault_ubuntu_os_packages`
 
