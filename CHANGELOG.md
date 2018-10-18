@@ -1,3 +1,9 @@
+## v2.0.6 (UNRELEASED)
+
+- Vault v0.11.3
+- Templates in main tasks as variables (thanks @nathkn)
+- Update documentation
+
 ## v2.0.5
 
 - Vault v0.11.2

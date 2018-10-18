@@ -18,11 +18,11 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.6.4
-* Vault: 0.11.2
+* Ansible: 2.7.0
+* Vault: 0.11.3
 * Debian: 9
 * FreeBSD 11
-* Ubuntu 16.04
+* Ubuntu 18.04
 
 Sorry, there is no planned support at the moment for Windows.
 
@@ -38,7 +38,7 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: *0.11.2*
+- Default value: *0.11.3*
 
 ### `vault_enterprise`
 

@@ -1,31 +1,32 @@
 ---
 galaxy_info:
   author: Brian Shumate
-  description: Vault server role
-  company: your company (optional)
+  description: HashiCorp Vault server role
+  company:
   license: license BSD
-  min_ansible_version: 2.1.0.0
+  min_ansible_version: 2.5.0.0
   platforms:
-  - name: EL
-    versions:
-    - 6
-    - 7
-  #- name: SmartOS
-  #  versions:
-  #  - all
-  #  - any
-  #- name: FreeBSD
-  #  versions:
-  #  - 11.0
-  - name: Ubuntu
-    versions:
-    - xenial
-  - name: Debian
-    versions:
-    - jessie
-    - stretch
-  galaxy_tags:
-  - networking
-  - security
-  - system
+    - name: EL
+      versions:
+        - 6
+        - 7
+    # - name: SmartOS
+    #   versions:
+    #   - all
+    #   - any
+    # - name: FreeBSD
+    #   versions:
+    #   - 11.0
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+    - galaxy_tags:
+        - networking
+        - security
+        - system
 dependencies: []

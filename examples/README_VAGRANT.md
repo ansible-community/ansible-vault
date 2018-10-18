@@ -1,20 +1,14 @@
 # Vault with Ansible
 
-This project provides documentation and a collection of scripts to help you
-automate the deployment of Vault using
-[Ansible](http://www.ansibleworks.com/). These are the instructions for
-deploying a development cluster on Vagrant and VirtualBox.
+This project provides documentation and a collection of scripts to help you automate deployment of [HashiCorp Vault](https://www.vaultproject.io/) using [Ansible](http://www.ansibleworks.com/)
 
-The documentation and scripts are merely a starting point designed to both
-help familiarize you with the processes and quickly bootstrap an environment
-for development. You may wish to expand on them and customize
-them with additional features specific to your needs later.
+These are the instructions for deploying a development or evaluation cluster on Vagrant and VirtualBox.
+
+The documentation and scripts are merely a starting point designed to both help familiarize you with the processes and quickly bootstrap an environment for development or evaluation. You may wish to expand on them and customize them with additional features specific to your needs later.
 
 ## Vagrant Development Cluster
 
-In some situations deploying a small cluster on your local development
-machine can be handy. This document describes such a scenario using the
-following technologies:
+In some situations deploying a small cluster on your local development machine can be handy. This document describes such a scenario using the following technologies:
 
 * [Vault](https://vault.io)
 * [VirtualBox](https://www.virtualbox.org/)
@@ -22,28 +16,18 @@ following technologies:
   supporting plugin
 * [Ansible](http://www.ansibleworks.com/)
 
-Each of the virtual machines for this guide are configured with
-1.5GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses
-NAT and has connection via the host to the outside world. The second
-interface is a private network and is used for Vault intra-cluster
-communication in addition to access from the host machine.
+Each of the virtual machines for this guide are configured with 1.5GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses NAT and has connection via the host to the outside world. The second interface is a private network and is used for Vault intra-cluster communication in addition to access from the host machine.
 
-The Vagrant configuration file (`Vagrantfile`) is responsible for
-configuring the virtual machines and a baseline OS installation.
-
-The Ansible playbooks then further refine OS configuration, perform Vault
-software download and installation, and the initialization of nodes
-into a ready to use cluster.
+The Vagrant configuration file, `Vagrantfile` is responsible for configuring the virtual machines and a baseline OS installation. The Ansible playbooks then further refine OS configuration, perform Vault software download and installation, and the initialization of Vault servers into a ready to use HA cluster.
 
 ## Designed for Ansible Galaxy
 
-This role is designed to be installed via the `ansible-galaxy` command
-instead of being directly run from the git repository.
+This role is designed to be installed via the `ansible-galaxy` command instead of being directly run from the git repository.
 
 You should install it like this:
 
 ```
-ansible-galaxy install brianshumate.vault
+$ ansible-galaxy install brianshumate.vault
 ```
 
 You'll want to make sure you have write access to `/etc/ansible/roles/` since
@@ -68,18 +52,15 @@ steps to get up and running:
  * 10.1.42.240 vault1.local vault1
 3. cd `$PATH_TO_ROLES/brianshumate.conusul/examples`
 4. `vagrant up`
-6. You can `ssh` into the node and initialize Vault:
+6. You can use Vault directly from the host with the `VAULT_ADDR` environment as shown:
 
        ```
-       vagrant ssh vault1
-       VAULT_ADDR=http://10.1.42.240:8200 vault init
+       VAULT_ADDR=http://10.1.42.240:8200 vault operator init
        ```
-    The VAULT_ADDR` variable is set because the vault CLI expects TLS
-    to be enabled by default and this role does not yet configure TLS.
 
-By default, this project will install Debian based nodes. If you prefer, it
-can also install CentOS 7 based nodes by changing the command in step 4 to
-the following:
+You can also `vagrant ssh` into the instance and export `VAULT_ADDR=http://localhost:8200` to use Vault that way.
+
+> NOTE: By default, this project will install Debian based Vault servers. If you prefer, it can also install CentOS 7 based servers by changing the command in step 4 to the following:
 
 ```
 BOX_NAME="centos/8" vagrant up
@@ -87,27 +68,25 @@ BOX_NAME="centos/8" vagrant up
 
 ## Vault Enterprise
 
-The role can install Vault Enterprise based instances.
+The role can install Vault Enterprise based server instances.
 
-Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
-`vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
-variable.
+Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment variable.
 
 ## Notes
 
 1. This project functions with the following software versions:
-  * Vault version 0.11.2
+  * Vault version 0.11.3
   * Ansible: 2.6.4
   * VirtualBox version 5.2.18
-  * Vagrant version 2.1.4
+  * Vagrant version 2.2.0
   * Vagrant Hosts version 2.8.1
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:
- * Adds each node's host information to the host machine's `/etc/hosts`
+ * Adds each server's host information to the host machine's `/etc/hosts`
  * Optionally installs the Vagrant hosts plugin
 4. If you notice an error like *vm: The '' provisioner could not be found.*
-   make sure you have vagrant-hosts plugin installed
+   make sure you have the **vagrant-hosts** Vagrant plugin installed
 
 ## References
 
