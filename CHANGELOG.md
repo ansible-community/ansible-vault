@@ -2,6 +2,7 @@
 
 - Vault v0.11.3
 - Templates in main tasks as variables (thanks @nathkn)
+- systemd unit updates (thanks @bdossantos)
 - Update documentation
 
 ## v2.0.5
