@@ -1,4 +1,4 @@
-## v2.0.6
+## v2.0.7
 
 - Vault v0.11.3
 - Templates in main tasks as variables (thanks @nathkn)
