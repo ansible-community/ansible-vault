@@ -24,8 +24,8 @@ ProtectHome=read-only
 PrivateTmp=yes
 PrivateDevices=yes
 SecureBits=keep-caps
-AmbientCapabilities=CAP_IPC_LOCK
 Capabilities=CAP_IPC_LOCK+ep
+AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
 ExecStart={{ vault_bin_path }}/vault server -config={{ vault_main_config }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}
@@ -36,7 +36,10 @@ KillSignal=SIGINT
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=30
+StartLimitIntervalSec=60
 StartLimitBurst=3
+LimitNOFILE=524288
+LimitNPROC=524288
 LimitMEMLOCK=infinity
 
 [Install]
