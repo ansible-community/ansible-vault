@@ -220,17 +220,17 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_backend`
 - Which storage backend should be selected, choices are: consul, file and mysql
-- Default value: *consul
+- Default value: *consul*
 
 ### `vault_backend_consul`
 
 - Backend consul template filename
-- Default value: `backend_consul.j2`
+- Default value: *backend_consul.j2*
 
 ### `vault_backend_file`
 
 - Backend file template filename
-- Default value: `backend_file.j2`
+- Default value: *backend_file.j2*
 
 
 ### `vault_cluster_address`
@@ -430,7 +430,7 @@ differences across distributions:
 
 ### `vault_auto_initialize`
 - Used to auto initialize a vault instance, this is mainly used for testing
-- Default value: _false_
+- Default value: *false*
 
 ### `vault_sha256`
 
@@ -507,7 +507,27 @@ role directory for this to work.
 See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
 under VirtualBox for testing, etc.
 
+## example virtualBox playbook
+example playbook for a file based auto intializing single node vault instance.
 
+```
+- hosts: all
+  gather_facts: True
+  become: true
+  vars:
+    vault_user: vault
+    vault_group: vault
+    vault_manage_group: True
+    vault_ui: True
+    vault_iface: eth1
+    vault_backend: file
+    vault_cluster_disable: True
+    vault_log_level: debug
+    vault_auto_initialize: True
+  roles:
+    - vault
+
+```
 
 ## Vault Enterprise
 
