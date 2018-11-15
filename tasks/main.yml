@@ -4,6 +4,13 @@
 - name: Include asserts
   include: asserts.yml
 
+- name: "Add Vault Group"
+  group:
+    name: "{{vault_group}}"
+    system: true
+    state: present
+  when: vault_manage_group | bool
+
 - name: "Add Vault user"
   user:
     name: "{{ vault_user }}"
@@ -155,11 +162,59 @@
 - name: Restart Vault if needed
   meta: flush_handlers
 
-# This should succeed regardless of seal state
-- name: Vault API reachable?
+
+- name: Vault API reachable and is it initialized?
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
-    url: "{{ vault_tls_disable | ternary('http', 'https') }}://{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}:{{ vault_port }}/v1/sys/health"
+    url: "{{ vault_tls_disable | ternary('http', 'https') }}{{':'}}//{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}{{':'}}{{ vault_port }}/v1/sys/init"
+    method: GET
+    # 200 if initialized, unsealed, and active.
+    # See: https://www.vaultproject.io/api/system/health.html
+    status_code: 200
+    body_format: json
+    changed_when: false
+  register: check_initialized_result
+
+
+  # If we have a system under test and we need to auto
+  # initialize it.
+- name: Initialize vault for testing
+  shell: "VAULT_ADDR={{VAULT_ADDR}} vault operator init"
+  register: init_result
+  when: (vault_auto_initialize | bool) and
+        ( check_initialized_result.json.initialized == false)
+
+- debug:
+    msg: "Initialized the vault instance keys are:\n {{ init_result.stdout }}"
+  when: (vault_auto_initialize | bool) and
+        ( check_initialized_result.json.initialized == false) and
+        ( init_result.rc == 0 )
+
+  #
+  # Recheck initialized status
+  # on systems with no auto auto unseal this will be done twice,
+  # but it's a small price to pay to keep the logic simple
+- name: Vault API initialized and sealed?
+  uri:
+    validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
+    url: "{{ vault_tls_disable | ternary('http', 'https') }}{{':'}}//{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}{{':'}}{{ vault_port }}/v1/sys/init"
+    method: GET
+    # 200 if initialized, unsealed, and active.
+    # See: https://www.vaultproject.io/api/system/health.html
+    status_code: 200
+    body_format: json
+    changed_when: false
+  register: verify_initialized_result
+  when: ( check_initialized_result.json.initialized == false)
+
+
+# This should succeed regardless of seal state
+# A 503 return is a sealed status in a single instance condition.
+# BUT it will not work if the vault has never been intialized before.
+- name: Vault health API reachable?
+  uri:
+    validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
+    url: "{{ vault_tls_disable | ternary('http', 'https') }}{{':'}}//{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}{{':'}}{{ vault_port }}/v1/sys/health"
     method: GET
     # 200 if initialized, unsealed, and active.
     # 429 is also OK for HA cluster (means standby + unsealed in HA)
@@ -171,3 +226,10 @@
   until: check_result is succeeded
   delay: 10
   changed_when: false
+  failed_when: check_result.status == -1
+  when: ( verify_initialized_result.json.initialized == true)
+
+- debug:
+    msg: "The vault is sealed but operational {{check_result.msg }}"
+  when: check_result.json.sealed == true
+

@@ -121,10 +121,10 @@ The role defines variables in `defaults/main.yml`:
 - OS group name
 - Default value: *bin*
 
-### `vault_group_name`
+### `vault_manage_group`
+- OS group create Should playbook create the group
+- Default value: _false_
 
-- Inventory group name
-- Default value: `vault_instances`
 
 ### `vault_cluster_name`
 
@@ -218,10 +218,20 @@ The role defines variables in `defaults/main.yml`:
 - Vault listener configuration template file
 - Default value: *vault_listener.hcl.j2*
 
+### `vault_backend`
+- Which storage backend should be selected, choices are: consul, file and mysql
+- Default value: *consul
+
 ### `vault_backend_consul`
 
 - Backend consul template filename
 - Default value: `backend_consul.j2`
+
+### `vault_backend_file`
+
+- Backend file template filename
+- Default value: `backend_file.j2`
+
 
 ### `vault_cluster_address`
 
@@ -417,6 +427,11 @@ differences across distributions:
 - Vault package download URL
 - Default value: `"{{ vault_zip_url }}"`
 
+
+### `vault_auto_initialize`
+- Used to auto initialize a vault instance, this is mainly used for testing
+- Default value: _false_
+
 ### `vault_sha256`
 
 - Vault package SHA256 summary
@@ -491,6 +506,8 @@ role directory for this to work.
 
 See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
 under VirtualBox for testing, etc.
+
+
 
 ## Vault Enterprise
 

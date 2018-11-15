@@ -21,6 +21,10 @@ vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version 
 ### Install Method
 vault_install_remotely: false
 
+### Should the system auto initialize the vault
+### Mainly used for testing
+vault_auto_initialize: false
+
 ### Paths
 vault_bin_path: /usr/local/bin
 vault_config_path: /etc/vault.d
@@ -40,7 +44,6 @@ vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2
 
 ### Vault settings
-vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
@@ -53,7 +56,12 @@ vault_port: 8200
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_listener_template: vault_listener.hcl.j2
+
+#### Vault storage / backend.
+vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
+vault_backend_file: vault_backend_file.j2
+
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
