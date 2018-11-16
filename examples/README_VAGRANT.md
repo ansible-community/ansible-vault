@@ -75,7 +75,7 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set `vau
 ## Notes
 
 1. This project functions with the following software versions:
-  * Vault version 0.11.3
+  * Vault version 0.11.5
   * Ansible: 2.6.4
   * VirtualBox version 5.2.20
   * Vagrant version 2.2.0

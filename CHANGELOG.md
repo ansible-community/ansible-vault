@@ -1,3 +1,9 @@
+## v2.0.8
+
+- Vault v0.11.5
+- Conditional capabilites based on systemd version (thanks @bdossantos)
+- Update documentation
+
 ## v2.0.7
 
 - Vault v0.11.3
