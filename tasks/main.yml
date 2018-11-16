@@ -134,6 +134,14 @@
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
 
+- name: extract systemd version
+  shell: systemctl --version systemd | head -n 1 | cut -d' ' -f2
+  register: systemd_version
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+
 - name: systemd unit
   template:
     src: "{{ vault_systemd_template }}"
@@ -145,6 +153,7 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+    - systemd_version is defined
 
 - name: Start Vault
   service:
