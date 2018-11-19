@@ -1,3 +1,7 @@
+## v2.0.9 (UNRELEASED)
+
+- Correct systemd unit (thanks @jpiron)
+
 ## v2.0.8
 
 - Vault v0.11.5

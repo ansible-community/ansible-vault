@@ -18,15 +18,15 @@
 - name: Check Vault installation
   command: which vault
   register: vault_installation
-  changed_when: False
-  ignore_errors: True
-  check_mode: False
+  changed_when: false
+  ignore_errors: true
+  check_mode: false
 
 - name: Get installed Vault version
   shell: "{{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'"
   when: not vault_installation is failed
-  changed_when: False
-  check_mode: False
+  changed_when: false
+  check_mode: false
   register: installed_vault_version
 
 - name: Compute if installation is required
@@ -56,8 +56,8 @@
 
 - name: Check Vault mlock capability
   command: "setcap -v cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
-  changed_when: False  # read-only task
-  ignore_errors: True
+  changed_when: false  # read-only task
+  ignore_errors: true
   register: vault_mlock_capability
 
 - name: Enable non root mlock capability
