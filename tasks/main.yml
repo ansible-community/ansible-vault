@@ -136,6 +136,8 @@
 
 - name: extract systemd version
   shell: systemctl --version systemd | head -n 1 | cut -d' ' -f2
+  changed_when: false
+  check_mode: false
   register: systemd_version
   when:
     - ansible_service_mgr == "systemd"
