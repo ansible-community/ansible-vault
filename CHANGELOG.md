@@ -1,6 +1,9 @@
-## v2.0.9 (UNRELEASED)
+## v2.0.9
 
 - Correct systemd unit (thanks @jpiron)
+- Add initial telemetry support (thanks @jeffWelling)
+- Vagrant box memory increased to 2048MB
+- Update documentation
 
 ## v2.0.8
 

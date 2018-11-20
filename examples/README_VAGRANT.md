@@ -16,7 +16,7 @@ In some situations deploying a small cluster on your local development machine c
   supporting plugin
 * [Ansible](http://www.ansibleworks.com/)
 
-Each of the virtual machines for this guide are configured with 1.5GB RAM, 2 CPU cores, and 2 network interfaces. The first interface uses NAT and has connection via the host to the outside world. The second interface is a private network and is used for Vault intra-cluster communication in addition to access from the host machine.
+Each of the virtual machines for this guide are configured with 2GB RAM, 2 CPU cores, and dual network interfaces. The primary interface uses NAT and has connection via the host to the outside world. The secondary interface is a private network and is used for Vault intra-cluster communication in addition to access from the host machine.
 
 The Vagrant configuration file, `Vagrantfile` is responsible for configuring the virtual machines and a baseline OS installation. The Ansible playbooks then further refine OS configuration, perform Vault software download and installation, and the initialization of Vault servers into a ready to use HA cluster.
 
@@ -76,10 +76,10 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set `vau
 
 1. This project functions with the following software versions:
   * Vault version 0.11.5
-  * Ansible: 2.6.4
-  * VirtualBox version 5.2.20
-  * Vagrant version 2.2.0
-  * Vagrant Hosts version 2.8.1
+  * Ansible: 2.7.2
+  * VirtualBox version 5.2.22
+  * Vagrant version 2.2.1
+  * Vagrant Hosts version 2.8.3
 2. This project uses Debian 8 (Jessie) by default, but you can choose another
    OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:

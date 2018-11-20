@@ -4,7 +4,7 @@
 - name: Install Vault
   hosts: vault_instances
   any_errors_fatal: true
-  become: yes
+  become: true
   become_user: root
   roles:
-    - { role: brianshumate.vault }
+    - {role: brianshumate.vault}
