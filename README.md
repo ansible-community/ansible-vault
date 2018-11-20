@@ -343,6 +343,12 @@ The role defines variables in `defaults/main.yml`:
 - Systemd service template file
 - Default value: *vault_systemd.service.j2*
 
+### `vault_telemetry_enabled`
+- Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
+- If enabled, you must set *vault_statsite_address* or *vault_statsd_address* with a format of "FQDN:PORT"
+- If enabled, optionally set *vault_telemetry_disable_hostname* to strip the hostname prefix from telemetry data
+- Default value: *false*
+
 ## OS Distribution Variables
 
 The `consul` binary works on most Linux platforms and is not distribution
