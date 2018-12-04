@@ -42,6 +42,10 @@ listener "tcp" {
   {% include vault_backend_gkms with context %}
 {% endif -%}
 
+{% if vault_awskms | bool %}
+  {% include vault_awskms_backend with context %}
+{% endif -%}
+
 {% if vault_telemetry_enabled | bool -%}
 telemetry {
   {% if vault_statsite_address is defined %}

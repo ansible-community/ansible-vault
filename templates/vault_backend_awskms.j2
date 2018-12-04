@@ -1,0 +1,15 @@
+seal "awskms" {
+  kms_key_id = "{{ vault_awskms_key_id }}"
+{% if vault_awskms_region is defined %}
+  region     = "{{ vault_awskms_region }}"
+{% endif %}
+{% if vault_awskms_access_key is defined %}
+  access_key = "{{ vault_awskms_access_key }}"
+{% endif %}
+{% if vault_awskms_secret_key is defined %}
+  secret_key = "{{ vault_awskms_secret_key }}"
+{% endif %}
+{% if vault_awskms_endpoint is defined %}
+  endpoint   = "{{ vault_awskms_endpoint }}"
+{% endif %}
+}
