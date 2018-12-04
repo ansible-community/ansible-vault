@@ -1,0 +1,7 @@
+seal "gcpckms" {
+  credentials = "{{ vault_gkms_credentials }}"
+  project     = "{{ vault_gkms_project }}"
+  region      = "{{ vault_gkms_region }}"
+  key_ring    = "{{ vault_gkms_key_ring }}"
+  crypto_key  = "{{ vault_gkms_crypto_key }}"
+}
