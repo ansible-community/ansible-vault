@@ -1,6 +1,7 @@
 ## v2.1.0 (UNRELEASED)
 
 - Vault v1.0.0
+- GCPKMS seal support (thanks @planetrobbie)
 - Update documentation
 
 ## v2.0.9
