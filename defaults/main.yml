@@ -53,7 +53,12 @@ vault_port: 8200
 vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_listener_template: vault_listener.hcl.j2
+
+#### Vault storage / backend.
+vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
+vault_backend_file: vault_backend_file.j2
+
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
