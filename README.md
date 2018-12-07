@@ -508,13 +508,16 @@ See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
 under VirtualBox for testing, etc.
 
 ## example virtualBox playbook
+
 example playbook for a file based auto intializing single node vault instance.
+
 
 ```
 - hosts: all
   gather_facts: True
   become: true
   vars:
+
     vault_user: vault
     vault_group: vault
     vault_manage_group: True
@@ -524,6 +527,7 @@ example playbook for a file based auto intializing single node vault instance.
     vault_cluster_disable: True
     vault_log_level: debug
     vault_auto_initialize: True
+
   roles:
     - vault
 
