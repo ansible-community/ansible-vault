@@ -18,7 +18,7 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.7.2
+* Ansible: 2.7.5
 * Vault: 1.0.0
 * Debian: 9
 * FreeBSD 11
