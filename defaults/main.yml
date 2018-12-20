@@ -133,3 +133,6 @@ vault_gkms_credentials: '/home/vault/vault-kms.json'
 vault_gkms_region: 'global'
 vault_gkms_key_ring: 'vault'
 vault_gkms_crypto_key: 'vault_key'
+
+## Vault AWS KMS - auto unseal
+vault_awskms_backend: vault_backend_awskms.j2

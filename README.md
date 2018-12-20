@@ -617,6 +617,46 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 - The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
 - Default value: *vault_key*
 
+## Vault AWS KMS Auto-unseal
+
+This feature enabled operators to delegate the unsealing process to AWS KMS to ease operations in the event of a partial failure and to
+aid in the creation of new or ephemeral clusters.
+
+### `vault_awskms`
+
+- Set to true to enable AWS KMS Auto-unseal
+- Default value: *false*
+
+### `vault_awskms_backend`
+
+- Backend seal template filename
+- Default value: *vault_backend_awskms.j2*
+
+### `vault_awskms_region`
+
+- Which AWS KMS region to use
+- Default value: *us-east-1*
+
+### `vault_awskms_access_key`
+
+- The AWS Access Key to use for talking to AWS KMS
+- Default value: *EXAMPLE_KEY*
+
+### `vault_awskms_secret_key`
+
+- The AWS Secret Key ID to use for takling to AWS KMS
+- Default value: *EXAMPLE_SECRET_ID*
+
+### `vault_awskms_key_id`
+
+- The KMS Key ID to use for AWS KMS
+- Default value: *EXAMPLE_KMS_KEY_ID*
+
+### `vault_awskms_endpoint`
+
+- The endpoint to use for KMS
+- Default value: *EXAMPLE_AWSKMS_ENDPOINT*
+
 ## License
 
 BSD
