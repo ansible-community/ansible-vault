@@ -1,3 +1,8 @@
+## v2.1.1 (UNRELEASED)
+
+- AWS KMS seal support (thanks @jeffWelling)
+- Update documentation
+
 ## v2.1.0
 
 - Vault v1.0.0
