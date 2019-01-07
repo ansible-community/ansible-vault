@@ -4,7 +4,7 @@
 ## Core
 
 ### Package
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.0.0', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.0.1', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -47,7 +47,7 @@ vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_syslog_enable: true
 vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
-vault_ui: "{{ lookup('env', 'VAULT_UI') | default(false, true) }}"
+vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 
 vault_port: 8200
 vault_node_name: "{{ inventory_hostname_short }}"

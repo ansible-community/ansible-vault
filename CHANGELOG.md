@@ -1,6 +1,8 @@
-## v2.1.1 (UNRELEASED)
+## v2.1.1
 
+- Vault v1.0.1
 - AWS KMS seal support (thanks @jeffWelling)
+- Enable web UI by default
 - Update documentation
 
 ## v2.1.0

@@ -19,7 +19,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Ansible: 2.7.5
-* Vault: 1.0.0
+* Vault: 1.0.1
 * Debian: 9
 * FreeBSD 11
 * Ubuntu 18.04
@@ -30,7 +30,6 @@ Sorry, there is no planned support at the moment for Windows.
 
 The role defines variables in `defaults/main.yml`:
 
-
 ### `vault_version`
 
 - version to install
@@ -38,7 +37,7 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: *1.0.0*
+- Default value: 1.0.1
 
 ### `vault_enterprise`
 
@@ -109,80 +108,80 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_manage_user`
 
 - Should this role manage the vault user?
-- Default value: *true*
+- Default value: true
 
 ### `vault_user`
 
 - OS user name
-- Default value: *vault*
+- Default value: vault
 
 ### `vault_group`
 
 - OS group name
-- Default value: *bin*
+- Default value: bin
 
 ### `vault_group_name`
 
 - Inventory group name
-- Default value: `vault_instances`
+- Default value: vault_instances
 
 ### `vault_cluster_name`
 
 - Cluster name label
-- Default value: *dc1*
+- Default value: dc1
 
 ### `vault_datacenter`
 
 - Datacenter label
-- Default value:  *dc1*
+- Default value:  dc1
 
 ### `vault_ui`
 
-- Enable vault web ui
-- Default value:  *false*
+- Enable vault web UI
+- Default value:  true
 
 ### `vault_consul`
 
 - host:port value for connecting to Consul HA backend
-- Default value: *127.0.0.1:8500*
+- Default value: 127.0.0.1:8500
 
 ### `vault_consul_scheme`
 
 - Scheme for Consul backend
 - Supported values: http, https
-- Default value: *http*
+- Default value: http
 
 ### `vault_consul_path`
 
 - Name of Vault's Consul K/V root path
-- Default value: *vault*
+- Default value: vault
 
 ### `vault_consul_service`
 
 - Name of the Vault service to register in Consul
-- Default value: *vault*
+- Default value: vault
 
 ### `vault_consul_token`
 
 - ACL token for accessing Consul
-- Default value: *none*
+- Default value: none
 
 ### `vault_log_level`
 
 - [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
   - Supported values: trace, debug, info, warn, err
-- Default value: *info*
+- Default value: info
 
 ### `vault_syslog_enable`
 
 - Log to syslog (not yet impemented)
-- Default value: *true*
+- Default value: true
 
 ### `vault_iface`
 
 - Network interface
   - Can be overridden with `VAULT_IFACE` environment variable
-- Default value: `eth1`
+- Default value: eth1
 
 ### `vault_address`
 
@@ -192,7 +191,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_port`
 
 - TCP port number to on which to listen
-- Default value: *8200*
+- Default value: 8200
 
 ### `vault_node_name`
 
@@ -202,12 +201,12 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_max_lease_ttl`
 
 - Configures the [maximum possible lease duration](https://www.vaultproject.io/docs/config/#max_lease_ttl) for tokens and secrets.
-- Default value: `768h` (32 days)
+- Default value: 768h (32 days)
 
 ### `vault_default_lease_ttl`
 
 - Configures the [default lease duration](https://www.vaultproject.io/docs/config/#default_lease_ttl) for tokens and secrets.
-- Default value: `768h` (32 days)
+- Default value: 768h (32 days)
 
 ### `vault_main_config`
 
@@ -220,18 +219,17 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_backend`
 - Which storage backend should be selected, choices are: consul, file and mysql
-- Default value: *consul*
+- Default value: consul
 
 ### `vault_backend_consul`
 
 - Backend consul template filename
-- Default value: *backend_consul.j2*
+- Default value: `backend_consul.j2`
 
 ### `vault_backend_file`
 
 - Backend file template filename
-- Default value: *backend_file.j2*
-
+- Default value: `backend_file.j2`
 
 ### `vault_cluster_address`
 
@@ -252,12 +250,12 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_cluster_disable`
 
 - Disable HA clustering
-- Default value: *false*
+- Default value: false
 
 ### `validate_certs_during_api_reachable_check`
 
 - Disable Certificate Validation for API reachability check
-- Default value: *false*
+- Default value: false
 
 ### `vault_tls_config_path`
 
@@ -268,12 +266,12 @@ The role defines variables in `defaults/main.yml`:
 
 - [Disable TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable)
   - Can be overridden with `VAULT_TLS_DISABLE` environment variable
-- Default value: *1*
+- Default value: 1
 
 ### `vault_tls_gossip`
 
 - Enable TLS Gossip to Consul Backend
-- Default value: *0*
+- Default value: 0
 
 ### `vault_tls_src_files`
 
@@ -308,7 +306,7 @@ The role defines variables in `defaults/main.yml`:
 
 - [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version)
   - Can be overridden with `VAULT_TLS_MIN_VERSION` environment variable
-- Default value: *tls12*
+- Default value: tls12
 
 ### `vault_tls_cipher_suites`
 
@@ -319,39 +317,38 @@ The role defines variables in `defaults/main.yml`:
 
 - [Prefer server's cipher suite over client cipher suite](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites)
   - Can be overridden with `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
-- Default value: *false*
+- Default value: false
 
 ### `vault_tls_require_and_verify_client_cert`
 
 - [Require clients to present a valid client certificate](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_require_and_verify_client_cert)
-- Default value: *false*
+- Default value: false
 
 ### `vault_tls_disable_client_certs`
 
 - [Disable requesting for client certificates](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable_client_certs)
-- Default value: *false*
-
+- Default value: false
 
 ### `vault_tls_files_remote_src`
 
 - Copy from remote source if TLS files are already on host
-- Default value: *no*
+- Default value: false
 
 ### `vault_bsdinit_template`
 - BSD init template file
-- Default value: *vault_bsdinit.j2*
+- Default value: `vault_bsdinit.j2`
 
 ### `vault_sysvinit_template`
 - SysV init  template file
-- Default value: *vault_sysvinit.j2*
+- Default value: `vault_sysvinit.j2`
 
 ### `vault_debian_init_template`
 - Debian init template file
-- Default value: *vault_debian.init.j2*
+- Default value: `vault_debian.init.j2`
 
 ### `vault_systemd_template`
 - Systemd service template file
-- Default value: *vault_systemd.service.j2*
+- Default value: `vault_systemd.service.j2`
 
 ### `vault_telemetry_enabled`
 - Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
@@ -361,12 +358,11 @@ The role defines variables in `defaults/main.yml`:
 
 ## OS Distribution Variables
 
-The `consul` binary works on most Linux platforms and is not distribution
+The `vault` binary works on most Linux platforms and is not distribution
 specific. However, some distributions require installation of specific OS
 packages with different naming, so this role was built with support for
 popular Linux distributions and defines these variables to deal with the
 differences across distributions:
-
 
 ### `vault_pkg`
 
@@ -396,7 +392,7 @@ differences across distributions:
 ### `vault_sha256`
 
 - Vault download SHA256 summary
-- Default value: SHA256 SUM
+- Default value: SHA256 summary
 
 ### `vault_debian_os_packages`
 
@@ -416,7 +412,7 @@ differences across distributions:
 ### `vault_sha256`
 
 - Vault package SHA256 summary
-- Default value: SHA256 SUM
+- Default value: SHA256 summary
 
 ### `vault_redhat_os_packages`
 
@@ -436,22 +432,22 @@ differences across distributions:
 ### `vault_sha256`
 
 - Vault package SHA256 summary
-- Default value: SHA256 SUM
+- Default value: SHA256 summary
 
 ### `vault_enable_logrotate`
 
 - Enable logrotation for systemd based systems
-- Default value: *false*
+- Default value: false
 
 ### `vault_logrotate_freq`
 
 - Determines how frequently to rotate vault logs
-- Default value: *7*
+- Default value: 7
 
 ### `vault_logrotate_template`
 
 - Logrotate template file
-- Default value: *vault_logrotate.j2*
+- Default value: `vault_logrotate.j2`
 
 ### `vault_ubuntu_os_packages`
 
@@ -544,58 +540,58 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 ### `vault_enterprise_premium_hsm`
 
 - Set to True if using premium hsm binary. Basically just includes ".hsm" in "vault_version" var
-- Default value: *False*
+- Default value: false
 
 ### `vault_hsm_app`
 
 - Set which cryptography app to use.
-- Default value: *pkcs11*
+- Default value: pkcs11
 
 ### `vault_backend_seal`
 
 - Backend seal template filename
-- Default value: *vault_backend_seal.j2*
+- Default value: `vault_backend_seal.j2`
 
 ### `vault_seal_lib`
 
 - Set to the absolute path of the HSM library vault will call
-- Default value: */lib64/hsmlibrary.so*
+- Default value: `/lib64/hsmlibrary.so`
 
 ### `vault_seal_pin`
 
 - The PIN for login. May also be specified by the VAULT_HSM_PIN environment variable. If set via the environment variable, Vault will obfuscate the environment variable after reading it, and it will need to be re-set if Vault is restarted.
-- Default value: *12345*
+- Default value: 12345
 
 ### `vault_seal_key_label`
 
 - The label of the key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated key. May also be specified by the VAULT_HSM_KEY_LABEL environment variable.
-- Default value: *vault-hsm-key*
+- Default value: vault-hsm-key
 
 ### `vault_seal_generate_key`
 
 - If no existing key with the label specified by key_label can be found at Vault initialization time, instructs Vault to generate a key. This is a boolean expressed as a string (e.g. "true"). May also be specified by the VAULT_HSM_GENERATE_KEY environment variable. Vault may not be able to successfully generate keys in all circumstances, such as if proprietary vendor extensions are required to create keys of a suitable type.
-- Default value: *false*
+- Default value: false
 
 ### `vault_seal_key_mechanism`
 
 -  Do not change this unles you know you need to. The encryption/decryption mechanism to use, specified as a decimal or hexadecimal (prefixed by 0x) string. May also be specified by the VAULT_HSM_MECHANISM environment variable.
-- Default value: *''*
-- Example for RSA: *0x0009*
+- Default value: ''
+- Example for RSA: 0x0009
 
 ### `vault_seal_token_label`
 
 - The slot token label to use. May also be specified by the VAULT_HSM_TOKEN_LABEL environment variable. This label will only be applied when `vault_softcard_enable` is true.
-- Default value: *''*
+- Default value: ''
 
 ### `vault_softcard_enable`
 
 - Enable if you plan to use a softcard on your HSM.
-- Default value: *false*
+- Default value: false
 
 ### `vault_seal_slot`
 
 - The slot number to use, specified as a string (e.g. "0"). May also be specified by the VAULT_HSM_SLOT environment variable. This label will only be applied when `vault_softcard_enable` is false (default).
-- Default value: *0*
+- Default value: 0
 
 ## Vault GCP Cloud KMS Auto-unseal
 
@@ -606,22 +602,22 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 ### `vault_gkms`
 
 - Set to True to enable Google Cloud KMS Auto-Unseal.
-- Default value: *false*
+- Default value: false
 
 ### `vault_backend_gkms`
 
 - Backend seal template filename
-- Default value: *vault_backend_gkms.j2*
+- Default value: `vault_backend_gkms.j2`
 
 ### `vault_gkms_project`
 
 - GCP Project where the key reside.
-- Default value: *''*
+- Default value: ''
 
 ### `vault_gkms_credentials_src_file`
 
 - User-specified source directory for GCP Credential on Ansible control node.
-- Default value: *''*
+- Default value: ''
 
 ### `vault_gkms_credentials`
 
@@ -631,17 +627,17 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 ### `vault_gkms_region`
 
 - GCP Region where the key reside.
-- Default value: *global*
+- Default value: global
 
 ### `vault_gkms_key_ring`
 
 - The id of the Google Cloud Platform KeyRing to which the key shall belong.
-- Default value: *vault*
+- Default value: vault
 
 ### `vault_gkms_crypto_key`
 
 - The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
-- Default value: *vault_key*
+- Default value: vault_key
 
 ## Vault AWS KMS Auto-unseal
 
@@ -651,37 +647,37 @@ aid in the creation of new or ephemeral clusters.
 ### `vault_awskms`
 
 - Set to true to enable AWS KMS Auto-unseal
-- Default value: *false*
+- Default value: false
 
 ### `vault_awskms_backend`
 
 - Backend seal template filename
-- Default value: *vault_backend_awskms.j2*
+- Default value: `vault_backend_awskms.j2`
 
 ### `vault_awskms_region`
 
 - Which AWS KMS region to use
-- Default value: *us-east-1*
+- Default value: us-east-1
 
 ### `vault_awskms_access_key`
 
 - The AWS Access Key to use for talking to AWS KMS
-- Default value: *EXAMPLE_KEY*
+- Default value: EXAMPLE_KEY
 
 ### `vault_awskms_secret_key`
 
 - The AWS Secret Key ID to use for takling to AWS KMS
-- Default value: *EXAMPLE_SECRET_ID*
+- Default value: EXAMPLE_SECRET_ID
 
 ### `vault_awskms_key_id`
 
 - The KMS Key ID to use for AWS KMS
-- Default value: *EXAMPLE_KMS_KEY_ID*
+- Default value: EXAMPLE_KMS_KEY_ID
 
 ### `vault_awskms_endpoint`
 
 - The endpoint to use for KMS
-- Default value: *EXAMPLE_AWSKMS_ENDPOINT*
+- Default value: EXAMPLE_AWSKMS_ENDPOINT
 
 ## License
 
