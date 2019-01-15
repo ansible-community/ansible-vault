@@ -1,3 +1,8 @@
+## v2.1.2
+
+- Vault v1.0.2
+- Update documentation
+
 ## v2.1.1
 
 - Vault v1.0.1
@@ -396,14 +401,14 @@
 - Remove OS specific tasks
 - Update documentation
 
-## v1.0.11
+## v1.0.21
 
 - Update/validate CentOS 7 box
 - Update documentation
 - Update failure cases for CentOS
 - Fix SysV init script
 
-## v1.0.10
+## v1.0.20
 
 - Fix binary name
 
@@ -445,7 +450,7 @@
 - Set correct RAM amount in Vagrantfile
 - Rename Vagrant inventory back to cluster_nodes
 
-## v1.0.1
+## v1.0.2
 
 - Update documentation
 
