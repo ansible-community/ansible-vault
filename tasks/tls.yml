@@ -28,3 +28,4 @@
     - src: "{{ vault_tls_src_files}}/{{ vault_tls_ca_file }}"
       dest: "{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
       mode: "0644"
+  when: vault_tls_copy_keys | bool
