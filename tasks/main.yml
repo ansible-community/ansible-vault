@@ -192,3 +192,4 @@
   until: check_result is succeeded
   delay: 10
   changed_when: false
+  when: vault_health_check | bool
