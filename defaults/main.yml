@@ -93,6 +93,7 @@ vault_tls_src_files: "{{ lookup('env','VAULT_TLS_SRC_FILES') | default(role_path
 vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
 vault_tls_gossip: "{{ lookup('env','VAULT_TLS_GOSSIP') | default(0, true) }}"
 
+vault_tls_copy_keys: true
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
 vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('vault.crt', true) }}"
 vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('vault.key', true) }}"
