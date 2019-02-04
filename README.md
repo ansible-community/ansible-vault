@@ -662,22 +662,22 @@ aid in the creation of new or ephemeral clusters.
 ### `vault_awskms_access_key`
 
 - The AWS Access Key to use for talking to AWS KMS
-- Default value: EXAMPLE_KEY
+- Default value: AWS_ACCESS_KEY_ID
 
 ### `vault_awskms_secret_key`
 
 - The AWS Secret Key ID to use for takling to AWS KMS
-- Default value: EXAMPLE_SECRET_ID
+- Default value: AWS_SECRET_ACCESS_KEY
 
 ### `vault_awskms_key_id`
 
 - The KMS Key ID to use for AWS KMS
-- Default value: EXAMPLE_KMS_KEY_ID
+- Default value: VAULT_AWSKMS_SEAL_KEY_ID
 
 ### `vault_awskms_endpoint`
 
 - The endpoint to use for KMS
-- Default value: EXAMPLE_AWSKMS_ENDPOINT
+- Default value: AWS_KMS_ENDPOINT
 
 ## License
 
