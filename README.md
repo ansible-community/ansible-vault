@@ -679,6 +679,45 @@ aid in the creation of new or ephemeral clusters.
 - The endpoint to use for KMS
 - Default value: AWS_KMS_ENDPOINT
 
+## Vault AZURE Key Vault Auto-unseal
+
+This feature enabled operators to delegate the unsealing process to AZURE Key Vaultto ease operations in the event of a partial failure and to aid in the creation of new or ephemeral clusters.
+
+### `vault_azurekeyvault`
+
+- Set to true to enable AZURE Key Vault Auto-unseal
+- Default value: false
+
+### `vault_backend_azurekeyvault`
+
+- Backend seal template filename
+- Default value: `vault_backend_azurekeyvault.j2`
+
+### `vault_azurekeyvault_client_id`
+
+- Application ID related to Service Principal Name for the Application used to connect to Azure
+- Default value: EXAMPLE_CLIENT_ID
+
+### `vault_azurekeyvault_client_secret`
+
+- Client Secret is the secret key attached to your Application 
+- Default value: EXAMPLE_CLIENT_SECRET
+
+### `vault_azurekeyvault_tenant_id`
+
+- Tenant ID is your Directory ID in Azure 
+- Default value: EXAMPLE_TENANT_ID
+
+### `vault_azurekeyvault_vault_name`
+
+- The name of the Vault which hosts the key
+- Default value: vault
+
+### `vault_azurekeyvault_key_name`
+
+- The key hosted in the Vault in Azure Key Vault
+- Default value: vault_key
+
 ## License
 
 BSD
