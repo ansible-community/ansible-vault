@@ -21,3 +21,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@bdossantos](https://github.com/bdossantos)
 - [@jeffWelling](https://github.com/jeffWelling)
 - [@Fuochi-YNAP](https://github.com/Fuochi-YNAP)
+- [@nehrman](https://github.com/nehrman)

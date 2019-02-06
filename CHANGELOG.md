@@ -1,6 +1,9 @@
 ## v2.1.3 (UNRELEASED)
 
+- Vault v1.0.3
 - Skip certificate copy if desired (thanks @Fuochi-YNAP)
+- Skip health check if desired (thanks @Fuochi-YNAP)
+- Add Azure Key Auto Unseal configuration (thanks @nehrman)
 
 ## v2.1.2
 
