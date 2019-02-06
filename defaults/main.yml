@@ -54,6 +54,8 @@ vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_listener_template: vault_listener.hcl.j2
 
+vault_health_check: true
+
 #### Vault storage / backend.
 vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
@@ -141,8 +143,10 @@ vault_gkms_key_ring: 'vault'
 vault_gkms_crypto_key: 'vault_key'
 
 ## Vault AWS KMS - auto unseal
+vault_awskms: false
 vault_awskms_backend: vault_backend_awskms.j2
-
-## Vault AWS KMS - auto unseal
-vault_azurekeyvault: false
-vault_azurekeyvault_backend: vault_backend_azurekeyvault.j2
+vault_awskms_region: "{{ lookup('env','AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
+vault_awskms_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') | default('', false) }}"
+vault_awskms_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') | default('', false) }}"
+vault_awskms_key_id: "{{ lookup('env','VAULT_AWSKMS_SEAL_KEY_ID') | default('', false) }}"
+vault_awskms_endpoint: "{{ lookup('env','AWS_KMS_ENDPOINT') | default('', false) }}"
