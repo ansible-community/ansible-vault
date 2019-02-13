@@ -1,4 +1,4 @@
-## v2.1.3 (UNRELEASED)
+## v2.1.3
 
 - Vault v1.0.3
 - Skip certificate copy if desired (thanks @Fuochi-YNAP)
