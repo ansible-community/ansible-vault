@@ -1,9 +1,11 @@
 ---
 # File: defaults/main.yml - Main default variables for Vault
 
-## Core
+# ---------------------------------------------------------------------------
+# Core variables
+# ---------------------------------------------------------------------------
 
-### Package
+# Package variables
 vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.0.3', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
@@ -18,7 +20,7 @@ vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
 vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
 
-### Install Method
+# Install method variables
 vault_install_remotely: false
 
 ### Paths
@@ -83,10 +85,12 @@ vault_sysvinit_template: vault_sysvinit.j2
 vault_debian_init_template: vault_debian.init.j2
 vault_systemd_template: vault_systemd.service.j2
 
-## TLS
+# ---------------------------------------------------------------------------
+# TLS variables
+# ---------------------------------------------------------------------------
 
-# at the end of the role there's a API Reachability check if you rely on
-# self-signed certificates you might need to change the below to false
+# NB: at the end of the role there's a API Reachability check; if you rely on
+# self-signed certificates you might need to change the following to false
 validate_certs_during_api_reachable_check: true
 
 vault_tls_config_path: "{{ lookup('env','VAULT_TLS_DIR') | default('/etc/vault/tls', true) }}"
@@ -100,8 +104,6 @@ vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
 vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('vault.crt', true) }}"
 vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('vault.key', true) }}"
 vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
-# /etc/pki/tls/certs/server.crt is distribution-specific/not a good default
-# a distribution-specific play to link into expected destination is preferred
 
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
 vault_tls_cipher_suites: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
@@ -110,14 +112,43 @@ vault_tls_files_remote_src: false
 vault_tls_require_and_verify_client_cert: false
 vault_tls_disable_client_certs: false
 
-## Vault Enterprise
+# ---------------------------------------------------------------------------
+# Enterprise related variables
+# ---------------------------------------------------------------------------
 
 vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
 vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
 vault_enterprise_premium: false
 
-## Vault HSM
+# ---------------------------------------------------------------------------
+# Seal type variables
+# ---------------------------------------------------------------------------
+
+## AWS KMS auto unseal
+vault_awskms: false
+vault_awskms_backend: vault_backend_awskms.j2
+vault_awskms_region: "{{ lookup('env','AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
+vault_awskms_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') | default('', false) }}"
+vault_awskms_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') | default('', false) }}"
+vault_awskms_key_id: "{{ lookup('env','VAULT_AWSKMS_SEAL_KEY_ID') | default('', false) }}"
+vault_awskms_endpoint: "{{ lookup('env','AWS_KMS_ENDPOINT') | default('', false) }}"
+
+## Azure Key Vault auto unseal
+vault_azurekeyvault: false
+vault_azurekeyvault_backend: vault_backend_azurekeyvault.j2
+
+## Google KMS auto unseal
+vault_gkms: false
+vault_backend_gkms: vault_backend_gkms.j2
+vault_gkms_project: ''
+vault_gkms_credentials_src_file: ''
+vault_gkms_credentials: '/home/vault/vault-kms.json'
+vault_gkms_region: 'global'
+vault_gkms_key_ring: 'vault'
+vault_gkms_crypto_key: 'vault_key'
+
+## HSM seal
 vault_enterprise_premium_hsm: false
 vault_hsm_app: pkcs11
 vault_backend_seal: vault_backend_seal.j2
@@ -130,23 +161,3 @@ vault_seal_token_label: ''
 vault_seal_slot: 0
 vault_softcard_enable: false
 vault_telemetry_enabled: false
-
-## Vault Google KMS - auto unseal
-
-vault_gkms: false
-vault_backend_gkms: vault_backend_gkms.j2
-vault_gkms_project: ''
-vault_gkms_credentials_src_file: ''
-vault_gkms_credentials: '/home/vault/vault-kms.json'
-vault_gkms_region: 'global'
-vault_gkms_key_ring: 'vault'
-vault_gkms_crypto_key: 'vault_key'
-
-## Vault AWS KMS - auto unseal
-vault_awskms: false
-vault_awskms_backend: vault_backend_awskms.j2
-vault_awskms_region: "{{ lookup('env','AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
-vault_awskms_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') | default('', false) }}"
-vault_awskms_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') | default('', false) }}"
-vault_awskms_key_id: "{{ lookup('env','VAULT_AWSKMS_SEAL_KEY_ID') | default('', false) }}"
-vault_awskms_endpoint: "{{ lookup('env','AWS_KMS_ENDPOINT') | default('', false) }}"

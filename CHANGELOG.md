@@ -1,3 +1,8 @@
+## v2.1.4
+
+- Replace Azure Key Vault variables to resolve #85
+- Tidy and reorganize main variables
+
 ## v2.1.3
 
 - Vault v1.0.3
