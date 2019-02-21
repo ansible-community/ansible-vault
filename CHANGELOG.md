@@ -1,3 +1,7 @@
+## v2.1.5 (UNRELEASED)
+
+- Add additional health responses to API reachability check (thanks @enqack)
+
 ## v2.1.4
 
 - Replace Azure Key Vault variables to resolve #85
