@@ -2,6 +2,8 @@
 
 - Vault v1.1.0
 - Add additional health responses to API reachability check (thanks @enqack)
+- VAULT_ADDR and VAULT_CACERT export in ~/.bashrc (thanks @planetrobbie)
+- Update documentation
 
 ## v2.1.4
 
