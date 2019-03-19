@@ -19,7 +19,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Ansible: 2.7.5
-* Vault: 1.0.3
+* Vault: 1.1.0
 * Debian: 9
 * FreeBSD 11
 * Ubuntu 18.04
@@ -37,7 +37,7 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: 1.0.3
+- Default value: 1.1.0
 
 ### `vault_enterprise`
 

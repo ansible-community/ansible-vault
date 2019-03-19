@@ -1,5 +1,6 @@
-## v2.1.5 (UNRELEASED)
+## v2.1.5
 
+- Vault v1.1.0
 - Add additional health responses to API reachability check (thanks @enqack)
 
 ## v2.1.4
@@ -456,7 +457,7 @@
 - Remove vars dir
 - Enable download once / copy many install
 
-## v1.0.3
+## v1.1.0
 
 - Move all vars to defaults
 - Documentation updates
