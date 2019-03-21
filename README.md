@@ -18,7 +18,7 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.7.5
+* Ansible: 2.7.9
 * Vault: 1.1.0
 * Debian: 9
 * FreeBSD 11
@@ -700,12 +700,12 @@ This feature enabled operators to delegate the unsealing process to AZURE Key Va
 
 ### `vault_azurekeyvault_client_secret`
 
-- Client Secret is the secret key attached to your Application 
+- Client Secret is the secret key attached to your Application
 - Default value: EXAMPLE_CLIENT_SECRET
 
 ### `vault_azurekeyvault_tenant_id`
 
-- Tenant ID is your Directory ID in Azure 
+- Tenant ID is your Directory ID in Azure
 - Default value: EXAMPLE_TENANT_ID
 
 ### `vault_azurekeyvault_vault_name`

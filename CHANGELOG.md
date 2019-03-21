@@ -1,3 +1,10 @@
+## v2.1.6
+
+- Resolve environment additions/create .bashrc (thanks @gfeun)
+- Update documentation
+- Update license
+- Update variables
+
 ## v2.1.5
 
 - Vault v1.1.0
