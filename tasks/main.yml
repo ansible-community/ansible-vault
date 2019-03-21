@@ -179,6 +179,7 @@
   lineinfile: 
     path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
     line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ inventory_hostname }}:{{ vault_port }}'"
+    create: yes
   when:
     - ansible_os_family != 'Windows'
 
@@ -186,6 +187,7 @@
   lineinfile: 
     path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
     line: "export VAULT_CACERT={{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
+    create: yes
   when:
     - not vault_tls_disable | bool
     - ansible_os_family != 'Windows'
