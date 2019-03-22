@@ -4,7 +4,7 @@ galaxy_info:
   author: Brian Shumate
   description: HashiCorp Vault server role
   company: Brian Shumate
-  license: license BSD
+  license: BSD
   min_ansible_version: 2.5
 
   platforms:
@@ -20,13 +20,6 @@ galaxy_info:
       versions:
         - jessie
         - stretch
-    # - name: SmartOS
-    #   versions:
-    #   - all
-    #   - any
-    # - name: FreeBSD
-    #   versions:
-    #   - 11.0
     - galaxy_tags:
         - networking
         - security

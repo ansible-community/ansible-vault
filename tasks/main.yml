@@ -212,8 +212,4 @@
   until: check_result is succeeded
   delay: 10
   changed_when: false
-  tags:
-    - api
-    - health
-    - tricky
-    - skip_ansible_lint
+  tags: skip_ansible_lint
