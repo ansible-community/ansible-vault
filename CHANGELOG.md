@@ -1,3 +1,13 @@
+## v2.1.7 (UNRELEASED)
+
+- Update for E206 [lint]
+  - tasks/tls
+- Update for E201 [lint]
+  - tasks/main
+- Update for E504 [lint]
+  - tasks/install
+  - tasks/install_enterprise
+
 ## v2.1.6
 
 - Resolve environment additions/create .bashrc (thanks @gfeun)

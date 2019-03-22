@@ -69,7 +69,7 @@
     dest: "{{ item }}"
     state: directory
     owner: "{{ vault_user }}"
-    group: "{{ vault_group}}"
+    group: "{{ vault_group }}"
   with_items:
     - "{{ vault_config_path }}"
     - "{{ vault_data_path }}"
@@ -152,6 +152,7 @@
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
+  tags: skip_ansible_lint
 
 - name: systemd unit
   template:
@@ -176,7 +177,7 @@
   meta: flush_handlers
 
 - name: Insert http(s) export in dotfile
-  lineinfile: 
+  lineinfile:
     path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
     line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ inventory_hostname }}:{{ vault_port }}'"
     create: yes
@@ -184,7 +185,7 @@
     - ansible_os_family != 'Windows'
 
 - name: Insert CA cert export in dotfile
-  lineinfile: 
+  lineinfile:
     path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
     line: "export VAULT_CACERT={{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
     create: yes

@@ -1,5 +1,6 @@
 ---
-# File: tasks/install_remote.yml - package installation tasks for vault
+# File: tasks/install_remote.yml
+#       Package installation tasks for vault
 
 - name: OS packages
   package:
@@ -28,7 +29,9 @@
 - name: Get Vault package checksum
   shell: "grep {{ vault_pkg }} /tmp/vault/{{ vault_shasums }}"
   register: vault_sha256
-  tags: installation
+  tags:
+    - installation
+    - skip_ansible_lint
 
 - name: Check Vault package file
   stat:
