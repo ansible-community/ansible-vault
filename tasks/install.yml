@@ -41,7 +41,9 @@
   become: false
   run_once: true
   register: vault_sha256
-  tags: installation
+  tags:
+    - installation
+    - skip_ansible_lint
   delegate_to: 127.0.0.1
 
 - name: Check Vault package file (local)
