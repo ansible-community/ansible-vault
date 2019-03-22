@@ -20,8 +20,10 @@ galaxy_info:
       versions:
         - jessie
         - stretch
-    - galaxy_tags:
-        - networking
-        - security
-        - system
+
+  galaxy_tags:
+    - networking
+    - security
+    - system
+
 dependencies: []

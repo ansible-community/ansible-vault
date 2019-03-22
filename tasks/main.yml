@@ -179,7 +179,9 @@
 - name: Insert http(s) export in dotfile
   lineinfile:
     path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
-    line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ inventory_hostname }}:{{ vault_port }}'"
+    line: >-
+      "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}"
+      "://{{ inventory_hostname }}:{{ vault_port }}'"
     create: true
   when:
     - ansible_os_family != 'Windows'
@@ -197,7 +199,10 @@
 - name: Vault API reachable?
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
-    url: "{{ vault_tls_disable | ternary('http', 'https') }}://{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}:{{ vault_port }}/v1/sys/health"
+    url: >-
+      "{{ vault_tls_disable | ternary('http', 'https') }}"
+      "://{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
+      ":{{ vault_port }}/v1/sys/health"
     method: GET
     # 200 if initialized, unsealed, and active
     # 429 if unsealed and standby
@@ -212,4 +217,3 @@
   until: check_result is succeeded
   delay: 10
   changed_when: false
-  tags: skip_ansible_lint
