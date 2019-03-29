@@ -16,7 +16,7 @@
   tags: installation
   when:
     - ansible_distribution == "Debian"
-    - ansible_distribution_version|version_compare(8.5, '>')
+    - (ansible_distribution_version == 'buster/sid') or (ansible_distribution_version is version_compare(8.5, '>'))
 
 - name: Check Vault package checksum file (local)
   stat:
