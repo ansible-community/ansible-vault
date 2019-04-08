@@ -1,4 +1,4 @@
-## v2.1.7 (UNRELEASED)
+## v2.1.7
 
 - Minimum Ansible version to 2.7
 - Support install on Debian Testing (thanks @gfeun)
