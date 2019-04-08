@@ -1,5 +1,6 @@
 ## v2.1.7 (UNRELEASED)
 
+- Minimum Ansible version to 2.7
 - Support install on Debian Testing (thanks @gfeun)
 - Update for E206 [lint]
   - tasks/tls
