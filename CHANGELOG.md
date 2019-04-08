@@ -1,5 +1,6 @@
 ## v2.1.7 (UNRELEASED)
 
+- Support install on Debian Testing (thanks @gfeun)
 - Update for E206 [lint]
   - tasks/tls
 - Update for E201 [lint]
