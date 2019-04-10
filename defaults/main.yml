@@ -1,5 +1,5 @@
 ---
-# File: defaults/main.yml - Main default variables for Vault
+# File: defaults/main.yml - default variables for Vault
 
 # ---------------------------------------------------------------------------
 # Core variables
@@ -62,7 +62,10 @@ vault_listener_template: vault_listener.hcl.j2
 
 vault_health_check: true
 
-# Vault storage / backend.
+# ---------------------------------------------------------------------------
+# Storage backend
+# ---------------------------------------------------------------------------
+
 vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
@@ -70,7 +73,6 @@ vault_backend_file: vault_backend_file.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
-# vault_redirect_address is kept for backward compatibility but is deprecated
 vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
 
 vault_max_lease_ttl: "768h"
@@ -83,11 +85,14 @@ vault_consul_service: vault
 vault_consul_scheme: http
 # vault_consul_token:
 
-### Init templates
-vault_bsdinit_template: vault_bsdinit.j2
+# ---------------------------------------------------------------------------
+# Initialization and startup script templates
+# ---------------------------------------------------------------------------
+
+vault_bsdinit_template: vault_service_bsd_init.j2
 vault_sysvinit_template: vault_sysvinit.j2
-vault_debian_init_template: vault_debian.init.j2
-vault_systemd_template: vault_systemd.service.j2
+vault_debian_init_template: vault_service_debian_init.j2
+vault_systemd_template: vault_service_systemd.j2
 
 # ---------------------------------------------------------------------------
 # TLS variables
@@ -126,25 +131,25 @@ vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
 vault_enterprise_premium: false
 
 # ---------------------------------------------------------------------------
-# Seal type variables
+# Seal variables
 # ---------------------------------------------------------------------------
 
-## AWS KMS auto unseal
+# awskms seal
 vault_awskms: false
-vault_awskms_backend: vault_backend_awskms.j2
+vault_awskms_backend: vault_seal_awskms.j2
 vault_awskms_region: "{{ lookup('env','AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
 vault_awskms_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') | default('', false) }}"
 vault_awskms_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') | default('', false) }}"
 vault_awskms_key_id: "{{ lookup('env','VAULT_AWSKMS_SEAL_KEY_ID') | default('', false) }}"
 vault_awskms_endpoint: "{{ lookup('env','AWS_KMS_ENDPOINT') | default('', false) }}"
 
-## Azure Key Vault auto unseal
+## azurekeyvault seal
 vault_azurekeyvault: false
-vault_azurekeyvault_backend: vault_backend_azurekeyvault.j2
+vault_azurekeyvault_backend: vault_seal_azurekeyvault.j2
 
-## Google KMS auto unseal
+## gcpkms seal
 vault_gkms: false
-vault_backend_gkms: vault_backend_gkms.j2
+vault_backend_gkms: vault_seal_gcpkms.j2
 vault_gkms_project: ''
 vault_gkms_credentials_src_file: ''
 vault_gkms_credentials: '/home/vault/vault-kms.json'
@@ -152,10 +157,13 @@ vault_gkms_region: 'global'
 vault_gkms_key_ring: 'vault'
 vault_gkms_crypto_key: 'vault_key'
 
-## HSM seal
+## pkcs11 seal
 vault_enterprise_premium_hsm: false
+# WARNING: the following variable is deprecated as this section will become
+#          _only_ a pkcs11 seal soon. Please take note that vault_hsm_app will
+#          soon be removed!
 vault_hsm_app: pkcs11
-vault_backend_seal: vault_backend_seal.j2
+vault_backend_seal: vault_seal_pkcs11.j2
 vault_seal_lib: /lib64/hsmlibrary.so
 vault_seal_pin: 12345
 vault_seal_key_label: vault-hsm-key

@@ -9,6 +9,16 @@
 - Update for E504 [lint]
   - tasks/install
   - tasks/install_enterprise
+- Use bool filter in template conditionals
+- Consistent seal template filenames
+  - awskms seal (now named vault_seal_awskms.j2)
+  - azurekeyvault seal (now named `vault_seal_azurekeyvault.j2`)
+  - gcpkms seal template (now named `vault_seal_gcpkms.j2`)
+  - pkcs11 seal template (now named `vault_seal_pkcs11.j2`)
+- Consistent service template names
+  - BSD style init script (now named `vault_service_bsd_init.j2`)
+  - Debian style init script (now named `vault_service_debian_init.j2`)
+  - systemd unit (now named `vault_service_systemd.j2`)
 
 ## v2.1.6
 

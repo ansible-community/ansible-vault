@@ -1,12 +1,12 @@
-seal "{{ vault_hsm_app }}" {
+seal "pkcs11" {
 
-  lib = "{{ vault_seal_lib }}"
+  lib = "{{ vault_seal_lib | bool }}"
 {% if vault_softcard_enable -%}
 	token_label	= "{{ vault_seal_token_label }}"
 {% else -%}
   slot = "{{ vault_seal_slot }}"
 {% endif -%}
-  pin = "{{ vault_seal_pin }}" 
+  pin = "{{ vault_seal_pin }}"
   key_label = "{{ vault_seal_key_label }}"
 	generate_key = "{{ vault_seal_generate_key }}"
 {% if vault_seal_key_mechanism != '' -%}

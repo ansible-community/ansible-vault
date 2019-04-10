@@ -336,7 +336,7 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_bsdinit_template`
 - BSD init template file
-- Default value: `vault_bsdinit.j2`
+- Default value: `vault_service_bsd_init.j2`
 
 ### `vault_sysvinit_template`
 - SysV init  template file
@@ -344,11 +344,11 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_debian_init_template`
 - Debian init template file
-- Default value: `vault_debian.init.j2`
+- Default value: `vault_service_debian_init.j2`
 
 ### `vault_systemd_template`
 - Systemd service template file
-- Default value: `vault_systemd.service.j2`
+- Default value: `vault_service_systemd.j2`
 
 ### `vault_telemetry_enabled`
 - Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
@@ -549,6 +549,8 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 ### `vault_backend_seal`
 
+> NOTE: This seal will be migrated to the `pkcs11` seal and made consistent with the other seal types with respect to breaking naming changes soon.
+
 - Backend seal template filename
 - Default value: `vault_backend_seal.j2`
 
@@ -607,7 +609,7 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 ### `vault_backend_gkms`
 
 - Backend seal template filename
-- Default value: `vault_backend_gkms.j2`
+- Default value: `vault_seal_gcpkms.j2`
 
 ### `vault_gkms_project`
 
@@ -652,7 +654,7 @@ aid in the creation of new or ephemeral clusters.
 ### `vault_awskms_backend`
 
 - Backend seal template filename
-- Default value: `vault_backend_awskms.j2`
+- Default value: `vault_seal_awskms.j2`
 
 ### `vault_awskms_region`
 
@@ -679,7 +681,7 @@ aid in the creation of new or ephemeral clusters.
 - The endpoint to use for KMS
 - Default value: AWS_KMS_ENDPOINT
 
-## Vault AZURE Key Vault Auto-unseal
+## Vault Azure Key Vault Auto-unseal
 
 This feature enabled operators to delegate the unsealing process to AZURE Key Vaultto ease operations in the event of a partial failure and to aid in the creation of new or ephemeral clusters.
 
@@ -691,7 +693,7 @@ This feature enabled operators to delegate the unsealing process to AZURE Key Va
 ### `vault_backend_azurekeyvault`
 
 - Backend seal template filename
-- Default value: `vault_backend_azurekeyvault.j2`
+- Default value: `vault_seal_azurekeyvault.j2`
 
 ### `vault_azurekeyvault_client_id`
 
