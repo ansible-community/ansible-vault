@@ -161,11 +161,22 @@
     owner: root
     group: root
     mode: "0644"
+  register: systemd_unit
   when:
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
     - not ansible_os_family == "Solaris"
     - systemd_version is defined
+
+- name: reload systemd
+  systemd:
+    daemon-reload: true
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+    - systemd_version is defined
+    - systemd_unit is changed
 
 - name: Start Vault
   service:
