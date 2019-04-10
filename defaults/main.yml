@@ -60,8 +60,6 @@ vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_listener_template: vault_listener.hcl.j2
 
-vault_health_check: true
-
 # ---------------------------------------------------------------------------
 # Storage backend
 # ---------------------------------------------------------------------------
