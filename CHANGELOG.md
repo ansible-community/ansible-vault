@@ -1,3 +1,11 @@
+## v2.1.8 (UNRELEASED)
+
+- Vault version 1.1.1
+- Allow sealed state for standalone instance (thanks @kwevers)
+- Revert long line syntax change in main tasks (thanks @kwevers)
+- Ensure systemd is reloaded on unit changes (thanks @kwevers)
+- Add vault_bin_path to the PATH (thanks @kwevers)
+
 ## v2.1.7
 
 - Minimum Ansible version to 2.7
