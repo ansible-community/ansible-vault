@@ -179,9 +179,7 @@
 - name: Insert http(s) export in dotfile
   lineinfile:
     path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
-    line: >-
-      "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}"
-      "://{{ inventory_hostname }}:{{ vault_port }}'"
+    line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ inventory_hostname }}:{{ vault_port }}'"
     create: true
   when:
     - ansible_os_family != 'Windows'
