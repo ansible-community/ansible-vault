@@ -17,6 +17,8 @@
 
 - name: Check Vault installation
   command: which vault
+  environment:
+    PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
   changed_when: false
   ignore_errors: true
