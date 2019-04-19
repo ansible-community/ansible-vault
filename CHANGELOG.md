@@ -1,3 +1,7 @@
+## v2.2.0 (UNRELEASED)
+
+- Clean up task items
+
 ## v2.1.9
 
 - Vault version 1.1.2

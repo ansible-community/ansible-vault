@@ -18,7 +18,9 @@
   delegate_to: 127.0.0.1
 
 - name: "[Enterprise] Get SHA SUM from {{ role_path }}/files/{{ vault_enterprise_shasums }} (local)"
-  shell: grep "{{ vault_enterprise_pkg }}" "{{ role_path }}/files/{{ vault_enterprise_shasums }}" | awk '{print $1}'
+  shell: |
+    set -o pipefail
+    grep "{{ vault_enterprise_pkg }}" "{{ role_path }}/files/{{ vault_enterprise_shasums }}" | awk '{print $1}'
   become: false
   run_once: true
   register: vault_sha256
