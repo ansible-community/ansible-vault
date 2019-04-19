@@ -5,6 +5,7 @@
   include: asserts.yml
 
 - name: "Add Vault user"
+  become: true
   user:
     name: "{{ vault_user }}"
     comment: "Vault user"
@@ -57,16 +58,19 @@
     - installation_required | bool
 
 - name: Check Vault mlock capability
+  become: true
   command: "setcap -v cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   changed_when: false  # read-only task
   ignore_errors: true
   register: vault_mlock_capability
 
 - name: Enable non root mlock capability
+  become: true
   command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   when: vault_mlock_capability is failed
 
 - name: Create directories
+  become: true
   file:
     dest: "{{ item }}"
     state: directory
@@ -89,7 +93,7 @@
 
 - name: TLS configuration
   include: ../tasks/tls.yml
-  when: vault_tls_disable == 0
+  when: vault_tls_disable == 0 or vault_tls_gossip == 1
 
 - name: "Copy over GCP Credentials for Auto Unseal"
   copy:
@@ -101,6 +105,7 @@
   when: vault_gkms | bool
 
 - name: Listener configuration
+  become: true
   template:
     src: "{{ vault_listener_template }}"
     dest: "{{ vault_main_config }}"
@@ -157,6 +162,7 @@
   tags: skip_ansible_lint
 
 - name: systemd unit
+  become: true
   template:
     src: "{{ vault_systemd_template }}"
     dest: /lib/systemd/system/vault.service
@@ -171,6 +177,7 @@
     - systemd_version is defined
 
 - name: reload systemd
+  become: true
   systemd:
     daemon-reload: true
   when:
@@ -181,6 +188,7 @@
     - systemd_unit is changed
 
 - name: Start Vault
+  become: true
   service:
     name: vault
     state: started

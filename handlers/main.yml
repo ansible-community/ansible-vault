@@ -2,4 +2,5 @@
 # handlers file for vault
 
 - name: Restart vault
+  become: true
   service: name=vault state=restarted

@@ -67,6 +67,7 @@ vault_listener_template: vault_listener.hcl.j2
 vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
+vault_backend_etcd: vault_backend_etcd.j2
 
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
@@ -81,6 +82,19 @@ vault_consul: 127.0.0.1:8500
 vault_consul_path: vault
 vault_consul_service: vault
 vault_consul_scheme: http
+
+vault_etcd: 127.0.0.1:2379
+vault_etcd_api: v3
+vault_etcd_path: /vault/
+vault_etcd_discovery_srv: ""
+vault_etcd_discovery_srv_name: ""
+vault_etcd_ha_enabled: false
+vault_etcd_sync: true
+vault_etcd_username: ""
+vault_etcd_password: ""
+vault_etcd_request_timeout: "5s"
+vault_etcd_lock_timeout: "15s"
+
 # vault_consul_token:
 
 # ---------------------------------------------------------------------------

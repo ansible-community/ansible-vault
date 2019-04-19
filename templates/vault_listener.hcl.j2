@@ -32,16 +32,19 @@ listener "tcp" {
   Select which backend you want generated and placed
   in the vault configuration file.
 #}
-{% if vault_backend == 'consul' %}
-  {% include vault_backend_consul with context %}
-{% elif vault_backend == 'file' %}
-  {% include vault_backend_file with context %}
-{% elif vault_backend == 'mysql' %}
-  {% include vault_backend_mysql with context %}
-{% endif %}
+{% if vault_backend == 'consul' -%}
+  {% include vault_backend_consul with context -%}
+{% elif vault_backend == 'etcd' -%}
+  {% include vault_backend_etcd with context -%}
+{% elif vault_backend == 'file' -%}
+  {% include vault_backend_file with context -%}
+{% elif vault_backend == 'mysql' -%}
+  {% include vault_backend_mysql with context -%}
+{% endif -%}
+
 
 {% if vault_ui -%}
-  ui = {{ vault_ui | bool | lower }}
+ui = {{ vault_ui | bool | lower }}
 {% endif -%}
 
 {% if vault_enterprise_premium_hsm | bool -%}

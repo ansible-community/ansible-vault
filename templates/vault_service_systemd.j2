@@ -25,7 +25,7 @@ PrivateTmp=yes
 PrivateDevices=yes
 SecureBits=keep-caps
 Capabilities=CAP_IPC_LOCK+ep
-{% if systemd_version.stdout | version_compare('230', '>=') %}
+{% if systemd_version.stdout is version('230', '>=') %}
 AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 {% endif %}
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK

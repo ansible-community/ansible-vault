@@ -2,6 +2,7 @@
 # File: tasks/tls.yml - TLS tasks for Vault
 
 - name: Create TLS directory
+  become: true
   file:
     dest: "{{ item }}"
     state: directory
@@ -11,6 +12,7 @@
     - "{{ vault_tls_config_path }}"
 
 - name: Vault SSL Certificate and Key
+  become: true
   copy:
     remote_src: "{{ vault_tls_files_remote_src }}"
     src: "{{ item.src }}"

@@ -1,0 +1,23 @@
+backend "etcd" {
+  address = "{{ vault_etcd }}"
+  path = "{{ vault_etcd_path }}"
+  api = "{{ vault_etcd_api }}"
+  request_timeout = "{{ vault_etcd_request_timeout }}"
+  lock_timeout = "{{ vault_etcd_lock_timeout }}"
+  sync = "{{ vault_etcd_sync }}"
+  ha_enabled = "{{ vault_etcd_ha_enabled }}"
+  {% if vault_etcd_discovery_srv is defined and vault_etcd_discovery_srv|length -%}
+  discovery_srv = "{{ vault_etcd_discovery_srv }}"
+  discovery_srv_name = "{{ vault_etcd_discovery_srv_name }}"
+  {% endif -%}
+  {% if vault_etcd_username is defined and vault_etcd_username|length -%}
+  username = "{{ vault_etcd_username }}"
+  password = "{{ vault_etcd_password }}"
+  {% endif -%}
+  {% if vault_tls_gossip | bool -%}
+  tls_cert_file = "{{ vault_tls_config_path }}/{{ vault_tls_cert_file }}"
+  tls_key_file = "{{ vault_tls_config_path }}/{{ vault_tls_key_file }}"
+  tls_ca_file="{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
+  {% endif -%}
+}
+
