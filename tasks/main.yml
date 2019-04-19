@@ -104,10 +104,10 @@
     mode: "0600"
   when: vault_gkms | bool
 
-- name: Listener configuration
+- name: Vault main configuration
   become: true
   template:
-    src: "{{ vault_listener_template }}"
+    src: "{{ vault_main_configuration_template }}"
     dest: "{{ vault_main_config }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"

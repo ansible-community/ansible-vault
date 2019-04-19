@@ -18,8 +18,8 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.7.9
-* Vault: 1.1.1
+* Ansible: 2.7.10
+* Vault: 1.1.2
 * Debian: 9
 * FreeBSD 11
 * Ubuntu 18.04
@@ -37,7 +37,7 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: 1.1.1
+- Default value: 1.1.2
 
 ### `vault_enterprise`
 
@@ -140,6 +140,19 @@ The role defines variables in `defaults/main.yml`:
 - Enable vault web UI
 - Default value:  true
 
+## Storage Backend Variables
+
+### `vault_backend`
+- Which storage backend should be selected, choices are: consul, etcd, file, and mysql
+- Default value: consul
+
+### Consul Storage Backend
+
+### `vault_backend_consul`
+
+- Backend consul template filename
+- Default value: `backend_consul.j2`
+
 ### `vault_consul`
 
 - host:port value for connecting to Consul HA backend
@@ -166,16 +179,76 @@ The role defines variables in `defaults/main.yml`:
 - ACL token for accessing Consul
 - Default value: none
 
+### etcd Storage Backend
+
+### vault_etcd
+
+- Address of etcd storage
+- Default value: 127.0.0.1:2379
+
+### vault_etcd_api:
+
+- API version
+- Default value: v3
+
+### vault_etcd_path
+
+- Path for Vault storage
+- Default value: /vault/
+
+### vault_etcd_discovery_srv
+
+- Discovery server
+- Default value: none
+
+### vault_etcd_discovery_srv_name
+
+- Discovery server name
+- Default value: none
+
+### vault_etcd_ha_enabled
+
+- Use storage for High Availability mode
+- Default value: false
+
+### vault_etcd_sync
+
+- Use etcdsync
+- Default value: true
+
+### vault_etcd_username
+
+- Username
+- Default value: none
+
+### vault_etcd_password
+
+- Password
+- Default value: none
+
+### vault_etcd_request_timeout
+
+-Request timeout
+- Default value: "5s"
+
+### vault_etcd_lock_timeout
+
+- Lock timeout
+- Default value: "15s"
+
+### File Storage Backend
+
+### `vault_backend_file`
+
+- Backend file template filename
+- Default value: `backend_file.j2`
+
 ### `vault_log_level`
 
 - [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
   - Supported values: trace, debug, info, warn, err
 - Default value: info
-
-### `vault_syslog_enable`
-
-- Log to syslog (not yet impemented)
-- Default value: true
+- Requires Vault version 0.11.1 or higher
 
 ### `vault_iface`
 
@@ -213,23 +286,10 @@ The role defines variables in `defaults/main.yml`:
 - Main configuration file name (full path)
 - Default value: `"{{ vault_config_path }}/vault_main.hcl"`
 
-### `vault_listener_template`
-- Vault listener configuration template file
-- Default value: *vault_listener.hcl.j2*
+### `vault_main_configuration_template`
 
-### `vault_backend`
-- Which storage backend should be selected, choices are: consul, file and mysql
-- Default value: consul
-
-### `vault_backend_consul`
-
-- Backend consul template filename
-- Default value: `backend_consul.j2`
-
-### `vault_backend_file`
-
-- Backend file template filename
-- Default value: `backend_file.j2`
+- Vault main configuration template file
+- Default value: *vault_main_configuration.hcl.j2*
 
 ### `vault_cluster_address`
 
@@ -311,7 +371,7 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_tls_cipher_suites`
 
 - [Comma-separated list of supported ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cipher_suites)
-- Default value: "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA"
+- Default value: ""
 
 ### `vault_tls_prefer_server_cipher_suites`
 

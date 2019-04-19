@@ -1,3 +1,16 @@
+## v2.1.9
+
+- Vault version 1.1.2
+- Feature: add etcd storage (thanks @cordula-grau)
+- Fix: Resolve deprecation warnings (thanks @cordula-grau)
+- Fix: Move become flag to required resources (thanks @cordula-grau)
+- Reposition some main variables
+- Remove `vault_tls_cipher_suites` values/fall back to Vault defaults
+- Remove unimplemented `vault_syslog_enable`
+- Rename `vault_listener_template` to `vault_main_configuration_template`
+  - Rename corresponding template file to `vault_main_configuration.hcl.j2`
+- Update documentation
+
 ## v2.1.8
 
 - Vault version 1.1.1
@@ -497,7 +510,7 @@
 - Remove vars dir
 - Enable download once / copy many install
 
-## v1.1.1
+## v1.1.2
 
 - Move all vars to defaults
 - Documentation updates
