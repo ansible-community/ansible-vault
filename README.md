@@ -90,6 +90,11 @@ The role defines variables in `defaults/main.yml`:
 - Configuration file path
 - Default value: `/etc/vault.d`
 
+### `vault_plugin_path`
+
+- Path from where plugins can be loaded
+- Default value: `/usr/local/lib/vault/plugins`
+
 ### `vault_data_path`
 
 - Data path

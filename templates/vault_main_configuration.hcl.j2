@@ -6,6 +6,8 @@ disable_clustering = "{{ vault_cluster_disable }}"
 cluster_addr = "{{ vault_cluster_addr }}"
 api_addr = "{{ vault_api_addr }}"
 
+plugin_directory = "{{ vault_plugin_path }}"
+
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"
   cluster_address = "{{ vault_cluster_address }}"
