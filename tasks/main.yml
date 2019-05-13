@@ -203,7 +203,7 @@
 
 - name: Insert http(s) export in dotfile
   lineinfile:
-    path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
+    path: "{{ vault_home }}/.bashrc"
     line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ inventory_hostname }}:{{ vault_port }}'"
     create: true
   when:
@@ -211,7 +211,7 @@
 
 - name: Insert CA cert export in dotfile
   lineinfile:
-    path: "{{ vault_home }}/{{ ansible_ssh_user }}/.bashrc"
+    path: "{{ vault_home }}/.bashrc"
     line: "export VAULT_CACERT={{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
     create: true
   when:

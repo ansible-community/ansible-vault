@@ -29,7 +29,7 @@ vault_config_path: /etc/vault.d
 vault_data_path: /var/vault
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
-vault_home: /home
+vault_home: "/home/{{ ansible_user }}"
 
 # System user and group
 vault_manage_user: true
