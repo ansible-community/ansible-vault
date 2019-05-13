@@ -80,6 +80,7 @@
     group: "{{ vault_group }}"
   with_items:
     - "{{ vault_config_path }}"
+    - "{{ vault_plugin_path }}"
     - "{{ vault_data_path }}"
     - "{{ vault_log_path }}"
     - "{{ vault_run_path }}"

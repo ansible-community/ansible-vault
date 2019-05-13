@@ -26,6 +26,7 @@ vault_install_remotely: false
 # Paths
 vault_bin_path: /usr/local/bin
 vault_config_path: /etc/vault.d
+vault_plugin_path: /usr/local/lib/vault/plugins
 vault_data_path: /var/vault
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
