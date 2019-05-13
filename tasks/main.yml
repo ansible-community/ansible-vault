@@ -28,7 +28,7 @@
 - name: Get installed Vault version
   shell: |
     set -o pipefail
-    "{{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'"
+    {{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'
   when: not vault_installation is failed
   changed_when: false
   check_mode: false

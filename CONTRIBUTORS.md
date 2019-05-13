@@ -26,3 +26,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@gfeun](https://github.com/gfeun)
 - [@kwevers](https://github.com/kwevers)
 - [@cordula-grau](https://github.com/cordula-grau)
+- [@vmwiz](https://github.com/vmwiz)

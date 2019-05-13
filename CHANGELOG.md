@@ -1,6 +1,8 @@
 ## v2.2.0 (UNRELEASED)
 
 - Clean up task items
+- Fixup Get installed Vault version for multiline/quotes
+- Add plugin_dir configuration (thanks @vmwiz)
 
 ## v2.1.9
 
