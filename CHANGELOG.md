@@ -2,6 +2,7 @@
 
 - Clean up task items
 - Fixup Get installed Vault version for multiline/quotes
+- Update vault_home value (thanks @xeivieni)
 - Add plugin_dir configuration (thanks @vmwiz)
 
 ## v2.1.9
