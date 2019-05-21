@@ -1,4 +1,4 @@
-## v2.2.0 (UNRELEASED)
+## v2.2.0
 
 - Clean up task items
 - Fixup Get installed Vault version for multiline/quotes
