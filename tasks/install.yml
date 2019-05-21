@@ -40,7 +40,8 @@
 - name: Get Vault package checksum (local)
   shell: |
     set -o pipefail
-    grep "{{ vault_pkg }}" "{{ role_path }}/files/{{ vault_shasums }}" | awk '{print $1}'
+    grep "{{ vault_pkg }}" "{{ role_path }}/files/{{ vault_shasums }}" | \
+    awk '{print $1}'
   args:
     executable: /bin/bash
   become: false
