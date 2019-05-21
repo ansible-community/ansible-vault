@@ -41,6 +41,8 @@
   shell: |
     set -o pipefail
     grep "{{ vault_pkg }}" "{{ role_path }}/files/{{ vault_shasums }}" | awk '{print $1}'
+  args:
+    executable: /bin/bash
   become: false
   run_once: true
   register: vault_sha256

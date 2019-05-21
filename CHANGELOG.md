@@ -4,6 +4,7 @@
 - Fixup Get installed Vault version for multiline/quotes
 - Update vault_home value (thanks @xeivieni)
 - Add plugin_dir configuration (thanks @vmwiz)
+- Fix: Force `/bin/bash` on Get Vault package checksum (local) (thanks @fleu42)
 
 ## v2.1.9
 
