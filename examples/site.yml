@@ -1,10 +1,10 @@
 ---
-# File: site.yml - Example Vault site playbook
+# File: site.yml - Example Vault server playbook (Filesystem storage)
 
-- name: Install Vault
+- name: Install Vault Vagrant Development Server
   hosts: vault_instances
   any_errors_fatal: true
   become: true
   become_user: root
   roles:
-    - {role: brianshumate.vault}
+    - {role: brianshumate.vault, vault_backend: file}

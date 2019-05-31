@@ -15,7 +15,7 @@ Vagrant.require_version ">= 1.5.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # Configure one Vault node
+  # Configure one Vault server
   config.vm.define :vault do |vault_config|
     vault_config.vm.box = BOX_NAME
     vault_config.vm.network :private_network, ip: "10.1.42.240"

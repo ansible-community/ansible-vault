@@ -60,7 +60,7 @@
   register: vault_package
   delegate_to: 127.0.0.1
 
-- name: Download Vault (local)
+- name: "Download Vault (local) → {{ vault_zip_url }}"
   get_url:
     url: "{{ vault_zip_url }}"
     dest: "{{ role_path }}/files/{{ vault_pkg }}"

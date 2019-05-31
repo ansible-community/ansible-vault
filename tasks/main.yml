@@ -17,7 +17,7 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Check Vault installation
-  command: which vault
+  command: command vault
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
@@ -29,6 +29,8 @@
   shell: |
     set -o pipefail
     {{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'
+  args:
+    executable: /bin/bash
   when: not vault_installation is failed
   changed_when: false
   check_mode: false
@@ -61,7 +63,7 @@
 
 - name: Check Vault mlock capability
   become: true
-  command: "setcap -v cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+  command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   changed_when: false  # read-only task
   ignore_errors: true
   register: vault_mlock_capability
@@ -92,7 +94,7 @@
     owner: root
     group: root
     mode: 0644
-  when: vault_enable_logrotate
+  when: vault_enable_logrotate | bool
 
 - name: TLS configuration
   include: ../tasks/tls.yml
@@ -157,6 +159,8 @@
   shell: |
     set -o pipefail
     systemctl --version systemd | head -n 1 | cut -d' ' -f2
+  args:
+    executable: /bin/bash
   changed_when: false
   check_mode: false
   register: systemd_version
@@ -221,13 +225,18 @@
 
 # This should succeed regardless of seal state
 - name: Vault API reachable?
+  # Attempt to help with long lines > 160 issues
+  vars:
+    vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
+    vault_addr: "{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
-    url: "{{ vault_tls_disable | ternary('http', 'https') }}://{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}:{{ vault_port }}/v1/sys/health"
+    url: "{{ vault_addr_protocol }}://{{ vault_addr }}:{{ vault_port }}/v1/sys/health"
     method: GET
     # 200 if initialized, unsealed, and active
     # 429 if unsealed and standby
     # 472 if data recovery mode replication secondary and active
+    # 473 if performance standby
     # 501 if not initialized
     # 503 if sealed
     # See: https://www.vaultproject.io/api/system/health.html

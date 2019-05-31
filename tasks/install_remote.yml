@@ -39,7 +39,7 @@
   register: vault_package
   tags: installation
 
-- name: Download Vault
+- name: "Download Vault → {{ vault_zip_url }}"
   get_url:
     url: "{{ vault_zip_url }}"
     dest: "/tmp/vault/{{ vault_pkg }}"

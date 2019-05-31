@@ -1,5 +1,5 @@
 ---
-# File: site_consul.yml - Example Vault site playbook
+# File: site_consul.yml - Example Vault server playbook (Consul storage)
 
 - name: Install Vault
   hosts: consul_nodes

@@ -1,3 +1,11 @@
+## v2.2.1
+
+- Resolve some task argument issues
+- Clean up line length a bit
+- Use Filesystem Storage Backend in Vagrant example playbook
+- Update Vagrantfile
+- Update documentation
+
 ## v2.2.0
 
 - Clean up task items
