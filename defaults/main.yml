@@ -54,9 +54,7 @@ vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
-
 vault_port: 8200
-vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
 

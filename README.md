@@ -270,11 +270,6 @@ The role defines variables in `defaults/main.yml`:
 - TCP port number to on which to listen
 - Default value: 8200
 
-### `vault_node_name`
-
-- Short node name
-- Default value: `"{{ inventory_hostname_short }}"`
-
 ### `vault_max_lease_ttl`
 
 - Configures the [maximum possible lease duration](https://www.vaultproject.io/docs/config/#max_lease_ttl) for tokens and secrets.

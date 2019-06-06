@@ -1,3 +1,7 @@
+## v2.2.2 (UNRELEASED)
+
+- Remove nonfunctional vault_node_name configuration
+
 ## v2.2.1
 
 - Resolve some task argument issues
