@@ -1,6 +1,7 @@
 ## v2.2.2 (UNRELEASED)
 
 - Remove nonfunctional vault_node_name configuration
+- Update documentation
 
 ## v2.2.1
 
