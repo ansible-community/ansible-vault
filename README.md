@@ -147,7 +147,7 @@ The role defines variables in `defaults/main.yml`:
 ## Storage Backend Variables
 
 ### `vault_backend`
-- Which storage backend should be selected, choices are: consul, etcd, file, and mysql
+- Which storage backend should be selected, choices are: consul, etcd, file, and s3
 - Default value: consul
 
 ### Consul Storage Backend
