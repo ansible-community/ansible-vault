@@ -1,3 +1,7 @@
+## v2.3.0
+
+- Add s3 storage backend template (thanks @dvmonroe)
+
 ## v2.2.2 (UNRELEASED)
 
 - Remove nonfunctional vault_node_name configuration
