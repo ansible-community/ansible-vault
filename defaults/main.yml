@@ -51,7 +51,7 @@ vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
-vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
+vault_iface: "{{ lookup('env','VAULT_IFACE') | hostvars[inventory_hostname]['ansible_default_ipv4']['interface'] }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
