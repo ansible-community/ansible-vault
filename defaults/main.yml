@@ -75,6 +75,13 @@ vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(host
 vault_max_lease_ttl: "768h"
 vault_default_lease_ttl: "768h"
 
+# Storage tls settings
+vault_backend_tls_src_files: "{{ vault_tls_src_files }}"
+vault_backend_tls_config_path: "{{ vault_tls_config_path }}"
+vault_backend_tls_cert_file: "{{ vault_tls_cert_file }}"
+vault_backend_tls_key_file: "{{ vault_tls_key_file }}"
+vault_backend_tls_ca_file: "{{ vault_tls_ca_file }}"
+
 # Consul storage settings
 vault_consul: 127.0.0.1:8500
 vault_consul_path: vault

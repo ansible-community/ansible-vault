@@ -1,5 +1,7 @@
-## v2.2.2 (UNRELEASED)
+## v2.3.0 (UNRELEASED)
 
+- Add support for backend tls configuration
+- Update documentation
 - Remove nonfunctional vault_node_name configuration
 
 ## v2.2.1

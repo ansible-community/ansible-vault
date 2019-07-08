@@ -150,6 +150,31 @@ The role defines variables in `defaults/main.yml`:
 - Which storage backend should be selected, choices are: consul, etcd, file, and mysql
 - Default value: consul
 
+### `vault_backend_tls_src_files`
+
+- User-specified source directory for TLS files for storage communication
+- {{ vault_tls_src_files }}
+
+### `vault_backend_tls_config_path`
+
+- Path to directory containing backend tls config files
+- {{ vault_tls_config_path }}
+
+### `vault_backend_tls_cert_file`
+
+- Specifies the path to the certificate for backend communication (if supported).
+- {{ vault_tls_cert_file }}
+
+### `vault_backend_tls_key_file`
+
+- Specifies the path to the private key for backend communication (if supported).
+- {{ vault_tls_key_file }}
+
+### `vault_backend_tls_ca_file`
+
+- CA certificate used for backend communication (if supported). This defaults to system bundle if not specified.
+- {{ vault_tls_ca_file }}
+
 ### Consul Storage Backend
 
 ### `vault_backend_consul`
@@ -329,7 +354,7 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_tls_gossip`
 
-- Enable TLS Gossip to Consul Backend
+- Enable TLS Gossip to storage (if supported)
 - Default value: 0
 
 ### `vault_tls_src_files`
@@ -387,6 +412,11 @@ The role defines variables in `defaults/main.yml`:
 
 - [Disable requesting for client certificates](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable_client_certs)
 - Default value: false
+
+### `vault_tls_copy_keys`
+
+- Copy TLS files from src to dest
+- Default value: true
 
 ### `vault_tls_files_remote_src`
 
