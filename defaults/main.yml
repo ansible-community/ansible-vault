@@ -66,6 +66,7 @@ vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
 vault_backend_etcd: vault_backend_etcd.j2
+vault_backend_dynamodb: vault_backend_dynamodb.j2
 
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
@@ -113,6 +114,18 @@ vault_s3_force_path_style: false
 vault_s3_kms_key_id: ""
 vault_s3_session_token: ""
 vault_s3_max_parallel: "128"
+
+# dynamodb storage settings
+vault_dynamodb: "{{ lookup('env', 'AWS_DYNAMODB_ENDPOINT') | default('', false) }}"
+vault_dynamodb_table: "{{ lookup('env', 'AWS_DYNAMODB_TABLE') | default('vault-dynamodb-backend', false) }}"
+vault_dynamodb_ha_enabled: "{{ lookup('env', 'DYNAMODB_HA_ENABLED') | default('false', false) }}"
+vault_dynamodb_max_parallel: "128"
+vault_dynamodb_region: "{{ lookup('env','AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
+vault_dynamodb_read_capacity: "{{ lookup('env', 'AWS_DYNAMODB_READ_CAPACITY') | default('5', false) }}"
+vault_dynamodb_write_capacity: "{{ lookup('env', 'AWS_DYNAMODB_WRITE_CAPACITY') | default('5', false) }}"
+vault_dynamodb_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') | default('', false) }}"
+vault_dynamodb_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') | default('', false) }}"
+vault_dynamodb_session_token: "{{ lookup('env', 'AWS_SESSION_TOKEN') | default('', false) }}"
 
 # ---------------------------------------------------------------------------
 # Initialization and startup script templates

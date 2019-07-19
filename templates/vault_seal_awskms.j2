@@ -1,15 +1,15 @@
 seal "awskms" {
   kms_key_id = "{{ vault_awskms_key_id }}"
-{% if vault_awskms_region | bool %}
+{% if vault_awskms_region is string and vault_awskms_region|length %}
   region     = "{{ vault_awskms_region }}"
 {% endif %}
-{% if vault_awskms_access_key | bool  %}
+{% if vault_awskms_access_key is string and vault_awskms_access_key|length  %}
   access_key = "{{ vault_awskms_access_key }}"
 {% endif %}
-{% if vault_awskms_secret_key | bool  %}
+{% if vault_awskms_secret_key is string and vault_awskms_secret_key|length  %}
   secret_key = "{{ vault_awskms_secret_key }}"
 {% endif %}
-{% if vault_awskms_endpoint | bool %}
+{% if vault_awskms_endpoint is string and vault_awskms_endpoint|length %}
   endpoint   = "{{ vault_awskms_endpoint }}"
 {% endif %}
 }
