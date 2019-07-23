@@ -30,7 +30,7 @@ vault_plugin_path: /usr/local/lib/vault/plugins
 vault_data_path: /var/vault
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
-vault_home: "/home/{{ ansible_user }}"
+vault_home: "/home/{{ vault_user }}"
 
 # System user and group
 vault_manage_user: true
@@ -51,7 +51,7 @@ vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
-vault_iface: "{{ lookup('env','VAULT_IFACE') | hostvars[inventory_hostname]['ansible_default_ipv4']['interface'] }}"
+vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.interface, true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
