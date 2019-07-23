@@ -41,7 +41,7 @@ listener "tcp" {
 {% elif vault_backend == 'file' -%}
   {% include vault_backend_file with context -%}
 
-{# We don't currentlty have this backend template available! #}
+{# We don't currently have this backend template available! #}
 {% elif vault_backend == 'mysql' -%}
   {% include vault_backend_mysql with context -%}
 {% endif %}
