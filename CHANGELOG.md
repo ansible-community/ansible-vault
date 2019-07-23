@@ -3,7 +3,7 @@
 - Remove nonfunctional vault_node_name configuration
 - Fix template line break (thanks @fhemberger)
 - ansible_default_ipv4 interface used as default (thanks @fhemberger)
-- Update documentation (thanks 
+- Update documentation (thanks @dvmonroe)
 - Update CONTRIBUTORS
 
 ## v2.2.1
