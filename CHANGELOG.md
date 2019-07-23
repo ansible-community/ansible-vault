@@ -1,6 +1,8 @@
-## v2.2.2 (UNRELEASED)
+## NEXT
 
 - Remove nonfunctional vault_node_name configuration
+- Fix template line break (thanks @fhemberger)
+- Update CONTRIBUTORS
 
 ## v2.2.1
 
