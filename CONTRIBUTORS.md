@@ -28,3 +28,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@cordula-grau](https://github.com/cordula-grau)
 - [@vmwiz](https://github.com/vmwiz)
 - [@fleu42](https://github.com/fleu42)
+- [@fhemberger](https://github.com/fhemberger)
