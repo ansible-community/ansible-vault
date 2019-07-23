@@ -30,3 +30,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@fleu42](https://github.com/fleu42)
 - [@fhemberger](https://github.com/fhemberger)
 - [@dvmonroe](https://github.com/dvmonroe)
+- [@zeridon](https://github.com/zeridon)
