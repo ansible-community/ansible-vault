@@ -1,8 +1,7 @@
-## NEXT
+## 2.2.2
 
-- Add support for backend tls configuration
-- Update documentation
-- Remove nonfunctional vault_node_name configuration
+- Vault v1.1.4
+- Add support for backend tls configuration (thanks @rhenwood3995)
 - Fix template line break (thanks @fhemberger)
 - ansible_default_ipv4 interface used as default (thanks @fhemberger)
 - Update vault_home (thanks @zeridon)

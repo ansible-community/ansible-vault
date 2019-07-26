@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------
 
 # Package variables
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.1.2', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.1.4', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -110,7 +110,6 @@ vault_s3_region: "us-east-1"
 vault_s3_endpoint: ""
 vault_s3_disable_ssl: false
 vault_s3_force_path_style: false
-vault_s3_endpoint: ""
 vault_s3_kms_key_id: ""
 vault_s3_session_token: ""
 vault_s3_max_parallel: "128"
