@@ -98,7 +98,11 @@
 
 - name: TLS configuration
   include: ../tasks/tls.yml
-  when: vault_tls_disable == 0 or vault_tls_gossip == 1
+  when: vault_tls_disable == 0
+
+- name: Backend storage TLS configuration
+  include: ../tasks/backend_tls.yml
+  when: vault_tls_gossip == 1
 
 - name: "Copy over GCP Credentials for Auto Unseal"
   copy:
