@@ -30,7 +30,7 @@ vault_plugin_path: /usr/local/lib/vault/plugins
 vault_data_path: /var/vault
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
-vault_home: "/home/{{ ansible_user }}"
+vault_home: "/home/{{ vault_user }}"
 
 # System user and group
 vault_manage_user: true
@@ -51,7 +51,7 @@ vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
-vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
+vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.interface, true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
@@ -101,6 +101,19 @@ vault_etcd_username: ""
 vault_etcd_password: ""
 vault_etcd_request_timeout: "5s"
 vault_etcd_lock_timeout: "15s"
+
+# s3 storage settings
+vault_s3_access_key: ""
+vault_s3_secret_key: ""
+vault_s3_bucket: "vault_backend"
+vault_s3_region: "us-east-1"
+vault_s3_endpoint: ""
+vault_s3_disable_ssl: false
+vault_s3_force_path_style: false
+vault_s3_endpoint: ""
+vault_s3_kms_key_id: ""
+vault_s3_session_token: ""
+vault_s3_max_parallel: "128"
 
 # ---------------------------------------------------------------------------
 # Initialization and startup script templates

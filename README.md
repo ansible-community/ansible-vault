@@ -147,7 +147,7 @@ The role defines variables in `defaults/main.yml`:
 ## Storage Backend Variables
 
 ### `vault_backend`
-- Which storage backend should be selected, choices are: consul, etcd, file, and mysql
+- Which storage backend should be selected, choices are: consul, etcd, file, and s3
 - Default value: consul
 
 ### `vault_backend_tls_src_files`
@@ -582,7 +582,7 @@ Specify a template file with a different backend definition
 (see `templates/backend_consul.j2`):
 
 ```
-ansible-playbook -i hosts site.yml --extra-vars "vault_backed=backend_file.j2"
+ansible-playbook -i hosts site.yml --extra-vars "vault_backend_file=backend_file.j2"
 ```
 
 You need to make sure that the template file `backend_file.j2` is in the

@@ -1,8 +1,14 @@
-## v2.3.0 (UNRELEASED)
+## NEXT
 
 - Add support for backend tls configuration
 - Update documentation
 - Remove nonfunctional vault_node_name configuration
+- Fix template line break (thanks @fhemberger)
+- ansible_default_ipv4 interface used as default (thanks @fhemberger)
+- Update vault_home (thanks @zeridon)
+- Add s3 storage backend template (thanks @dvmonroe)
+- Update documentation (thanks @dvmonroe)
+- Update CONTRIBUTORS
 
 ## v2.2.1
 
