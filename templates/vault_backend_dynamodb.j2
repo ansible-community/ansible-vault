@@ -1,0 +1,33 @@
+backend "dynamodb" {
+{% if vault_dynamodb is string and vault_dynamodb|length %}
+    endpoint =       "{{ vault_dynamodb }}"
+{% endif %}
+{% if vault_dynamodb_table is string and vault_dynamodb_table|length %}
+    table =          "{{ vault_dynamodb_table }}"
+{% endif %}
+{% if vault_dynamodb_ha_enabled | bool %}
+    ha_enabled =     "{{ vault_dynamodb_ha_enabled }}"
+{% endif %}
+{% if vault_dynamodb_max_parallel is string and vault_dynamodb_max_parallel|length %}
+    max_parallel =   "{{ vault_dynamodb_max_parallel }}"
+{% endif %}
+{% if vault_dynamodb_region is string and vault_dynamodb_region|length %}
+    region =         "{{ vault_dynamodb_region }}"
+{% endif %}
+{% if vault_dynamodb_read_capacity is defined and vault_dynamodb_read_capacity|int %}
+    read_capacity =  {{ vault_dynamodb_read_capacity }}
+{% endif %}
+{% if vault_dynamodb_write_capacity is defined and vault_dynamodb_write_capacity|int %}
+    write_capacity = {{ vault_dynamodb_write_capacity }}
+{% endif %}
+{% if vault_dynamodb_access_key is string and vault_dynamodb_access_key|length %}
+    access_key =     "{{ vault_dynamodb_access_key }}"
+{% endif %}
+{% if vault_dynamodb_secret_key is string and vault_dynamodb_secret_key|length %}
+    secret_key =     "{{ vault_dynamodb_secret_key }}"
+{% endif %}
+{% if vault_dynamodb_session_token is string and vault_dynamodb_secret_key|length %}
+    session_token =  "{{ vault_dynamodb_session_token }}"
+{% endif %}
+}
+

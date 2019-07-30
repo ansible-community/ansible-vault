@@ -147,7 +147,7 @@ The role defines variables in `defaults/main.yml`:
 ## Storage Backend Variables
 
 ### `vault_backend`
-- Which storage backend should be selected, choices are: consul, etcd, file, and s3
+- Which storage backend should be selected, choices are: consul, etcd, file, s3, and dynamodb
 - Default value: consul
 
 ### `vault_backend_tls_src_files`
@@ -177,100 +177,175 @@ The role defines variables in `defaults/main.yml`:
 
 ### Consul Storage Backend
 
-### `vault_backend_consul`
+#### `vault_backend_consul`
 
 - Backend consul template filename
 - Default value: `backend_consul.j2`
 
-### `vault_consul`
+#### `vault_consul`
 
 - host:port value for connecting to Consul HA backend
 - Default value: 127.0.0.1:8500
 
-### `vault_consul_scheme`
+#### `vault_consul_scheme`
 
 - Scheme for Consul backend
 - Supported values: http, https
 - Default value: http
 
-### `vault_consul_path`
+#### `vault_consul_path`
 
 - Name of Vault's Consul K/V root path
 - Default value: vault
 
-### `vault_consul_service`
+#### `vault_consul_service`
 
 - Name of the Vault service to register in Consul
 - Default value: vault
 
-### `vault_consul_token`
+#### `vault_consul_token`
 
 - ACL token for accessing Consul
 - Default value: none
 
 ### etcd Storage Backend
 
-### vault_etcd
+#### vault_etcd
 
 - Address of etcd storage
 - Default value: 127.0.0.1:2379
 
-### vault_etcd_api:
+#### vault_etcd_api:
 
 - API version
 - Default value: v3
 
-### vault_etcd_path
+#### vault_etcd_path
 
 - Path for Vault storage
 - Default value: /vault/
 
-### vault_etcd_discovery_srv
+#### vault_etcd_discovery_srv
 
 - Discovery server
 - Default value: none
 
-### vault_etcd_discovery_srv_name
+#### vault_etcd_discovery_srv_name
 
 - Discovery server name
 - Default value: none
 
-### vault_etcd_ha_enabled
+#### vault_etcd_ha_enabled
 
 - Use storage for High Availability mode
 - Default value: false
 
-### vault_etcd_sync
+#### vault_etcd_sync
 
 - Use etcdsync
 - Default value: true
 
-### vault_etcd_username
+#### vault_etcd_username
 
 - Username
 - Default value: none
 
-### vault_etcd_password
+#### vault_etcd_password
 
 - Password
 - Default value: none
 
-### vault_etcd_request_timeout
+#### vault_etcd_request_timeout
 
 -Request timeout
 - Default value: "5s"
 
-### vault_etcd_lock_timeout
+#### vault_etcd_lock_timeout
 
 - Lock timeout
 - Default value: "15s"
 
 ### File Storage Backend
 
-### `vault_backend_file`
+#### `vault_backend_file`
 
 - Backend file template filename
 - Default value: `backend_file.j2`
+
+### DynamoDB Storage Backend
+
+For additional documentation for the various options available, see the
+[Vault documentation](https://www.vaultproject.io/docs/configuration/storage/dynamodb.html)
+for the DynamoDB storage backend.
+
+#### `vault_dynamodb`
+
+- Specifies an alternative DynamoDB endpoint.
+- Default value: none
+  - Can be overridden with the environment variable `AWS_DYNAMODB_ENDPOINT`.
+
+#### `vault_dynamodb_table`
+
+- Name of the DynamoDB table used to store Vault data.
+  - If the table does not already exist, it will be created during
+    initialization.
+- Default value: `"vault-dynamodb-backend"`
+  - Can be overridden with the environment variable `AWS_DYNAMODB_TABLE`.
+
+#### `vault_dynamodb_ha_enabled`
+
+- Whether High Availability is enabled for this storage backend.
+- Default value: `"false"`
+  - Can be overridden with the environment variable `DYNAMODB_HA_ENABLED`.
+    - The missing `AWS_` prefix is not a typo, this particular variable is not
+      prefixed in both the Vault documentation and source code.
+
+#### `vault_dynamodb_max_parallel`
+
+- The maximum number of concurrent requests.
+- Default value: `"128"`
+
+#### `vault_dynamodb_region`
+
+- The AWS region.
+- Default value: `us-east-1`
+  - Can be overridden with the environment variable `AWS_DEFAULT_REGION`
+
+#### `vault_dynamodb_read_capacity`
+
+- Number of reads per second to provision for the table.
+- Only used during table creation, has no effect if the table already exists.
+- Default value: `5`
+  - Can be overridden with the environment variable `AWS_DYNAMODB_READ_CAPACITY`.
+
+#### `vault_dynamodb_write_capacity`
+
+- Number of writes per second to provision for the table.
+- Only used during table creation, has no effect if the table already exists.
+- Default value: `5`
+  - Can be overridden with the environment variable `AWS_DYNAMODB_WRITE_CAPACITY`.
+
+#### `vault_dynamodb_access_key`
+
+- AWS access key to use for authentication.
+- Default value: none
+  - Can be overridden with the environment variable `AWS_ACCESS_KEY_ID`
+- Leaving both this and `vault_dynamodb_secret_key` blank will cause Vault to
+  attempt to retrieve the credentials from the AWS metadata service.
+
+#### `vault_dynamodb_secret_key`
+
+- AWS secret key used for authentication.
+- Default value: none
+  - Can be overridden with the environment variable `AWS_SECRET_ACCESS_KEY`
+- Leaving both this and `vault_dynamodb_access_key` blank will cause Vault to
+  attempt to retrieve the credentials from the AWS metadata service.
+
+#### `vault_dynamodb_session_token`
+
+- AWS session token.
+- Default value: none
+  - Can be overridden with the environment variable `AWS_SESSION_TOKEN`
 
 ### `vault_log_level`
 
