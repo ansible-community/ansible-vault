@@ -1,6 +1,6 @@
 ## 2.2.3
 
-- Vault 1.1.5
+- Vault v1.1.5
 - Add DynamoDB storage backend (thanks @chris-dudley)
 - Update CONTRIBUTORS
 - Update documentation
