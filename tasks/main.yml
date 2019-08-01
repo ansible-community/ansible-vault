@@ -17,7 +17,7 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Check Vault installation
-  command: command vault
+  shell: command -v vault
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
