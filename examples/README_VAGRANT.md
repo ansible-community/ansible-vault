@@ -82,11 +82,11 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set `vau
 
 1. This project functions with the following software versions:
   * Vault version 1.2.0
-  * Ansible: 2.8.0
-  * VirtualBox version 5.2.22
-  * Vagrant version 2.2.4
+  * Ansible: 2.8.3
+  * VirtualBox version 6.0.10
+  * Vagrant version 2.2.5
   * Vagrant Hosts version 2.8.3
-2. This project uses Debian 8 (Jessie) by default, but you can choose another
+2. This project uses Debian 10 (buster) by default, but you can choose another
    OS distribution with the **BOX_NAME** environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:
   - Adds each server's host information to the host machine's `/etc/hosts`

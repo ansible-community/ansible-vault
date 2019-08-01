@@ -17,9 +17,12 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.8.0
+* Ansible: 2.8.2
 * Vault: 1.2.0
-* Debian: 9
+* Debian
+  - Debian 10 (buster)
+  - Debian 9 (stretch)
+  - Debian 8 (jessie)
 * FreeBSD 11
 * Ubuntu 18.04
 
@@ -886,7 +889,7 @@ This feature enabled operators to delegate the unsealing process to AZURE Key Va
 
 ## License
 
-BSD
+BSD-2-Clause
 
 ## Author Information
 

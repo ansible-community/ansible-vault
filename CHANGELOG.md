@@ -1,3 +1,8 @@
+## 2.3.2
+
+- Fix Vault installation check (thanks @jpiron)
+- Update documentation
+
 ## 2.3.0
 
 - Vault v1.2.0

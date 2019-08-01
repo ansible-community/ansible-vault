@@ -1,5 +1,6 @@
 ---
 # File: main.yml - Meta main
+
 galaxy_info:
   author: Brian Shumate
   description: HashiCorp Vault server role
