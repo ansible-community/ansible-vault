@@ -66,6 +66,7 @@ vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
 vault_backend_etcd: vault_backend_etcd.j2
+vault_backend_s3: vault_backend_s3.j2
 vault_backend_dynamodb: vault_backend_dynamodb.j2
 
 vault_cluster_disable: false

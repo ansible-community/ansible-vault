@@ -7,13 +7,13 @@ storage "s3" {
 
   vault_s3_max_parallel = "{{ vault_s3_max_parallel }}"
 
-  {% if vault_s3_endpoint is defined and vault_s3_endpoint|length -% %}
+  {% if vault_s3_endpoint is defined and vault_s3_endpoint|length -%}
   endpoint = "{{ vault_s3_endpoint }}"
   {% endif %}
-  {% if vault_s3_kms_key_id is defined and vault_s3_kms_key_id|length -% %}
+  {% if vault_s3_kms_key_id is defined and vault_s3_kms_key_id|length -%}
   kms_key_id = "{{ vault_s3_kms_key_id }}"
   {% endif %}
-  {% if vault_s3_session_token is defined and vault_s3_session_token|length -% %}
+  {% if vault_s3_session_token is defined and vault_s3_session_token|length -%}
   session_token = "{{ vault_s3_session_token }}"
   {% endif %}
 
