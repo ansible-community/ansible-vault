@@ -1,3 +1,7 @@
+## NEXT
+
+- Fix s3 backend configuration and template (thanks @ebostijancic)
+
 ## 2.3.3
 
 - Vault v1.2.2
