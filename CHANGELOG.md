@@ -1,30 +1,32 @@
-## NEXT
+## v2.3.4
 
+- Vault v1.2.3
 - Fix s3 backend configuration and template (thanks @ebostijancic)
+- Update documentation
 
-## 2.3.3
+## v2.3.3
 
 - Vault v1.2.2
 - Update documentation
 
-## 2.3.2
+## v2.3.2
 
 - Fix Vault installation check (thanks @jpiron)
 - Update documentation
 
-## 2.3.0
+## v2.3.0
 
 - Vault v1.2.0
 - Update documentation
 
-## 2.2.3
+## v2.2.3
 
 - Vault v1.1.5
 - Add DynamoDB storage backend (thanks @chris-dudley)
 - Update CONTRIBUTORS
 - Update documentation
 
-## 2.2.2
+## v2.2.2
 
 - Vault v1.1.4
 - Add support for backend tls configuration (thanks @rhenwood3995)
