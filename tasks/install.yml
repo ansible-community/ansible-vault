@@ -90,6 +90,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0755"
+  notify: Restart vault
   tags: installation
 
 - name: Cleanup (local)
