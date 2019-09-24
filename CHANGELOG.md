@@ -1,3 +1,10 @@
+## NEXT
+
+- Restart after binary change (@thanks bbaassssiiee)
+- Support Fedora (thanks @rbjorklin)
+- Update CONTRIBUTORS
+- Update documentation
+
 ## v2.3.4
 
 - Vault v1.2.3
