@@ -1,0 +1,8 @@
+---
+vault_http_status:
+  '200': 'initialized, unsealed, and active'
+  '429': 'unsealed and standby'
+  '472': 'data recovery mode replication secondary and active'
+  '473': 'performance standby'
+  '501': 'not initialized'
+  '503': 'sealed'
