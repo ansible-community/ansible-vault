@@ -2,6 +2,7 @@
 
 - Restart after binary change (thanks @bbaassssiiee)
 - Use command for vault version in main tasks (thanks @bbaassssiiee)
+- Update API status check (thanks @bbaassssiiee)
 - Support Fedora (thanks @rbjorklin)
 - Update CONTRIBUTORS
 - Update documentation
