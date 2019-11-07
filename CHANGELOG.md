@@ -1,5 +1,6 @@
-## NEXT
+## v2.4.0
 
+- Vault v1.2.4
 - Restart after binary change (thanks @bbaassssiiee)
 - Use command for vault version in main tasks (thanks @bbaassssiiee)
 - Update API status check (thanks @bbaassssiiee)
