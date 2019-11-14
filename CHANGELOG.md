@@ -1,3 +1,8 @@
+## v2.5.0
+
+- Vault v1.3.0
+- Update documentation
+
 ## v2.4.0
 
 - Vault v1.2.4
