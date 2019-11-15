@@ -3,6 +3,7 @@
 
 galaxy_info:
   author: Brian Shumate
+  role_name: vault
   description: HashiCorp Vault server role
   company: Brian Shumate
   license: BSD
