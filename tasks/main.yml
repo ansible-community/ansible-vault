@@ -232,9 +232,10 @@
   # Attempt to help with long lines > 160 issues
   vars:
     vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
+    vault_addr: "{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
-    url: "{{ vault_addr_protocol }}://{{ vault_hostname }}:{{ vault_port }}/v1/sys/health"
+    url: "{{ vault_addr_protocol }}://{{ vault_hostname | default(vault_addr, true) }}:{{ vault_port }}/v1/sys/health"
     method: GET
     # 200 if initialized, unsealed, and active
     # 429 if unsealed and standby
