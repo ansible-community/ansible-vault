@@ -256,4 +256,4 @@
 
 - name: Vault status
   debug:
-    msg: "Vault is {{ check_result.status }}: {{ vault_http_status[check_result.status|string] }}"
+    msg: "Vault is {{ vault_http_status[check_result.status|string] }}"
