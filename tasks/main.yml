@@ -256,8 +256,4 @@
 
 - name: Vault status
   debug:
-    msg: "Vault is {{ item.value }}"
-  loop: "{{ lookup('dict', vault_http_status) }}"
-  when: "'{{ check_result.status }}' in item.key"
-  tags:
-    - check_vault
+    msg: "Vault is {{ vault_http_status[check_result.status|string] }}"
