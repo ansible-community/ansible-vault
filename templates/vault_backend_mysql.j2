@@ -1,0 +1,25 @@
+storage "mysql" {
+  username = "{{ vault_mysql_username }}"
+  password = "{{ vault_mysql_password }}"
+  {% if vault_mysql is defined and vault_mysql|length -%}
+  address = "{{ vault_mysql }}"
+  {% endif -%}
+  {% if vault_mysql_database is defined and vault_mysql_database|length -%}
+  database = "{{ vault_mysql_database }}"
+  {% endif -%}
+  {% if vault_mysql_table is defined and vault_mysql_table|length -%}
+  table = "{{ vault_mysql_table }}"
+  {% endif -%}
+  {% if vault_mysql_tls_ca_file is defined and vault_mysql_tls_ca_file|length -%}
+  tls_ca_file = "{{ vault_mysql_tls_ca_file }}"
+  {% endif -%}
+  {% if vault_mysql_max_parallel is defined and vault_mysql_max_parallel|length -%}
+  max_parallel = "{{ vault_mysql_max_parallel }}"
+  {% endif -%}
+  {% if vault_mysql_max_idle_connections is defined and vault_mysql_max_idle_connections|length -%}
+  max_idle_connections = "{{ vault_mysql_max_idle_connections }}"
+  {% endif -%}
+  {% if vault_mysql_max_connection_lifetime is defined and vault_mysql_max_connection_lifetime|length -%}
+  max_connection_lifetime = "{{ vault_mysql_max_connection_lifetime }}"
+  {% endif -%}
+}
