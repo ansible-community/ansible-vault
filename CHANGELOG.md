@@ -1,3 +1,8 @@
+## NEXT
+
+- Add MySQL storage (thanks @ericsysmin)
+- Update status task (thanks @ericsysmin)
+
 ## v2.5.0
 
 - Vault v1.3.0
