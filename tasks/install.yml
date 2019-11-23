@@ -29,7 +29,7 @@
 
 - name: Get Vault package checksum file (local)
   get_url:
-    url: "{{ vault_checksum_file_url }}"
+    url: "{{ vault_enterprise_checksum_file_url if vault_enterprise else vault_checksum_file_url }}"
     dest: "{{ role_path }}/files/{{ vault_shasums }}"
   become: false
   run_once: true
@@ -60,9 +60,9 @@
   register: vault_package
   delegate_to: 127.0.0.1
 
-- name: "Download Vault (local) → {{ vault_zip_url }}"
+- name: "Download Vault (local) → {{ vault_enterprise_zip_url if vault_enterprise else vault_zip_url }}"
   get_url:
-    url: "{{ vault_zip_url }}"
+    url: "{{ vault_enterprise_zip_url if vault_enterprise else vault_zip_url }}"
     dest: "{{ role_path }}/files/{{ vault_pkg }}"
     checksum: "sha256:{{ vault_sha256.stdout }}"
     timeout: "42"
