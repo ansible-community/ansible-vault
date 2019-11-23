@@ -54,24 +54,15 @@
   set_fact:
     installation_required: "{{ vault_installation is failed or installed_vault_version.stdout != vault_version }}"
 
-- name: Install OS packages and Vault Enterprise via control host
-  include: install_enterprise.yml
-  when:
-    - vault_enterprise | bool
-    - not vault_install_remotely | bool
-    - installation_required | bool
-
 - name: Install OS packages and Vault via control host
   include: install.yml
   when:
-    - not vault_enterprise | bool
     - not vault_install_remotely | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via remote hosts
   include: install_remote.yml
   when:
-    - not vault_enterprise | bool
     - vault_install_remotely | bool
     - installation_required | bool
 
