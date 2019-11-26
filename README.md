@@ -127,6 +127,11 @@ The role defines variables in `defaults/main.yml`:
 - OS group name
 - Default value: bin
 
+### `vault_manage_group`
+
+- Should this role manage the vault group?
+- Default value: false
+
 ### `vault_group_name`
 
 - Inventory group name
