@@ -2,6 +2,7 @@
 
 - Add MySQL storage (thanks @ericsysmin)
 - Update status task (thanks @ericsysmin)
+- Add group creation task (thanks @karras)
 
 ## v2.5.0
 
