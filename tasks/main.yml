@@ -4,7 +4,14 @@
 - name: Include asserts
   include: asserts.yml
 
-- name: "Add Vault user"
+- name: Add Vault group
+  become: true
+  group:
+    name: "{{ vault_group }}"
+    state: present
+  when: vault_manage_group | bool
+
+- name: Add Vault user
   become: true
   user:
     name: "{{ vault_user }}"
