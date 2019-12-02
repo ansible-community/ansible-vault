@@ -422,7 +422,7 @@ for the DynamoDB storage backend.
 ### `validate_certs_during_api_reachable_check`
 
 - Disable Certificate Validation for API reachability check
-- Default value: false
+- Default value: true
 
 ### `vault_tls_config_path`
 
