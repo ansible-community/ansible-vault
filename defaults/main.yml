@@ -48,8 +48,8 @@ vault_logrotate_template: vault_logrotate.j2
 # ---------------------------------------------------------------------------
 
 vault_group_name: vault_instances
-vault_cluster_name: dc1
-vault_datacenter: dc1
+vault_cluster_name: "{{ lookup('env','VAULT_CLUSTER_NAME') | default('dc1', true) }}"
+vault_datacenter: "{{ lookup('env','VAULT_DATACENTER') | default('dc1', true) }}"
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.interface, true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
