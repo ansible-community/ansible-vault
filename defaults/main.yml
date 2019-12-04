@@ -62,7 +62,7 @@ vault_main_configuration_template: vault_main_configuration.hcl.j2
 # Storage backend
 # ---------------------------------------------------------------------------
 
-vault_backend: consul
+vault_backend: "{{ lookup('env','VAULT_BACKEND') | default('consul', true) }}"
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
 vault_backend_etcd: vault_backend_etcd.j2
