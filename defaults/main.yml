@@ -54,7 +54,7 @@ vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.interface, true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
-vault_port: 8200
+vault_port: "{{ lookup('env','VAULT_PORT') | default('8200', true) }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
 
@@ -86,7 +86,9 @@ vault_backend_tls_key_file: "{{ vault_tls_key_file }}"
 vault_backend_tls_ca_file: "{{ vault_tls_ca_file }}"
 
 # Consul storage settings
-vault_consul: 127.0.0.1:8500
+consul_port:  "{{ lookup('env','CONSUL_PORT') | default('8500', true) }}"
+consul_addr: "{{ lookup('env','CONSUL_ADDR') | default('127.0.0.1', true) }}"
+vault_consul: "{{consult_addr}}:{{consul_port}}"
 vault_consul_path: vault
 vault_consul_service: vault
 vault_consul_scheme: http
