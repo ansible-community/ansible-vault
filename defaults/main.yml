@@ -39,6 +39,7 @@ vault_manage_group: false
 vault_group: bin
 
 # Logging
+vault_enable_log: false
 vault_enable_logrotate: false
 vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2

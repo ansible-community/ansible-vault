@@ -130,6 +130,10 @@
     mode: "0400"
   notify: Restart vault
 
+- name: "Set Exec output to log path"
+  set_fact:
+    vault_exec_output: "2>&1 >> {{ vault_log_path }}/server.log"
+  when: vault_enable_log
 
 - name: BSD init script
   template:
