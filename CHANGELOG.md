@@ -1,12 +1,15 @@
-## NEXT
+## v2.5.1
 
+- Vault v1.3.1
 - Add MySQL storage (thanks @ericsysmin)
 - Update status task (thanks @ericsysmin)
 - Add group creation task (thanks @karras)
+- Update documentation (thanks @ilpianista)
+- Update documentation
 
 ## v2.5.0
 
-- Vault v1.3.0
+- Vault v1.3.1
 - Update documentation
 
 ## v2.4.0
@@ -479,7 +482,7 @@
 - Fix logging options (thanks @arledesma)
 - Update documentation
 
-## v1.3.0
+## v1.3.1
 
 - Add support for version specification via VAULT_VERSION environment variable
 - Renamed backend configuration template
