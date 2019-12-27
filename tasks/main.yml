@@ -272,3 +272,5 @@
 - name: Vault status
   debug:
     msg: "Vault is {{ vault_http_status[check_result.status|string] }}"
+  tags:
+    - check_vault
