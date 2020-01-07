@@ -1,0 +1,7 @@
+---
+# File: vars/RedHat8.yml - Red Hat vars for Vault
+
+vault_os_packages:
+  - python3-libselinux
+  - git
+  - unzip
