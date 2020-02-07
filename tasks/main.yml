@@ -21,7 +21,14 @@
   when: vault_manage_user | bool
 
 - name: Include OS-specific variables
-  include_vars: "{{ ansible_os_family }}.yml"
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_os_family }}.yml"
+      paths:
+        - vars
 
 - name: Check Vault installation
   command: command -v vault
