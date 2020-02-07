@@ -1,3 +1,7 @@
+## NEXT
+
+- Add RHEL 8 support (thanks @kwevers)
+
 ## v2.5.2
 
 - Vault v1.3.2
