@@ -76,6 +76,9 @@ telemetry {
   {% if vault_statsd_address is defined %}
   statsd_address = "{{vault_statsd_address}}"
   {% endif -%}
+  {% if vault_prometheus_retention_time is defined %}
+  prometheus_retention_time = "{{ vault_prometheus_retention_time }}"
+  {% endif -%}
   {% if vault_telemetry_disable_hostname is defined %}
   disable_hostname = {{vault_telemetry_disable_hostname | bool | lower }}
   {% endif -%}

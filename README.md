@@ -524,7 +524,10 @@ for the DynamoDB storage backend.
 
 ### `vault_telemetry_enabled`
 - Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
-- If enabled, you must set *vault_statsite_address* or *vault_statsd_address* with a format of "FQDN:PORT"
+- If enabled, you must set at least one of the following parameters according to your telemetry provider:
+  - *vault_statsite_address* with a format of "FQDN:PORT"
+  - *vault_statsd_address* with a format of "FQDN:PORT"
+  - *vault_prometheus_retention_time* e.g: "30s" or "24h"
 - If enabled, optionally set *vault_telemetry_disable_hostname* to strip the hostname prefix from telemetry data
 - Default value: *false*
 
