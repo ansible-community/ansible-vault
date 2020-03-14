@@ -1,5 +1,7 @@
-## NEXT
-
+## v2.5.3
+- Add Prometheus telemetry support (thanks @bbayszczak)
+- Add tag check_vault to to Vault status debug task (thanks @NorthFuture)
+- Fixed indentation of vault config file (thanks @rasta-rocket)
 - Add RHEL 8 support (thanks @kwevers)
 
 ## v2.5.2
