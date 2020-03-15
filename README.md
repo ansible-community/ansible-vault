@@ -127,6 +127,11 @@ The role defines variables in `defaults/main.yml`:
 - OS group name
 - Default value: bin
 
+### `vault_groups`
+
+- OS additional groups as in ansibles user module
+- Default value: null
+
 ### `vault_manage_group`
 
 - Should this role manage the vault group?

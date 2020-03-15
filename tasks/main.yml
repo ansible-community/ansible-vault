@@ -17,6 +17,7 @@
     name: "{{ vault_user }}"
     comment: "Vault user"
     group: "{{ vault_group }}"
+    groups: "{{ vault_groups }}"
     system: true
   when: vault_manage_user | bool
 
