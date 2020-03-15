@@ -37,6 +37,7 @@ vault_manage_user: true
 vault_user: vault
 vault_manage_group: false
 vault_group: bin
+vault_groups: null
 
 # Logging
 vault_enable_logrotate: false
