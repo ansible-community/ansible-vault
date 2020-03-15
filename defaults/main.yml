@@ -165,8 +165,8 @@ vault_tls_gossip: "{{ lookup('env','VAULT_TLS_GOSSIP') | default(0, true) }}"
 
 vault_tls_copy_keys: true
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
-vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('vault.crt', true) }}"
-vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('vault.key', true) }}"
+vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('server.crt', true) }}"
+vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('server.key', true) }}"
 vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
 
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
