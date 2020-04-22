@@ -17,7 +17,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Ansible: 2.8.4
-* Vault: 1.3.2
+* Vault: 1.4.0
 * Debian
   - Debian 10 (buster)
   - Debian 9 (stretch)
@@ -33,12 +33,12 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_version`
 
-- version to install
+- Version to install
   - Can be overridden with `VAULT_VERSION` environment variable
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: 1.3.2
+- Default value: 1.4.0
 
 ### `vault_enterprise`
 
