@@ -141,6 +141,36 @@ vault_mysql_max_idle_connections: ""
 vault_mysql_max_connection_lifetime: ""
 
 # ---------------------------------------------------------------------------
+# Service registration variables
+# ---------------------------------------------------------------------------
+
+# Consul service registration settings
+vault_service_registration_consul_enable: false
+vault_service_registration_consul_template: vault_service_registration_consul.hcl.j2
+vault_service_registration_consul_check_timeout: 5s
+vault_service_registration_consul_address: 127.0.0.1:8500
+vault_service_registration_consul_service: vault
+vault_service_registration_consul_service_tags: ""
+vault_service_registration_consul_service_address:
+vault_service_registration_consul_disable_registration: false
+vault_service_registration_consul_scheme: http
+# vault_service_registration_consul_token:
+
+# Consul service registration tls settings
+vault_service_registration_consul_tls_config_path: "{{ vault_tls_config_path }}"
+vault_service_registration_consul_tls_cert_file: "{{ vault_tls_cert_file }}"
+vault_service_registration_consul_tls_key_file: "{{ vault_tls_key_file }}"
+vault_service_registration_consul_tls_ca_file: "{{ vault_tls_ca_file }}"
+vault_service_registration_consul_tls_min_version: "{{ vault_tls_min_version }}"
+vault_service_registration_consul_tls_skip_verify: false
+
+# Kubernetes service registration settings
+vault_service_registration_kubernetes_enable: false
+vault_service_registration_kubernetes_template: vault_service_registration_kubernetes.hcl.j2
+vault_service_registration_kubernetes_namespace: vault
+vault_service_registration_kubernetes_pod_name: vault
+
+# ---------------------------------------------------------------------------
 # Initialization and startup script templates
 # ---------------------------------------------------------------------------
 

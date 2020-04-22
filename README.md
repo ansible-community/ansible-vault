@@ -354,6 +354,121 @@ for the DynamoDB storage backend.
 - Default value: none
   - Can be overridden with the environment variable `AWS_SESSION_TOKEN`
 
+### Consul Service Registration
+
+For additional information on the various options, see the
+[Vault documentation](https://www.vaultproject.io/docs/configuration/service-registration/consul)
+for Consul service registration. Note that this is only available
+starting at Vault version 1.4.
+
+#### `vault_service_registration_consul_enable`
+
+- Enable Consul service registration
+- Default value: false
+
+#### `vault_service_registration_consul_template`
+
+- Consul service registration template filename
+- Default value: `service_registration_consul.j2`
+
+#### `vault_service_registration_consul_address`
+
+- host:port value for connecting to Consul service registration
+- Default value: 127.0.0.1:8500
+
+#### `vault_service_registration_check_timeout`
+
+- Specifies the check interval used to send health check information back to Consul. 
+- Default value: 5s
+
+#### `vault_service_registration_disable_registration`
+
+- Specifies whether Vault should register itself with Consul.
+- Default value: false
+
+#### `vault_service_registration_consul_scheme`
+
+- Scheme for Consul service registration
+- Supported values: http, https
+- Default value: http
+
+#### `vault_service_registration_consul_service`
+
+- Name of the Vault service to register in Consul
+- Default value: vault
+
+#### `vault_service_registration_consul_service_tags`
+
+- Specifies a comma-separated list of tags to attach to the service registration in Consul.
+- Default value: ""
+
+#### `vault_service_registration_consul_service_address`
+
+- Specifies a service-specific address to set on the service registration in Consul.
+- Default value: nil
+
+#### `vault_service_registration_consul_token`
+
+- ACL token for registering with Consul service registration
+- Default value: none
+
+#### `vault_service_registration_consul_tls_config_path`
+
+- Path to TLS certificate and key
+- Default value `{{ vault_tls_config_path }}`
+
+#### `vault_service_registration_consul_tls_ca_file`
+
+- CA certificate filename
+- Default value: `{{ vault_tls_ca_file }}`
+
+#### `vault_service_registration_consul_tls_cert_file`
+
+- Server certificate
+- Default value: `{{ vault_tls_cert_file }}`
+
+#### `vault_service_registration_consul_tls_key_file`
+
+- Server key
+- Default value: `{{ vault_tls_key_file }}`
+
+#### `vault_service_registration_consul_tls_min_version`
+
+- [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version)
+- Default value: `{{ vault_tls_min_version }}`
+
+#### `vault_service_registration_consul_tls_skip_verify`
+
+- Disable verification of TLS certificates. Using this option is highly discouraged.
+- Default value: false
+
+### Kubernetes Service Registration
+
+For additional information on the various options, see the
+[Vault documentation](https://www.vaultproject.io/docs/configuration/service-registration/kubernetes)
+for Kubernetes service registration. Note that this is only
+available starting at Vault version 1.4.
+
+#### `vault_service_registration_kubernetes_consul_enable`
+
+- Enable Kubernetes service registration
+- Default value: false
+
+#### `vault_service_registration_kubernetes_template`
+
+- Kubernetes service registration template filename
+- Default value: `service_registration_kubernetes.j2`
+
+#### `vault_service_registration_kubernetes_namespace`
+
+- Kubernetes namespace to register
+- Default value: vault
+
+#### `vault_service_registration_pod_name`
+
+- Kubernetes pod name to register
+- Default value: vault
+
 ### `vault_log_level`
 
 - [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
@@ -444,11 +559,6 @@ for the DynamoDB storage backend.
 - User-specified source directory for TLS files
   - Override with `VAULT_TLS_SRC_FILES` environment variable
 - Default value: `{{ role_path }}/files`
-
-### `vault_tls_config_path`
-
-- Path to TLS certificate and key
-- Default value `/etc/vault/tls`
 
 ### `vault_tls_ca_file`
 
