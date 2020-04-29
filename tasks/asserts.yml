@@ -4,7 +4,7 @@
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not supported by this role"
-  when: ansible_distribution not in ['RedHat', 'CentOS', 'Fedora', 'Debian', 'Ubuntu']
+  when: ansible_distribution not in ['RedHat', 'CentOS', 'Fedora', 'Debian', 'Ubuntu', 'Archlinux']
 
 - name: Fail if not a new release of Red Hat / CentOS
   fail:

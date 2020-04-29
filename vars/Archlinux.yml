@@ -1,0 +1,6 @@
+---
+# File: vars/Archlinux.yml - Archlinux vars for Vault
+
+vault_os_packages:
+  - git
+  - unzip
