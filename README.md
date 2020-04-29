@@ -12,7 +12,7 @@ Consul-backed cluster in a Vagrant and VirtualBox based environment. See
 
 ## Requirements
 
-This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
+This role requires Archlinux, or FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
@@ -24,6 +24,7 @@ specific software and versions:
   - Debian 8 (jessie)
 * FreeBSD 11
 * Ubuntu 18.04
+* ArchLinux
 
 Sorry, there is no planned support at the moment for Windows.
 
