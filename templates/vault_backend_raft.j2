@@ -1,0 +1,19 @@
+backend "raft" {
+  path = "{{ vault_raft_data_path }}"
+  node_id = "{{ vault_raft_node_id }}"
+  {% for server in groups['vault_raft_servers'] | difference([inventory_hostname]) %}
+    {% if not (vault_tls_disable | bool) %}
+  retry_join {
+    leader_api_addr =  "https://{{ hostvars[server]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"
+    leader_ca_cert = "{{ vault_tls_config_path }}/{{ hostvars[server]['vault_tls_ca_file'] }}"
+    leader_client_cert = "{{ vault_tls_config_path }}/{{ hostvars[server]['vault_tls_cert_file'] }}"
+    leader_client_key = "{{ vault_tls_config_path }}/{{ hostvars[server]['vault_tls_key_file'] }}"
+  }
+    {% else %}
+  retry_join {
+    leader_api_addr =  "http://{{ hostvars[server]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"
+  }
+    {% endif %}
+  {% endfor %}
+
+}
