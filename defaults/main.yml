@@ -142,6 +142,7 @@ vault_mysql_max_connection_lifetime: ""
 
 # raft storage settings
 vault_backend: raft
+vault_raft_group_name: "vault_raft_servers"
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}" 
 
