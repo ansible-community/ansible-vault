@@ -154,7 +154,7 @@ The role defines variables in `defaults/main.yml`:
 ## Storage Backend Variables
 
 ### `vault_backend`
-- Which storage backend should be selected, choices are: consul, etcd, file, s3, and dynamodb
+- Which storage backend should be selected, choices are: consul, etcd, file, raft, s3, and dynamodb
 - Default value: consul
 
 ### `vault_backend_tls_src_files`
@@ -278,6 +278,18 @@ The role defines variables in `defaults/main.yml`:
 
 - Backend file template filename
 - Default value: `backend_file.j2`
+
+### Raft Integrated Storage Backend
+
+#### `vault_backend_raft`
+
+- Backend raft integrated storage template filename
+- Default value: `vault_backend_raft.j2`
+
+#### `vault_raft_node_id`
+
+- Identifier for the node in the integrated storage Raft cluster
+- Default value: "raft_node_1"
 
 ### DynamoDB Storage Backend
 
