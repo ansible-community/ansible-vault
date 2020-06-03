@@ -1,15 +1,15 @@
 seal "azurekeyvault" {
   tenant_id     = "{{ vault_azurekeyvault_tenant_id }}"
-{% if vault_azurekeyvault_client_id | bool %}
+{% if vault_azurekeyvault_client_id is defined -%}
   client_id     = "{{ vault_azurekeyvault_client_id }}"
-{% endif %}
-{% if vault_azurekeyvault_client_secret | bool %}
+{% endif -%}
+{% if vault_azurekeyvault_client_secret is defined -%}
   client_secret = "{{ vault_azurekeyvault_client_secret }}"
-{% endif %}
-{% if vault_azurekeyvault_vault_name | bool %}
+{% endif -%}
+{% if vault_azurekeyvault_vault_name is defined -%}
   vault_name    = "{{ vault_azurekeyvault_vault_name }}"
-{% endif %}
-{% if vault_azurekeyvault_key_name | bool %}
+{% endif -%}
+{% if vault_azurekeyvault_key_name is defined -%}
   key_name      = "{{ vault_azurekeyvault_key_name }}"
-{% endif %}
+{% endif -%}
 }

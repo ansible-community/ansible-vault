@@ -154,8 +154,10 @@ The role defines variables in `defaults/main.yml`:
 ## Storage Backend Variables
 
 ### `vault_backend`
+
 - Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, and dynamodb
 - Default value: raft
+
 
 ### `vault_backend_tls_src_files`
 
@@ -234,57 +236,57 @@ The role defines variables in `defaults/main.yml`:
 
 ### etcd Storage Backend
 
-#### vault_etcd
+#### `vault_etcd`
 
 - Address of etcd storage
 - Default value: 127.0.0.1:2379
 
-#### vault_etcd_api:
+#### `vault_etcd_api`
 
 - API version
 - Default value: v3
 
-#### vault_etcd_path
+#### `vault_etcd_path`
 
 - Path for Vault storage
 - Default value: /vault/
 
-#### vault_etcd_discovery_srv
+#### `vault_etcd_discovery_srv`
 
 - Discovery server
 - Default value: none
 
-#### vault_etcd_discovery_srv_name
+#### `vault_etcd_discovery_srv_name`
 
 - Discovery server name
 - Default value: none
 
-#### vault_etcd_ha_enabled
+#### `vault_etcd_ha_enabled`
 
 - Use storage for High Availability mode
 - Default value: false
 
-#### vault_etcd_sync
+#### `vault_etcd_sync`
 
 - Use etcdsync
 - Default value: true
 
-#### vault_etcd_username
+#### `vault_etcd_username`
 
 - Username
 - Default value: none
 
-#### vault_etcd_password
+#### `vault_etcd_password`
 
 - Password
 - Default value: none
 
-#### vault_etcd_request_timeout
+#### `vault_etcd_request_timeout`
 
--Request timeout
+- Request timeout
 - Default value: "5s"
 
-#### vault_etcd_lock_timeout
+#### `vault_etcd_lock_timeout`
 
 - Lock timeout
 - Default value: "15s"
@@ -295,6 +297,18 @@ The role defines variables in `defaults/main.yml`:
 
 - Backend file template filename
 - Default value: `backend_file.j2`
+
+### Raft Integrated Storage Backend
+
+#### `vault_backend_raft`
+
+- Backend raft integrated storage template filename
+- Default value: `vault_backend_raft.j2`
+
+#### `vault_raft_node_id`
+
+- Identifier for the node in the integrated storage Raft cluster
+- Default value: "raft_node_1"
 
 ### DynamoDB Storage Backend
 
