@@ -184,6 +184,11 @@ The role defines variables in `defaults/main.yml`:
 
 ### Raft Storage Backend
 
+#### `vault_raft_group_name`
+
+- Inventory group name of servers hosting the raft backend
+- Default value: vault_raft_servers
+
 #### `vault_raft_data_path`
 
 - Data path for Raft

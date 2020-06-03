@@ -64,6 +64,7 @@ vault_main_configuration_template: vault_main_configuration.hcl.j2
 
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
+vault_backend_raft: vault_backend_raft.j2
 vault_backend_etcd: vault_backend_etcd.j2
 vault_backend_s3: vault_backend_s3.j2
 vault_backend_dynamodb: vault_backend_dynamodb.j2
@@ -74,6 +75,8 @@ vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
 vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
+
+vault_raft_node_id: "raft_node_1"
 
 vault_max_lease_ttl: "768h"
 vault_default_lease_ttl: "768h"
@@ -142,6 +145,7 @@ vault_mysql_max_connection_lifetime: ""
 
 # raft storage settings
 vault_backend: raft
+vault_raft_group_name: "vault_raft_servers"
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}" 
 
