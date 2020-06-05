@@ -259,7 +259,7 @@
     # 501 if not initialized
     # 503 if sealed
     # See: https://www.vaultproject.io/api/system/health.html
-    status_code: 200, 429, 473, 501, 503
+    status_code: 200, 429, 472, 473, 501, 503
     body_format: json
   register: check_result
   retries: 6
