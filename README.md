@@ -291,6 +291,46 @@ The role defines variables in `defaults/main.yml`:
 - Identifier for the node in the integrated storage Raft cluster
 - Default value: "raft_node_1"
 
+#### `vault_raft_retry_join`
+
+- Details of all the nodes are known beforehand
+- Default value: "[]"
+
+##### `leader_api_addr`
+
+- Address of a possible leader node.
+- Default value: ""
+
+##### `leader_ca_cert_file`
+
+- File path to the CA cert of the possible leader node.
+- Default value: ""
+
+##### `leader_client_cert_file`
+
+- File path to the client certificate for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
+##### `leader_client_key_file`
+
+- File path to the client key for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
+##### `leader_ca_cert`
+
+- CA cert of the possible leader node.
+- Default value: ""
+
+##### `leader_client_cert`
+
+- Client certificate for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
+##### `leader_client_key`
+
+- Client key for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
 ### DynamoDB Storage Backend
 
 For additional documentation for the various options available, see the
