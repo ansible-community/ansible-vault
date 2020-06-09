@@ -1,0 +1,22 @@
+service_registration "consul" {
+  address = "{{ vault_service_registration_consul_address }}"
+  check_timeout = "{{ vault_service_registration_consul_check_timeout }}"
+  disable_registration = "{{ vault_service_registration_consul_disable_registration }}"
+  scheme = "{{ vault_service_registration_consul_scheme }}"
+  service = "{{ vault_service_registration_consul_service }}"
+  service_tags = "{{ vault_service_registration_consul_service_tags }}"
+  {% if vault_service_registration_consul_service_address is defined and vault_service_registration_consul_service_address %}
+  service_address = "{{ vault_service_registration_consul_service_address }}"
+  {% endif %}
+  {% if vault_service_registration_consul_token is defined and vault_service_registration_consul_token %}
+  token = "{{ vault_service_registration_consul_token }}"
+  {% endif %}
+
+  {% if vault_service_registration_consul_scheme == "https" %}
+  tls_ca_file="{{ vault_service_registration_consul_tls_config_path }}/{{ vault_service_registration_consul_tls_ca_file }}"
+  tls_cert_file = "{{ vault_service_registration_consul_tls_config_path }}/{{ vault_service_registration_consul_tls_cert_file }}"
+  tls_key_file = "{{ vault_service_registration_consul_tls_config_path }}/{{ vault_service_registration_consul_tls_key_file }}"
+  tls_min_version = "{{ vault_service_registration_consul_tls_min_version }}"
+  tls_skip_verify = "{{ vault_service_registration_consul_tls_skip_verify }}"
+  {% endif %}
+}

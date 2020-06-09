@@ -50,6 +50,13 @@ listener "tcp" {
   {% include vault_backend_raft with context -%}
 {% endif %}
 
+{% if vault_service_registration_consul_enable -%}
+  {% include vault_service_registration_consul_template with context -%}
+{% endif %}
+{% if vault_service_registration_kubernetes_enable -%}
+  {% include vault_service_registration_kubernetes_template with context -%}
+{% endif %}
+
 {% if vault_ui -%}
 ui = {{ vault_ui | bool | lower }}
 {% endif %}
