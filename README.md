@@ -104,7 +104,7 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_log_path`
 
-- Log path - (not yet implemented)
+- Log path
 - Default value: `/var/log/vault`
 
 ### `vault_run_path`
@@ -775,6 +775,11 @@ differences across distributions:
 
 - Vault package SHA256 summary
 - Default value: SHA256 summary
+
+### `vault_enable_log`
+
+- Enable log to `vault_log_path`
+- Default value: false
 
 ### `vault_enable_logrotate`
 
