@@ -1,3 +1,7 @@
+## NEXT
+
+- Add support for proxy configuration
+
 ## v2.5.3
 - Add Prometheus telemetry support (thanks @bbayszczak)
 - Add tag check_vault to to Vault status debug task (thanks @NorthFuture)
