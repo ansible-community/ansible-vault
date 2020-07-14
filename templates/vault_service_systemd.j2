@@ -30,6 +30,15 @@ AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 {% endif %}
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
+{% if vault_http_proxy -%}
+Environment=HTTP_PROXY={{ vault_http_proxy }}
+{% endif -%}
+{% if vault_https_proxy -%}
+Environment=HTTPS_PROXY={{ vault_https_proxy }}
+{% endif -%}
+{% if vault_no_proxy -%}
+Environment=NO_PROXY={{ vault_no_proxy }}
+{% endif -%}
 ExecStart=/bin/sh -c '{{ vault_bin_path }}/vault server -config={{ vault_main_config }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}'
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process

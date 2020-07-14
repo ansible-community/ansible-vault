@@ -570,6 +570,21 @@ available starting at Vault version 1.4.
 - Vault main configuration template file
 - Default value: *vault_main_configuration.hcl.j2*
 
+### `vault_http_proxy`
+
+- Address to be used as the proxy for HTTP and HTTPS requests unless overridden by `vault_https_proxy` or `vault_no_proxy`
+- Default value: `""`
+
+### `vault_https_proxy`
+
+- Address to be used as the proxy for HTTPS requests unless overridden by `vault_no_proxy`
+- Default value: `""`
+
+### `vault_no_proxy`
+
+- Comma separated values which specify hosts that should be exluded from proxying.  Follows [golang conventions](https://godoc.org/golang.org/x/net/http/httpproxy)
+- Default value: `""`
+
 ### `vault_cluster_address`
 
 - Address to bind to for cluster server-to-server requests

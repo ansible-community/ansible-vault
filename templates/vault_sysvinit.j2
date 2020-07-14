@@ -37,6 +37,15 @@ mkpidfile() {
 
 start() {
         echo -n "Starting vault: "
+        {% if vault_http_proxy -%}
+        export HTTP_PROXY={{ vault_http_proxy }}
+        {% endif -%}
+        {% if vault_https_proxy -%}
+        export HTTPS_PROXY={{ vault_https_proxy }}
+        {% endif -%}
+        {% if vault_no_proxy -%}
+        export NO_PROXY={{ vault_no_proxy }}
+        {% endif -%}
         mkrundir
         [ -f $PID_FILE ] && rm $PID_FILE
         daemon --user={{ vault_user }} \
