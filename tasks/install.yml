@@ -31,7 +31,6 @@
   get_url:
     url: "{{ vault_checksum_file_url }}"
     dest: "{{ role_path }}/files/{{ vault_shasums }}"
-  become: false
   run_once: true
   tags: installation
   when: not vault_checksum.stat.exists | bool
@@ -66,7 +65,6 @@
     dest: "{{ role_path }}/files/{{ vault_pkg }}"
     checksum: "sha256:{{ vault_sha256.stdout }}"
     timeout: "42"
-  become: false
   run_once: true
   tags: installation
   when: not vault_package.stat.exists | bool
@@ -77,7 +75,6 @@
     src: "{{ role_path }}/files/{{ vault_pkg }}"
     dest: "{{ role_path }}/files/"
     creates: "{{ role_path }}/files/vault"
-  become: false
   run_once: true
   tags: installation
   delegate_to: 127.0.0.1
@@ -97,7 +94,6 @@
   file:
     path: "{{ item }}"
     state: "absent"
-  become: false
   with_fileglob: "{{ role_path }}/files/vault"
   run_once: true
   tags: installation
