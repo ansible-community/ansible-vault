@@ -17,6 +17,7 @@
     name: "{{ vault_user }}"
     comment: "Vault user"
     group: "{{ vault_group }}"
+    groups: "{{ vault_groups }}"
     system: true
   when: vault_manage_user | bool
 
@@ -137,6 +138,10 @@
     mode: "0400"
   notify: Restart vault
 
+- name: "Set Exec output to log path when enabled log"
+  set_fact:
+    vault_exec_output: "2>&1 >> {{ vault_log_path }}/vault.log"
+  when: vault_enable_log
 
 - name: BSD init script
   template:
@@ -259,7 +264,7 @@
     # 501 if not initialized
     # 503 if sealed
     # See: https://www.vaultproject.io/api/system/health.html
-    status_code: 200, 429, 473, 501, 503
+    status_code: 200, 429, 472, 473, 501, 503
     body_format: json
   register: check_result
   retries: 6

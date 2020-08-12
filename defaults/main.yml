@@ -37,11 +37,14 @@ vault_manage_user: true
 vault_user: vault
 vault_manage_group: false
 vault_group: bin
+vault_groups: null
 
 # Logging
+vault_enable_log: false
 vault_enable_logrotate: false
 vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2
+vault_exec_output: ''
 
 # ---------------------------------------------------------------------------
 # Vault variables
@@ -69,14 +72,11 @@ vault_backend_etcd: vault_backend_etcd.j2
 vault_backend_s3: vault_backend_s3.j2
 vault_backend_dynamodb: vault_backend_dynamodb.j2
 vault_backend_mysql: vault_backend_mysql.j2
-vault_backend_raft: vault_backend_raft.j2
 
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
 vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
-
-vault_raft_node_id: "raft_node_1"
 
 vault_max_lease_ttl: "768h"
 vault_default_lease_ttl: "768h"
@@ -148,6 +148,36 @@ vault_backend: raft
 vault_raft_group_name: "vault_raft_servers"
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}" 
+
+# ---------------------------------------------------------------------------
+# Service registration variables
+# ---------------------------------------------------------------------------
+
+# Consul service registration settings
+vault_service_registration_consul_enable: false
+vault_service_registration_consul_template: vault_service_registration_consul.hcl.j2
+vault_service_registration_consul_check_timeout: 5s
+vault_service_registration_consul_address: 127.0.0.1:8500
+vault_service_registration_consul_service: vault
+vault_service_registration_consul_service_tags: ""
+vault_service_registration_consul_service_address:
+vault_service_registration_consul_disable_registration: false
+vault_service_registration_consul_scheme: http
+# vault_service_registration_consul_token:
+
+# Consul service registration tls settings
+vault_service_registration_consul_tls_config_path: "{{ vault_tls_config_path }}"
+vault_service_registration_consul_tls_cert_file: "{{ vault_tls_cert_file }}"
+vault_service_registration_consul_tls_key_file: "{{ vault_tls_key_file }}"
+vault_service_registration_consul_tls_ca_file: "{{ vault_tls_ca_file }}"
+vault_service_registration_consul_tls_min_version: "{{ vault_tls_min_version }}"
+vault_service_registration_consul_tls_skip_verify: false
+
+# Kubernetes service registration settings
+vault_service_registration_kubernetes_enable: false
+vault_service_registration_kubernetes_template: vault_service_registration_kubernetes.hcl.j2
+vault_service_registration_kubernetes_namespace: vault
+vault_service_registration_kubernetes_pod_name: vault
 
 # ---------------------------------------------------------------------------
 # Initialization and startup script templates
