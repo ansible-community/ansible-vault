@@ -689,6 +689,10 @@ available starting at Vault version 1.4.
 - Systemd service template file
 - Default value: `vault_service_systemd.j2`
 
+### `vault_service_name`
+- Systemd service unit name
+- Default value: "vault"
+
 ### `vault_telemetry_enabled`
 - Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
 - If enabled, you must set at least one of the following parameters according to your telemetry provider:
