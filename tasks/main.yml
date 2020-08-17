@@ -197,7 +197,7 @@
   become: true
   template:
     src: "{{ vault_systemd_template }}"
-    dest: /lib/systemd/system/vault.service
+    dest: "/lib/systemd/system/{{ vault_service_name }}.service"
     force: yes
     owner: root
     group: root
@@ -223,7 +223,7 @@
 - name: Start Vault
   become: true
   service:
-    name: vault
+    name: '{{ vault_service_name }}'
     state: started
     enabled: true
 
