@@ -193,7 +193,7 @@ vault_bsdinit_template: vault_service_bsd_init.j2
 vault_sysvinit_template: vault_sysvinit.j2
 vault_debian_init_template: vault_service_debian_init.j2
 vault_systemd_template: vault_service_systemd.j2
-vault_service_name: vault
+vault_systemd_service_name: vault
 
 # ---------------------------------------------------------------------------
 # TLS variables

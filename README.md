@@ -689,7 +689,7 @@ available starting at Vault version 1.4.
 - Systemd service template file
 - Default value: `vault_service_systemd.j2`
 
-### `vault_service_name`
+### `vault_systemd_service_name`
 - Systemd service unit name
 - Default value: "vault"
 
