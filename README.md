@@ -8,7 +8,19 @@ installation, including filesystem structure and example configuration.
 
 It can also bootstrap a minimal development or evaluation server or HA
 Consul-backed cluster in a Vagrant and VirtualBox based environment. See
-[README_VAGRANT.md](https://github.com/brianshumate/ansible-vault/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/brianshumate/ansible-vault/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
+[README_VAGRANT.md](https://github.com/ansible-community/ansible-vault/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/ansible-community/ansible-vault/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
+
+## Installation
+Brian Shumates transferred this role to @ansible-community/hashicorp-tools. This role resides on GitHub pending fixing the integration with Ansible Galaxy. To install this role create a `roles/requirements.yml` file in your Ansible project folder with the following contents:
+
+```yaml
+- src: https://github.com/ansible-community/ansible-vault.git
+  name: ansible-community.ansible-vault
+  scm: git
+  version: master
+```
+
+You can use git tag in the version attribute. Also you can honor its legacy `name: brianshumate.ansible-vault`.
 
 ## Requirements
 
