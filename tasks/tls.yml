@@ -8,6 +8,7 @@
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
+    mode: "0755"
     recurse: yes
 
 - name: Vault SSL Certificate and Key
