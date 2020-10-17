@@ -62,6 +62,7 @@
   when:
     - vault_enterprise | bool
     - not vault_install_remotely | bool
+    - not vault_install_remote_repo | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via control host
@@ -69,6 +70,15 @@
   when:
     - not vault_enterprise | bool
     - not vault_install_remotely | bool
+    - not vault_install_hashi_repo | bool
+    - installation_required | bool
+
+- name: Install Vault via HashiCorp repository
+  include: install_hashi_repo.yml
+  when:
+    - not vault_enterprise | bool
+    - not vault_install_remotely | bool
+    - vault_install_hashi_repo | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via remote hosts
@@ -76,6 +86,7 @@
   when:
     - not vault_enterprise | bool
     - vault_install_remotely | bool
+    - not vault_install_hashi_repo | bool
     - installation_required | bool
 
 - name: Check Vault mlock capability
