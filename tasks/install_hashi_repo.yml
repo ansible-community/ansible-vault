@@ -1,0 +1,32 @@
+---
+# File: tasks/install_hashi_repo.yml
+#       Install Vault via HashiCorp Linux repository
+
+- name: Add HashiCorp yum repo
+  command: yum-config-manager --add-repo=https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+  args:
+    creates: /etc/yum.repos.d/hashicorp.repo
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Install Vault via yum
+  yum:
+    name: "vault-{{ vault_version }}"
+    state: present
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Add HashiCorp apt signing key
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Add HashiCorp apt Repo
+  apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Install Vault via apt
+  apt:
+    name: vault={{ vault_version }}
+  when: ansible_pkg_mgr == 'apt'

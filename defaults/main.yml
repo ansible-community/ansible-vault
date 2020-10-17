@@ -21,6 +21,7 @@ vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
 
 # Install method variables
+vault_install_hashi_repo: false
 vault_install_remotely: false
 
 # Paths

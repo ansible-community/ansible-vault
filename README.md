@@ -83,6 +83,11 @@ The role defines variables in `defaults/main.yml`:
 - Override this var if you have your sha file is hosted internally
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"`
 
+### `vault_install_hashi_repo`
+
+- Set this to `true` when installing Vault via HashiCorp Linux repository
+- Default value: *false*
+
 ### `vault_shasums`
 
 - SHA summaries filename (included for convenience not for modification)
@@ -448,7 +453,7 @@ starting at Vault version 1.4.
 
 #### `vault_service_registration_check_timeout`
 
-- Specifies the check interval used to send health check information back to Consul. 
+- Specifies the check interval used to send health check information back to Consul.
 - Default value: 5s
 
 #### `vault_service_registration_disable_registration`
