@@ -32,7 +32,7 @@
         - vars
 
 - name: Check Vault installation
-  command: command -v vault
+  command: which vault
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
