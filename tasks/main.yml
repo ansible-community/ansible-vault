@@ -32,13 +32,15 @@
         - vars
 
 - name: Check Vault installation
-  command: command -v vault
+  shell: command -v vault
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
   changed_when: false
   ignore_errors: true
   check_mode: false
+  tags:
+    - skip_ansible_lint  # command is a shell builtin
 
 - name: Get installed Vault version
   shell: |
