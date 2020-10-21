@@ -1,0 +1,56 @@
+---
+
+- name: "Get the first node in {{ vault_group_name }}"
+  set_fact:
+    vault_first_server: "{{ groups[vault_group_name] | sort() | first() }}"
+
+- block:
+    - name: "Set Vault address for the first node"
+      set_fact:
+        vault_first_server_addr:
+          "{{ vault_protocol }}://\
+          {{ vault_address | mandatory() }}:\
+          {{ vault_port }}"
+
+    - name: "Check the init status"
+      shell:
+        "{{ vault_bin_path }}/vault operator init -status
+        -address={{ vault_first_server_addr }}"
+      args:
+        executable: "/bin/bash"
+      register: "is_vault_initialized"
+      failed_when: "is_vault_initialized.rc == 1"
+
+    - name: "Initialize Vault"
+      shell:
+        "{{ vault_bin_path }}/vault operator init
+        -key-shares={{ vault_init_key_shares | default(5) | int() }}
+        -key-threshold={{ vault_init_key_threshold | default(3) | int() }}
+        -format=json
+        -address={{ vault_first_server_addr }}"
+      args:
+        executable: "/bin/bash"
+      register: "vault_init"
+      when: "is_vault_initialized.rc == 2"
+
+    - set_fact:
+        vault_init_outputs: "{{ vault_init.stdout }}"
+      when: "is_vault_initialized.rc == 2"
+  run_once: true
+  become: true
+  become_user: "{{ vault_user }}"
+  delegate_to: "{{ vault_first_server | mandatory() }}"
+
+- block:
+    - tempfile:
+        state: directory
+        prefix: "vault-init-outputs-"
+      register: vault_init_backup
+
+    - name: "Backup temporarly unseal keys and root token"
+      copy:
+        dest: "{{ vault_init_backup.path }}/output.json"
+        content: "{{ vault_init_outputs | from_json() }}"
+  when: "vault_init_outputs is defined and vault_init_outputs"
+  become: no
+  delegate_to: localhost

@@ -260,6 +260,10 @@
     - not vault_tls_disable | bool
     - ansible_os_family != 'Windows'
 
+- name: Initialize Vault
+  include_tasks: "init.yml"
+  when: "vault_init | bool()"
+
 # This should succeed regardless of seal state
 - name: Vault API reachable?
   # Attempt to help with long lines > 160 issues

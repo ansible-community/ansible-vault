@@ -63,6 +63,14 @@ vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
 
 # ---------------------------------------------------------------------------
+# Initialization
+# ---------------------------------------------------------------------------
+
+vault_init: false
+vault_init_key_shares: 5
+vault_init_key_threshold: 3
+
+# ---------------------------------------------------------------------------
 # Storage backend
 # ---------------------------------------------------------------------------
 
