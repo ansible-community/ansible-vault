@@ -12,7 +12,7 @@ Consul-backed cluster in a Vagrant and VirtualBox based environment. See
 
 ## Requirements
 
-This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
+This role requires Archlinux, or FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
@@ -24,6 +24,7 @@ specific software and versions:
   - Debian 8 (jessie)
 * FreeBSD 11
 * Ubuntu 18.04
+* ArchLinux
 
 Sorry, there is no planned support at the moment for Windows.
 
@@ -103,7 +104,7 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_log_path`
 
-- Log path - (not yet implemented)
+- Log path
 - Default value: `/var/log/vault`
 
 ### `vault_run_path`
@@ -125,6 +126,11 @@ The role defines variables in `defaults/main.yml`:
 
 - OS group name
 - Default value: bin
+
+### `vault_groups`
+
+- OS additional groups as in ansibles user module
+- Default value: null
 
 ### `vault_manage_group`
 
@@ -310,6 +316,46 @@ The role defines variables in `defaults/main.yml`:
 - Identifier for the node in the integrated storage Raft cluster
 - Default value: "raft_node_1"
 
+#### `vault_raft_retry_join`
+
+- Details of all the nodes are known beforehand
+- Default value: "[]"
+
+##### `leader_api_addr`
+
+- Address of a possible leader node.
+- Default value: ""
+
+##### `leader_ca_cert_file`
+
+- File path to the CA cert of the possible leader node.
+- Default value: ""
+
+##### `leader_client_cert_file`
+
+- File path to the client certificate for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
+##### `leader_client_key_file`
+
+- File path to the client key for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
+##### `leader_ca_cert`
+
+- CA cert of the possible leader node.
+- Default value: ""
+
+##### `leader_client_cert`
+
+- Client certificate for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
+##### `leader_client_key`
+
+- Client key for the follower node to establish client authentication with the possible leader node.
+- Default value: ""
+
 ### DynamoDB Storage Backend
 
 For additional documentation for the various options available, see the
@@ -384,6 +430,121 @@ for the DynamoDB storage backend.
 - AWS session token.
 - Default value: none
   - Can be overridden with the environment variable `AWS_SESSION_TOKEN`
+
+### Consul Service Registration
+
+For additional information on the various options, see the
+[Vault documentation](https://www.vaultproject.io/docs/configuration/service-registration/consul)
+for Consul service registration. Note that this is only available
+starting at Vault version 1.4.
+
+#### `vault_service_registration_consul_enable`
+
+- Enable Consul service registration
+- Default value: false
+
+#### `vault_service_registration_consul_template`
+
+- Consul service registration template filename
+- Default value: `service_registration_consul.j2`
+
+#### `vault_service_registration_consul_address`
+
+- host:port value for connecting to Consul service registration
+- Default value: 127.0.0.1:8500
+
+#### `vault_service_registration_check_timeout`
+
+- Specifies the check interval used to send health check information back to Consul. 
+- Default value: 5s
+
+#### `vault_service_registration_disable_registration`
+
+- Specifies whether Vault should register itself with Consul.
+- Default value: false
+
+#### `vault_service_registration_consul_scheme`
+
+- Scheme for Consul service registration
+- Supported values: http, https
+- Default value: http
+
+#### `vault_service_registration_consul_service`
+
+- Name of the Vault service to register in Consul
+- Default value: vault
+
+#### `vault_service_registration_consul_service_tags`
+
+- Specifies a comma-separated list of tags to attach to the service registration in Consul.
+- Default value: ""
+
+#### `vault_service_registration_consul_service_address`
+
+- Specifies a service-specific address to set on the service registration in Consul.
+- Default value: nil
+
+#### `vault_service_registration_consul_token`
+
+- ACL token for registering with Consul service registration
+- Default value: none
+
+#### `vault_service_registration_consul_tls_config_path`
+
+- Path to TLS certificate and key
+- Default value `{{ vault_tls_config_path }}`
+
+#### `vault_service_registration_consul_tls_ca_file`
+
+- CA certificate filename
+- Default value: `{{ vault_tls_ca_file }}`
+
+#### `vault_service_registration_consul_tls_cert_file`
+
+- Server certificate
+- Default value: `{{ vault_tls_cert_file }}`
+
+#### `vault_service_registration_consul_tls_key_file`
+
+- Server key
+- Default value: `{{ vault_tls_key_file }}`
+
+#### `vault_service_registration_consul_tls_min_version`
+
+- [Minimum acceptable TLS version](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_min_version)
+- Default value: `{{ vault_tls_min_version }}`
+
+#### `vault_service_registration_consul_tls_skip_verify`
+
+- Disable verification of TLS certificates. Using this option is highly discouraged.
+- Default value: false
+
+### Kubernetes Service Registration
+
+For additional information on the various options, see the
+[Vault documentation](https://www.vaultproject.io/docs/configuration/service-registration/kubernetes)
+for Kubernetes service registration. Note that this is only
+available starting at Vault version 1.4.
+
+#### `vault_service_registration_kubernetes_consul_enable`
+
+- Enable Kubernetes service registration
+- Default value: false
+
+#### `vault_service_registration_kubernetes_template`
+
+- Kubernetes service registration template filename
+- Default value: `service_registration_kubernetes.j2`
+
+#### `vault_service_registration_kubernetes_namespace`
+
+- Kubernetes namespace to register
+- Default value: vault
+
+#### `vault_service_registration_pod_name`
+
+- Kubernetes pod name to register
+- Default value: vault
 
 ### `vault_log_level`
 
@@ -475,11 +636,6 @@ for the DynamoDB storage backend.
 - User-specified source directory for TLS files
   - Override with `VAULT_TLS_SRC_FILES` environment variable
 - Default value: `{{ role_path }}/files`
-
-### `vault_tls_config_path`
-
-- Path to TLS certificate and key
-- Default value `/etc/vault/tls`
 
 ### `vault_tls_ca_file`
 
@@ -638,6 +794,11 @@ differences across distributions:
 
 - Vault package SHA256 summary
 - Default value: SHA256 summary
+
+### `vault_enable_log`
+
+- Enable log to `vault_log_path`
+- Default value: false
 
 ### `vault_enable_logrotate`
 
