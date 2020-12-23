@@ -444,7 +444,7 @@ starting at Vault version 1.4.
 #### `vault_service_registration_consul_template`
 
 - Consul service registration template filename
-- Default value: `service_registration_consul.j2`
+- Default value: `service_registration_consul.hcl.j2`
 
 #### `vault_service_registration_consul_address`
 
@@ -532,7 +532,7 @@ available starting at Vault version 1.4.
 #### `vault_service_registration_kubernetes_template`
 
 - Kubernetes service registration template filename
-- Default value: `service_registration_kubernetes.j2`
+- Default value: `service_registration_kubernetes.hcl.j2`
 
 #### `vault_service_registration_kubernetes_namespace`
 
