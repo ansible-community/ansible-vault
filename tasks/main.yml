@@ -149,6 +149,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0400"
+    backup: "{{ vault_backup_config | default('false') | bool | lower }}"
   notify: Restart vault
 
 - name: "Set Exec output to log path when enabled log"

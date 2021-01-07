@@ -1,29 +1,21 @@
 storage "raft" {
-  path = "{{ vault_data_path }}"
+  path = "{{ vault_raft_data_path }}"
   node_id = "{{ vault_raft_node_id }}"
-  {% for node in vault_raft_retry_join -%}
+  {% for server in groups[vault_raft_group_name] | difference([inventory_hostname]) %}
+    {% if not (vault_tls_disable | bool) %}
   retry_join {
-  {% if node.leader_api_addr | default('', true) %}
-  leader_api_addr="{{ node.leader_api_addr }}"
-  {% endif -%}
-  {% if node.leader_ca_cert_file | default('', true) %}
-  leader_ca_cert_file="{{ node.leader_ca_cert_file }}"
-  {% endif -%}
-  {% if node.leader_client_cert_file | default('', true) %}
-  leader_client_cert_file="{{ node.leader_client_cert_file }}"
-  {% endif -%}
-  {% if node.leader_client_key_file | default('', true) %}
-  leader_client_key_file="{{ node.leader_client_key_file }}"
-  {% endif -%}
-  {% if node.leader_ca_cert | default('', true) %}
-  leader_ca_cert="{{ node.leader_ca_cert }}"
-  {% endif -%}
-  {% if node.leader_client_cert | default('', true) %}
-  leader_client_cert="{{ node.leader_client_cert }}"
-  {% endif -%}
-  {% if node.leader_client_key | default('', true) %}
-  leader_client_key="{{ node.leader_client_key }}"
-  {% endif -%}
+    leader_api_addr = "{{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+    leader_ca_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_ca_file }}"
+    leader_client_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_cert_file }}"
+    leader_client_key_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_key_file }}"
   }
+    {% else %}
+  retry_join {
+    leader_api_addr =  "http://{{ hostvars[server]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"
+  }
+    {% endif %}
   {% endfor %}
 }
+
+// HashiCorp recommends disabling mlock when using Raft.
+disable_mlock = {{ vault_disable_mlock | default('true') | bool | lower }}

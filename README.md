@@ -177,8 +177,10 @@ The role defines variables in `defaults/main.yml`:
 ## Storage Backend Variables
 
 ### `vault_backend`
-- Which storage backend should be selected, choices are: consul, etcd, file, raft, s3, and dynamodb
-- Default value: consul
+
+- Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, and dynamodb
+- Default value: raft
+
 
 ### `vault_backend_tls_src_files`
 
@@ -204,6 +206,23 @@ The role defines variables in `defaults/main.yml`:
 
 - CA certificate used for backend communication (if supported). This defaults to system bundle if not specified.
 - {{ vault_tls_ca_file }}
+
+### Raft Storage Backend
+
+#### `vault_raft_group_name`
+
+- Inventory group name of servers hosting the raft backend
+- Default value: vault_raft_servers
+
+#### `vault_raft_data_path`
+
+- Data path for Raft
+- Default value: vault_data_path
+
+#### `vault_raft_node_id`
+
+- Node_id for Raft
+- Default value: inventory_hostname_short
 
 ### Consul Storage Backend
 

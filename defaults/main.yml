@@ -66,7 +66,6 @@ vault_main_configuration_template: vault_main_configuration.hcl.j2
 # Storage backend
 # ---------------------------------------------------------------------------
 
-vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
 vault_backend_raft: vault_backend_raft.j2
@@ -146,15 +145,10 @@ vault_mysql_max_idle_connections: ""
 vault_mysql_max_connection_lifetime: ""
 
 # raft storage settings
-vault_raft_node_id: "raft_node_1"
-vault_raft_retry_join: []
-  # - leader_api_addr:
-  #   leader_ca_cert_file:
-  #   leader_client_cert_file:
-  #   leader_client_key_file:
-  #   leader_ca_cert:
-  #   leader_client_cert:
-  #   leader_client_key:
+vault_backend: raft
+vault_raft_group_name: "vault_raft_servers"
+vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
+vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}" 
 
 # ---------------------------------------------------------------------------
 # Service registration variables
