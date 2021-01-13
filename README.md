@@ -178,7 +178,7 @@ The role defines variables in `defaults/main.yml`:
 
 ### `vault_backend`
 
-- Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, and dynamodb
+- Which storage backend should be selected, choices are: raft, raft_dynamic, consul, etcd, file, s3, and dynamodb
 - Default value: raft
 
 
@@ -206,23 +206,6 @@ The role defines variables in `defaults/main.yml`:
 
 - CA certificate used for backend communication (if supported). This defaults to system bundle if not specified.
 - {{ vault_tls_ca_file }}
-
-### Raft Storage Backend
-
-#### `vault_raft_group_name`
-
-- Inventory group name of servers hosting the raft backend
-- Default value: vault_raft_servers
-
-#### `vault_raft_data_path`
-
-- Data path for Raft
-- Default value: vault_data_path
-
-#### `vault_raft_node_id`
-
-- Node_id for Raft
-- Default value: inventory_hostname_short
 
 ### Consul Storage Backend
 
@@ -323,15 +306,30 @@ The role defines variables in `defaults/main.yml`:
 
 ### Raft Integrated Storage Backend
 
-#### `vault_backend_raft`
+#### `vault_backend_raft_static`
 
-- Backend raft integrated storage template filename
-- Default value: `vault_backend_raft.j2`
+- Backend raft integrated storage template filename to compile static, predefined list of Raft nodes known in advance
+- Default value: `vault_backend_raft_static.j2`
+
+#### `vault_backend_raft_dynamic`
+
+- Backend raft integrated storage template filename to compile dynamic list of Raft nodes from Ansible facts
+- Default value: `vault_backend_raft_dynamic.j2`
+
+#### `vault_raft_group_name`
+
+- Inventory group name of servers hosting the raft backend
+- Default value: ansible_limit
+
+#### `vault_raft_data_path`
+
+- Data path for Raft
+- Default value: vault_data_path
 
 #### `vault_raft_node_id`
 
 - Identifier for the node in the integrated storage Raft cluster
-- Default value: "raft_node_1"
+- Default value: inventory_hostname_short
 
 #### `vault_raft_retry_join`
 

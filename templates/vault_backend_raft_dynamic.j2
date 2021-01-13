@@ -1,0 +1,19 @@
+storage "raft" {
+  path = "{{ vault_raft_data_path }}"
+  node_id = "{{ vault_raft_node_id }}"
+  {% if groups[vault_raft_group_name] is defined %}
+  {% for server in groups[vault_raft_group_name] %}
+  retry_join {
+    leader_api_addr = "{{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+    {% if not (vault_tls_disable | bool) %}
+    leader_ca_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_ca_file }}"
+    leader_client_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_cert_file }}"
+    leader_client_key_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_key_file }}"
+    {% endif %}
+  }
+  {% endfor %}
+  {% endif %}
+}
+
+// HashiCorp recommends disabling mlock when using Raft.
+disable_mlock = {{ vault_disable_mlock | default('true') | bool | lower }}

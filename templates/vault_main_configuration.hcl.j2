@@ -47,7 +47,9 @@ listener "tcp" {
 {% elif vault_backend == 'mysql' -%}
   {% include vault_backend_mysql with context -%}
 {% elif vault_backend == 'raft' -%}
-  {% include vault_backend_raft with context -%}
+  {% include vault_backend_raft_static with context -%}
+{% elif vault_backend == 'raft_dynamic' -%}
+  {% include vault_backend_raft_dynamic with context -%}
 {% endif %}
 
 {% if vault_service_registration_consul_enable -%}

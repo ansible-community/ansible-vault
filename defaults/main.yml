@@ -71,7 +71,8 @@ vault_no_proxy: ""
 
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
-vault_backend_raft: vault_backend_raft.j2
+vault_backend_raft_dynamic: vault_backend_raft_dynamic.j2
+vault_backend_raft_static: vault_backend_raft_static.j2
 vault_backend_etcd: vault_backend_etcd.j2
 vault_backend_s3: vault_backend_s3.j2
 vault_backend_dynamodb: vault_backend_dynamodb.j2
@@ -149,7 +150,15 @@ vault_mysql_max_connection_lifetime: ""
 
 # raft storage settings
 vault_backend: raft
-vault_raft_group_name: "vault_raft_servers"
+vault_raft_retry_join: []
+  # - leader_api_addr:
+  #   leader_ca_cert_file:
+  #   leader_client_cert_file:
+  #   leader_client_key_file:
+  #   leader_ca_cert:
+  #   leader_client_cert:
+  #   leader_client_key:
+vault_raft_group_name: '{{ ansible_limit }}'
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}" 
 
