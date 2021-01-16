@@ -655,6 +655,15 @@ available starting at Vault version 1.4.
 - Disable Certificate Validation for API reachability check
 - Default value: true
 
+### `vault_proxy_protocol_behavior`
+
+- May be one of `use_always`, `allow_authorized`, or `deny_unauthorized`
+- Enables [PROXY protocol](https://www.vaultproject.io/docs/configuration/listener/tcp#proxy_protocol_behavior) for listener.
+- If enabled and set to something other than `use_always`, you must also set
+  - [*vault_proxy_protocol_authorized_addrs*](https://www.vaultproject.io/docs/configuration/listener/tcp#proxy_protocol_authorized_addrs)
+  - Comma-separated list of source IPs for which PROXY protocol information will be used.
+- Default value: ""
+
 ### `vault_tls_config_path`
 
 - Path to TLS certificate and key
@@ -731,6 +740,16 @@ available starting at Vault version 1.4.
 
 - Copy from remote source if TLS files are already on host
 - Default value: false
+
+### `vault_x_forwarded_for_authorized_addrs`
+
+- Comma-separated list of source IP CIDRs for which an X-Forwarded-For header will be trusted.
+- Enables [X-Forwarded-For support.](https://www.vaultproject.io/docs/configuration/listener/tcp#x_forwarded_for_authorized_addrs)
+- If enabled, you may also set any of the following parameters:
+  - *vault_x_forwarded_for_hop_skips* with a format of "N" for the number of hops to skip
+  - *vault_x_forwarded_for_reject_not_authorized* with true/false
+  - *vault_x_forwarded_for_reject_not_present* with true/false
+- Default value: "" 
 
 ### `vault_bsdinit_template`
 - BSD init template file
