@@ -11,6 +11,12 @@ plugin_directory = "{{ vault_plugin_path }}"
 listener "tcp" {
   address = "{{ vault_address }}:{{ vault_port }}"
   cluster_address = "{{ vault_cluster_address }}"
+  {% if (vault_proxy_protocol_behavior is defined and vault_proxy_protocol_behavior) -%}
+  proxy_protocol_behavior = "{{ vault_proxy_protocol_behavior }}"
+  {% if (vault_proxy_protocol_authorized_addrs is defined) -%}
+  proxy_protocol_authorized_addrs = "{{ vault_proxy_protocol_authorized_addrs }}"
+  {% endif -%}
+  {% endif -%}
   {% if not (vault_tls_disable | bool) -%}
   tls_cert_file = "{{ vault_tls_config_path }}/{{ vault_tls_cert_file }}"
   tls_key_file = "{{ vault_tls_config_path }}/{{ vault_tls_key_file }}"
@@ -28,6 +34,18 @@ listener "tcp" {
   {% endif -%}
   {% endif -%}
   tls_disable = "{{ vault_tls_disable | bool | lower }}"
+  {% if (vault_x_forwarded_for_authorized_addrs is defined and vault_x_forwarded_for_authorized_addrs) -%}
+  x_forwarded_for_authorized_addrs = "{{ vault_x_forwarded_for_authorized_addrs }}"
+  {% if (vault_x_forwarded_for_hop_skips is defined) -%}
+  x_forwarded_for_hop_skips = "{{ vault_x_forwarded_for_hop_skips }}"
+  {% endif -%}
+  {% if (vault_x_forwarded_for_reject_not_authorized is defined) -%}
+  x_forwarded_for_reject_not_authorized = "{{ vault_x_forwarded_for_reject_not_authorized | bool | lower }}"
+  {% endif -%}
+  {% if (vault_x_forwarded_for_reject_not_present is defined) -%}
+  x_forwarded_for_reject_not_present = "{{ vault_x_forwarded_for_reject_not_present | bool | lower }}"
+  {% endif -%}
+  {% endif -%}
 }
 
 {#
