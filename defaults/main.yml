@@ -23,6 +23,7 @@ vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version 
 # Install method variables
 vault_install_hashi_repo: false
 vault_install_remotely: false
+vault_privileged_install: false
 
 # Paths
 vault_bin_path: /usr/local/bin

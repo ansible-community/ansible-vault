@@ -44,6 +44,14 @@ Sorry, there is no planned support at the moment for Windows.
 
 The role defines variables in `defaults/main.yml`:
 
+### vault_privileged_install
+
+ - Set this to true if you see permission errors when the vault files are
+   downloaded and unpacked locally. This issue can show up if the role has
+   been downloaded by one user (like root), and the installation is done
+   with a different user.
+ - Default value: *false*
+
 ### `vault_version`
 
 - Version to install
