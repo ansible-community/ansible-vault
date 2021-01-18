@@ -6,7 +6,7 @@
   package:
     name: "{{ item }}"
     state: present
-    update_cache: yes
+    update_cache: true
   with_items: "{{ vault_os_packages }}"
   tags: installation
 
@@ -15,7 +15,7 @@
   package:
     name: "libcap2-bin"
     state: present
-    update_cache: yes
+    update_cache: true
   tags: installation
   when:
     - ansible_distribution == "Debian"
