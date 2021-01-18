@@ -14,7 +14,7 @@ Documentation=https://www.vaultproject.io/docs/
 Requires=network-online.target
 After=network-online.target
 ConditionFileNotEmpty={{ vault_main_config }}
-StartLimitInterval=60
+
 
 [Service]
 User={{ vault_user }}
@@ -46,7 +46,10 @@ KillSignal=SIGINT
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=30
+StartLimitInterval=60
+{% if systemd_version.stdout is version('230', '>=') %}
 StartLimitIntervalSec=60
+{% endif %}
 StartLimitBurst=3
 LimitNOFILE=524288
 LimitNPROC=524288
