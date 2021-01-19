@@ -4,3 +4,4 @@
 vault_os_packages:
   - git
   - unzip
+  - acl
