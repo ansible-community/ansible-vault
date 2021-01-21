@@ -14,7 +14,7 @@ DESC="Vault secret management tool"
 NAME=vault
 DAEMON="{{ vault_bin_path }}/$NAME"
 PIDFILE=/var/run/$NAME/$NAME.pid
-DAEMON_ARGS="server -config={{ vault_main_config }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}"
+DAEMON_ARGS="server -config={{ vault_config_path }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}"
 USER={{ vault_user }}
 SCRIPTNAME=/etc/init.d/$NAME
 

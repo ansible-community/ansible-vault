@@ -50,7 +50,7 @@ start() {
         [ -f $PID_FILE ] && rm $PID_FILE
         daemon --user={{ vault_user }} \
             --pidfile="$PID_FILE" \
-            "$VAULT" server -config={{ vault_main_config }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}{% endif %} {{ vault_exec_output }} &
+            "$VAULT" server -config={{ vault_config_path }} {% if vault_log_level is defined %}-log-level={{ vault_log_level | lower }}{% endif %} {{ vault_exec_output }} &
         retcode=$?
         touch /var/lock/subsys/vault
         return $retcode
