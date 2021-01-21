@@ -102,14 +102,6 @@ ui = {{ vault_ui | bool | lower }}
   {% include vault_backend_gkms with context %}
 {% endif %}
 
-{% if vault_awskms | bool -%}
-  {% include vault_awskms_backend with context %}
-{% endif %}
-
-{% if vault_azurekeyvault | bool -%}
-  {% include vault_azurekeyvault_backend with context %}
-{% endif %}
-
 {% if vault_telemetry_enabled | bool -%}
 telemetry {
   {% if vault_statsite_address is defined %}

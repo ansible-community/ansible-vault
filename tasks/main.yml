@@ -140,7 +140,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0600"
-  when: vault_gkms | bool
+  when: vault_gkms_credentials_src_file | length | bool
 
 - name: Vault main configuration
   become: true
@@ -151,6 +151,30 @@
     group: "{{ vault_group }}"
     mode: "0400"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
+  notify: Restart vault
+
+- name: Vault awskms seal configuration
+  become: true
+  template:
+    src: "{{ vault_awskms_backend }}"
+    dest: "{{ vault_awskms_config }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0400"
+    backup: "{{ vault_backup_config | default('false') | bool | lower }}"
+  when: vault_awskms | bool
+  notify: Restart vault
+
+- name: Vault azurekeyvault seal configuration
+  become: true
+  template:
+    src: "{{ vault_azurekeyvault_backend }}"
+    dest: "{{ vault_azurekeyvault_config }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0400"
+    backup: "{{ vault_backup_config | default('false') | bool | lower }}"
+  when: vault_azurekeyvault | bool
   notify: Restart vault
 
 - name: "Set Exec output to log path when enabled log"
@@ -228,6 +252,7 @@
   become: true
   systemd:
     daemon-reload: true
+  notify: Restart Vault
   when:
     - ansible_service_mgr == "systemd"
     - not ansible_os_family == "FreeBSD"
