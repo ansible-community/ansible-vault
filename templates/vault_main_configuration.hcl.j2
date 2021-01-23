@@ -48,6 +48,14 @@ listener "tcp" {
   {% endif -%}
 }
 
+{% if (vault_listener_localhost_enable | bool) -%}
+listener "tcp" {
+  address = "127.0.0.1:{{ vault_port }}"
+  cluster_address = "127.0.0.1:{{ vault_cluster_address }}"
+  tls_disable = "true"
+}
+{% endif -%}
+
 {#
   Select which storage backend you want generated and placed
   in the vault configuration file.
