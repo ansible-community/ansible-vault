@@ -51,7 +51,7 @@ listener "tcp" {
 {% if (vault_listener_localhost_enable | bool) -%}
 listener "tcp" {
   address = "127.0.0.1:{{ vault_port }}"
-  cluster_address = "127.0.0.1:{{ vault_cluster_address }}"
+  cluster_address = "127.0.0.1:8201"
   tls_disable = "true"
 }
 {% endif -%}
