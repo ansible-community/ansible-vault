@@ -29,7 +29,7 @@ might work with other software versions, but does work with the following
 specific software and versions:
 
 * Ansible: 2.8.4
-* Vault: 1.5.5
+* Vault: 1.4.0 and above
 * Debian
   - Debian 10 (buster)
   - Debian 9 (stretch)
@@ -59,7 +59,7 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: 1.4.0
+- Default value: 1.5.5
 
 ### `vault_enterprise`
 
