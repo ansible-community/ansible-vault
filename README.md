@@ -44,6 +44,11 @@ Sorry, there is no planned support at the moment for Windows.
 
 The role defines variables in `defaults/main.yml`:
 
+### vault_listener_localhost_enable
+
+ - Set this to true if you enable listen vault on localhost
+ - Default value: *false*
+
 ### vault_privileged_install
 
  - Set this to true if you see permission errors when the vault files are
