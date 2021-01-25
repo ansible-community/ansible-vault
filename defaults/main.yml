@@ -62,7 +62,7 @@ vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
-vault_listener_localhost_enable: True
+vault_listener_localhost_enable: false
 vault_http_proxy: ""
 vault_https_proxy: ""
 vault_no_proxy: ""
