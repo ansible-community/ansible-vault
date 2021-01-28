@@ -264,6 +264,7 @@ vault_seal_token_label: ''
 vault_seal_slot: 0
 vault_softcard_enable: false
 vault_telemetry_enabled: false
+vault_unauthenticated_metrics_access: false
 
 # ---------------------------------------------------------------------------
 # Enterprise related variables

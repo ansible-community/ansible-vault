@@ -749,7 +749,7 @@ available starting at Vault version 1.4.
   - *vault_x_forwarded_for_hop_skips* with a format of "N" for the number of hops to skip
   - *vault_x_forwarded_for_reject_not_authorized* with true/false
   - *vault_x_forwarded_for_reject_not_present* with true/false
-- Default value: "" 
+- Default value: ""
 
 ### `vault_bsdinit_template`
 - BSD init template file
@@ -779,6 +779,11 @@ available starting at Vault version 1.4.
   - *vault_prometheus_retention_time* e.g: "30s" or "24h"
 - If enabled, optionally set *vault_telemetry_disable_hostname* to strip the hostname prefix from telemetry data
 - Default value: *false*
+
+### `vault_unauthenticated_metrics_access`
+
+- Configure [unauthenticated metrics access](https://www.vaultproject.io/docs/configuration/listener/tcp#configuring-unauthenticated-metrics-access)
+- Default value: false
 
 ## OS Distribution Variables
 
