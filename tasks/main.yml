@@ -125,7 +125,9 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0666"
-  when: vault_backend == "gcs"
+  when:
+  - vault_backend == "gcs"
+  - vault_gcs_copy_sa | boll
 
 - name: Vault main configuration
   become: true
