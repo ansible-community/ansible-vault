@@ -146,7 +146,7 @@ vault_gcs_bucket: ""
 vault_gcs_ha_enabled: false
 vault_gcs_chunk_size: "8192"
 vault_gcs_max_parallel: "128"
-vault_gcs_copy_sa: true
+vault_gcs_copy_sa: false
 vault_gcs_credentials_src_file: ""
 vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_file | basename}}"
 
@@ -235,6 +235,6 @@ vault_telemetry_enabled: false
 # ---------------------------------------------------------------------------
 
 vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}"
-vault_zip_url: ""
-vault_checksum_file_url: ""
+#vault_zip_url: ""
+#vault_checksum_file_url: ""
 vault_enterprise_premium: false
