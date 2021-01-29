@@ -1,0 +1,10 @@
+storage "gcs" {
+  bucket       = "{{ vault_gcs_bucket }}"
+  ha_enabled   = "{{ vault_gcs_ha_enabled | bool | lower }}"
+  {% if vault_gcs_chunk_size is defined and vault_gcs_chunk_size|length -%}
+  chunk_size   = "{{ vault_gcs_chunk_size }}"
+  {% endif -%}
+  {% if vault_gcs_max_parallel is defined and vault_gcs_max_parallel|length -%}
+  max_parallel = {{ vault_gcs_max_parallel }}
+  {% endif -%}
+}
