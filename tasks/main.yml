@@ -127,7 +127,7 @@
     mode: "0666"
   when:
   - vault_backend == "gcs"
-  - vault_gcs_copy_sa | boll
+  - vault_gcs_copy_sa | bool
 
 - name: Vault main configuration
   become: true
