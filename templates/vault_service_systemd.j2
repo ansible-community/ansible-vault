@@ -30,6 +30,9 @@ AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 {% endif %}
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
+{% if vault_gcs_copy_sa and vault_gcs_credentials_src_file is defined and vault_gcs_credentials_dst_file|length -%}
+Environment=GOOGLE_APPLICATION_CREDENTIALS={{ vault_gcs_credentials_dst_file }}
+{% endif -%}
 ExecStart={{ vault_bin_path }}/vault server -config={{ vault_main_config }} -log-level={{ vault_log_level | lower }}
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
