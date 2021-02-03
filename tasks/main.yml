@@ -124,7 +124,7 @@
     dest: "{{ vault_gcs_credentials_dst_file }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0666"
+    mode: "0600"
   when:
   - vault_backend == "gcs"
   - vault_gcs_copy_sa | bool
