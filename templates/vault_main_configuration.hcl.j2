@@ -46,6 +46,8 @@ listener "tcp" {
   {% include vault_backend_dynamodb with context -%}
 {% elif vault_backend == 'mysql' -%}
   {% include vault_backend_mysql with context -%}
+{% elif vault_backend == 'gcs' -%}
+  {% include vault_backend_gcs with context -%}
 {% endif %}
 
 {% if vault_ui -%}
