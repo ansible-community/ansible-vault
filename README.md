@@ -187,6 +187,35 @@ The role defines variables in `defaults/main.yml`:
 - Enable vault web UI
 - Default value:  true
 
+## TCP Listener Variables
+
+### `vault_tcp_listeners`
+
+- A list of tcp listeners. Each listener can define any of the listener specific variables described in further detail below.
+- Default value:
+```yaml
+vault_tcp_listeners:
+  - vault_address: '{{ vault_address }}'
+    vault_port: '{{ vault_port }}'
+    vault_cluster_address: '{{ vault_cluster_address }}'
+    # vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
+    # vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
+    vault_tls_disable: '{{ vault_tls_disable }}'
+    vault_tls_config_path: '{{ vault_tls_config_path }}'
+    vault_tls_cert_file: '{{ vault_tls_cert_file }}'
+    vault_tls_key_file: '{{ vault_tls_key_file }}'
+    vault_tls_ca_file: '{{ vault_tls_ca_file }}'
+    vault_tls_min_version: '{{ vault_tls_min_version }}'
+    vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
+    vault_tls_prefer_server_cipher_suites: '{{ vault_tls_prefer_server_cipher_suites }}'
+    vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
+    vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
+    # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
+    # vault_x_forwarded_for_hop_skips: '{{ vault_x_forwarded_for_hop_skips }}'
+    # vault_x_forwarded_for_reject_not_authorized: '{{ vault_x_forwarded_for_reject_not_authorized }}'
+    # vault_x_forwarded_for_reject_not_present: '{{ vault_x_forwarded_for_reject_not_present }}'
+```
+
 ## Storage Backend Variables
 
 ### `vault_backend`
