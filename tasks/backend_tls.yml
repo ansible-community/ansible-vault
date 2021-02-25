@@ -8,6 +8,7 @@
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
+    mode: 0700
   with_items:
     - "{{ vault_backend_tls_config_path }}"
 
