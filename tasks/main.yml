@@ -108,6 +108,7 @@
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
+    mode: 0750
   with_items:
     - "{{ vault_config_path }}"
     - "{{ vault_plugin_path }}"
@@ -212,7 +213,7 @@
   template:
     src: "{{ vault_systemd_template }}"
     dest: "/lib/systemd/system/{{ vault_systemd_service_name }}.service"
-    force: yes
+    force: true
     owner: root
     group: root
     mode: "0644"
@@ -253,6 +254,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
+    mode: 0600
   when:
     - ansible_os_family != 'Windows'
 
@@ -265,6 +267,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
+    mode: 0600
   when:
     - not vault_tls_disable | bool
     - ansible_os_family != 'Windows'

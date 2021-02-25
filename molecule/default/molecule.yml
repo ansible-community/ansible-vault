@@ -1,0 +1,51 @@
+---
+scenario:
+  test_sequence:
+    - lint
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: vault-centos-7
+    groups:
+      - vault_raft_servers
+    image: milcom/centos7-systemd
+    privileged: true
+    dockerfile: ../default/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+      - CAP_IPC_LOCK
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      deprecation_warnings: false
+      callback_whitelist: timer,profile_tasks
+      fact_caching: jsonfile
+      fact_caching_connection: ./cache
+      forks: 100
+    connection:
+      pipelining: true
+  playbooks:
+    prepare: ../default/prepare.yml
+    converge: ../default/converge.yml
+  inventory:
+    group_vars:
+      consul_instances:
+        consul_node_role: bootstrap
+verifier:
+  name: ansible

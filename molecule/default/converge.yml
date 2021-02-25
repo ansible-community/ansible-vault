@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    vault_install_hashi_repo: true
+    vault_bin_path: /usr/bin
+  roles:
+    - role: ansible-vault

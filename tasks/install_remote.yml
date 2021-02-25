@@ -13,6 +13,7 @@
   file:
     path: /tmp/vault
     state: directory
+    mode: 0750
 
 - name: Check Vault package checksum file
   stat:

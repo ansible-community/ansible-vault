@@ -1,0 +1,22 @@
+---
+package:
+  vault:
+    installed: true
+port:
+  tcp:8200:
+    listening: true
+service:
+  vault.service:
+    enabled: true
+    running: true
+user:
+  vault:
+    exists: true
+    groups:
+      - bin
+group:
+  bin:
+    exists: true
+process:
+  vault:
+    running: true
