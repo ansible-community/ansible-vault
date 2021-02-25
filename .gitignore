@@ -4,6 +4,7 @@
 *.key
 *.retry
 *.zip
+cache/
 examples/hosts
 files/vault
 files/vault*_SHA256SUMS
