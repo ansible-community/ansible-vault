@@ -212,7 +212,7 @@
   template:
     src: "{{ vault_systemd_template }}"
     dest: "/lib/systemd/system/{{ vault_systemd_service_name }}.service"
-    force: yes
+    force: true
     owner: root
     group: root
     mode: "0644"
