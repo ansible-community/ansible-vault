@@ -22,6 +22,7 @@ platforms:
     groups:
       - vault_raft_servers
     image: milcom/centos7-systemd
+    privileged: true
     dockerfile: ../default/Dockerfile.j2
     capabilities:
       - SYS_ADMIN
