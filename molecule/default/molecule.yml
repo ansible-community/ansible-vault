@@ -8,7 +8,7 @@ scenario:
     - converge
     - idempotence
     - verify
-#    - destroy
+    - destroy
 dependency:
   name: galaxy
 driver:
@@ -17,7 +17,6 @@ lint: |
   set -e
   yamllint .
   ansible-lint
-  flake8
 platforms:
   - name: vault-centos-7
     groups:
