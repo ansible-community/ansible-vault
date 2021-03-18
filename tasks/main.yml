@@ -247,10 +247,13 @@
 
 - name: Insert http(s) export in dotfile
   become: true
+  # Attempt to help with long lines > 160 issues
+  vars:
+    vault_addr: "{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
   lineinfile:
     path: "{{ vault_home }}/.bashrc"
     regexp: "^export VAULT_ADDR="
-    line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ vault_address }}:{{ vault_port }}'"
+    line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ vault_addr }}:{{ vault_port }}'"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
