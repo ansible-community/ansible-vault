@@ -122,6 +122,11 @@ The role defines variables in `defaults/main.yml`:
 - Configuration file path
 - Default value: `/etc/vault.d`
 
+### `vault_use_config_path`
+
+- Use `"{{ vault_config_path }}"` to configure vault instead of `"{{ vault_main_config }}"`
+- default vaule: *false*
+
 ### `vault_plugin_path`
 
 - Path from where plugins can be loaded
@@ -639,7 +644,6 @@ available starting at Vault version 1.4.
 - Default value: 768h (32 days)
 
 ### `vault_main_config`
-
 - Main configuration file name (full path)
 - Default value: `"{{ vault_config_path }}/vault_main.hcl"`
 
