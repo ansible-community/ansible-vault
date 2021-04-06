@@ -33,6 +33,9 @@
 
 - name: Mask default Vault config from package
   copy:
+    owner: root
+    group: root
+    mode: "0644"
     dest: /etc/vault.d/vault.hcl
     content: |
       # Placeholder to mask default RPM/DPKG Vault config file.
