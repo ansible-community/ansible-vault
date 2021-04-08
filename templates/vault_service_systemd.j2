@@ -3,7 +3,11 @@ Description="HashiCorp Vault - A tool for managing secrets"
 Documentation=https://www.vaultproject.io/docs/
 Requires=network-online.target
 After=network-online.target
-ConditionFileNotEmpty={{ vault_main_config }}
+{% if vault_use_config_path %}
+ConditionPathExists={{ vault_config_path }}
+{% else %}
+ConditionFileExists={{ vault_main_config }}
+{% endif %}
 
 [Service]
 User={{ vault_user }}
@@ -28,7 +32,7 @@ Environment=HTTPS_PROXY={{ vault_https_proxy }}
 {% if vault_no_proxy -%}
 Environment=NO_PROXY={{ vault_no_proxy }}
 {% endif -%}
-ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/vault server -config={{ vault_config_path }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}'
+ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/vault server -config={{ vault_config_path if vault_use_config_path else vault_main_config }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}'
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGINT
