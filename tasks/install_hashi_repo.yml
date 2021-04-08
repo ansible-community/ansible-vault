@@ -30,3 +30,17 @@
   apt:
     name: vault={{ vault_version }}
   when: ansible_pkg_mgr == 'apt'
+
+- name: Mask default Vault config from package
+  copy:
+    owner: root
+    group: root
+    mode: "0644"
+    dest: /etc/vault.d/vault.hcl
+    content: |
+      # Placeholder to mask default RPM/DPKG Vault config file.
+      #
+      # Package-installed config would interfere with Ansible-managed config files
+      # in this directory. Keeping an empty placeholder prevents package updates
+      # from re-installing the default config.
+  when: ansible_pkg_mgr in ['yum', 'apt']

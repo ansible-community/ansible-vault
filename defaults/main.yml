@@ -254,6 +254,7 @@ vault_tls_disable_client_certs: false
 
 # awskms seal
 vault_awskms: false
+vault_awskms_config: "{{ vault_config_path }}/vault_awskms.hcl"
 vault_awskms_backend: vault_seal_awskms.j2
 vault_awskms_region: "{{ lookup('env','AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
 vault_awskms_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') | default('', false) }}"
@@ -263,6 +264,7 @@ vault_awskms_endpoint: "{{ lookup('env','AWS_KMS_ENDPOINT') | default('', false)
 
 # azurekeyvault seal
 vault_azurekeyvault: false
+vault_azurekeyvault_config: "{{ vault_config_path }}/vault_azurekeyvault.hcl"
 vault_azurekeyvault_backend: vault_seal_azurekeyvault.j2
 
 # gcpkms seal
