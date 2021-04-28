@@ -4,10 +4,9 @@
 - name: OS packages
   become: true
   package:
-    name: "{{ item }}"
+    name: "{{ vault_os_packages }}"
     state: present
     update_cache: true
-  with_items: "{{ vault_os_packages }}"
   tags: installation
 
 # Temporary place for one-off version diff packages, etc.
@@ -15,7 +14,6 @@
   package:
     name: "libcap2-bin"
     state: present
-    update_cache: true
   tags: installation
   when:
     - ansible_distribution == "Debian"
