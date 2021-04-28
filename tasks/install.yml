@@ -21,86 +21,34 @@
     - ansible_distribution == "Debian"
     - (ansible_distribution_version == 'buster/sid') or (ansible_distribution_version is version(8.5, '>'))
 
-- name: Check Vault package checksum file (local)
-  stat:
-    path: "{{ role_path }}/files/{{ vault_shasums }}"
-  become: false
-  run_once: true
-  register: vault_checksum
-  delegate_to: 127.0.0.1
-
-- name: Get Vault package checksum file (local)
-  get_url:
-    url: "{{ vault_checksum_file_url }}"
-    dest: "{{ role_path }}/files/{{ vault_shasums }}"
-  become: "{{ vault_privileged_install }}"
-  run_once: true
+- name: "Create Temporary Directory to download vault"
+  tempfile:
+    state: directory
+  register: temp_dir
   tags: installation
-  when: not vault_checksum.stat.exists | bool
-  delegate_to: 127.0.0.1
 
-- name: Get Vault package checksum (local)
-  shell: |
-    set -o pipefail
-    grep "{{ vault_pkg }}" "{{ role_path }}/files/{{ vault_shasums }}" | \
-    awk '{print $1}'
-  args:
-    executable: /bin/bash
-  become: false
-  run_once: true
-  register: vault_sha256
-  tags:
-    - installation
-    - skip_ansible_lint
-  delegate_to: 127.0.0.1
-
-- name: Check Vault package file (local)
-  stat:
-    path: "{{ role_path }}/files/{{ vault_pkg }}"
-  become: false
-  run_once: true
-  register: vault_package
-  delegate_to: 127.0.0.1
-
-- name: "Download Vault (local) → {{ vault_zip_url }}"
+- name: "Download Vault"
   get_url:
     url: "{{ vault_zip_url }}"
-    dest: "{{ role_path }}/files/{{ vault_pkg }}"
-    checksum: "sha256:{{ vault_sha256.stdout }}"
+    dest: "{{ temp_dir.path }}/{{ vault_pkg }}"
+    checksum: "sha256:{{ vault_checksum_file_url }}"
     timeout: "42"
-  become: "{{ vault_privileged_install }}"
-  run_once: true
   tags: installation
-  when: not vault_package.stat.exists | bool
-  delegate_to: 127.0.0.1
 
-- name: Unarchive Vault (local)
-  unarchive:
-    src: "{{ role_path }}/files/{{ vault_pkg }}"
-    dest: "{{ role_path }}/files/"
-    creates: "{{ role_path }}/files/vault"
-  become: "{{ vault_privileged_install }}"
-  run_once: true
-  tags: installation
-  delegate_to: 127.0.0.1
-
-- name: Install Vault
+- name: "Install Vault"
   become: true
-  copy:
-    src: "{{ role_path }}/files/vault"
+  unarchive:
+    src: "{{ temp_dir.path }}/{{ vault_pkg }}"
     dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0755"
+    remote_src: yes
   notify: Restart vault
   tags: installation
 
-- name: Cleanup (local)
+- name: "Cleanup"
   file:
-    path: "{{ item }}"
+    path: "{{ temp_dir.path }}"
     state: "absent"
-  become: "{{ vault_privileged_install }}"
-  with_fileglob: "{{ role_path }}/files/vault"
-  run_once: true
   tags: installation
-  delegate_to: 127.0.0.1
