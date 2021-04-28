@@ -4,9 +4,8 @@
 
 - name: OS packages
   package:
-    name: "{{ item }}"
+    name: "{{ vault_os_packages }}"
     state: present
-  with_items: "{{ vault_os_packages }}"
   tags: installation
 
 - name: "[Enterprise] Check {{ role_path }}/files/{{ vault_enterprise_shasums }} (local)"
