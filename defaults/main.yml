@@ -180,6 +180,11 @@ vault_backend: raft
 vault_raft_group_name: "vault_raft_servers"
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}"
+# vault_raft_performance_multiplier:
+# vault_raft_trailing_logs:
+# vault_raft_snapshot_threshold:
+# vault_raft_max_entry_size:
+# vault_raft_autopilot_reconcile_interval:
 
 # ---------------------------------------------------------------------------
 # Service registration variables

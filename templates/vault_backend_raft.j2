@@ -1,6 +1,21 @@
 storage "raft" {
   path = "{{ vault_raft_data_path }}"
   node_id = "{{ vault_raft_node_id }}"
+  {% if vault_raft_performance_multiplier is defined and vault_raft_performance_multiplier %}
+  performance_multiplier = "{{ vault_raft_performance_multiplier }}"
+  {% endif %}
+  {% if vault_raft_trailing_logs is defined and vault_raft_trailing_logs %}
+  trailing_logs = "{{ vault_raft_trailing_logs }}"
+  {% endif %}
+  {% if vault_raft_snapshot_threshold is defined and vault_raft_snapshot_threshold %}
+  snapshot_threshold = "{{ vault_raft_snapshot_threshold }}"
+  {% endif %}
+  {% if vault_raft_max_entry_size is defined and vault_raft_max_entry_size %}
+  max_entry_size = "{{ vault_raft_max_entry_size }}"
+  {% endif %}
+  {% if vault_raft_autopilot_reconcile_interval is defined and vault_raft_autopilot_reconcile_interval %}
+  autopilot_reconcile_interval = "{{ vault_raft_autopilot_reconcile_interval }}"
+  {% endif %}
   {% for server in groups[vault_raft_group_name] | difference([inventory_hostname]) %}
     {% if not (vault_tls_disable | bool) %}
   retry_join {
