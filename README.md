@@ -271,6 +271,31 @@ vault_tcp_listeners:
 - Node_id for Raft
 - Default value: inventory_hostname_short
 
+#### `vault_raft_performance_multiplier`
+
+- Performance multiplier for Raft
+- Default value: none
+
+#### `vault_raft_trailing_logs`
+
+- Logs entries count left on log store after snapshot
+- Default value: none
+
+#### `vault_raft_snapshot_threshold`
+
+- Minimum Raft commit entries between snapshots
+- Default value: none
+
+#### `vault_raft_max_entry_size`
+
+- Maximum number of bytes for a Raft entry
+- Default value: none
+
+#### `vault_raft_autopilot_reconcile_interval`
+
+- Interval after which autopilot will pick up any state changes
+- Default value: none
+
 ### Consul Storage Backend
 
 #### `vault_backend_consul`
