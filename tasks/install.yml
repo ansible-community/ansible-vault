@@ -10,7 +10,7 @@
   tags: installation
 
 # Temporary place for one-off version diff packages, etc.
-- name: OS packages diff (Debian 9)
+- name: OS packages diff (Debian)
   become: true
   package:
     name: "libcap2-bin"
