@@ -117,6 +117,7 @@
     - "{{ vault_run_path }}"
 
 - name: Enable logrotate for vault
+  become: true
   template:
     src: "{{ vault_logrotate_template }}"
     dest: /etc/logrotate.d/vault
