@@ -278,6 +278,13 @@
     name: '{{ vault_systemd_service_name }}'
     state: started
     enabled: true
+  register: start_vault
+
+- name: Pause for 30 seconds to let Vault startup correctly
+  pause:
+    seconds: 30
+  when:
+    - start_vault is changed
 
 - name: Restart Vault if needed
   meta: flush_handlers
