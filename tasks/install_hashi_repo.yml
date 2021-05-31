@@ -6,13 +6,13 @@
   command: yum-config-manager --add-repo=https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
   args:
     creates: /etc/yum.repos.d/hashicorp.repo
-  when: ansible_pkg_mgr == 'yum'
+  when: ansible_pkg_mgr in ['yum', 'dnf']
 
-- name: Install Vault via yum
+- name: Install Vault via yum/dnf
   yum:
     name: "vault-{{ vault_version }}"
     state: present
-  when: ansible_pkg_mgr == 'yum'
+  when: ansible_pkg_mgr in ['yum', 'dnf']
 
 - name: Add HashiCorp apt signing key
   apt_key:
@@ -43,4 +43,4 @@
       # Package-installed config would interfere with Ansible-managed config files
       # in this directory. Keeping an empty placeholder prevents package updates
       # from re-installing the default config.
-  when: ansible_pkg_mgr in ['yum', 'apt']
+  when: ansible_pkg_mgr in ['yum', 'dnf', 'apt']
