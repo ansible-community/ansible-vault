@@ -48,6 +48,9 @@ vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2
 vault_exec_output: ''
 
+# Handlers
+vault_service_restart: true
+
 # ---------------------------------------------------------------------------
 # Vault variables
 # ---------------------------------------------------------------------------

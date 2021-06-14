@@ -192,6 +192,11 @@ The role defines variables in `defaults/main.yml`:
 - Enable vault web UI
 - Default value:  true
 
+### `vault_service_restart`
+
+- Should the playbook restart Vault service when needed
+- Default value: true
+
 ## TCP Listener Variables
 
 ### `vault_tcp_listeners`
