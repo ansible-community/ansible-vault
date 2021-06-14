@@ -143,6 +143,17 @@
     mode: "0600"
   when: vault_gkms_credentials_src_file | length | bool
 
+- name: "Copy GCP Credentials for gcs backend"
+  copy:
+    src: "{{ vault_gcs_credentials_src_file }}"
+    dest: "{{ vault_gcs_credentials_dst_file }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0600"
+  when:
+    - vault_backend == "gcs"
+    - vault_gcs_copy_sa | bool
+
 - name: Vault main configuration
   become: true
   template:
