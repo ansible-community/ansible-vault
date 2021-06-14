@@ -23,6 +23,9 @@ AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 {% endif %}
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
+{% if vault_gcs_copy_sa and vault_gcs_credentials_src_file is defined and vault_gcs_credentials_dst_file|length -%}
+Environment=GOOGLE_APPLICATION_CREDENTIALS={{ vault_gcs_credentials_dst_file }}
+{% endif -%}
 {% if vault_http_proxy -%}
 Environment=HTTP_PROXY={{ vault_http_proxy }}
 {% endif -%}

@@ -520,6 +520,44 @@ for the DynamoDB storage backend.
 - Default value: none
   - Can be overridden with the environment variable `AWS_SESSION_TOKEN`
 
+### Google Cloud Storage Storage Backend
+
+#### `vault_gcs_bucket`
+
+- Specifies the name of the bucket to use for storage.
+- Default value: none
+
+#### `vault_gcs_ha_enabled`
+
+- Specifies if high availability mode is enabled.
+- Default value: `"false"`
+
+
+#### `vault_gcs_chunk_size`
+
+- Specifies the maximum size (in kilobytes) to send in a single request. If set to 0, it will attempt to send the whole object at once, but will not retry any failures.
+- Default value: `"8192"`
+
+#### `vault_gcs_max_parallel`
+
+- Specifies the maximum number of parallel operations to take place.
+- Default value: `"128"`
+
+#### `vault_gcs_copy_sa`
+
+- Copy GCP SA credentials file from Ansible control node to Vault server. When not `true` and no value is specified for `vault_gcs_credentials_src_file`, the default instance service account credentials are used.
+- Default value: `"false"`
+
+#### `vault_gcs_credentials_src_file`
+
+- Path to GCP SA credential on Ansible control node.
+- Default value: none
+
+#### `vault_gcs_credentials_dst_file`
+
+- Path to SA GCP credential on Vault server.
+- Default value: `{{ vault_home }}/{{ vault_gcs_credentials_src_file | basename}}"`
+
 ### Consul Service Registration
 
 For additional information on the various options, see the
