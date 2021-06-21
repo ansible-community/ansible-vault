@@ -40,6 +40,22 @@ specific software and versions:
 
 Sorry, there is no planned support at the moment for Windows.
 
+## Warning
+
+By default, this role may restart `vault` service when played (when there's a
+configuration change, OS Packages installed/updated)
+
+When there's no auto-unseal setup on your cluster, the restart may lead to a
+situation where all Vault instances will be sealed and your cluster will be
+down.
+
+To avoid this situation, the service restart by the playbook can be disabled
+by using the `vault_service_restart` role variable.
+
+Setting this `vault_service_restart` to `false` will disable the `vault`
+service restart by the playbook. You may have to restart the service manually
+to load any new configuration deployed.
+
 ## Role Variables
 
 The role defines variables in `defaults/main.yml`:
