@@ -117,6 +117,11 @@ The role defines variables in `defaults/main.yml`:
 - Set this to `true` when installing Vault via HashiCorp Linux repository
 - Default value: *false*
 
+### `vault_install_remotely`
+
+- Set this to `true` will download Vault binary from each target instead of localhost
+- Default value: *false*
+
 ### `vault_shasums`
 
 - SHA summaries filename (included for convenience not for modification)

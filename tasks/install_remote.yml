@@ -3,6 +3,7 @@
 #       Package installation tasks for vault
 
 - name: OS packages
+  become: true
   package:
     name: "{{ vault_os_packages }}"
     state: present
@@ -49,6 +50,7 @@
   when: not vault_package.stat.exists | bool
 
 - name: Unarchive Vault and install binary
+  become: true
   unarchive:
     remote_src: true
     src: "/tmp/vault/{{ vault_pkg }}"
