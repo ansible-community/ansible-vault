@@ -213,6 +213,13 @@ The role defines variables in `defaults/main.yml`:
 - Should the playbook restart Vault service when needed
 - Default value: true
 
+### `vault_start_pause_seconds`
+
+- Some installations may need some time between the first Vault start
+  and the first restart. Setting this to a value `>0` will add a pause
+  time after the first Vault start.
+- Default value: 0
+
 ## TCP Listener Variables
 
 ### `vault_tcp_listeners`

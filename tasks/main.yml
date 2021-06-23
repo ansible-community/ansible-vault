@@ -280,11 +280,12 @@
     enabled: true
   register: start_vault
 
-- name: Pause for 30 seconds to let Vault startup correctly
+- name: Pause for {{ vault_start_pause }} seconds to let Vault startup correctly
   pause:
-    seconds: 30
+    seconds: "{{ vault_start_pause }}"
   when:
     - start_vault is changed
+    - vault_start_pause_seconds | int > 0
 
 - name: Restart Vault if needed
   meta: flush_handlers
