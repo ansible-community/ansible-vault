@@ -16,6 +16,18 @@ storage "raft" {
   {% if vault_raft_autopilot_reconcile_interval is defined and vault_raft_autopilot_reconcile_interval %}
   autopilot_reconcile_interval = "{{ vault_raft_autopilot_reconcile_interval }}"
   {% endif %}
+  {% if vault_raft_cloud_auto_join is defined and vault_raft_cloud_auto_join %}
+  retry_join {
+    auto_join = "{{ vault_raft_cloud_auto_join }}"
+    {% if vault_raft_cloud_auto_join_scheme is defined and vault_raft_cloud_auto_join_scheme %}
+    auto_join_scheme = "{{ vault_raft_cloud_auto_join_scheme }}"
+    {% endif %}
+    {% if vault_raft_cloud_auto_join_port is defined and vault_raft_cloud_auto_join_port %}
+    auto_join_port = "{{ vault_raft_cloud_auto_join_port }}"
+    {% endif %}
+  }
+  {% endif %}
+  {% if not vault_raft_cloud_auto_join_exclusive %}
   {% for server in groups[vault_raft_group_name] | difference([inventory_hostname]) %}
     {% if not (vault_tls_disable | bool) %}
   retry_join {
@@ -30,6 +42,7 @@ storage "raft" {
   }
     {% endif %}
   {% endfor %}
+  {% endif %}
 }
 
 // HashiCorp recommends disabling mlock when using Raft.

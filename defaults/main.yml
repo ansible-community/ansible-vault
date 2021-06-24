@@ -201,6 +201,10 @@ vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory
 # vault_raft_snapshot_threshold:
 # vault_raft_max_entry_size:
 # vault_raft_autopilot_reconcile_interval:
+# vault_raft_cloud_auto_join:
+# vault_raft_cloud_auto_join_scheme:
+# vault_raft_cloud_auto_join_port:
+vault_raft_cloud_auto_join_exclusive: false
 
 # ---------------------------------------------------------------------------
 # Service registration variables
