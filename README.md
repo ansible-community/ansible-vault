@@ -317,6 +317,33 @@ vault_tcp_listeners:
 - Interval after which autopilot will pick up any state changes
 - Default value: none
 
+#### `vault_raft_cloud_auto_join`
+
+- Defines any cloud auto-join metadata. If supplied, Vault will
+  attempt to automatically discover peers in addition to what can
+  be provided via `leader_api_addr`
+- Default value: none
+
+#### `vault_raft_cloud_auto_join_exclusive`
+
+- If set to `true`, any `leader_api_addr` occurences will be removed
+  from the configuration.
+  Keeping this to `false` will allow `auto_join` and `leader_api_addr`
+  to coexist
+- Default value: false
+
+#### `vault_raft_cloud_auto_join_scheme`
+
+- URI scheme to be used for `auto_join`
+- Default value: none (`https` is the default value set by
+  Vault if not specified)
+
+#### `vault_raft_cloud_auto_join_port`
+
+- Port to be used for `auto_join`
+- Default value: none (`8200` is the default value set by
+  Vault if not specified)
+
 ### Consul Storage Backend
 
 #### `vault_backend_consul`
