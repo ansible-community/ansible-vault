@@ -1,0 +1,10 @@
+---
+# File: vars/Flatcar.yml - Flatcar Linux vars for Vault
+
+vault_os_packages: []
+
+vault_systemd_unit_path: /etc/systemd/system
+
+vault_bin_path: /opt/bin
+
+vault_plugin_path: /opt/vault/plugins

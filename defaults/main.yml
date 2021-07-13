@@ -44,6 +44,9 @@ vault_manage_group: false
 vault_group: bin
 vault_groups: null
 
+vault_dotfile: ".bashrc"
+vault_dotfile_disable: false
+
 # Logging
 vault_enable_log: false
 vault_enable_logrotate: false
@@ -245,6 +248,7 @@ vault_sysvinit_template: vault_sysvinit.j2
 vault_debian_init_template: vault_service_debian_init.j2
 vault_systemd_template: vault_service_systemd.j2
 vault_systemd_service_name: vault
+vault_systemd_unit_path: /lib/systemd/system
 
 # ---------------------------------------------------------------------------
 # TLS variables

@@ -6,3 +6,15 @@ vault_http_status:
   '473': 'performance standby'
   '501': 'not initialized'
   '503': 'sealed'
+
+# Supported *nix distributions
+_vault_nix_distros:
+  - 'RedHat'
+  - 'CentOS'
+  - 'Fedora'
+  - 'Debian'
+  - 'Ubuntu'
+  - 'Archlinux'
+  - 'OracleLinux'
+  - 'Flatcar'
+  - 'FreeBSD'
