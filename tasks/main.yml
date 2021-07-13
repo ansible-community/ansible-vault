@@ -248,7 +248,7 @@
   become: true
   template:
     src: "{{ vault_systemd_template }}"
-    dest: "/lib/systemd/system/{{ vault_systemd_service_name }}.service"
+    dest: "{{ vault_systemd_unit_path }}/{{ vault_systemd_service_name }}.service"
     force: true
     owner: root
     group: root
@@ -297,7 +297,7 @@
 - name: Insert http(s) export in dotfile
   become: true
   lineinfile:
-    path: "{{ vault_home }}/.bashrc"
+    path: "{{ vault_home }}/{{ vault_dotfile }}"
     regexp: "^export VAULT_ADDR="
     line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ vault_addr }}:{{ vault_port }}'"
     owner: "{{ vault_user }}"
@@ -305,12 +305,13 @@
     create: true
     mode: 0600
   when:
+    - not vault_dotfile_disable
     - ansible_os_family != 'Windows'
 
 - name: Insert CA cert export in dotfile
   become: true
   lineinfile:
-    path: "{{ vault_home }}/.bashrc"
+    path: "{{ vault_home }}/{{ vault_dotfile }}"
     regexp: "^export VAULT_CACERT="
     line: "export VAULT_CACERT={{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
     owner: "{{ vault_user }}"
@@ -318,6 +319,7 @@
     create: true
     mode: 0600
   when:
+    - not vault_dotfile_disable
     - not vault_tls_disable | bool
     - ansible_os_family != 'Windows'
 
