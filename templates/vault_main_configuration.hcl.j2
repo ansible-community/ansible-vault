@@ -96,6 +96,10 @@ listener "tcp" {
 ui = {{ vault_ui | bool | lower }}
 {% endif %}
 
+{% if vault_entropy_seal | bool -%}
+  {% include 'vault_entropy_seal.j2' with context %}
+{% endif %}
+
 {% if vault_enterprise_premium_hsm | bool -%}
   {% include vault_backend_seal with context %}
 {% endif %}
