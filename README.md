@@ -1190,6 +1190,18 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 - The slot number to use, specified as a string (e.g. "0"). May also be specified by the VAULT_HSM_SLOT environment variable. This label will only be applied when `vault_softcard_enable` is false (default).
 - Default value: 0
 
+### `vault_entropy_seal`
+
+- Set to True to [include `entropy` stanza](https://learn.hashicorp.com/tutorials/vault/hsm-entropy) which enables [entropy augmentation for supported seals](https://www.vaultproject.io/docs/configuration/entropy-augmentation). Supported Seal types include PKCS11, AWS KMS, and Vault Transit.
+- Default value: false
+
+The following stanza will be included in the hcl main configuration file if `vault_entropy_seal=true`:
+```
+entropy "seal" {
+  mode = "augmentation"
+}
+```
+
 ## Vault GCP Cloud KMS Auto-unseal
 
 This feature enables operators to delegate the unsealing process to Google Key Management System Cloud to ease operations in the event of partial failure and to aid in the creation of new or ephemeral clusters.
