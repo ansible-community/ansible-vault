@@ -6,7 +6,7 @@ After=network-online.target
 {% if vault_use_config_path %}
 ConditionPathExists={{ vault_config_path }}
 {% else %}
-ConditionFileExists={{ vault_main_config }}
+ConditionPathExists={{ vault_main_config }}
 {% endif %}
 
 [Service]
