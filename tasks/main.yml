@@ -280,9 +280,9 @@
     enabled: true
   register: start_vault
 
-- name: Pause for {{ vault_start_pause }} seconds to let Vault startup correctly
+- name: Pause for {{ vault_start_pause_seconds }} seconds to let Vault startup correctly
   pause:
-    seconds: "{{ vault_start_pause }}"
+    seconds: "{{ vault_start_pause_seconds }}"
   when:
     - start_vault is changed
     - vault_start_pause_seconds | int > 0
