@@ -8,6 +8,7 @@
     name: "{{ vault_os_packages }}"
     state: present
   tags: installation
+  when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
 
 - name: Ensure remote vault dir exists
   file:
