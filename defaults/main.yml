@@ -333,3 +333,12 @@ vault_enterprise: "{{ lookup('env','VAULT_ENTERPRISE') | default(false, true) }}
 vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
 vault_enterprise_premium: false
+
+# Manage enterprise license file with this role
+vault_configure_enterprise_license: false
+# Path to enterprise license on the remote host (destination path)
+# https://www.vaultproject.io/docs/configuration#license_path
+vault_license_path: "{{ vault_config_path }}/license.hclic"
+# Path to enterprise license on the Ansible controller (source file for upload)
+# Upload skipped when empty or undefined
+vault_license_file: ""
