@@ -189,6 +189,18 @@
   when: vault_azurekeyvault | bool
   notify: Restart vault
 
+- name: Upload Vault license file to vault_license_path
+  become: true
+  copy:
+    src: "{{ vault_license_file }}"
+    dest: "{{ vault_license_path }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0644"
+  when:
+    - vault_configure_enterprise_license | bool
+    - vault_license_file is defined and vault_license_file != ""
+
 - name: "Set Exec output to log path when enabled log"
   set_fact:
     vault_exec_output: ">> {{ vault_log_path }}/vault.log 2>&1"
