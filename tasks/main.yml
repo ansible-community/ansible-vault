@@ -199,7 +199,7 @@
     mode: "0644"
   when:
     - vault_configure_enterprise_license | bool
-    - vault_license_file is defined and vault_license_file != ""
+    - vault_license_file | length > 0
 
 - name: "Set Exec output to log path when enabled log"
   set_fact:
