@@ -1137,6 +1137,21 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 - Set to True if using premium hsm binary. Basically just includes ".hsm" in "vault_version" var
 - Default value: false
 
+### `vault_configure_enterprise_license`
+
+- Manage enterprise license file with this role. Set to `true` to use `vault_license_path` or `vault_license_file`.
+- Default value: false
+
+### `vault_license_path`
+
+- Path to enterprise license on the remote host (destination path). [`license_path`](https://www.vaultproject.io/docs/configuration#license_path) in the main configuration file. Only used if `vault_configure_enterprise_license: true`.
+- Default value: `{{ vault_config_path }}/license.hclic`
+
+### `vault_license_file`
+
+- Path to enterprise license on the Ansible controller (source file for upload). Upload skipped when empty or undefined. Only used if `vault_configure_enterprise_license: true`.
+- Default value: ""
+
 ### `vault_hsm_app`
 
 - Set which cryptography app to use.
