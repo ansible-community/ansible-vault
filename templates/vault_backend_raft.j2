@@ -32,6 +32,9 @@ storage "raft" {
     {% if not (vault_tls_disable | bool) %}
   retry_join {
     leader_api_addr = "{{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+    {% if vault_raft_leader_tls_servername is defined %}
+    leader_tls_servername = "{{ vault_raft_leader_tls_servername }}"
+    {% endif %}
     leader_ca_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_ca_file }}"
     leader_client_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_cert_file }}"
     leader_client_key_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_key_file }}"

@@ -288,6 +288,10 @@ vault_tcp_listeners:
 - {{ vault_tls_ca_file }}
 
 ### Raft Storage Backend
+#### `vault_raft_leader_tls_servername`
+
+- TLS servername to use when connecting with HTTPS
+- Default value: none
 
 #### `vault_raft_group_name`
 
