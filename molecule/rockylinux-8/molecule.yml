@@ -2,25 +2,41 @@
 platforms:
   - name: rockylinux-8
     groups:
-      - vault_raft_servers
+      - rockylinux-8
     image: dokken/rockylinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-  - name: rockylinux-8_repo
+  - name: rockylinux-8-repo
     groups:
-      - vault_raft_servers
+      - rockylinux-8-repo
+      - repo
     image: dokken/rockylinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-
+  - name: rockylinux-8-enterprise
+    groups:
+      - rockylinux-8-enterprise
+      - enterprise
+    image: dokken/rockylinux-8
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+  - name: rockylinux-8-repo-enterprise
+    groups:
+      - rockylinux-8-repo-enterprise
+      - enterprise
+      - repo
+    image: dokken/rockylinux-8
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
 provisioner:
   inventory:
-    host_vars:
-      rockylinux-8_repo:
-        vault_install_hashi_repo: true
-        vault_bin_path: /usr/bin
-        vault_group: vault
+    links:
+      group_vars: ../inventory/group_vars/

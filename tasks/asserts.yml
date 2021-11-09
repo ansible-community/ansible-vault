@@ -1,6 +1,5 @@
 ---
 # File: tasks/asserts.yml - Asserts for this role
-
 - name: Check distribution compatibility
   fail:
     msg: "{{ ansible_distribution }} is not supported by this role"
@@ -47,3 +46,9 @@
   when:
     - vault_transit | bool
     - not (vault_transit_address or vault_transit_token)
+
+- name: Fail if vault_enterprise and vault_enterprise_premium_hsm set to True
+  fail:
+    msg: "cannot use both vault_enterprise and vault_enterprise_premium_hsm set to True"
+  when:
+    - vault_enterprise and vault_enterprise_premium_hsm

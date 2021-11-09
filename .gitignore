@@ -8,4 +8,6 @@ cache/
 examples/hosts
 files/vault
 files/vault*_SHA256SUMS
+files/EULA.txt
+files/TermsOfEvaluation.txt
 meta/.galaxy_install_info

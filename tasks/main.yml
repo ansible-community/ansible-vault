@@ -1,4 +1,14 @@
 ---
+- name: Modify version for enterprise installation
+  set_fact:
+    vault_version: "{{ vault_version }}+ent"
+  when: vault_enterprise
+
+- name: Modify version enterprise hsm installation
+  set_fact:
+    vault_version: "{{ vault_version }}+ent.hsm"
+  when: vault_enterprise_premium_hsm
+
 - name: Include asserts
   include_tasks: asserts.yml
 
@@ -57,14 +67,13 @@
   include_tasks: install_enterprise.yml
   when:
     - vault_enterprise | bool
+    - not vault_install_hashi_repo | bool
     - not vault_install_remotely | bool
-    - not vault_install_remote_repo | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via control host
   include_tasks: install.yml
   when:
-    - not vault_enterprise | bool
     - not vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
     - installation_required | bool
@@ -72,7 +81,6 @@
 - name: Install Vault via HashiCorp repository
   include_tasks: install_hashi_repo.yml
   when:
-    - not vault_enterprise | bool
     - not vault_install_remotely | bool
     - vault_install_hashi_repo | bool
     - installation_required | bool
@@ -404,6 +412,7 @@
         VAULT_CACERT: "{{ lookup('env', 'VAULT_CACERT') |
                        default(vault_tls_config_path ~ '/' ~ vault_tls_ca_file if not (vault_tls_disable) else '', true) }}"
         VAULT_TOKEN: "{{ lookup('env', 'VAULT_TOKEN') | default(lookup('file', '~/.vault-token', errors='ignore'), true) }}"
+  when: vault_plugin_install | bool
 
 - name: Vault status
   debug:

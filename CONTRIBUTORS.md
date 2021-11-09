@@ -45,3 +45,4 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@zeridon](https://github.com/zeridon)
 - [@akerouanton](https://github.com/akerouanton)
 - [@elcomtik](https://github.com/elcomtik)
+- [@FalcoSuessgott](https://github.com/falcosuessgott)

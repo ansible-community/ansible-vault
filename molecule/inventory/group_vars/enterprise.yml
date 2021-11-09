@@ -1,0 +1,4 @@
+---
+vault_enterprise: true
+vault_enterprise_premium: true
+vault_disable_api_health_check: true

@@ -46,7 +46,7 @@
   unarchive:
     src: "{{ role_path }}/files/{{ vault_pkg }}"
     dest: "{{ role_path }}/files/"
-    creates: "{{ role_path }}/files/vault"
+    # creates: "{{ role_path }}/files/vault"
   become: "{{ vault_privileged_install }}"
   run_once: true
   tags: installation
