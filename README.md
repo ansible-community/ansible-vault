@@ -1309,6 +1309,79 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 - The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
 - Default value: vault_key
 
+## Vault Transit Auto-unseal
+This enables Vault to use another Vault instance for the unseal process using its transit secret engine
+
+### `vault_transit`
+
+- Set to true to enable Vault Transit Auto-unseal
+- Default value: `false`
+
+### `vault_transit_backend`
+
+- Backend seal template filename
+- Default value: `vault_seal_transit.j2`
+
+### `vault_transit_config`:
+
+- Destination configuration file
+- Default value: `vault_transit.hcl`
+
+### `vault_transit_address`:
+
+- Vault Address of the instance used for auto unseal
+- Default value: ``, this variable is mandatory if `vault_transit: true`
+
+### `vault_transit_token`:
+
+- Token used to authenticate to the external vault instance
+- Default value: ``, this variable is mandatory if `vault_transit: true`
+
+### `vault_transit_disable_renewal`:
+
+- Wether to disable automatic token renewal
+- Default value: `false`
+
+### `vault_transit_key_name`
+
+- Name of the key used for auto unseal
+- Default value: `autounseal`
+
+### `vault_transit_mount_path`:
+
+- Path where the transit engine is mounted to
+- Default value: `transit/`
+
+### `vault_transit_namespace`:
+
+- Namespace of the mounted transit engine
+- Default value: ``, omitted per default
+
+### `vault_transit_tls_ca_cert`:
+
+- CA Certificate of the external vault instance
+- Default value: `ca_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+
+### `vault_transit_tls_client_cert`:
+
+- Client Certificate of the external vault instance
+- Default value: `client_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+
+### `vault_transit_tls_client_key`:
+
+- Client Key of the external vault instance
+- Default value: `ca_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+
+### `vault_transit_tls_server_name`
+
+- TLS Servername of the external vault instance
+- Default value: ``, omitted per default
+
+### `vault_transit_tls_skip_verify`:
+
+- Wether to disable TLS certificate verification
+- Default: `false`, can also be set via `VAULT_SKIP_VERIFY`
+
 ## Vault AWS KMS Auto-unseal
 
 This feature enabled operators to delegate the unsealing process to AWS KMS to ease operations in the event of a partial failure and to

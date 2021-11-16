@@ -172,6 +172,18 @@
     - Restart vault
     - Reload vault
 
+- name: Vault transit seal configuration
+  become: true
+  template:
+    src: "{{ vault_transit_backend }}"
+    dest: "{{ vault_transit_config }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0400"
+    backup: "{{ vault_backup_config | default('false') | bool | lower }}"
+  when: vault_transit | bool
+  notify: Restart vault
+
 - name: Vault awskms seal configuration
   become: true
   template:

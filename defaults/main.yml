@@ -72,7 +72,10 @@ vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.inte
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
-vault_use_config_path: false
+
+# seal configs are written in separate files in vault_config_path, if ony of those is enabled, we need to use vault_config_path in the systemD unit file
+vault_use_config_path: "{{ vault_transit or vault_awskms or vault_azurekeyvault or vault_gkms | default(false) }}"
+
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
 vault_listener_localhost_enable: false
@@ -296,6 +299,22 @@ vault_tls_disable_client_certs: false
 # ---------------------------------------------------------------------------
 # Seal variables
 # ---------------------------------------------------------------------------
+
+# transit auto unseal, see https://www.vaultproject.io/docs/configuration/seal/transit
+vault_transit: false
+vault_transit_backend: vault_seal_transit.j2
+vault_transit_config: "{{ vault_config_path }}/vault_transit.hcl"
+vault_transit_address: ''
+vault_transit_token: ''
+vault_transit_disable_renewal: false
+vault_transit_key_name: 'autounseal'
+vault_transit_mount_path: "transit/"
+# vault_transit_namespace: ''
+vault_transit_tls_ca_cert_file: "{{ vault_tls_ca_file }}"
+vault_transit_tls_client_cert_file: "autounseal_client_cert.pem"
+vault_transit_tls_client_key_file: "autounseal_client_key.pem"
+# vault_transit_tls_server_name: ''
+vault_transit_tls_skip_verify: "{{ lookup('env', 'VAULT_SKIP_VERIFY') | default('', false) }}"
 
 # awskms seal
 vault_awskms: false
