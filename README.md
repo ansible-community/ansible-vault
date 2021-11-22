@@ -115,8 +115,9 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_install_hashi_repo`
 
 - Set this to `true` when installing Vault via HashiCorp Linux repository.
-  When set, you can also define `vault_hashicorp_key_url` to override the
-  default URL of the GPG key loaded in apt keyring.
+  When set, you can also define `vault_hashicorp_key_url` and `vault_hashicorp_apt_repository_url`
+  to override the default URL of the GPG key loaded in apt keyring and the default URL of the apt
+  repository used.
 - Default value: *false*
 
 ### `vault_install_remotely`

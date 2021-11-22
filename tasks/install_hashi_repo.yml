@@ -22,7 +22,7 @@
 
 - name: Add HashiCorp apt Repo
   apt_repository:
-    repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    repo: "deb {{ vault_hashicorp_apt_repository_url }} {{ ansible_distribution_release }} main"
     state: present
   when: ansible_pkg_mgr == 'apt'
 
