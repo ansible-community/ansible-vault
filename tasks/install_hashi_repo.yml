@@ -15,23 +15,27 @@
   when: ansible_pkg_mgr in ['yum', 'dnf']
 
 - name: Add HashiCorp apt signing key
+  become: true
   apt_key:
     url: https://apt.releases.hashicorp.com/gpg
     state: present
   when: ansible_pkg_mgr == 'apt'
 
 - name: Add HashiCorp apt Repo
+  become: true
   apt_repository:
     repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
     state: present
   when: ansible_pkg_mgr == 'apt'
 
 - name: Install Vault via apt
+  become: true
   apt:
     name: vault={{ vault_version }}
   when: ansible_pkg_mgr == 'apt'
 
 - name: Mask default Vault config from package
+  become: true
   copy:
     owner: root
     group: root
