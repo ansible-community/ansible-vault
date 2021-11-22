@@ -16,7 +16,7 @@
 
 - name: Add HashiCorp apt signing key
   apt_key:
-    url: https://apt.releases.hashicorp.com/gpg
+    url: "{{ vault_hashicorp_key_url }}"
     state: present
   when: ansible_pkg_mgr == 'apt'
 
