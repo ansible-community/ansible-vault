@@ -218,6 +218,11 @@ The role defines variables in `defaults/main.yml`:
 - Should the playbook restart Vault service when needed
 - Default value: true
 
+### `vault_service_reload`
+
+- Should the playbook reload Vault service when the main config changes.
+- Default value: false
+
 ### `vault_start_pause_seconds`
 
 - Some installations may need some time between the first Vault start
