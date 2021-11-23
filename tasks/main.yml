@@ -318,7 +318,7 @@
   lineinfile:
     path: "{{ vault_home }}/{{ vault_dotfile }}"
     regexp: "^export VAULT_ADDR="
-    line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ vault_addr }}:{{ vault_port }}'"
+    line: "export VAULT_ADDR='{{ vault_api_addr }}'"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
