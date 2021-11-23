@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 service_registration "consul" {
   address = "{{ vault_service_registration_consul_address }}"
   check_timeout = "{{ vault_service_registration_consul_check_timeout }}"

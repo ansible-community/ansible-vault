@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 service_registration "kubernetes" {
   namespace = "{{ vault_service_registration_kubernetes_namespace }}"
   pod_name = "{{ vault_service_registration_kubernetes_pod_name }}"
