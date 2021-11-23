@@ -309,10 +309,6 @@
 - name: Restart Vault if needed
   meta: flush_handlers
 
-- name: Compute TLS friendly vault_addr
-  set_fact:
-    vault_addr: "{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
-
 - name: Insert http(s) export in dotfile
   become: true
   lineinfile:
@@ -345,8 +341,6 @@
 # This should succeed regardless of seal state
 - name: Vault API reachable?
   # Attempt to help with long lines > 160 issues
-  vars:
-    vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
   environment:
     no_proxy: "{{ vault_address }}"
   uri:
