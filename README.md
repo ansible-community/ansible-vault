@@ -813,16 +813,24 @@ available starting at Vault version 1.4.
 - Address to bind to for cluster server-to-server requests
 - Default value: `"{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"`
 
+### `vault_hostname`
+
+- Hostname used to define `vault_cluster_addr` and `vault_api_addr` (when set).
+- Default value: none
+
 ### `vault_cluster_addr`
 
 - Address to advertise to other Vault servers in the cluster for request forwarding
-- Default value: `"{{ vault_protocol }}://{{ vault_cluster_address }}"`
+- Default value: If `vault_hostname` is set, `{{ vault_protocol }}://{{ vault_hostname }}:{{ vault_port + 1 }}`. Otherwise, `{{ vault_protocol }}://{{ vault_cluster_address }}`
 
 ### `vault_api_addr`
 
 - [HA Client Redirect address](https://www.vaultproject.io/docs/concepts/ha.html#client-redirection)
-- Default value: `"{{ vault_protocol }}://{{ vault_redirect_address or hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"`
-  - vault_redirect_address is kept for backward compatibility but is deprecated.
+- Default value:
+  - If `vault_hostname` is set, `{{ vault_protocol }}://{{ vault_hostname }}:{{ vault_port }}`.
+  - If `vault_redirect_address` is set, `{{ vault_protocol }}://{{ vault_redirect_address }}:{{ vault_port }}`.
+  - Otherwise, `{{ vaul_protocol }}://{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"`
+  - `vault_redirect_address` is kept for backward compatibility but is deprecated.
 
 ### `vault_disable_api_health_check`
 
