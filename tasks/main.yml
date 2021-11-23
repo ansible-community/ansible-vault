@@ -163,7 +163,9 @@
     group: "{{ vault_group }}"
     mode: "0400"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
-  notify: Restart vault
+  notify:
+    - Restart vault
+    - Reload vault
 
 - name: Vault awskms seal configuration
   become: true

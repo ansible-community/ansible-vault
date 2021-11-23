@@ -58,6 +58,7 @@ vault_exec_output: ''
 
 # Handlers
 vault_service_restart: true
+vault_service_reload: false
 
 # ---------------------------------------------------------------------------
 # Vault variables
