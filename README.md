@@ -168,6 +168,12 @@ The role defines variables in `defaults/main.yml`:
 - PID file location
 - Default value: `/var/run/vault`
 
+### `vault_harden_file_perms`
+
+- Whether this role should disallow Vault from writing into config and plugin
+  path. This should be enabled to follow [Production Hardening](https://learn.hashicorp.com/tutorials/vault/production-hardening).
+- Default value: false
+
 ### `vault_manage_user`
 
 - Should this role manage the vault user?
