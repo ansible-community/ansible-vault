@@ -104,17 +104,22 @@
 - name: Create directories
   become: true
   file:
-    dest: "{{ item }}"
+    dest: "{{ item.path }}"
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: 0750
+    mode: "{{ item.mode }}"
   with_items:
-    - "{{ vault_config_path }}"
-    - "{{ vault_plugin_path }}"
-    - "{{ vault_data_path }}"
-    - "{{ vault_log_path }}"
-    - "{{ vault_run_path }}"
+    - path: "{{ vault_config_path }}"
+      mode: "{{ vault_harden_file_perms | ternary('0550', '0750') }}"
+    - path: "{{ vault_plugin_path }}"
+      mode: "{{ vault_harden_file_perms | ternary('0550', '0750') }}"
+    - path: "{{ vault_data_path }}"
+      mode: "0750"
+    - path: "{{ vault_log_path }}"
+      mode: "0750"
+    - path: "{{ vault_run_path }}"
+      mode: "0750"
 
 - name: Enable logrotate for vault
   become: true

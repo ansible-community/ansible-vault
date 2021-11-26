@@ -38,6 +38,7 @@ vault_data_path: /var/vault
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
 vault_home: "/home/{{ vault_user }}"
+vault_harden_file_perms: true
 
 # System user and group
 vault_manage_user: true
