@@ -123,6 +123,7 @@ vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
 vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
+vault_disable_api_health_check: false
 
 vault_max_lease_ttl: "768h"
 vault_default_lease_ttl: "768h"

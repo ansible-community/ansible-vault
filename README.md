@@ -824,6 +824,11 @@ available starting at Vault version 1.4.
 - Default value: `"{{ vault_protocol }}://{{ vault_redirect_address or hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"`
   - vault_redirect_address is kept for backward compatibility but is deprecated.
 
+### `vault_disable_api_health_check`
+
+- flag for disabling the health check on vaults api address
+- Default value: `false`
+
 ### `vault_cluster_disable`
 
 - Disable HA clustering

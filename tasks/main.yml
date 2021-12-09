@@ -351,7 +351,7 @@
     no_proxy: "{{ vault_address }}"
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
-    url: "{{ vault_addr_protocol }}://{{ vault_hostname | default(vault_addr, true) }}:{{ vault_port }}/v1/sys/health"
+    url: "{{ vault_api_addr }}/v1/sys/health"
     method: GET
     # 200 if initialized, unsealed, and active
     # 429 if unsealed and standby
@@ -369,9 +369,13 @@
   changed_when: false
   tags:
     - check_vault
+  when:
+    - not vault_disable_api_health_check | bool
 
 - name: Vault status
   debug:
     msg: "Vault is {{ vault_http_status[check_result.status|string] }}"
   tags:
     - check_vault
+  when:
+    - not vault_disable_api_health_check | bool
