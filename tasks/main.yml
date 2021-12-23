@@ -159,6 +159,10 @@
     - vault_backend == "gcs"
     - vault_gcs_copy_sa | bool
 
+- name: Set leader_api_addr
+  set_fact:
+    vault_leader_api_addr: "{{ vault_api_addr }}"
+
 - name: Vault main configuration
   become: true
   template:
