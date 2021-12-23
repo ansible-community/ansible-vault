@@ -4,7 +4,7 @@ cluster_name = "{{ vault_cluster_name }}"
 max_lease_ttl = "{{ vault_max_lease_ttl }}"
 default_lease_ttl = "{{ vault_default_lease_ttl }}"
 
-disable_clustering = "{{ vault_cluster_disable }}"
+disable_clustering = {{ vault_cluster_disable | bool | lower }}
 cluster_addr = "{{ vault_cluster_addr }}"
 api_addr = "{{ vault_api_addr }}"
 
