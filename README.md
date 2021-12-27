@@ -202,11 +202,6 @@ The role defines variables in `defaults/main.yml`:
 - Should this role manage the vault group?
 - Default value: false
 
-### `vault_group_name`
-
-- Inventory group name
-- Default value: vault_instances
-
 ### `vault_cluster_name`
 
 - Cluster name label
