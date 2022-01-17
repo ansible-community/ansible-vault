@@ -118,6 +118,9 @@ The role defines variables in `defaults/main.yml`:
   When set, you can also define `vault_hashicorp_key_url` and `vault_hashicorp_apt_repository_url`
   to override the default URL of the GPG key loaded in apt keyring and the default URL of the apt
   repository used.
+- You can also set `vault_hashicorp_apt_distribution_release` to override the  default distribution
+  release used. By default this param takes `{{ ansible_distribution_release }}`. You can use it if
+  you are managing your own apt mirrors and use some custom distribution release names.
 - Default value: *false*
 
 ### `vault_install_remotely`

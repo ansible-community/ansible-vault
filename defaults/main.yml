@@ -29,6 +29,7 @@ vault_install_remotely: false
 vault_privileged_install: false
 vault_hashicorp_key_url: "https://apt.releases.hashicorp.com/gpg"
 vault_hashicorp_apt_repository_url: "https://apt.releases.hashicorp.com"
+vault_hashicorp_apt_distribution_release: "{{ ansible_distribution_release }}"
 
 # Paths
 vault_bin_path: /usr/local/bin
