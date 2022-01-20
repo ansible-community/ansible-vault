@@ -312,6 +312,23 @@ vault_tcp_listeners:
 - Inventory group name of servers hosting the raft backend
 - Default value: vault_raft_servers
 
+### `vault_raft_cluster_members`
+
+- Members of the raft cluster
+- Default value: hosts in `vault_raft_group_name` group
+- Can be used to override the behaviour of dynamically selecting all hosts in `vault_raft_group_name`
+- Example:
+  ```
+  vault_raft_cluster_members:
+    - peer: vault-host-1
+      api_addr: https://vault-host-1:8200
+    - peer: vault-host-2
+      api_addr: https://vault-host-2:8200
+    - peer: vault-host-3
+      api_addr: https://vault-host-2:8200
+  ```
+- Setting the `vault_raft_cluster_members` statically enables you to run the role against a single host (instead of the entire host group)
+
 #### `vault_raft_data_path`
 
 - Data path for Raft
