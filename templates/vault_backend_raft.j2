@@ -28,10 +28,10 @@ storage "raft" {
   }
   {% endif %}
   {% if not vault_raft_cloud_auto_join_exclusive %}
-  {% for raft_peer in vault_raft_cluster_members %}
+  {% for raft_peer in vault_raft_cluster_members | rejectattr('peer', 'equalto', inventory_hostname) %}
     {% if not (vault_tls_disable | bool) %}
   retry_join {
-    leader_api_addr = "{{ raft_peer }}"
+    leader_api_addr = "{{ raft_peer.api_addr }}"
     {% if vault_raft_leader_tls_servername is defined %}
     leader_tls_servername = "{{ vault_raft_leader_tls_servername }}"
     {% endif %}
