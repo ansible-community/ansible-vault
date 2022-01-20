@@ -201,7 +201,12 @@ vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_f
 # raft storage settings
 vault_backend: raft
 vault_raft_group_name: "vault_raft_servers"
-vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
+vault_raft_cluster_members: |
+  {% for server in groups[vault_raft_group_name] | difference([inventory_hostname]) %}
+  - {{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}
+  {% endfor %}
+
+  vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}"
 # vault_raft_leader_tls_servername
 # vault_raft_performance_multiplier:
