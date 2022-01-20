@@ -348,7 +348,7 @@
   vars:
     vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
   environment:
-    no_proxy: "{{ vault_address }}"
+    no_proxy: "{{ vault_api_addr | urlsplit('hostname') }}"
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
     url: "{{ vault_api_addr }}/v1/sys/health"
