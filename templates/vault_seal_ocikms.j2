@@ -1,0 +1,10 @@
+seal "ocikms" {
+  key_id = "{{ vault_ocikms_key_id }}"
+  auth_type_api_key = "{{ vault_ocikms_auth_type_api_key }}"
+{% if vault_ocikms_crypto_endpoint is string and vault_ocikms_crypto_endpoint|length %}
+  crypto_endpoint = "{{ vault_ocikms_crypto_endpoint }}"
+{% endif %}
+{% if vault_ocikms_management_endpoint is string and vault_ocikms_management_endpoint|length %}
+  management_endpoint = "{{ vault_ocikms_management_endpoint }}"
+{% endif %}
+}

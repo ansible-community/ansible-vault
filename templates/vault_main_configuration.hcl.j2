@@ -110,6 +110,10 @@ ui = {{ vault_ui | bool | lower }}
   {% include vault_backend_gkms with context %}
 {% endif %}
 
+{% if vault_ocikms | bool -%}
+  {% include vault_ocikms_backend with context %}
+{% endif %}
+
 {% if vault_telemetry_enabled | bool -%}
 telemetry {
   {% if vault_statsite_address is defined %}
