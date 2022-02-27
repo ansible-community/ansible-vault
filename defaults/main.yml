@@ -348,6 +348,14 @@ vault_gkms_key_ring: 'vault'
 vault_gkms_crypto_key: 'vault_key'
 vault_gkms_copy_sa: true
 
+# ocikms seal
+vault_ocikms: false
+vault_ocikms_backend: vault_seal_ocikms.j2
+vault_ocikms_auth_type_api_key: false
+vault_ocikms_key_id: "{{ lookup('env','VAULT_OCIKMS_SEAL_KEY_ID') | default('', false) }}"
+vault_ocikms_crypto_endpoint: "{{ lookup('env','VAULT_OCIKMS_CRYPTO_ENDPOINT') | default('', false) }}"
+vault_ocikms_management_endpoint: "{{ lookup('env','VAULT_OCIKMS_MANAGEMENT_ENDPOINT') | default('', false) }}"
+
 # pkcs11 seal
 vault_enterprise_premium_hsm: false
 # WARNING: the following variable is deprecated as this section will become
