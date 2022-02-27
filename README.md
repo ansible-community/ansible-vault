@@ -1397,6 +1397,41 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 - The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
 - Default value: vault_key
 
+## Vault OCI KMS Auto-unseal
+
+This feature enabled operators to delegate the unsealing process to OCI KMS to ease operations in the event of a partial failure and to
+aid in the creation of new or ephemeral clusters.
+
+### `vault_ocikms`
+
+- Set to true to enable OCI KMS Auto-unseal.
+- Default value: false
+
+### `vault_ocikms_backend`
+
+- Backend seal template filename.
+- Default value: `vault_seal_ocikms.j2`
+
+### `vault_ocikms_auth_type_api_key`
+
+- Specifies if using API key to authenticate to OCI KMS service.
+- Default value: false
+
+### `vault_ocikms_key_id`
+
+- The OCI KMS key ID to use.
+- Default value: VAULT_OCIKMS_SEAL_KEY_ID
+
+### `vault_ocikms_crypto_endpoint`
+
+- The OCI KMS cryptographic endpoint (or data plane endpoint) to be used to make OCI KMS encryption/decryption requests.
+- Default value: VAULT_OCIKMS_CRYPTO_ENDPOINT
+
+### `vault_ocikms_management_endpoint`
+
+- The OCI KMS management endpoint (or control plane endpoint) to be used to make OCI KMS key management requests.
+- Default value: VAULT_OCIKMS_MANAGEMENT_ENDPOINT
+
 ## Vault Transit Auto-unseal
 This enables Vault to use another Vault instance for the unseal process using its transit secret engine
 
