@@ -34,3 +34,4 @@
   when: vault_tls_copy_keys | bool
   notify:
     - Reload vault
+    - Restart vault
