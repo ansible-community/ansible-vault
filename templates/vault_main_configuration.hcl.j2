@@ -100,15 +100,19 @@ ui = {{ vault_ui | bool | lower }}
 
 {% if vault_entropy_seal | bool -%}
   {% include 'vault_entropy_seal.j2' with context %}
-{% endif %}
+{% endif -%}
 
 {% if vault_enterprise_premium_hsm | bool -%}
   {% include vault_backend_seal with context %}
-{% endif %}
+{% endif -%}
 
 {% if vault_gkms | bool -%}
   {% include vault_backend_gkms with context %}
-{% endif %}
+{% endif -%}
+
+{% if vault_transit | bool -%}
+  {% include vault_backend_transit with context %}
+{% endif -%}
 
 {% if vault_telemetry_enabled | bool -%}
 telemetry {

@@ -1365,6 +1365,46 @@ This feature enabled operators to delegate the unsealing process to AZURE Key Va
 - The key hosted in the Vault in Azure Key Vault
 - Default value: vault_key
 
+## Vault Transit Auto-unseal
+
+This feature enables operators to delegate the unsealing process to another Vault cluster to ease operations in the event of partial failure and to aid in the creation of new or ephemeral clusters.
+
+### `vault_transit`
+
+- Set to True to enable Vault Transit Auto-Unseal.
+- Default value: false
+
+### `vault_backend_transit`
+
+- Backend seal template filename
+- Default value: `vault_seal_transit.j2`
+
+### `vault_transit_address`
+
+- URL to Vault cluster hosting the key
+- Default value: VAULT_ADDR
+
+### `vault_transit_token`
+
+- Token to access the key
+- Default value: VAULT_TOKEN
+
+### `vault_transit_disable_renewal`
+
+- Disables the automatic renewal of the token
+- Default value: VAULT_TRANSIT_SEAL_DISABLE_RENEWAL or false
+
+### `vault_transit_key_name`
+
+- The transit key to use for encryption and decryption
+- Default value: VAULT_TRANSIT_SEAL_KEY_NAME or `autounseal`
+
+### `vault_transit_mount_path`
+
+- The mount path to the transit secret engine.
+- Default value: VAULT_TRANSIT_SEAL_MOUNT_PATH or `transit/`
+
+
 ## License
 
 BSD-2-Clause

@@ -312,6 +312,15 @@ vault_gkms_region: 'global'
 vault_gkms_key_ring: 'vault'
 vault_gkms_crypto_key: 'vault_key'
 
+# transit seal
+vault_transit: false
+vault_backend_transit: vault_seal_transit.j2
+vault_transit_address: "{{ lookup('env','VAULT_ADDR') | default('', true) }}"
+vault_transit_token: "{{ lookup('env','VAULT_TOKEN') | default('', true) }}"
+vault_transit_disable_renewal: "{{ lookup('env','VAULT_TRANSIT_SEAL_DISABLE_RENEWAL') | default('false', true) }}"
+vault_transit_key_name: "{{ lookup('env','VAULT_TRANSIT_SEAL_KEY_NAME') | default('autounseal', true) }}"
+vault_transit_mount_path: "{{ lookup('env','VAULT_TRANSIT_SEAL_MOUNT_PATH') | default('transit/', true) }}"
+
 # pkcs11 seal
 vault_enterprise_premium_hsm: false
 # WARNING: the following variable is deprecated as this section will become

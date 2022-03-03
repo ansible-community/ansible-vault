@@ -1,0 +1,9 @@
+seal "transit" {
+  address         = "{{ vault_transit_address }}"
+  token           = "{{ vault_transit_token }}"
+  {% if (vault_transit_disable_renewal | bool) -%}
+  disable_renewal = "{{ vault_transit_disable_renewal }}"
+  {% endif -%}
+  key_name        = "{{ vault_transit_key_name }}"
+  mount_path      = "{{ vault_transit_mount_path }}"
+}
