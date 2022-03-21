@@ -793,6 +793,11 @@ available starting at Vault version 1.4.
 - Vault main configuration template file
 - Default value: *vault_main_configuration.hcl.j2*
 
+### `vault_custom_configuration`
+
+- Vault custom configuration
+- Default value: none
+
 ### `vault_http_proxy`
 
 - Address to be used as the proxy for HTTP and HTTPS requests unless overridden by `vault_https_proxy` or `vault_no_proxy`

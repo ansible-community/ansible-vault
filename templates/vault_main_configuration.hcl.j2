@@ -130,3 +130,7 @@ telemetry {
 {% if vault_configure_enterprise_license | bool -%}
 license_path = "{{ vault_license_path }}"
 {% endif -%}
+
+{% if vault_custom_configuration is defined -%}
+{{ vault_custom_configuration }}
+{% endif -%}
