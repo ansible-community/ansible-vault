@@ -66,6 +66,7 @@ vault_service_reload: false
 # ---------------------------------------------------------------------------
 
 vault_group_name: vault_instances
+vault_hostname: ""
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
@@ -121,8 +122,9 @@ vault_backend_gcs: vault_backend_gcs.j2
 
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
-vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
-vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
+vault_cluster_addr: "{{ vault_protocol }}://{% if vault_hostname %}{{ vault_hostname }}:{{ (vault_port | int) + 1 }}{% else %}{{ vault_cluster_address }}{% endif %}"
+vault_api_addr: |-2
+  {{ vault_protocol }}://{{ vault_hostname | default(vault_redirect_address, true) | default(hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address']) }}:{{ vault_port }}
 vault_disable_api_health_check: false
 
 vault_max_lease_ttl: "768h"
