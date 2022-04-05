@@ -2,37 +2,44 @@
 # File: tasks/install_hashi_repo.yml
 #       Install Vault via HashiCorp Linux repository
 
-- name: Add HashiCorp yum repo
-  command: yum-config-manager --add-repo=https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-  args:
-    creates: /etc/yum.repos.d/hashicorp.repo
+- name: Add Vault/Hashicorp rpm repo
+  yum_repository:
+    name: hashicorp
+    description: Hashicorp Stable - $basearch
+    baseurl: "{{ vault_repository_url }}"
+    gpgkey: "{{ vault_repository_key_url }}"
+    gpgcheck: true
+    enabled: true
+  become: true
   when: ansible_pkg_mgr in ['yum', 'dnf']
 
-- name: Install Vault via yum/dnf
-  yum:
-    name: "vault-{{ vault_version }}"
-    state: present
-  when: ansible_pkg_mgr in ['yum', 'dnf']
-
-- name: Add HashiCorp apt signing key
+- name: Add Vault/Hashicorp apt key
   become: true
   apt_key:
-    url: "{{ vault_hashicorp_key_url }}"
+    url: "{{ vault_repository_key_url }}"
     state: present
   when: ansible_pkg_mgr == 'apt'
 
-- name: Add HashiCorp apt Repo
+- name: Add Vault/Hashicorp apt repo
   become: true
   apt_repository:
-    repo: "deb {{ vault_hashicorp_apt_repository_url }} {{ ansible_distribution_release }} main"
+    repo: "deb {{ vault_repository_url }} {{ ansible_distribution_release }} main"
     state: present
   when: ansible_pkg_mgr == 'apt'
 
-- name: Install Vault via apt
+- name: Install Vault package
+  package:
+    name: "{{ _vault_repo_pkg }}"
+    state: present
   become: true
-  apt:
-    name: vault={{ vault_version }}
-  when: ansible_pkg_mgr == 'apt'
+  vars:
+    _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf']) %}\
+                  vault-{{ vault_version }}\
+                {% elif (ansible_pkg_mgr == 'apt') %}\
+                  vault={{ vault_version }}\
+                {% else %}\
+                  vault={{ vault_version }}\
+                {% endif %}"
 
 - name: Mask default Vault config from package
   become: true

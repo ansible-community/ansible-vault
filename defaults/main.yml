@@ -19,6 +19,8 @@ vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zi
 vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
 vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
+vault_repository_url: "{{ _vault_repository_url | default() }}"
+vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
 
 # Installation
 vault_start_pause_seconds: 0
@@ -27,10 +29,6 @@ vault_start_pause_seconds: 0
 vault_install_hashi_repo: false
 vault_install_remotely: false
 vault_privileged_install: false
-#vault_hashicorp_key_url: "https://apt.releases.hashicorp.com/gpg"
-vault_repository_url: "{{ _vault_repository_url | default() }}"
-vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
-#vault_hashicorp_apt_repository_url: "https://apt.releases.hashicorp.com"
 
 # Paths
 vault_bin_path: /usr/local/bin
