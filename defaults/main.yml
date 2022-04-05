@@ -21,12 +21,15 @@ vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
 vault_repository_url: "{{ _vault_repository_url | default() }}"
 vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
+vault_rhsm_subscription_name:
+vault_rhsm_repo_name:
 
 # Installation
 vault_start_pause_seconds: 0
 
 # Install method variables
 vault_install_hashi_repo: false
+vault_install_rhsm_repo: false
 vault_install_remotely: false
 vault_privileged_install: false
 

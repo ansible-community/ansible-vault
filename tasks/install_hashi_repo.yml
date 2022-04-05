@@ -1,7 +1,7 @@
 ---
 # File: tasks/install_hashi_repo.yml
 #       Install Vault via HashiCorp Linux repository
-
+---
 - name: Add Vault/Hashicorp rpm repo
   yum_repository:
     name: hashicorp
@@ -11,21 +11,59 @@
     gpgcheck: true
     enabled: true
   become: true
-  when: ansible_pkg_mgr in ['yum', 'dnf']
+  when:
+    - ansible_pkg_mgr in ['yum', 'dnf']
+    - not vault_install_rhsm_repo
 
 - name: Add Vault/Hashicorp apt key
-  become: true
   apt_key:
     url: "{{ vault_repository_key_url }}"
     state: present
+  become: true
   when: ansible_pkg_mgr == 'apt'
 
 - name: Add Vault/Hashicorp apt repo
-  become: true
   apt_repository:
     repo: "deb {{ vault_repository_url }} {{ ansible_distribution_release }} main"
     state: present
+  become: true
   when: ansible_pkg_mgr == 'apt'
+
+- name: Attach RHSM subscription / repo
+  when: (vault_install_rhsm_repo)
+  become: true
+  block:
+    - name: Check if Hashicorp/Vault RHSM repo subscription is enabled
+      command:
+        cmd: "subscription-manager list --consumed --matches={{ vault_rhsm_subscription_name | quote }} --pool-only"
+      register: _subscription_manager_consumed
+      changed_when: false
+      when: (vault_rhsm_subscription_name)
+
+    - name: Find Hashicorp/Vault RHSM repo subscription pool id
+      command:
+        cmd: "subscription-manager list --available --matches={{ vault_rhsm_subscription_name | quote }} --pool-only"
+      register: _subscription_manager_available
+      changed_when: false
+      when:
+        - (vault_rhsm_subscription_name)
+        - _subscription_manager_consumed.stdout | length <= 0
+
+    - name: Attach Hashicorp/Vault RHSM subscription
+      command:
+        cmd: "subscription-manager attach --pool={{ _subscription_manager_available.stdout }}"
+      register: _subscription_manager_attach
+      changed_when: _subscription_manager_attach.stdout is search('Successfully attached a subscription')
+      failed_when: _subscription_manager_attach.stdout is search('could not be found')
+      when:
+        - (vault_rhsm_subscription_name)
+        - _subscription_manager_consumed.stdout | default() | length <= 0
+        - _subscription_manager_available.stdout | default() | length > 0
+
+    - name: Enable RHSM repository
+      rhsm_repository:
+        name: "{{ vault_rhsm_repo_name }}"
+        state: enabled
 
 - name: Install Vault package
   package:

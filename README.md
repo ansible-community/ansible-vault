@@ -120,6 +120,13 @@ The role defines variables in `defaults/main.yml`:
   repository used.
 - Default value: *false*
 
+### `vault_install_rhsm_repo`
+
+- Set this to `true` when installing Vault via a RHSM repository (RedHat Satellite/Foreman/etc.).
+  When set, you need to define the rhsm repo name with `vault_rhsm_repo_name` and optionally also the
+  rhsm subscription name with `vault_rhsm_subscription_name`.
+- Default value: *false*
+
 ### `vault_install_remotely`
 
 - Set this to `true` will download Vault binary from each target instead of localhost
