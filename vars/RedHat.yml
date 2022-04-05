@@ -5,3 +5,10 @@ vault_os_packages:
   - libselinux-python
   - git
   - unzip
+
+_vault_repository_url: "{% if ( ansible_distribution | lower  == 'fedora') %}\
+      https://rpm.releases.hashicorp.com/fedora/hashicorp.repo\
+    {% else %}\
+      https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo\
+    {% endif %}"
+_vault_repository_key_url: "{{ _vault_repository_url | urlsplit('scheme') }}://{{ _vault_repository_url | urlsplit('netloc') }}/gpg"

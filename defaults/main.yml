@@ -27,8 +27,10 @@ vault_start_pause_seconds: 0
 vault_install_hashi_repo: false
 vault_install_remotely: false
 vault_privileged_install: false
-vault_hashicorp_key_url: "https://apt.releases.hashicorp.com/gpg"
-vault_hashicorp_apt_repository_url: "https://apt.releases.hashicorp.com"
+#vault_hashicorp_key_url: "https://apt.releases.hashicorp.com/gpg"
+vault_repository_url: "{{ _vault_repository_url | default() }}"
+vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
+#vault_hashicorp_apt_repository_url: "https://apt.releases.hashicorp.com"
 
 # Paths
 vault_bin_path: /usr/local/bin
