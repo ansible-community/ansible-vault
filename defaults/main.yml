@@ -322,6 +322,7 @@ vault_backend_seal: vault_seal_pkcs11.j2
 vault_seal_lib: /lib64/hsmlibrary.so
 vault_seal_pin: 12345
 vault_seal_key_label: vault-hsm-key
+vault_seal_hmac_key_label: ''
 vault_seal_generate_key: false
 vault_seal_key_mechanism: ''
 vault_seal_token_label: ''
