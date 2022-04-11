@@ -1200,7 +1200,12 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 ### `vault_seal_key_label`
 
 - The label of the key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated key. May also be specified by the VAULT_HSM_KEY_LABEL environment variable.
-- Default value: vault-hsm-key
+- Default value: ''
+
+### `vault_seal_hmac_key_label`
+
+- The label of the HMAC key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated HMAC key. May also be specified by the VAULT_HSM_HMAC_KEY_LABEL environment variable.
+- Default value: ''
 
 ### `vault_seal_generate_key`
 
