@@ -124,6 +124,9 @@ telemetry {
   {% if vault_telemetry_disable_hostname is defined %}
   disable_hostname = {{vault_telemetry_disable_hostname | bool | lower }}
   {% endif -%}
+  {% if vault_telemetry_usage_gauge_period is defined %}
+  usage_gauge_period = "{{ vault_telemetry_usage_gauge_period }}"
+  {% endif -%}
 }
 {% endif -%}
 

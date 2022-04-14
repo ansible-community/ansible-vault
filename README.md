@@ -969,6 +969,12 @@ available starting at Vault version 1.4.
 - Configure [unauthenticated metrics access](https://www.vaultproject.io/docs/configuration/listener/tcp#configuring-unauthenticated-metrics-access)
 - Default value: false
 
+### `vault_telemetry_usage_gauge_period`
+
+- Specifies the interval at which high-cardinality usage data is collected,
+such as token counts, entity counts, and secret counts.
+- Default value: *undefined*
+
 ## OS Distribution Variables
 
 The `vault` binary works on most Linux platforms and is not distribution
