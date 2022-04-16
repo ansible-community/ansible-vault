@@ -829,6 +829,11 @@ available starting at Vault version 1.4.
 - flag for disabling the health check on vaults api address
 - Default value: `false`
 
+### `vault_disable_mlock`
+
+- flag for [disabling mlock](https://www.vaultproject.io/docs/configuration#disable_mlock). Please bear in mind that HashiCorp recommends disabling mlock when using Raft.
+- Default value: `false`
+
 ### `vault_cluster_disable`
 
 - Disable HA clustering

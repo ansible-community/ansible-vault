@@ -47,6 +47,3 @@ storage "raft" {
   {% endfor %}
   {% endif %}
 }
-
-// HashiCorp recommends disabling mlock when using Raft.
-disable_mlock = {{ vault_disable_mlock | default('true') | bool | lower }}
