@@ -1303,6 +1303,13 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 ### `vault_gkms_credentials_src_file`
 
 - User-specified source directory for GCP Credential on Ansible control node.
+- Either this or vault_gkms_credentials_content must be set if vault_gkms enabled.
+- Default value: ''
+
+### `vault_gkms_credentials_content`
+
+- User-specified GCP Credential file content.
+- Either this or vault_gkms_credentials_src_file must be set if vault_gkms enabled.
 - Default value: ''
 
 ### `vault_gkms_credentials`
