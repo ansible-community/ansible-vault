@@ -307,6 +307,7 @@ vault_gkms: false
 vault_backend_gkms: vault_seal_gcpkms.j2
 vault_gkms_project: ''
 vault_gkms_credentials_src_file: ''
+vault_gkms_credentials_content: ''
 vault_gkms_credentials: '/home/vault/vault-kms.json'
 vault_gkms_region: 'global'
 vault_gkms_key_ring: 'vault'
