@@ -71,6 +71,7 @@
     - not vault_enterprise | bool
     - not vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
+    - not vault_install_rhsm_repo | bool
     - installation_required | bool
 
 - name: Install Vault via HashiCorp repository
@@ -87,6 +88,7 @@
     - not vault_enterprise | bool
     - vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
+    - not vault_install_rhsm_repo | bool
     - installation_required | bool
 
 - name: Check Vault mlock capability
