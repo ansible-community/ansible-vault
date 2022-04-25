@@ -11,6 +11,7 @@ vault_http_status:
 _vault_nix_distros:
   - 'RedHat'
   - 'CentOS'
+  - 'Rocky'
   - 'Fedora'
   - 'Debian'
   - 'Ubuntu'
