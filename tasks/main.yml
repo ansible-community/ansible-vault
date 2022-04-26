@@ -71,7 +71,6 @@
     - not vault_enterprise | bool
     - not vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
-    - not vault_install_rhsm_repo | bool
     - installation_required | bool
 
 - name: Install Vault via HashiCorp repository
@@ -79,7 +78,7 @@
   when:
     - not vault_enterprise | bool
     - not vault_install_remotely | bool
-    - vault_install_hashi_repo | bool or vault_install_rhsm_repo | bool
+    - vault_install_hashi_repo | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via remote hosts
@@ -88,7 +87,6 @@
     - not vault_enterprise | bool
     - vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
-    - not vault_install_rhsm_repo | bool
     - installation_required | bool
 
 - name: Check Vault mlock capability
