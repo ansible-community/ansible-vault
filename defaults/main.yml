@@ -43,14 +43,14 @@ vault_home: "/home/{{ vault_user }}"
 vault_harden_file_perms: true
 
 # System user and group
-vault_manage_user: true
+vault_manage_user: "{{ false if (vault_install_hashi_repo) else true }}"
 vault_user: vault
 vault_manage_group: false
 vault_group: bin
 vault_groups: null
 
 vault_dotfile: ".bashrc"
-vault_dotfile_disable: false
+vault_dotfile_disable: "{{ true if (vault_install_hashi_repo) else false }}"
 
 # Logging
 vault_enable_log: false
