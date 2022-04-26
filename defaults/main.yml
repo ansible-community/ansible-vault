@@ -22,7 +22,7 @@ vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version 
 vault_repository_url: "{{ _vault_repository_url | default() }}"
 vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
 vault_rhsm_subscription_name:
-vault_rhsm_repo_name:
+vault_rhsm_repo_id:
 
 # Installation
 vault_start_pause_seconds: 0

@@ -120,7 +120,7 @@ The role defines variables in `defaults/main.yml`:
   repository used.
 - Default value: *false*
 
-### `vault_rhsm_repo_name`
+### `vault_rhsm_repo_id`
 
 - Name of rhsm repo
 - Set this to the name of your rhsm repo when installing Vault via a RHSM repository (RedHat Satellite/Foreman/etc.).
@@ -133,7 +133,7 @@ The role defines variables in `defaults/main.yml`:
 - Name of rhsm subscription
 - Set the rhsm subscription name to attach the rhsm subscription via subscription-manager.
   When set, you need make sure `vault_install_hashi_repo` is set to `true` to enable repo install. And also that
-  `vault_rhsm_repo_name` is set.
+  `vault_rhsm_repo_id` is set.
 - Default value: null
 
 ### `vault_install_remotely`

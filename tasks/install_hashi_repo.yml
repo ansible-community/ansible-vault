@@ -13,7 +13,7 @@
   become: true
   when:
     - ansible_pkg_mgr in ['yum', 'dnf']
-    - not vault_rhsm_repo_name
+    - not vault_rhsm_repo_id
 
 - name: Add Vault/Hashicorp apt key
   apt_key:
@@ -30,7 +30,7 @@
   when: ansible_pkg_mgr == 'apt'
 
 - name: Attach RHSM subscription / repo
-  when: (vault_rhsm_repo_name)
+  when: (vault_rhsm_repo_id)
   become: true
   block:
     - name: Check if Hashicorp/Vault RHSM repo subscription is enabled
@@ -62,7 +62,7 @@
 
     - name: Enable RHSM repository
       rhsm_repository:
-        name: "{{ vault_rhsm_repo_name }}"
+        name: "{{ vault_rhsm_repo_id }}"
         state: enabled
 
 - name: Install Vault package
