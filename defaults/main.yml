@@ -34,7 +34,7 @@ vault_install_remotely: false
 vault_privileged_install: false
 
 # Paths
-vault_bin_path: /usr/local/bin
+vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo or vault_install_rhsm_repo) else '/usr/local/bin' }}"
 vault_config_path: /etc/vault.d
 vault_plugin_path: /usr/local/lib/vault/plugins
 vault_data_path: /var/vault
