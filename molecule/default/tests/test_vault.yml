@@ -13,9 +13,9 @@ user:
   vault:
     exists: true
     groups:
-      - bin
+      - vault
 group:
-  bin:
+  vault:
     exists: true
 process:
   vault:
