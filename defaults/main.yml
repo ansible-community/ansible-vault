@@ -36,7 +36,7 @@ vault_privileged_install: false
 vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo) else '/usr/local/bin' }}"
 vault_config_path: /etc/vault.d
 vault_plugin_path: /usr/local/lib/vault/plugins
-vault_data_path: /var/vault
+vault_data_path: "{{ '/opt/vault/data' if (vault_install_hashi_repo) else '/var/vault' }}"
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
 vault_home: "/home/{{ vault_user }}"
@@ -266,16 +266,16 @@ vault_systemd_unit_path: /lib/systemd/system
 # self-signed certificates you might need to change the following to false
 validate_certs_during_api_reachable_check: true
 
-vault_tls_config_path: "{{ lookup('env','VAULT_TLS_DIR') | default('/etc/vault/tls', true) }}"
+vault_tls_config_path: "{{ lookup('env','VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
 vault_tls_src_files: "{{ lookup('env','VAULT_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
 
 vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
 vault_tls_gossip: "{{ lookup('env','VAULT_TLS_GOSSIP') | default(0, true) }}"
 
-vault_tls_copy_keys: true
+vault_tls_copy_keys: "{{ false if (vault_install_hashi_repo) else true }}"
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
-vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('server.crt', true) }}"
-vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('server.key', true) }}"
+vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default(('tls.crt' if (vault_install_hashi_repo) else 'server.crt'), true) }}"
+vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default(('tls.key' if (vault_install_hashi_repo) else 'server.key'), true) }}"
 vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
 
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
