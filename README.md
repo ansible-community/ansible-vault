@@ -267,7 +267,7 @@ vault_tcp_listeners:
 
 ### `vault_backend`
 
-- Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, and dynamodb
+- Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, dynamodb, mysql and gcs
 - Default value: raft
 
 
