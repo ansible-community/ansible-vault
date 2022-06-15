@@ -1,5 +1,7 @@
 seal "gcpckms" {
+  {% if vault_gkms_copy_sa and vault_gkms_credentials_src_file is defined and vault_gkms_credentials|length -%}
   credentials = "{{ vault_gkms_credentials }}"
+  {% endif -%}
   project     = "{{ vault_gkms_project }}"
   region      = "{{ vault_gkms_region }}"
   key_ring    = "{{ vault_gkms_key_ring }}"

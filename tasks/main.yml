@@ -146,7 +146,9 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0600"
-  when: vault_gkms | bool
+  when: 
+      - vault_gkms | bool
+      - vault_gkms_copy_sa | bool
 
 - name: "Copy GCP Credentials for gcs backend"
   copy:

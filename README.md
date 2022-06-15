@@ -1267,6 +1267,11 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 - GCP Project where the key reside.
 - Default value: ''
 
+### `vault_gkms_copy_sa`
+
+- Copy GCP SA credentials file from Ansible control node to Vault server. When not `true` and no value is specified for `vault_gkms_credentials_src_file`, the default instance service account credentials are used.
+- Default value: `"true"`
+
 ### `vault_gkms_credentials_src_file`
 
 - User-specified source directory for GCP Credential on Ansible control node.

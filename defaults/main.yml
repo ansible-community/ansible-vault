@@ -310,6 +310,7 @@ vault_gkms_credentials: '/home/vault/vault-kms.json'
 vault_gkms_region: 'global'
 vault_gkms_key_ring: 'vault'
 vault_gkms_crypto_key: 'vault_key'
+vault_gkms_copy_sa: true
 
 # pkcs11 seal
 vault_enterprise_premium_hsm: false
