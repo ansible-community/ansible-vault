@@ -11,6 +11,8 @@
     mode: 0700
   with_items:
     - "{{ vault_backend_tls_config_path }}"
+  tags:
+    - tls
 
 - name: Vault backend SSL Certificate and Key
   become: true
@@ -32,3 +34,5 @@
       dest: "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_ca_file }}"
       mode: "0644"
   when: vault_tls_copy_keys | bool
+  tags:
+    - tls
