@@ -282,7 +282,8 @@ vault_tcp_listeners:
     # vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
     # vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
     vault_tls_disable: '{{ vault_tls_disable }}'
-    vault_tls_config_path: '{{ vault_tls_config_path }}'
+    vault_tls_certs_path: '{{ vault_tls_certs_path }}'
+    vault_tls_private_path: '{{ vault_tls_private_path }}'
     vault_tls_cert_file: '{{ vault_tls_cert_file }}'
     vault_tls_key_file: '{{ vault_tls_key_file }}'
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
@@ -310,10 +311,15 @@ vault_tcp_listeners:
 - User-specified source directory for TLS files for storage communication
 - {{ vault_tls_src_files }}
 
-### `vault_backend_tls_config_path`
+### `vault_backend_tls_certs_path`
 
-- Path to directory containing backend tls config files
-- {{ vault_tls_config_path }}
+- Path to directory containing backend tls certificate files
+- {{ vault_tls_certs_path }}
+
+### `vault_backend_tls_private_path`
+
+- Path to directory containing backend tls key files
+- {{ vault_tls_private_path }}
 
 ### `vault_backend_tls_cert_file`
 
@@ -740,10 +746,15 @@ starting at Vault version 1.4.
 - ACL token for registering with Consul service registration
 - Default value: none
 
-#### `vault_service_registration_consul_tls_config_path`
+#### `vault_service_registration_consul_tls_certs_path`
 
-- Path to TLS certificate and key
-- Default value `{{ vault_tls_config_path }}`
+- path to tls certificate
+- default value `{{ vault_tls_certs_path }}`
+
+#### `vault_service_registration_consul_tls_private_path`
+
+- path to tls key
+- default value `{{ vault_tls_private_path }}`
 
 #### `vault_service_registration_consul_tls_ca_file`
 
@@ -899,9 +910,14 @@ available starting at Vault version 1.4.
   - Comma-separated list of source IPs for which PROXY protocol information will be used.
 - Default value: ""
 
-### `vault_tls_config_path`
+### `vault_tls_certs_path`
 
-- Path to TLS certificate and key
+- Path to TLS certificates
+- Default value `/etc/vault/tls`
+
+### `vault_tls_private_path`
+
+- Path to TLS keys
 - Default value `/etc/vault/tls`
 
 ### `vault_tls_disable`

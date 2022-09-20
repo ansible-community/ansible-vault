@@ -1,6 +1,7 @@
 ## NEXT
 
 - Add support for proxy configuration
+- Add support for system certificates with `vault_tls_certs_path` and `vault_tls_private_path`
 
 ## v2.5.3
 - Add Prometheus telemetry support (thanks @bbayszczak)

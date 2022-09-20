@@ -14,9 +14,9 @@ seal "transit" {
 {% if vault_transit_tls_skip_verify | bool %}
   tls_skip_verify    = "true"
 {% else %}
-  tls_ca_cert        = "{{ vault_backend_tls_config_path }}/{{ vault_transit_tls_ca_cert_file }}"
-  tls_client_cert    = "{{ vault_backend_tls_config_path }}/{{ vault_transit_tls_client_cert_file }}"
-  tls_client_key     = "{{ vault_backend_tls_config_path }}/{{ vault_transit_tls_client_key_file }}"
+  tls_ca_cert        = "{{ vault_backend_tls_certs_path }}/{{ vault_transit_tls_ca_cert_file }}"
+  tls_client_cert    = "{{ vault_backend_tls_certs_path }}/{{ vault_transit_tls_client_cert_file }}"
+  tls_client_key     = "{{ vault_backend_tls_private_path }}/{{ vault_transit_tls_client_key_file }}"
 {% if vault_transit_tls_server_name is defined %}
   tls_server_name    = "{{ vault_transit_tls_server_name }}"
 {% endif %}
