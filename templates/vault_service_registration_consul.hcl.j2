@@ -15,9 +15,9 @@ service_registration "consul" {
   {% endif %}
 
   {% if vault_service_registration_consul_scheme == "https" %}
-  tls_ca_file="{{ vault_service_registration_consul_tls_config_path }}/{{ vault_service_registration_consul_tls_ca_file }}"
-  tls_cert_file = "{{ vault_service_registration_consul_tls_config_path }}/{{ vault_service_registration_consul_tls_cert_file }}"
-  tls_key_file = "{{ vault_service_registration_consul_tls_config_path }}/{{ vault_service_registration_consul_tls_key_file }}"
+  tls_ca_file="{{ vault_service_registration_consul_tls_certs_path }}/{{ vault_service_registration_consul_tls_ca_file }}"
+  tls_cert_file = "{{ vault_service_registration_consul_tls_certs_path }}/{{ vault_service_registration_consul_tls_cert_file }}"
+  tls_key_file = "{{ vault_service_registration_consul_tls_private_path }}/{{ vault_service_registration_consul_tls_key_file }}"
   tls_min_version = "{{ vault_service_registration_consul_tls_min_version }}"
   tls_skip_verify = "{{ vault_service_registration_consul_tls_skip_verify }}"
   {% endif %}
