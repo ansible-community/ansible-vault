@@ -87,7 +87,7 @@ listener "tcp" {
   {% include vault_backend_raft with context -%}
 {% endif %}
 
-{% if vault_disable_mlock -%}
+{% if vault_disable_mlock is defined -%}
 disable_mlock = {{ vault_disable_mlock | bool | lower }}
 {% endif %}
 {% if vault_service_registration_consul_enable -%}
