@@ -19,6 +19,10 @@ vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zi
 vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
 vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version}}_SHA256SUMS"
+vault_repository_url: "{{ _vault_repository_url | default() }}"
+vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
+vault_rhsm_subscription_name:
+vault_rhsm_repo_id:
 
 # Installation
 vault_start_pause_seconds: 0
@@ -27,28 +31,26 @@ vault_start_pause_seconds: 0
 vault_install_hashi_repo: false
 vault_install_remotely: false
 vault_privileged_install: false
-vault_hashicorp_key_url: "https://apt.releases.hashicorp.com/gpg"
-vault_hashicorp_apt_repository_url: "https://apt.releases.hashicorp.com"
 
 # Paths
-vault_bin_path: /usr/local/bin
+vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo) else '/usr/local/bin' }}"
 vault_config_path: /etc/vault.d
 vault_plugin_path: /usr/local/lib/vault/plugins
-vault_data_path: /var/vault
+vault_data_path: "{{ '/opt/vault/data' if (vault_install_hashi_repo) else '/var/vault' }}"
 vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
 vault_home: "/home/{{ vault_user }}"
 vault_harden_file_perms: true
 
 # System user and group
-vault_manage_user: true
+vault_manage_user: "{{ false if (vault_install_hashi_repo) else true }}"
 vault_user: vault
 vault_manage_group: false
-vault_group: bin
+vault_group: "{{ 'vault' if (vault_install_hashi_repo) else 'bin' }}"
 vault_groups: null
 
 vault_dotfile: ".bashrc"
-vault_dotfile_disable: false
+vault_dotfile_disable: "{{ true if (vault_install_hashi_repo) else false }}"
 
 # Logging
 vault_enable_log: false
@@ -65,7 +67,6 @@ vault_service_reload: false
 # Vault variables
 # ---------------------------------------------------------------------------
 
-vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
@@ -73,7 +74,10 @@ vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.inte
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
-vault_use_config_path: false
+
+# seal configs are written in separate files in vault_config_path, if ony of those is enabled, we need to use vault_config_path in the systemD unit file
+vault_use_config_path: "{{ vault_transit or vault_awskms or vault_azurekeyvault or vault_gkms | default(false) }}"
+
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
 vault_listener_localhost_enable: false
@@ -202,6 +206,17 @@ vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_f
 # raft storage settings
 vault_backend: raft
 vault_raft_group_name: "vault_raft_servers"
+vault_raft_cluster_members: |
+  [
+  {% for server in groups[vault_raft_group_name] %}
+    {
+      "peer": "{{ server }}",
+      "api_addr": "{{ hostvars[server]['vault_api_addr'] |
+      default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+    },
+  {% endfor %}
+  ]
+
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}"
 # vault_raft_leader_tls_servername
@@ -264,16 +279,16 @@ vault_systemd_unit_path: /lib/systemd/system
 # self-signed certificates you might need to change the following to false
 validate_certs_during_api_reachable_check: true
 
-vault_tls_config_path: "{{ lookup('env','VAULT_TLS_DIR') | default('/etc/vault/tls', true) }}"
+vault_tls_config_path: "{{ lookup('env','VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
 vault_tls_src_files: "{{ lookup('env','VAULT_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
 
 vault_tls_disable: "{{ lookup('env','VAULT_TLS_DISABLE') | default(1, true) }}"
 vault_tls_gossip: "{{ lookup('env','VAULT_TLS_GOSSIP') | default(0, true) }}"
 
-vault_tls_copy_keys: true
+vault_tls_copy_keys: "{{ false if (vault_install_hashi_repo) else true }}"
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
-vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default('server.crt', true) }}"
-vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default('server.key', true) }}"
+vault_tls_cert_file: "{{ lookup('env','VAULT_TLS_CERT_FILE') | default(('tls.crt' if (vault_install_hashi_repo) else 'server.crt'), true) }}"
+vault_tls_key_file: "{{ lookup('env','VAULT_TLS_KEY_FILE') | default(('tls.key' if (vault_install_hashi_repo) else 'server.key'), true) }}"
 vault_tls_ca_file: "{{ lookup('env','VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
 
 vault_tls_min_version: "{{ lookup('env','VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
@@ -286,6 +301,22 @@ vault_tls_disable_client_certs: false
 # ---------------------------------------------------------------------------
 # Seal variables
 # ---------------------------------------------------------------------------
+
+# transit auto unseal, see https://www.vaultproject.io/docs/configuration/seal/transit
+vault_transit: false
+vault_transit_backend: vault_seal_transit.j2
+vault_transit_config: "{{ vault_config_path }}/vault_transit.hcl"
+vault_transit_address: ''
+vault_transit_token: ''
+vault_transit_disable_renewal: false
+vault_transit_key_name: 'autounseal'
+vault_transit_mount_path: "transit/"
+# vault_transit_namespace: ''
+vault_transit_tls_ca_cert_file: "{{ vault_tls_ca_file }}"
+vault_transit_tls_client_cert_file: "autounseal_client_cert.pem"
+vault_transit_tls_client_key_file: "autounseal_client_key.pem"
+# vault_transit_tls_server_name: ''
+vault_transit_tls_skip_verify: "{{ lookup('env', 'VAULT_SKIP_VERIFY') | default('', false) }}"
 
 # awskms seal
 vault_awskms: false
@@ -307,6 +338,7 @@ vault_gkms: false
 vault_backend_gkms: vault_seal_gcpkms.j2
 vault_gkms_project: ''
 vault_gkms_credentials_src_file: ''
+vault_gkms_credentials_content: ''
 vault_gkms_credentials: '/home/vault/vault-kms.json'
 vault_gkms_region: 'global'
 vault_gkms_key_ring: 'vault'
@@ -322,6 +354,7 @@ vault_backend_seal: vault_seal_pkcs11.j2
 vault_seal_lib: /lib64/hsmlibrary.so
 vault_seal_pin: 12345
 vault_seal_key_label: vault-hsm-key
+vault_seal_hmac_key_label: ''
 vault_seal_generate_key: false
 vault_seal_key_mechanism: ''
 vault_seal_token_label: ''

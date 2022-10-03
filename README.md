@@ -115,10 +115,26 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_install_hashi_repo`
 
 - Set this to `true` when installing Vault via HashiCorp Linux repository.
-  When set, you can also define `vault_hashicorp_key_url` and `vault_hashicorp_apt_repository_url`
-  to override the default URL of the GPG key loaded in apt keyring and the default URL of the apt
+  When set, you can also define `vault_repository_key_url` and `vault_repository_url`
+  to override the default URL of the GPG key for the repository and the default URL of the
   repository used.
 - Default value: *false*
+
+### `vault_rhsm_repo_id`
+
+- Name of rhsm repo
+- Set this to the name of your rhsm repo when installing Vault via a RHSM repository (RedHat Satellite/Foreman/etc.).
+  When set, you need make sure `vault_install_hashi_repo` is set to `true` to enable repo install. And optionally also
+  the rhsm subscription name with `vault_rhsm_subscription_name`.
+- Default value: null
+
+### `vault_rhsm_subscription_name`
+
+- Name of rhsm subscription
+- Set the rhsm subscription name to attach the rhsm subscription via subscription-manager.
+  When set, you need make sure `vault_install_hashi_repo` is set to `true` to enable repo install. And also that
+  `vault_rhsm_repo_id` is set.
+- Default value: null
 
 ### `vault_install_remotely`
 
@@ -201,11 +217,6 @@ The role defines variables in `defaults/main.yml`:
 
 - Should this role manage the vault group?
 - Default value: false
-
-### `vault_group_name`
-
-- Inventory group name
-- Default value: vault_instances
 
 ### `vault_cluster_name`
 
@@ -311,6 +322,23 @@ vault_tcp_listeners:
 
 - Inventory group name of servers hosting the raft backend
 - Default value: vault_raft_servers
+
+### `vault_raft_cluster_members`
+
+- Members of the raft cluster
+- Default value: hosts in `vault_raft_group_name` group
+- Can be used to override the behaviour of dynamically selecting all hosts in `vault_raft_group_name`
+- Example:
+  ```
+  vault_raft_cluster_members:
+    - peer: vault-host-1
+      api_addr: https://vault-host-1:8200
+    - peer: vault-host-2
+      api_addr: https://vault-host-2:8200
+    - peer: vault-host-3
+      api_addr: https://vault-host-2:8200
+  ```
+- Setting the `vault_raft_cluster_members` statically enables you to run the role against a single host (instead of the entire host group)
 
 #### `vault_raft_data_path`
 
@@ -793,6 +821,11 @@ available starting at Vault version 1.4.
 - Vault main configuration template file
 - Default value: *vault_main_configuration.hcl.j2*
 
+### `vault_custom_configuration`
+
+- Vault custom configuration
+- Default value: none
+
 ### `vault_http_proxy`
 
 - Address to be used as the proxy for HTTP and HTTPS requests unless overridden by `vault_https_proxy` or `vault_no_proxy`
@@ -968,6 +1001,12 @@ available starting at Vault version 1.4.
 
 - Configure [unauthenticated metrics access](https://www.vaultproject.io/docs/configuration/listener/tcp#configuring-unauthenticated-metrics-access)
 - Default value: false
+
+### `vault_telemetry_usage_gauge_period`
+
+- Specifies the interval at which high-cardinality usage data is collected,
+such as token counts, entity counts, and secret counts.
+- Default value: *undefined*
 
 ## OS Distribution Variables
 
@@ -1200,7 +1239,12 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 ### `vault_seal_key_label`
 
 - The label of the key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated key. May also be specified by the VAULT_HSM_KEY_LABEL environment variable.
-- Default value: vault-hsm-key
+- Default value: ''
+
+### `vault_seal_hmac_key_label`
+
+- The label of the HMAC key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated HMAC key. May also be specified by the VAULT_HSM_HMAC_KEY_LABEL environment variable.
+- Default value: ''
 
 ### `vault_seal_generate_key`
 
@@ -1264,6 +1308,13 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 ### `vault_gkms_credentials_src_file`
 
 - User-specified source directory for GCP Credential on Ansible control node.
+- Either this or vault_gkms_credentials_content must be set if vault_gkms enabled.
+- Default value: ''
+
+### `vault_gkms_credentials_content`
+
+- User-specified GCP Credential file content.
+- Either this or vault_gkms_credentials_src_file must be set if vault_gkms enabled.
 - Default value: ''
 
 ### `vault_gkms_credentials`
@@ -1285,6 +1336,79 @@ This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterpr
 
 - The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
 - Default value: vault_key
+
+## Vault Transit Auto-unseal
+This enables Vault to use another Vault instance for the unseal process using its transit secret engine
+
+### `vault_transit`
+
+- Set to true to enable Vault Transit Auto-unseal
+- Default value: `false`
+
+### `vault_transit_backend`
+
+- Backend seal template filename
+- Default value: `vault_seal_transit.j2`
+
+### `vault_transit_config`:
+
+- Destination configuration file
+- Default value: `vault_transit.hcl`
+
+### `vault_transit_address`:
+
+- Vault Address of the instance used for auto unseal
+- Default value: ``, this variable is mandatory if `vault_transit: true`
+
+### `vault_transit_token`:
+
+- Token used to authenticate to the external vault instance
+- Default value: ``, this variable is mandatory if `vault_transit: true`
+
+### `vault_transit_disable_renewal`:
+
+- Wether to disable automatic token renewal
+- Default value: `false`
+
+### `vault_transit_key_name`
+
+- Name of the key used for auto unseal
+- Default value: `autounseal`
+
+### `vault_transit_mount_path`:
+
+- Path where the transit engine is mounted to
+- Default value: `transit/`
+
+### `vault_transit_namespace`:
+
+- Namespace of the mounted transit engine
+- Default value: ``, omitted per default
+
+### `vault_transit_tls_ca_cert`:
+
+- CA Certificate of the external vault instance
+- Default value: `ca_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+
+### `vault_transit_tls_client_cert`:
+
+- Client Certificate of the external vault instance
+- Default value: `client_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+
+### `vault_transit_tls_client_key`:
+
+- Client Key of the external vault instance
+- Default value: `ca_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+
+### `vault_transit_tls_server_name`
+
+- TLS Servername of the external vault instance
+- Default value: ``, omitted per default
+
+### `vault_transit_tls_skip_verify`:
+
+- Wether to disable TLS certificate verification
+- Default: `false`, can also be set via `VAULT_SKIP_VERIFY`
 
 ## Vault AWS KMS Auto-unseal
 

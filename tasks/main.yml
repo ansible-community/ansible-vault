@@ -139,14 +139,23 @@
   include: ../tasks/backend_tls.yml
   when: vault_tls_gossip == 1
 
+- name: "Get content of GCP Credentials from file"
+  set_fact:
+    vault_gkms_credentials_content: "{{ lookup('file', vault_gkms_credentials_src_file) }}"
+  when:
+    - vault_gkms | bool
+    - vault_gkms_credentials_src_file | length > 0
+
 - name: "Copy over GCP Credentials for Auto Unseal"
   copy:
-    src: "{{ vault_gkms_credentials_src_file }}"
+    content: "{{ vault_gkms_credentials_content }}"
     dest: "{{ vault_gkms_credentials }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0600"
-  when: vault_gkms | bool
+  when:
+    - vault_gkms | bool
+    - vault_gkms_credentials_content | length > 0
 
 - name: "Copy GCP Credentials for gcs backend"
   copy:
@@ -171,6 +180,18 @@
   notify:
     - Restart vault
     - Reload vault
+
+- name: Vault transit seal configuration
+  become: true
+  template:
+    src: "{{ vault_transit_backend }}"
+    dest: "{{ vault_transit_config }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0400"
+    backup: "{{ vault_backup_config | default('false') | bool | lower }}"
+  when: vault_transit | bool
+  notify: Restart vault
 
 - name: Vault awskms seal configuration
   become: true
@@ -348,7 +369,7 @@
   vars:
     vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
   environment:
-    no_proxy: "{{ vault_address }}"
+    no_proxy: "{{ vault_api_addr | urlsplit('hostname') }}"
   uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
     url: "{{ vault_api_addr }}/v1/sys/health"

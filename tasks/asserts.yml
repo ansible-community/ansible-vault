@@ -40,3 +40,10 @@
   debug:
     msg: "vault_redirect_address is deprecated. Check for vault_api_addr in the README."
   when: vault_redirect_address is defined
+
+- name: Check if vault_transit_address and vault_transit_token has been specified
+  fail:
+    msg: "need vault_transit_address and vault_transit_token defined for vault transit seal configuration."
+  when:
+    - vault_transit | bool
+    - not (vault_transit_address or vault_transit_token)
