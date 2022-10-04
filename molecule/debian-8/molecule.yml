@@ -26,3 +26,4 @@ provisioner:
       debian-8_repo:
         vault_install_hashi_repo: true
         vault_bin_path: /usr/bin
+        vault_group: vault

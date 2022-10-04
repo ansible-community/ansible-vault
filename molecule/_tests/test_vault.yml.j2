@@ -10,9 +10,9 @@ user:
   vault:
     exists: true
     groups:
-      - bin
+      - {{ vault_group | default('bin') }}
 group:
-  bin:
+  {{ vault_group | default('bin') }}:
     exists: true
 process:
   vault:
