@@ -10,9 +10,7 @@
     goss_version: v0.3.7
     goss_arch: amd64
     goss_dst: /usr/local/bin/goss
-    # yamllint disable-line rule:line-length
     goss_sha256sum: 357f5c7f2e7949b412bce44349cd32ab19eb3947255a8ac805f884cc2c326059
-    # yamllint disable-line rule:line-length
     goss_url: "https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-{{ goss_arch }}"
     goss_test_directory: /tmp
     goss_format: tap
@@ -33,7 +31,7 @@
         dest: "{{ goss_test_directory }}/{{ item | basename }}"
         mode: 0644
       with_fileglob:
-        - "{{ lookup('env', 'MOLECULE_VERIFIER_TEST_DIRECTORY') }}/test_*.yml"
+        - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/_tests/test_*.yml"
 
     - name: Register test files
       shell: "ls {{ goss_test_directory }}/test_*.yml"

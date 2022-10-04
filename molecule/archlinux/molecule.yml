@@ -1,0 +1,13 @@
+---
+platforms:
+  - name: archlinux
+    groups:
+      - vault_raft_servers
+    image: carlodepieri/docker-archlinux-ansible
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+
+provisioner:
+  playbooks:
+    prepare: prepare.yml
