@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      callbacks_enabled: timer,profile_tasks
+      fact_caching: jsonfile
+      fact_caching_connection: ./cache
+      forks: 100
+    connection:
+      pipelining: true
+  playbooks:
+    prepare: ../prepare.yml
+    converge: ../converge.yml
+    verify: ../verify.yml
+verifier:
+  name: ansible

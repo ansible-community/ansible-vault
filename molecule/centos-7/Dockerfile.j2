@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+
+FROM {{ item.image }}
+
+RUN yum -y install \
+    yum-plugin-copr && \
+    yum -y copr enable jsynacek/systemd-backports-for-centos-7 && \
+    yum -y update systemd && \
+    find /etc/systemd/system \
+    /lib/systemd/system \
+    -path '*.wants/*' \
+    \( -name '*getty*' \
+    -or -name '*systemd-logind*' \
+    -or -name '*systemd-vconsole-setup*' \
+    -or -name '*systemd-readahead*' \
+    -or -name '*udev*' \) \
+    -exec rm -v \{} \; && \
+    systemctl set-default multi-user.target && \
+    systemctl mask dev-hugepages.mount sys-fs-fuse-connections.mount network.service
+
+CMD [ "/usr/lib/systemd/systemd" ]
