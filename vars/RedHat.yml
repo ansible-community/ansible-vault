@@ -2,13 +2,13 @@
 # File: vars/RedHat.yml - Red Hat vars for Vault
 
 vault_os_packages:
-  - "{{ 'libselinux-python' if ansible_python_version is version('3', '<')  else 'python3-libselinux' }}"
+  - "{{ 'libselinux-python' if ansible_python_version is version('3', '<') else 'python3-libselinux' }}"
   - git
   - unzip
 
-_vault_repository_url: "{% if ( ansible_distribution | lower  == 'fedora') %}\
+_vault_repository_url: "{% if (ansible_distribution | lower == 'fedora') %}\
       https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable\
-    {% elif (ansible_distribution | lower  == 'amazon') %}\
+    {% elif (ansible_distribution | lower == 'amazon') %}\
       https://rpm.releases.hashicorp.com/AmazonLinux/$releasever/$basearch/stable
     {% else %}\
       https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable\
