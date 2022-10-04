@@ -32,15 +32,13 @@
         - vars
 
 - name: Check Vault installation
-  shell: command -v vault
+  shell: command -v vault  # noqa command-instead-of-shell  # command is a shell builtin
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
   changed_when: false
   ignore_errors: true
   check_mode: false
-  tags:
-    - skip_ansible_lint  # command is a shell builtin
 
 - name: Get installed Vault version
   shell: |
@@ -324,7 +322,7 @@
   pause:
     seconds: "{{ vault_start_pause_seconds }}"
   when:
-    - start_vault is changed
+    - start_vault is changed   # noqa no-handler
     - vault_start_pause_seconds | int > 0
 
 - name: Restart Vault if needed
