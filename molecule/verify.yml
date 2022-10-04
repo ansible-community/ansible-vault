@@ -1,8 +1,4 @@
 ---
-# This is an example playbook to execute goss tests.
-# Tests need distributed to the appropriate ansible host/groups
-# prior to execution by `goss validate`.
-
 - name: Verify
   hosts: all
   become: true
@@ -19,19 +15,19 @@
       get_url:
         url: "{{ goss_url }}"
         dest: "{{ goss_dst }}"
-        sha256sum: "{{ goss_sha256sum }}"
+        checksum: "sha256:{{ goss_sha256sum }}"
         mode: 0755
       register: download_goss
       until: download_goss is succeeded
       retries: 3
 
     - name: Copy Goss tests to remote
-      copy:
+      template:
         src: "{{ item }}"
-        dest: "{{ goss_test_directory }}/{{ item | basename }}"
+        dest: "{{ goss_test_directory }}/{{ item | basename | splitext | first }}"
         mode: 0644
       with_fileglob:
-        - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/_tests/test_*.yml"
+        - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/_tests/test_*.j2"
 
     - name: Register test files
       shell: "ls {{ goss_test_directory }}/test_*.yml"
