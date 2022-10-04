@@ -35,6 +35,7 @@
     dest: "{{ role_path }}/files/{{ vault_pkg }}"
     checksum: "sha256:{{ (lookup('url', vault_checksum_file_url, wantlist=true) | select('match', '.*' + vault_pkg + '$') | first).split()[0] }}"
     timeout: "42"
+    mode: 0644
   become: "{{ vault_privileged_install }}"
   run_once: true
   tags: installation
