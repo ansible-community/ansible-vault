@@ -20,6 +20,7 @@ Thank you to all these fine folks for helping with ansible-vault!
 - [@fhemberger](https://github.com/fhemberger)
 - [@fleu42](https://github.com/fleu42)
 - [@Fuochi-YNAP](https://github.com/Fuochi-YNAP)
+- [@gardar](https://github.com/gardar)
 - [@Gerrrr](https://github.com/Gerrrr)
 - [@gfeun](https://github.com/gfeun)
 - [@groggemans](https://github.com/groggemans)
