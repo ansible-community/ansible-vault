@@ -14,13 +14,15 @@ galaxy_info:
         - '8'
     - name: Ubuntu
       versions:
-        - xenial
         - bionic
+        - focal
+        - jammy
     - name: Debian
       versions:
-        - buster
         - jessie
         - stretch
+        - buster
+        - bullseye
 
   galaxy_tags:
     - networking

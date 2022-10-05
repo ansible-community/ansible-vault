@@ -1,0 +1,26 @@
+---
+platforms:
+  - name: ubuntu-22.04
+    groups:
+      - vault_raft_servers
+    image: dokken/ubuntu-22.04
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+  - name: ubuntu-22.04_repo
+    groups:
+      - vault_raft_servers
+    image: dokken/ubuntu-22.04
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+
+provisioner:
+  inventory:
+    host_vars:
+      ubuntu-22.04_repo:
+        vault_install_hashi_repo: true
+        vault_bin_path: /usr/bin
+        vault_group: vault
