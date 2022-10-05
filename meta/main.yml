@@ -1,6 +1,4 @@
 ---
-# File: main.yml - Meta main
-
 galaxy_info:
   namespace: community
   author: Brian Shumate
