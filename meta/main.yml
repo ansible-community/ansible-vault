@@ -8,21 +8,22 @@ galaxy_info:
   min_ansible_version: '2.7'
 
   platforms:
-    - name: EL
-      versions:
-        - '7'
-        - '8'
-    - name: Ubuntu
-      versions:
-        - bionic
-        - focal
-        - jammy
     - name: Debian
       versions:
         - jessie
         - stretch
         - buster
         - bullseye
+    - name: EL
+      versions:
+        - '7'
+        - '8'
+        - '9'
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - jammy
 
   galaxy_tags:
     - networking
