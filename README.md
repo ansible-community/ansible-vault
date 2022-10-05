@@ -37,16 +37,18 @@ specific software and versions:
   - 7
   - 8 stream
 * Debian
-  - Debian 10 (buster)
-  - Debian 9 (stretch)
-  - Debian 8 (jessie)
+  - 8 (jessie)
+  - 9 (stretch)
+  - 10 (buster)
+  - 11 (bullseye)
 * FreeBSD
   - 11
 * RockyLinux
   - 8
 * Ubuntu
-  - 18.04
-  - 20.04
+  - 18.04 (Bionic Beaver)
+  - 20.04 (Focal Fossa)
+  - 22.04 (Jammy Jellyfish)
 
 Sorry, there is no planned support at the moment for Windows.
 
