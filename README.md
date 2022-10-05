@@ -33,9 +33,11 @@ specific software and versions:
 * ArchLinux
 * AlmaLinux
   - 8
+  - 9
 * CentOS
   - 7
   - 8 stream
+  - 9 stream
 * Debian
   - 8 (jessie)
   - 9 (stretch)
@@ -45,6 +47,7 @@ specific software and versions:
   - 11
 * RockyLinux
   - 8
+  - 9
 * Ubuntu
   - 18.04 (Bionic Beaver)
   - 20.04 (Focal Fossa)
