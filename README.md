@@ -46,6 +46,7 @@ specific software and versions:
   - 9 (stretch)
   - 10 (buster)
   - 11 (bullseye)
+  - 12 (bookworm)
 * FreeBSD
   - 11
 * RockyLinux

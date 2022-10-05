@@ -17,6 +17,7 @@ galaxy_info:
         - stretch
         - buster
         - bullseye
+        - bookworm
     - name: EL
       versions:
         - '7'
