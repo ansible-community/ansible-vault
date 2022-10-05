@@ -8,6 +8,9 @@ galaxy_info:
   min_ansible_version: '2.7'
 
   platforms:
+    - name: Amazon
+    - name: Amazon Linux 2
+    - name: ArchLinux
     - name: Debian
       versions:
         - jessie

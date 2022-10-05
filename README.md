@@ -30,10 +30,13 @@ specific software and versions:
 
 * Ansible: 2.8.4
 * Vault: 1.4.0 and above
-* ArchLinux
 * AlmaLinux
   - 8
   - 9
+* AmazonLinux
+  - 2
+  - 2022
+* ArchLinux
 * CentOS
   - 7
   - 8 stream
