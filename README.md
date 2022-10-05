@@ -32,13 +32,21 @@ specific software and versions:
 * Vault: 1.4.0 and above
 * ArchLinux
 * AlmaLinux
+  - 8
+* CentOS
+  - 7
+  - 8 stream
 * Debian
   - Debian 10 (buster)
   - Debian 9 (stretch)
   - Debian 8 (jessie)
-* FreeBSD 11
-* RockyLinux 8
-* Ubuntu 18.04, 20.04
+* FreeBSD
+  - 11
+* RockyLinux
+  - 8
+* Ubuntu
+  - 18.04
+  - 20.04
 
 Sorry, there is no planned support at the moment for Windows.
 
