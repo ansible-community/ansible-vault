@@ -37,6 +37,7 @@ specific software and versions:
 * FreeBSD 11
 * Ubuntu 18.04, 20.04
 * ArchLinux
+* RockyLinux 8
 
 Sorry, there is no planned support at the moment for Windows.
 
