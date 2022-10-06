@@ -142,7 +142,7 @@
     - vault_gkms | bool
     - vault_gkms_credentials_src_file | length > 0
 
-- name: "Copy over GCP Credentials for Auto Unseal"
+- name: "Copy over GCP Credentials for Auto Unseal"  # noqa template-instead-of-copy  # https://github.com/ansible/ansible-lint/issues/2501
   copy:
     content: "{{ vault_gkms_credentials_content }}"
     dest: "{{ vault_gkms_credentials }}"
