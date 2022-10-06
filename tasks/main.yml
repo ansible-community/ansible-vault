@@ -143,7 +143,7 @@
     - vault_gkms_credentials_src_file | length > 0
 
 - name: "Copy over GCP Credentials for Auto Unseal"
-  template:
+  copy:
     content: "{{ vault_gkms_credentials_content }}"
     dest: "{{ vault_gkms_credentials }}"
     owner: "{{ vault_user }}"
