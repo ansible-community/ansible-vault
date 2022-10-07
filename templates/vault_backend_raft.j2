@@ -28,10 +28,10 @@ storage "raft" {
   }
   {% endif %}
   {% if not vault_raft_cloud_auto_join_exclusive %}
-  {% for server in groups[vault_raft_group_name] | difference([inventory_hostname]) %}
+  {% for raft_peer in vault_raft_cluster_members | rejectattr('peer', 'equalto', inventory_hostname) %}
     {% if not (vault_tls_disable | bool) %}
   retry_join {
-    leader_api_addr = "{{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+    leader_api_addr = "{{ raft_peer.api_addr }}"
     {% if vault_raft_leader_tls_servername is defined %}
     leader_tls_servername = "{{ vault_raft_leader_tls_servername }}"
     {% endif %}
@@ -41,7 +41,7 @@ storage "raft" {
   }
     {% else %}
   retry_join {
-    leader_api_addr =  "http://{{ hostvars[server]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ vault_port }}"
+    leader_api_addr =  "{{ raft_peer.api_addr }}"
   }
     {% endif %}
   {% endfor %}

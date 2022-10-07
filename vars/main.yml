@@ -9,12 +9,16 @@ vault_http_status:
 
 # Supported *nix distributions
 _vault_nix_distros:
-  - 'RedHat'
-  - 'CentOS'
-  - 'Fedora'
-  - 'Debian'
-  - 'Ubuntu'
+  - 'AlmaLinux'
+  - 'Amazon'
+  - 'Amazon Linux 2'
   - 'Archlinux'
-  - 'OracleLinux'
+  - 'CentOS'
+  - 'Debian'
+  - 'Fedora'
   - 'Flatcar'
   - 'FreeBSD'
+  - 'OracleLinux'
+  - 'RedHat'
+  - 'Rocky'
+  - 'Ubuntu'

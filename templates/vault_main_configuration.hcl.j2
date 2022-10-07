@@ -128,9 +128,16 @@ telemetry {
   {% if vault_telemetry_disable_hostname is defined %}
   disable_hostname = {{vault_telemetry_disable_hostname | bool | lower }}
   {% endif -%}
+  {% if vault_telemetry_usage_gauge_period is defined %}
+  usage_gauge_period = "{{ vault_telemetry_usage_gauge_period }}"
+  {% endif -%}
 }
 {% endif -%}
 
 {% if vault_configure_enterprise_license | bool -%}
 license_path = "{{ vault_license_path }}"
+{% endif -%}
+
+{% if vault_custom_configuration is defined -%}
+{{ vault_custom_configuration }}
 {% endif -%}

@@ -1,7 +1,4 @@
 ---
-package:
-  vault:
-    installed: true
 port:
   tcp:8200:
     listening: true
@@ -13,9 +10,9 @@ user:
   vault:
     exists: true
     groups:
-      - bin
+      - {{ vault_group | default('bin') }}
 group:
-  bin:
+  {{ vault_group | default('bin') }}:
     exists: true
 process:
   vault:

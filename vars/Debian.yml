@@ -5,3 +5,6 @@ vault_os_packages:
   - git
   - unzip
   - acl
+
+_vault_repository_url: "https://apt.releases.hashicorp.com"
+_vault_repository_key_url: "{{ _vault_repository_url }}/gpg"

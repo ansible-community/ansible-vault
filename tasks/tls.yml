@@ -11,6 +11,8 @@
     mode: 0750
   with_items:
     - "{{ vault_tls_config_path }}"
+  tags:
+    - tls
 
 - name: Vault SSL Certificate and Key
   become: true
@@ -32,3 +34,8 @@
       dest: "{{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
       mode: "0644"
   when: vault_tls_copy_keys | bool
+  notify:
+    - Restart vault
+    - Reload vault
+  tags:
+    - tls
