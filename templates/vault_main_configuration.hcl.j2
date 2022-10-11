@@ -28,7 +28,6 @@ listener "tcp" {
   {% if vault_tls_cipher_suites is defined and vault_tls_cipher_suites -%}
   tls_cipher_suites = "{{ l.vault_tls_cipher_suites}}"
   {% endif -%}
-  tls_prefer_server_cipher_suites = "{{ l.vault_tls_prefer_server_cipher_suites }}"
   {% if (l.vault_tls_require_and_verify_client_cert | bool) -%}
   tls_require_and_verify_client_cert = "{{ l.vault_tls_require_and_verify_client_cert | bool | lower}}"
   {% endif -%}

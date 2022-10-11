@@ -289,7 +289,6 @@ vault_tcp_listeners:
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
     vault_tls_min_version: '{{ vault_tls_min_version }}'
     vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
-    vault_tls_prefer_server_cipher_suites: '{{ vault_tls_prefer_server_cipher_suites }}'
     vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
     vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
@@ -965,12 +964,6 @@ available starting at Vault version 1.4.
 
 - [Comma-separated list of supported ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cipher_suites)
 - Default value: ""
-
-### `vault_tls_prefer_server_cipher_suites`
-
-- [Prefer server's cipher suite over client cipher suite](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites)
-  - Can be overridden with `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
-- Default value: false
 
 ### `vault_tls_require_and_verify_client_cert`
 
