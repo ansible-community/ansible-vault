@@ -24,7 +24,7 @@ You can use git tag in the version attribute. Also you can honor its legacy `nam
 
 ## Requirements
 
-This role requires Archlinux, or FreeBSD, or a Debian or RHEL based Linux distribution. It
+This role requires Archlinux, AmazonLinux, FreeBSD, Debian or a RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
@@ -189,6 +189,30 @@ The role defines variables in `defaults/main.yml`:
 
 - Path from where plugins can be loaded
 - Default value: `/usr/local/lib/vault/plugins`
+
+### `vault_plugins_enable`
+
+- List of plugins to enable (Check uner `tasks/plugins` to see supported plugins.)
+- For example: `vault_plugins_enable: [ 'acme', 'example' ]`
+- Default value: `[]`
+
+### `vault_plugins_src_dir_remote`
+
+- Directory where temporary plugin zip/installation files are placed.
+  When installation is processed remotely.
+- Default value: `/usr/local/src/vault/plugins`
+
+### `vault_plugins_src_dir_local`
+
+- Directory where temporary plugin zip/installation files are placed.
+  When installation is processed locally.
+- Default value: `{{ role_path }}/files/plugins`
+
+### `vault_plugins_src_dir_cleanup`
+
+- Whether to clean up the temporary plugin zip/installation file directory after plugin install.
+  Warning: When plugins don't provide a version number this could cause the plugins to be downloaded every time and thus breaking idempotence.
+- Default value: `false`
 
 ### `vault_data_path`
 
