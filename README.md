@@ -1507,6 +1507,25 @@ This feature enabled operators to delegate the unsealing process to AZURE Key Va
 - The key hosted in the Vault in Azure Key Vault
 - Default value: vault_key
 
+## Vault plugins
+
+### acme plugin
+
+Installs vault-acme plugin, also enables the plugin if authenticated against vault (`VAULT_ADDR`, `VAULT_TOKEN` env).
+
+#### `vault_plugin_acme_install`
+- Setting this to `remote` will download the acme plugin to each target instead of copying it from localhost.
+- Choices: remote / local
+- Default value: `remote`
+
+#### `vault_plugin_acme_sidecar_install'
+- Whether to install vault acme sidecar for `HTTP-01`/`TLS_ALPN_01` challenges in addition to DNS-01.
+- Default value: `false`
+
+#### `vault_plugin_acme_version'
+- Version of the acme plugin to install, can be set to `latest` for obtaining the latest available version.
+- Default value: `latest`
+
 ## License
 
 BSD-2-Clause
