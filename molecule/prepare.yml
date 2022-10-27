@@ -1,0 +1,19 @@
+---
+- name: Prepare
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Prepare CI environment
+      when: (lookup('env', 'CI'))
+      block:
+        - name: Install OS packages on controlling host
+          when: ansible_distribution != 'MacOSX'
+          package:
+            name: unzip
+          become: true
+
+        - name: Install netaddr dependency on controlling host
+          pip:
+            name: netaddr
+          become: false

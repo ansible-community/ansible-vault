@@ -21,9 +21,9 @@ listener "tcp" {
   {% endif -%}
   {% endif -%}
   {% if not (l.vault_tls_disable | bool) -%}
-  tls_cert_file = "{{ l.vault_tls_config_path }}/{{ l.vault_tls_cert_file }}"
-  tls_key_file = "{{ l.vault_tls_config_path }}/{{ l.vault_tls_key_file }}"
-  tls_client_ca_file="{{ l.vault_tls_config_path }}/{{ l.vault_tls_ca_file }}"
+  tls_client_ca_file="{{ l.vault_tls_certs_path }}/{{ l.vault_tls_ca_file }}"
+  tls_cert_file = "{{ l.vault_tls_certs_path }}/{{ l.vault_tls_cert_file }}"
+  tls_key_file = "{{ l.vault_tls_private_path }}/{{ l.vault_tls_key_file }}"
   tls_min_version  = "{{ l.vault_tls_min_version }}"
   {% if vault_tls_cipher_suites is defined and vault_tls_cipher_suites -%}
   tls_cipher_suites = "{{ l.vault_tls_cipher_suites}}"
@@ -132,4 +132,8 @@ telemetry {
 
 {% if vault_configure_enterprise_license | bool -%}
 license_path = "{{ vault_license_path }}"
+{% endif -%}
+
+{% if vault_custom_configuration is defined -%}
+{{ vault_custom_configuration }}
 {% endif -%}
