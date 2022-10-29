@@ -10,5 +10,6 @@ backend "consul" {
   tls_ca_file="{{ vault_backend_tls_certs_path }}/{{ vault_backend_tls_ca_file }}"
   tls_cert_file = "{{ vault_backend_tls_certs_path }}/{{ vault_backend_tls_cert_file }}"
   tls_key_file = "{{ vault_backend_tls_private_path }}/{{ vault_backend_tls_key_file }}"
+  tls_skip_verify="{{ vault_consul_tls_skip_verify | bool | lower }}"
   {% endif %}
 }
