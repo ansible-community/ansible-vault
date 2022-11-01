@@ -349,7 +349,7 @@
   lineinfile:
     path: "{{ vault_home }}/{{ vault_dotfile }}"
     regexp: "^export VAULT_CACERT="
-    line: "export VAULT_CACERT={{ vault_tls_config_path }}/{{ vault_tls_ca_file }}"
+    line: "export VAULT_CACERT={{ vault_tls_certs_path }}/{{ vault_tls_ca_file }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
@@ -388,6 +388,21 @@
     - check_vault
   when:
     - not vault_disable_api_health_check | bool
+
+- name: Install/configure vault plugins
+  include_tasks: "plugins/{{ _index_plugin }}.yml"
+  loop: "{{ ('molecule-notest' not in ansible_skip_tags) | ternary(vault_plugins_enable,
+         lookup('fileglob', 'tasks/plugins/*.yml', wantlist=true) | map('basename') | map('splitext') | map('first')) }}"
+  loop_control:
+    loop_var: _index_plugin
+  args:
+    apply:
+      environment:
+        VAULT_ADDR: "{{ lookup('env', 'VAULT_ADDR') |
+                     default(vault_tls_disable | ternary('http', 'https') ~ '://' ~ vault_addr ~ ':' ~ vault_port, true) }}"
+        VAULT_CACERT: "{{ lookup('env', 'VAULT_CACERT') |
+                       default(vault_tls_config_path ~ '/' ~ vault_tls_ca_file if not (vault_tls_disable) else '', true) }}"
+        VAULT_TOKEN: "{{ lookup('env', 'VAULT_TOKEN') }}"
 
 - name: Vault status
   debug:
