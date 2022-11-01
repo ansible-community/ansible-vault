@@ -1558,11 +1558,11 @@ Installs vault-acme plugin, also enables the plugin if authenticated against vau
 - Choices: remote / local
 - Default value: `remote`
 
-#### `vault_plugin_acme_sidecar_install'
+#### `vault_plugin_acme_sidecar_install`
 - Whether to install vault acme sidecar for `HTTP-01`/`TLS_ALPN_01` challenges in addition to DNS-01.
 - Default value: `false`
 
-#### `vault_plugin_acme_version'
+#### `vault_plugin_acme_version`
 - Version of the acme plugin to install, can be set to `latest` for obtaining the latest available version.
 - Default value: `latest`
 
