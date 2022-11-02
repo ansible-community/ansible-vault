@@ -30,6 +30,7 @@
         - name: Download acme vault plugin
           get_url:
             url: "{{ vault_plugin_acme_release_url }}/{{ vault_plugin_acme_zip }}"
+            # url: "https://{{ vault_plugin_acme_url }}/releases/download/v{{ vault_plugin_acme_version }}/{{ vault_plugin_acme_zip }}"
             dest: "{{ __vault_plugin_acme_zip_dir.path }}"
             checksum: "sha256:{{ vault_plugin_acme_zip_sha256sum }}"
             mode: 0644
