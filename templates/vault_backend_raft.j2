@@ -35,9 +35,9 @@ storage "raft" {
     {% if vault_raft_leader_tls_servername is defined %}
     leader_tls_servername = "{{ vault_raft_leader_tls_servername }}"
     {% endif %}
-    leader_ca_cert_file = "{{ vault_backend_tls_certs_path }}/{{ vault_backend_tls_ca_file }}"
-    leader_client_cert_file = "{{ vault_backend_tls_certs_path }}/{{ vault_backend_tls_cert_file }}"
-    leader_client_key_file = "{{ vault_backend_tls_private_path }}/{{ vault_backend_tls_key_file }}"
+    leader_ca_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_ca_file }}"
+    leader_client_cert_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_cert_file }}"
+    leader_client_key_file = "{{ vault_backend_tls_config_path }}/{{ vault_backend_tls_key_file }}"
   }
     {% else %}
   retry_join {

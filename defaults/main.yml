@@ -96,8 +96,7 @@ vault_tcp_listeners:
     # vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
     # vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
     vault_tls_disable: '{{ vault_tls_disable }}'
-    vault_tls_certs_path: '{{ vault_tls_certs_path }}'
-    vault_tls_private_path: '{{ vault_tls_private_path }}'
+    vault_tls_config_path: '{{ vault_tls_config_path }}'
     vault_tls_cert_file: '{{ vault_tls_cert_file }}'
     vault_tls_key_file: '{{ vault_tls_key_file }}'
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
@@ -135,8 +134,7 @@ vault_default_lease_ttl: "768h"
 
 # Storage tls settings
 vault_backend_tls_src_files: "{{ vault_tls_src_files }}"
-vault_backend_tls_certs_path: "{{ vault_tls_certs_path }}"
-vault_backend_tls_private_path: "{{ vault_tls_private_path }}"
+vault_backend_tls_config_path: "{{ vault_tls_config_path }}"
 vault_backend_tls_cert_file: "{{ vault_tls_cert_file }}"
 vault_backend_tls_key_file: "{{ vault_tls_key_file }}"
 vault_backend_tls_ca_file: "{{ vault_tls_ca_file }}"
@@ -249,8 +247,7 @@ vault_service_registration_consul_scheme: http
 # vault_service_registration_consul_token:
 
 # Consul service registration tls settings
-vault_service_registration_consul_tls_certs_path: "{{ vault_tls_certs_path }}"
-vault_service_registration_consul_tls_private_path: "{{ vault_tls_private_path }}"
+vault_service_registration_consul_tls_config_path: "{{ vault_tls_config_path }}"
 vault_service_registration_consul_tls_cert_file: "{{ vault_tls_cert_file }}"
 vault_service_registration_consul_tls_key_file: "{{ vault_tls_key_file }}"
 vault_service_registration_consul_tls_ca_file: "{{ vault_tls_ca_file }}"
@@ -282,9 +279,8 @@ vault_systemd_unit_path: /lib/systemd/system
 # self-signed certificates you might need to change the following to false
 validate_certs_during_api_reachable_check: true
 
-vault_tls_certs_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
-vault_tls_private_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
-vault_tls_src_files: "{{ lookup('env', 'VAULT_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
+vault_tls_config_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
+vault_tls_src_files: "{{ lookup('env', 'VAULT_TLS_SRC_FILES') | default(role_path + '/files', true) }}"
 
 vault_tls_disable: "{{ lookup('env', 'VAULT_TLS_DISABLE') | default(1, true) }}"
 vault_tls_gossip: "{{ lookup('env', 'VAULT_TLS_GOSSIP') | default(0, true) }}"
@@ -386,13 +382,9 @@ vault_license_path: "{{ vault_config_path }}/license.hclic"
 # Upload skipped when empty or undefined
 vault_license_file: ""
 
-# Vault plugins
-vault_plugins_enable: []
-vault_plugins_src_dir_remote: /usr/local/src/vault/plugins  # Directory for storing vault plugin src/zip files on target hosts
-vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for storing vault plugin src/zip files locally
-vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
-
+# -----------------
 # vault acme plugin
+# -----------------
 vault_plugin_acme_install: remote  # remote / local
 vault_plugin_acme_sidecar_install: false
 vault_plugin_acme_version: "latest"
