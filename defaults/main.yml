@@ -385,3 +385,14 @@ vault_license_path: "{{ vault_config_path }}/license.hclic"
 # Path to enterprise license on the Ansible controller (source file for upload)
 # Upload skipped when empty or undefined
 vault_license_file: ""
+
+# -----------------
+# vault acme plugin
+# -----------------
+vault_plugin_acme_install: remote  # remote / local
+vault_plugin_acme_sidecar_install: false
+vault_plugin_acme_version: "latest"
+vault_plugin_acme_zip: "{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_plugin_acme_release_url: "https://github.com/remilapeyre/vault-acme/releases/download/v{{ vault_plugin_acme_version }}"
+vault_plugin_acme_zip_sha256sum: "{{ (lookup('url', vault_plugin_acme_release_url ~ '/vault-acme_SHA256SUMS',
+                              wantlist=true) | select('match', '.*' + vault_plugin_acme_zip + '$') | first).split()[0] }}"
