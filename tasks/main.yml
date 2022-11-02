@@ -402,7 +402,7 @@
                      default(vault_tls_disable | ternary('http', 'https') ~ '://' ~ vault_addr ~ ':' ~ vault_port, true) }}"
         VAULT_CACERT: "{{ lookup('env', 'VAULT_CACERT') |
                        default(vault_tls_config_path ~ '/' ~ vault_tls_ca_file if not (vault_tls_disable) else '', true) }}"
-        VAULT_TOKEN: "{{ lookup('env', 'VAULT_TOKEN') }}"
+        VAULT_TOKEN: "{{ lookup('env', 'VAULT_TOKEN') | default(lookup('file', '~/.vault-token', errors='ignore')) }}"
 
 - name: Vault status
   debug:
