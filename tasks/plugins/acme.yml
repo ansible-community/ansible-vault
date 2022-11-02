@@ -1,0 +1,110 @@
+---
+- name: Looking up latest version of acme plugin
+  set_fact:
+    vault_plugin_acme_version: "{{ (lookup('url', 'https://api.github.com/repos/remilapeyre/vault-acme/releases', split_lines=false) |
+                                from_json)[0].get('tag_name') | replace('v', '') }}"
+  when: 'vault_plugin_acme_version == "latest"'
+
+- name: Vault acme plugin installation
+  block:
+    - name: Fetch acme vault plugin
+      delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', omit) }}"
+      block:
+        - name: Install dependencies
+          package:
+            name: "{{ vault_os_packages }}"
+            state: present
+          become: true
+          when: (vault_plugin_acme_install == 'remote')
+
+        - name: Create temporary directory for acme vault plugin
+          file:
+            path: "{{ (vault_plugin_acme_install == 'local') | ternary(vault_plugins_src_dir_local, vault_plugins_src_dir_remote) }}/acme"
+            state: directory
+            mode: 0755
+            owner: "{{ (vault_plugin_acme_install == 'local') | ternary(omit, vault_user) }}"
+            group: "{{ (vault_plugin_acme_install == 'local') | ternary(omit, vault_group) }}"
+          register: __vault_plugin_acme_zip_dir
+          run_once: "{{ (vault_plugin_acme_install == 'local') }}"
+
+        - name: Download acme vault plugin
+          get_url:
+            url: "{{ vault_plugin_acme_release_url }}/{{ vault_plugin_acme_zip }}"
+            dest: "{{ __vault_plugin_acme_zip_dir.path }}"
+            checksum: "sha256:{{ vault_plugin_acme_zip_sha256sum }}"
+            mode: 0644
+          register: __vault_plugin_acme_zip_file
+          run_once: "{{ (vault_plugin_acme_install == 'local') }}"
+
+        - name: Extract acme vault plugin
+          unarchive:
+            remote_src: "{{ (vault_plugin_acme_install == 'remote') }}"
+            src: "{{ __vault_plugin_acme_zip_file.dest }}"
+            dest: "{{ __vault_plugin_acme_zip_dir.path }}"
+            mode: 0644
+          run_once: "{{ (vault_plugin_acme_install == 'local') }}"
+
+    - name: Install acme vault plugin
+      copy:
+        remote_src: "{{ (vault_plugin_acme_install == 'remote') }}"
+        src: "{{ __vault_plugin_acme_zip_dir.path }}/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "+x"
+      when: (item.when | default(true))
+      loop:
+        - src: "acme-plugin"
+          dest: "{{ vault_plugin_path }}/acme"
+        - src: "sidecar"
+          dest: "/usr/local/bin/vault-acme-sidecar"
+          when: "{{ vault_plugin_acme_sidecar_install }}"
+
+  always:
+    - name: "Clean up src directory"
+      file:
+        path: "{{ __vault_plugin_acme_zip_dir.path }}"
+        state: absent
+      delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', omit) }}"
+      run_once: "{{ (vault_plugin_acme_install == 'local') }}"
+      when: (vault_plugins_src_dir_cleanup)
+
+- name: "Check vault authentication"
+  command: vault token lookup
+  changed_when: false
+  failed_when: false
+  register: __vault_token_lookup
+  no_log: true
+
+- name: Enable acme plugin
+  when:
+    - (check_result.status == 200)
+    - (__vault_token_lookup.rc == 0)
+  block:
+    - name: "Look up registered acme plugin sha256"
+      command: vault plugin info -field=sha256 secret acme
+      changed_when: false
+      failed_when: false
+      register: __vault_plugin_acme_registered_sha256
+
+    - name: "Get acme plugin sha256sum"
+      stat:
+        path: "{{ vault_plugin_path }}/acme"
+        checksum_algorithm: sha256
+      register: __vault_plugin_acme_sha256sum
+
+    - name: "Register acme plugin in vault catalog"
+      command:
+        cmd: "vault write sys/plugins/catalog/secret/acme
+              sha_256={{ __vault_plugin_acme_sha256sum.stat.checksum }}
+              version={{ vault_plugin_acme_version }} command=acme"
+      become: true
+      become_user: "{{ vault_user }}"
+      register: __vault_write_acme
+      changed_when: __vault_write_acme.stdout is search('Success!')
+      when: __vault_plugin_acme_registered_sha256.stdout != __vault_plugin_acme_sha256sum.stat.checksum
+
+    - name: "Enable acme plugin"
+      command:
+        cmd: vault secrets enable -path acme -plugin-name acme plugin
+      register: __vault_plugin_acme_enable
+      changed_when: __vault_plugin_acme_enable.stdout is search('Enabled the acme secrets engine')
+      failed_when: __vault_plugin_acme_enable.stdout is search('plugin not found in the catalog')
