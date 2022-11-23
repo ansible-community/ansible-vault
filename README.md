@@ -264,11 +264,6 @@ The role defines variables in `defaults/main.yml`:
 - Cluster name label
 - Default value: dc1
 
-### `vault_datacenter`
-
-- Datacenter label
-- Default value:  dc1
-
 ### `vault_ui`
 
 - Enable vault web UI
