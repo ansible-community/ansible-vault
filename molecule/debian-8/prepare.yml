@@ -27,4 +27,7 @@
         name:
           - python2.7
           - python-apt
+          - git
+          - unzip
+          - acl
         state: present
