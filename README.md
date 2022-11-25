@@ -24,7 +24,7 @@ You can use git tag in the version attribute. Also you can honor its legacy `nam
 
 ## Requirements
 
-This role requires Archlinux, or FreeBSD, or a Debian or RHEL based Linux distribution. It
+This role requires Archlinux, AmazonLinux, FreeBSD, Debian or a RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
@@ -190,6 +190,30 @@ The role defines variables in `defaults/main.yml`:
 - Path from where plugins can be loaded
 - Default value: `/usr/local/lib/vault/plugins`
 
+### `vault_plugins_enable`
+
+- List of plugins to enable (Check uner `tasks/plugins` to see supported plugins.)
+- For example: `vault_plugins_enable: [ 'acme', 'example' ]`
+- Default value: `[]`
+
+### `vault_plugins_src_dir_remote`
+
+- Directory where temporary plugin zip/installation files are placed.
+  When installation is processed remotely.
+- Default value: `/usr/local/src/vault/plugins`
+
+### `vault_plugins_src_dir_local`
+
+- Directory where temporary plugin zip/installation files are placed.
+  When installation is processed locally.
+- Default value: `{{ role_path }}/files/plugins`
+
+### `vault_plugins_src_dir_cleanup`
+
+- Whether to clean up the temporary plugin zip/installation file directory after plugin install.
+  Warning: When plugins don't provide a version number this could cause the plugins to be downloaded every time and thus breaking idempotence.
+- Default value: `false`
+
 ### `vault_data_path`
 
 - Data path
@@ -289,7 +313,6 @@ vault_tcp_listeners:
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
     vault_tls_min_version: '{{ vault_tls_min_version }}'
     vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
-    vault_tls_prefer_server_cipher_suites: '{{ vault_tls_prefer_server_cipher_suites }}'
     vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
     vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
@@ -965,12 +988,6 @@ available starting at Vault version 1.4.
 
 - [Comma-separated list of supported ciphersuites](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_cipher_suites)
 - Default value: ""
-
-### `vault_tls_prefer_server_cipher_suites`
-
-- [Prefer server's cipher suite over client cipher suite](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_prefer_server_cipher_suites)
-  - Can be overridden with `VAULT_TLS_PREFER_SERVER_CIPHER_SUITES` environment variable
-- Default value: false
 
 ### `vault_tls_require_and_verify_client_cert`
 

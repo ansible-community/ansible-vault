@@ -103,7 +103,6 @@ vault_tcp_listeners:
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
     vault_tls_min_version: '{{ vault_tls_min_version }}'
     vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
-    vault_tls_prefer_server_cipher_suites: '{{ vault_tls_prefer_server_cipher_suites }}'
     vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
     vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
@@ -297,7 +296,6 @@ vault_tls_ca_file: "{{ lookup('env', 'VAULT_TLS_CA_CRT') | default('ca.crt', tru
 
 vault_tls_min_version: "{{ lookup('env', 'VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
 vault_tls_cipher_suites: ""
-vault_tls_prefer_server_cipher_suites: "{{ lookup('env', 'VAULT_TLS_PREFER_SERVER_CIPHER_SUITES') | default('false', true) }}"
 vault_tls_files_remote_src: false
 vault_tls_require_and_verify_client_cert: false
 vault_tls_disable_client_certs: false
@@ -387,8 +385,14 @@ vault_license_path: "{{ vault_config_path }}/license.hclic"
 vault_license_file: ""
 
 # -----------------
-# vault acme plugin
+# Vault plugins
 # -----------------
+vault_plugins_enable: []
+vault_plugins_src_dir_remote: /usr/local/src/vault/plugins  # Directory for storing vault plugin src/zip files on target hosts
+vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for storing vault plugin src/zip files locally
+vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
+
+# vault acme plugin
 vault_plugin_acme_install: remote  # remote / local
 vault_plugin_acme_sidecar_install: false
 vault_plugin_acme_version: "latest"
