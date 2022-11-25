@@ -6,6 +6,7 @@
   package:
     name: "{{ vault_os_packages }}"
     state: present
+    update_cache: true
   tags: installation
   when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
 
