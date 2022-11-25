@@ -42,7 +42,6 @@ specific software and versions:
   - 8 stream
   - 9 stream
 * Debian
-  - 8 (jessie)
   - 9 (stretch)
   - 10 (buster)
   - 11 (bullseye)
