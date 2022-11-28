@@ -965,6 +965,11 @@ available starting at Vault version 1.4.
   - Override with `VAULT_TLS_CA_CRT` environment variable
 - Default value: `ca.crt`
 
+### `vault_tls_client_ca_file`
+
+- Client CA certificate filename
+- Default value: ``
+
 ### `vault_tls_cert_file`
 
 - Server certificate
