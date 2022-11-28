@@ -13,7 +13,6 @@ galaxy_info:
     - name: ArchLinux
     - name: Debian
       versions:
-        - jessie
         - stretch
         - buster
         - bullseye

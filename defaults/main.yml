@@ -391,3 +391,12 @@ vault_plugins_enable: []
 vault_plugins_src_dir_remote: /usr/local/src/vault/plugins  # Directory for storing vault plugin src/zip files on target hosts
 vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for storing vault plugin src/zip files locally
 vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
+
+# vault acme plugin
+vault_plugin_acme_install: remote  # remote / local
+vault_plugin_acme_sidecar_install: false
+vault_plugin_acme_version: "latest"
+vault_plugin_acme_zip: "{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_plugin_acme_release_url: "https://github.com/remilapeyre/vault-acme/releases/download/v{{ vault_plugin_acme_version }}"
+vault_plugin_acme_zip_sha256sum: "{{ (lookup('url', vault_plugin_acme_release_url ~ '/vault-acme_SHA256SUMS',
+                              wantlist=true) | select('match', '.*' + vault_plugin_acme_zip + '$') | first).split()[0] }}"
