@@ -8,7 +8,7 @@
 - name: Vault acme plugin installation
   block:
     - name: Fetch acme vault plugin
-      delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', omit) }}"
+      delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', inventory_hostname) }}"
       block:
         - name: Install dependencies
           package:
@@ -65,7 +65,7 @@
       file:
         path: "{{ __vault_plugin_acme_zip_dir.path }}"
         state: absent
-      delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', omit) }}"
+      delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', inventory_hostname) }}"
       run_once: "{{ (vault_plugin_acme_install == 'local') }}"
       when: (vault_plugins_src_dir_cleanup)
 
