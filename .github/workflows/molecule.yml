@@ -13,7 +13,7 @@ env:
 
 jobs:
   discover-scenarios:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       scenarios: ${{ steps.set-scenarios.outputs.scenarios }}
     steps:
@@ -28,7 +28,7 @@ jobs:
           echo "::set-output name=scenarios::$scenarios"
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - discover-scenarios
     strategy:
@@ -48,7 +48,7 @@ jobs:
     needs:
       - lint
       - discover-scenarios
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
