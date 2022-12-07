@@ -151,7 +151,8 @@
     mode: "0600"
   when:
     - vault_gkms | bool
-    - vault_gkms_credentials_content | length > 0
+    - vault_gkms_credentials_content | length > 0 or
+      vault_gkms_copy_sa | bool
 
 - name: "Copy GCP Credentials for gcs backend"
   copy:
