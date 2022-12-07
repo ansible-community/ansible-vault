@@ -15,7 +15,9 @@
             name: "{{ vault_os_packages }}"
             state: present
           become: true
-          when: (vault_plugin_acme_install == 'remote')
+          when:
+            - (vault_plugin_acme_install == 'remote')
+            - (vault_os_packages is defined) and (vault_os_packages | length > 0)
 
         - name: Create temporary directory for acme vault plugin
           file:
