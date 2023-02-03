@@ -94,10 +94,10 @@ The role defines variables in `defaults/main.yml`:
 
 - Version to install
   - Can be overridden with `VAULT_VERSION` environment variable
-  - Will include "+prem" if vault_enterprise_premium=True
-  - Will include ".hsm" if vault_enterprise_premium_hsm=True
+  - Will include `+ent` if `vault_enterprise_premium=True` (cannot be used in conjunction with `vault_enterprise_premium_hsm=True`)
+  - Will include `+.ent.hsm` if `vault_enterprise_premium_hsm=True` (cannot be used in conjunction with `vault_enterprise_premium=True`)
 
-- Default value: 1.5.5
+- Default value: `1.8.4`
 
 ### `vault_enterprise`
 

@@ -1,0 +1,2 @@
+---
+vault_raft_group_name: "{{ ansible_hostname }}"

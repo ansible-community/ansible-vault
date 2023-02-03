@@ -24,7 +24,7 @@ jobs:
         id: set-scenarios
         # Find path to all scenarios
         run: |
-          export scenarios="[`for x in $(ls -1 molecule -I _tests -I '*.yml'); do echo "'$x'"; done | tr '\n' ',' | sed '$s/,$//'`]"
+          export scenarios="[`for x in $(ls -1 molecule -I inventory -I _tests -I '*.yml'); do echo "'$x'"; done | tr '\n' ',' | sed '$s/,$//'`]"
           echo "::set-output name=scenarios::$scenarios"
 
   lint:

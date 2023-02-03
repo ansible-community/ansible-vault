@@ -2,25 +2,41 @@
 platforms:
   - name: almalinux-8
     groups:
-      - vault_raft_servers
+      - almalinux-8
     image: dokken/almalinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-  - name: almalinux-8_repo
+  - name: almalinux-8-repo
     groups:
-      - vault_raft_servers
+      - almalinux-8-repo
+      - repo
     image: dokken/almalinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-
+  - name: almalinux-8-enterprise
+    groups:
+      - almalinux-8-enterprise
+      - enterprise
+    image: dokken/almalinux-8
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+  - name: almalinux-8-repo-enterprise
+    groups:
+      - almalinux-8-repo-enterprise
+      - enterprise
+      - repo
+    image: dokken/almalinux-8
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
 provisioner:
   inventory:
-    host_vars:
-      almalinux-8_repo:
-        vault_install_hashi_repo: true
-        vault_bin_path: /usr/bin
-        vault_group: vault
+    links:
+      group_vars: ../inventory/group_vars/

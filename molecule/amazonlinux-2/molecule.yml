@@ -2,25 +2,41 @@
 platforms:
   - name: amazonlinux-2
     groups:
-      - vault_raft_servers
+      - amazonlinux-2
     image: dokken/amazonlinux-2
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-  - name: amazonlinux-2_repo
+  - name: amazonlinux-2-repo
     groups:
-      - vault_raft_servers
+      - amazonlinux-2-repo
+      - repo
     image: dokken/amazonlinux-2
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-
+  - name: amazonlinux-2-enterprise
+    groups:
+      - amazonlinux-2-enterprise
+      - enterprise
+    image: dokken/amazonlinux-2
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+  - name: amazonlinux-2-repo-enterprise
+    groups:
+      - amazonlinux-2-repo-enterprise
+      - repo
+      - enterprise
+    image: dokken/amazonlinux-2
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
 provisioner:
   inventory:
-    host_vars:
-      amazonlinux-2_repo:
-        vault_install_hashi_repo: true
-        vault_bin_path: /usr/bin
-        vault_group: vault
+    links:
+      group_vars: ../inventory/group_vars/
