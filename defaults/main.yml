@@ -283,7 +283,7 @@ validate_certs_during_api_reachable_check: true
 
 vault_tls_certs_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
 vault_tls_private_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
-vault_tls_src_files: "{{ lookup('env', 'VAULT_TLS_SRC_FILES') | default(role_path+'/files', true) }}"
+vault_tls_src_files: "{{ lookup('env', 'VAULT_TLS_SRC_FILES') | default(role_path ~ '/files', true) }}"
 
 vault_tls_disable: "{{ lookup('env', 'VAULT_TLS_DISABLE') | default(1, true) }}"
 vault_tls_gossip: "{{ lookup('env', 'VAULT_TLS_GOSSIP') | default(0, true) }}"
