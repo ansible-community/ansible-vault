@@ -29,7 +29,7 @@ storage "raft" {
   {% endif %}
   {% if not vault_raft_cloud_auto_join_exclusive %}
   {% for raft_peer in vault_raft_cluster_members | rejectattr('peer', 'equalto', inventory_hostname) %}
-    {% if not (vault_tls_disable | bool) %}
+    {% if not (vault_tls_disable | bool) and vault_tls_client_ca_file != "" %}
   retry_join {
     leader_api_addr = "{{ raft_peer.api_addr }}"
     {% if vault_raft_leader_tls_servername is defined %}
