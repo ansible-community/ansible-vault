@@ -213,7 +213,7 @@ vault_raft_cluster_members: |
     {
       "peer": "{{ server }}",
       "api_addr": "{{ hostvars[server]['vault_api_addr'] |
-      default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+      default(vault_protocol + '://' + hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}"
     },
   {% endfor %}
   ]
