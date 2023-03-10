@@ -395,6 +395,7 @@ vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for st
 vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
 
 # vault acme plugin
+vault_plugin_install: false
 vault_plugin_acme_install: remote  # remote / local
 vault_plugin_acme_sidecar_install: false
 vault_plugin_acme_version: "latest"
