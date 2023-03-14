@@ -95,6 +95,8 @@
 - name: Enable non root mlock capability
   become: true
   command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+  register: output
+  changed_when: output.rc != 0
   when: vault_mlock_capability is failed
 
 - name: Create directories
@@ -404,6 +406,7 @@
         VAULT_CACERT: "{{ lookup('env', 'VAULT_CACERT') |
                        default(vault_tls_config_path ~ '/' ~ vault_tls_ca_file if not (vault_tls_disable) else '', true) }}"
         VAULT_TOKEN: "{{ lookup('env', 'VAULT_TOKEN') | default(lookup('file', '~/.vault-token', errors='ignore'), true) }}"
+  when: vault_plugin_install | bool
 
 - name: Vault status
   debug:

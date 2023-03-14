@@ -213,7 +213,7 @@ vault_raft_cluster_members: |
     {
       "peer": "{{ server }}",
       "api_addr": "{{ hostvars[server]['vault_api_addr'] |
-      default(vault_protocol + '://' + hostvars[server]['ansible_' + vault_iface]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+      default(vault_protocol + '://' + hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}"
     },
   {% endfor %}
   ]
@@ -395,6 +395,7 @@ vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for st
 vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
 
 # vault acme plugin
+vault_plugin_install: false
 vault_plugin_acme_install: remote  # remote / local
 vault_plugin_acme_sidecar_install: false
 vault_plugin_acme_version: "latest"
