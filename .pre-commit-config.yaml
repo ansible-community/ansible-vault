@@ -1,0 +1,35 @@
+---
+repos:
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v2.1.1
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: check-json
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: pretty-format-json
+        args: [--autofix, --no-sort-keys]
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v6.14.2
+    hooks:
+      - id: ansible-lint
+
+  - repo: https://github.com/FalcoSuessgott/ansdoc
+    rev: v0.0.5
+    hooks:
+      - id: ansdoc-go
+        args: ["-i", "-f", "defaults/main.yml", "-o", "README.md"]

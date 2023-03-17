@@ -1,94 +1,162 @@
 ---
-# File: defaults/main.yml - default variables for Vault
 
-# ---------------------------------------------------------------------------
-# Core variables
-# ---------------------------------------------------------------------------
-
-# Package variables
+# Version to install
 vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.5.5', true) }}{{ '+prem' if vault_enterprise_premium else '' }}{{ '.hsm' if vault_enterprise_premium_hsm else '' }}"
+
+
 vault_architecture_map:
-  # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
   x86_64: amd64
   armv7l: arm
   aarch64: arm64
+
 vault_architecture: "{{ vault_architecture_map[ansible_architecture] }}"
 vault_os: "{{ ansible_system | lower }}"
+
+# Vault package filename
 vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+
+# SHA summaries filename (included for convenience not for modification)
 vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
+
+# Package download URL
 vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+
+# SHA summaries URL
 vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_SHA256SUMS"
+
+# Name of rhsm repo
 vault_repository_url: "{{ _vault_repository_url | default() }}"
 vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
+
+# Name of rhsm subscription
 vault_rhsm_subscription_name:
+
+# Name of rhsm repo
 vault_rhsm_repo_id:
 
-# Installation
+# Some installations may need some time between the first Vault start and the first restart.
+# Setting this to a value >0 will add a pause time after the first Vault start.
 vault_start_pause_seconds: 0
 
-# Install method variables
+# Set this to true when installing Vault via HashiCorp Linux repository.
+# When set, you can also define vault_repository_key_url and vault_repository_url to override the default URL of the GPG key for the repository
+# and the default URL of the repository used.
 vault_install_hashi_repo: false
+
+# Set this to true will download Vault binary from each target instead of localhost
 vault_install_remotely: false
+
+# Set this to true if you see permission errors when the vault files are downloaded and unpacked locally.
+# This issue can show up if the role has been downloaded by one user (like root), and the installation is done with a different user.
 vault_privileged_install: false
 
-# Paths
+# Binary installation path
 vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo) else '/usr/local/bin' }}"
+
+# Configuration file path
 vault_config_path: /etc/vault.d
+
+# Path from where plugins can be loaded
 vault_plugin_path: /usr/local/lib/vault/plugins
+
+# Data path
 vault_data_path: "{{ '/opt/vault/data' if (vault_install_hashi_repo) else '/var/vault' }}"
+
+# Log path
 vault_log_path: /var/log/vault
+
+# PID file location
 vault_run_path: /var/run/vault
+
 vault_home: "/home/{{ vault_user }}"
+
+# Whether this role should disallow Vault from writing into config and plugin path.
+# This should be enabled to follow Production Hardening.
 vault_harden_file_perms: true
 
-# System user and group
+# Should this role manage the vault user?
 vault_manage_user: "{{ false if (vault_install_hashi_repo) else true }}"
+
+# OS user name
 vault_user: vault
+
+# Should this role manage the vault group?
 vault_manage_group: false
+
+# OS group name
 vault_group: "{{ 'vault' if (vault_install_hashi_repo) else 'bin' }}"
+
+# OS additional groups as in ansibles user module
 vault_groups: null
 
 vault_dotfile: ".bashrc"
+
 vault_dotfile_disable: "{{ true if (vault_install_hashi_repo) else false }}"
 
-# Logging
+# Enable log to vault_log_path
 vault_enable_log: false
+
+# Enable logrotation for systemd based systems
 vault_enable_logrotate: false
+
+# Determines how frequently to rotate vault logs
 vault_logrotate_freq: 7
+
+# Logrotate template file
 vault_logrotate_template: vault_logrotate.j2
+
 vault_exec_output: ''
 
-# Handlers
+# Should the playbook restart Vault service when needed
 vault_service_restart: true
+
+# Should the playbook reload Vault service when the main config changes.
 vault_service_reload: false
 
-# ---------------------------------------------------------------------------
-# Vault variables
-# ---------------------------------------------------------------------------
-
+# Cluster name label
 vault_cluster_name: dc1
+
+# Datacenter label
 vault_datacenter: dc1
+
+# log level: Supported values: trace, debug, info, warn, err
 vault_log_level: "{{ lookup('env', 'VAULT_LOG_LEVEL') | default('info', true) }}"
+
+# Network interface, Can be overridden with VAULT_IFACE environment variable
 vault_iface: "{{ lookup('env', 'VAULT_IFACE') | default(ansible_default_ipv4.interface, true) }}"
+
+# Primary network interface address to use
 vault_address: "{{ hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address'] }}"
+
+# Enable vault web UI
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
+
+# TCP port number to on which to listen
 vault_port: 8200
 
-# seal configs are written in separate files in vault_config_path, if ony of those is enabled, we need to use vault_config_path in the systemD unit file
+# Use "{{ vault_config_path }}" to configure vault instead of "{{ vault_main_config }}"
 vault_use_config_path: "{{ vault_transit or vault_awskms or vault_azurekeyvault or vault_gkms | default(false) }}"
 
+# Main configuration file name (full path)
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
+
+# Vault main configuration template file
 vault_main_configuration_template: vault_main_configuration.hcl.j2
+
+# Set this to true if you enable listen vault on localhost
 vault_listener_localhost_enable: false
+
+# Address to be used as the proxy for HTTP and HTTPS requests unless overridden by vault_https_proxy or vault_no_proxy
 vault_http_proxy: ""
+
+# Address to be used as the proxy for HTTPS requests unless overridden by vault_no_proxy
 vault_https_proxy: ""
+
+# Comma separated values which specify hosts that should be exluded from proxying. Follows golang conventions
 vault_no_proxy: ""
 
-# ---------------------------------------------------------------------------
-# TCP listeners
-# ---------------------------------------------------------------------------
-
+# A list of tcp listeners. Each listener can define any of the listener specific variables described in further detail below.
 vault_tcp_listeners:
   - vault_address: '{{ vault_address }}'
     vault_port: '{{ vault_port }}'
@@ -110,57 +178,110 @@ vault_tcp_listeners:
     # vault_x_forwarded_for_reject_not_authorized: '{{ vault_x_forwarded_for_reject_not_authorized }}'
     # vault_x_forwarded_for_reject_not_present: '{{ vault_x_forwarded_for_reject_not_present }}'
 
-# ---------------------------------------------------------------------------
-# Storage backend
-# ---------------------------------------------------------------------------
 
+# Backend consul template filename
 vault_backend_consul: vault_backend_consul.j2
+
+# Backend file template filename
 vault_backend_file: vault_backend_file.j2
+
+# Backend raft integrated storage template filename
 vault_backend_raft: vault_backend_raft.j2
+
+
 vault_backend_etcd: vault_backend_etcd.j2
 vault_backend_s3: vault_backend_s3.j2
 vault_backend_dynamodb: vault_backend_dynamodb.j2
 vault_backend_mysql: vault_backend_mysql.j2
 vault_backend_gcs: vault_backend_gcs.j2
 
+# Disable HA clustering
 vault_cluster_disable: false
+
+# Address to bind to for cluster server-to-server requests
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1 }}"
+
+# Address to advertise to other Vault servers in the cluster for request forwarding
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
+
+# https://www.vaultproject.io/docs/concepts/ha.html#client-redirection
 vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
+
+# flag for disabling the health check on vaults api address
 vault_disable_api_health_check: false
 
+# Configures the maximum possible lease duration for tokens and secrets.
 vault_max_lease_ttl: "768h"
+
+# Configures the default lease duration for tokens and secrets.
 vault_default_lease_ttl: "768h"
 
-# Storage tls settings
+# User-specified source directory for TLS files for storage communication
 vault_backend_tls_src_files: "{{ vault_tls_src_files }}"
+
+# Path to directory containing backend tls certificate files
 vault_backend_tls_certs_path: "{{ vault_tls_certs_path }}"
+
+# Path to directory containing backend tls key files
 vault_backend_tls_private_path: "{{ vault_tls_private_path }}"
+
+# Specifies the path to the certificate for backend communication (if supported).
 vault_backend_tls_cert_file: "{{ vault_tls_cert_file }}"
+
+# Specifies the path to the private key for backend communication (if supported).
 vault_backend_tls_key_file: "{{ vault_tls_key_file }}"
+
+# CA certificate used for backend communication (if supported). This defaults to system bundle if not specified.
 vault_backend_tls_ca_file: "{{ vault_tls_ca_file }}"
 
-# Consul storage settings
+# host:port value for connecting to Consul HA backend
 vault_consul: 127.0.0.1:8500
+
+# Name of Vault's Consul K/V root path
 vault_consul_path: vault
+
+# Name of the Vault service to register in Consul
 vault_consul_service: vault
+
+# Scheme for Consul backend
 vault_consul_scheme: http
+
+
 # vault_consul_token:
 
-# etcd storage settings
+# Address of etcd storage
 vault_etcd: 127.0.0.1:2379
+
+# API version
 vault_etcd_api: v3
+
+# Path for Vault storage
 vault_etcd_path: /vault/
+
+# Discovery server
 vault_etcd_discovery_srv: ""
+
+# Discovery server name
 vault_etcd_discovery_srv_name: ""
+
+# Use storage for High Availability mode
 vault_etcd_ha_enabled: false
+
+# Use etcdsync
 vault_etcd_sync: true
+
+# Username
 vault_etcd_username: ""
+
+# Password
 vault_etcd_password: ""
+
+# Request timeout
 vault_etcd_request_timeout: "5s"
+
+# Lock timeout
 vault_etcd_lock_timeout: "15s"
 
-# s3 storage settings
 vault_s3_access_key: ""
 vault_s3_secret_key: ""
 vault_s3_bucket: "vault_backend"
@@ -172,7 +293,6 @@ vault_s3_kms_key_id: ""
 vault_s3_session_token: ""
 vault_s3_max_parallel: "128"
 
-# dynamodb storage settings
 vault_dynamodb: "{{ lookup('env', 'AWS_DYNAMODB_ENDPOINT') | default('', false) }}"
 vault_dynamodb_table: "{{ lookup('env', 'AWS_DYNAMODB_TABLE') | default('vault-dynamodb-backend', false) }}"
 vault_dynamodb_ha_enabled: "{{ lookup('env', 'DYNAMODB_HA_ENABLED') | default('false', false) }}"
@@ -184,7 +304,6 @@ vault_dynamodb_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') | default('', 
 vault_dynamodb_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') | default('', false) }}"
 vault_dynamodb_session_token: "{{ lookup('env', 'AWS_SESSION_TOKEN') | default('', false) }}"
 
-# mysql storage settings
 vault_mysql: ""
 vault_mysql_username: ""
 vault_mysql_password: ""
@@ -195,7 +314,6 @@ vault_mysql_max_parallel: ""
 vault_mysql_max_idle_connections: ""
 vault_mysql_max_connection_lifetime: ""
 
-# gcs storage settings
 vault_gcs_bucket: ""
 vault_gcs_ha_enabled: false
 vault_gcs_chunk_size: "8192"
@@ -204,9 +322,13 @@ vault_gcs_copy_sa: false
 vault_gcs_credentials_src_file: ""
 vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_file | basename }}"
 
-# raft storage settings
+# Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, and dynamodb
 vault_backend: raft
+
+# Inventory group name of servers hosting the raft backend
 vault_raft_group_name: "vault_raft_servers"
+
+# Members of the raft cluster
 vault_raft_cluster_members: |
   [
   {% for server in groups[vault_raft_group_name] %}
@@ -218,187 +340,368 @@ vault_raft_cluster_members: |
   {% endfor %}
   ]
 
+# Data path for Raft
 vault_raft_data_path: "{{ lookup('env', 'VAULT_RAFT_DATA_PATH') | default(vault_data_path, true) }}"
+
+# Node_id for Raft
 vault_raft_node_id: "{{ lookup('env', 'VAULT_RAFT_NODE_ID') | default(inventory_hostname_short, true) }}"
-# vault_raft_leader_tls_servername
-# vault_raft_performance_multiplier:
-# vault_raft_trailing_logs:
-# vault_raft_snapshot_threshold:
-# vault_raft_max_entry_size:
-# vault_raft_autopilot_reconcile_interval:
-# vault_raft_cloud_auto_join:
-# vault_raft_cloud_auto_join_scheme:
-# vault_raft_cloud_auto_join_port:
+
+# TLS servername to use when connecting with HTTPS
+vault_raft_leader_tls_servername:
+
+# Performance multiplier for Raft
+vault_raft_performance_multiplier:
+
+# Logs entries count left on log store after snapshot
+vault_raft_trailing_logs:
+
+# Minimum Raft commit entries between snapshots
+vault_raft_snapshot_threshold:
+
+# Maximum number of bytes for a Raft entry
+vault_raft_max_entry_size:
+
+# Interval after which autopilot will pick up any state changes
+vault_raft_autopilot_reconcile_interval:
+
+# Defines any cloud auto-join metadata. If supplied, Vault will attempt to automatically discover peers in addition to what can be provided via leader_api_addr
+vault_raft_cloud_auto_join:
+
+# URI scheme to be used for auto_join
+vault_raft_cloud_auto_join_scheme:
+
+# Port to be used for auto_join
+vault_raft_cloud_auto_join_port:
+
+# If set to true, any leader_api_addr occurences will be removed from the configuration. Keeping this to false will allow auto_join and leader_api_addr to coexist
 vault_raft_cloud_auto_join_exclusive: false
 
-# ---------------------------------------------------------------------------
-# Service registration variables
-# ---------------------------------------------------------------------------
-
-# Consul service registration settings
+# Enable Consul service registration
 vault_service_registration_consul_enable: false
-vault_service_registration_consul_template: vault_service_registration_consul.hcl.j2
-vault_service_registration_consul_check_timeout: 5s
-vault_service_registration_consul_address: 127.0.0.1:8500
-vault_service_registration_consul_service: vault
-vault_service_registration_consul_service_tags: ""
-vault_service_registration_consul_service_address:
-vault_service_registration_consul_disable_registration: false
-vault_service_registration_consul_scheme: http
-# vault_service_registration_consul_token:
 
-# Consul service registration tls settings
+# Consul service registration template filename
+vault_service_registration_consul_template: vault_service_registration_consul.hcl.j2
+
+# Specifies the check interval used to send health check information back to Consul.
+vault_service_registration_consul_check_timeout: 5s
+
+# host:port value for connecting to Consul service registration
+vault_service_registration_consul_address: 127.0.0.1:8500
+
+vault_service_registration_consul_service: vault
+
+# Specifies a comma-separated list of tags to attach to the service registration in Consul.
+vault_service_registration_consul_service_tags: ""
+
+# Specifies a service-specific address to set on the service registration in Consul.
+vault_service_registration_consul_service_address:
+
+# Specifies whether Vault should register itself with Consul.
+vault_service_registration_consul_disable_registration: false
+
+vault_service_registration_consul_scheme: http
+
+# ACL token for registering with Consul service registration
+vault_service_registration_consul_token:
+
+# path to tls certificate
 vault_service_registration_consul_tls_certs_path: "{{ vault_tls_certs_path }}"
+
+# path to tls key
 vault_service_registration_consul_tls_private_path: "{{ vault_tls_private_path }}"
+
+# Server certificate
 vault_service_registration_consul_tls_cert_file: "{{ vault_tls_cert_file }}"
+
+# Server key
 vault_service_registration_consul_tls_key_file: "{{ vault_tls_key_file }}"
+
 vault_service_registration_consul_tls_ca_file: "{{ vault_tls_ca_file }}"
 vault_service_registration_consul_tls_min_version: "{{ vault_tls_min_version }}"
 vault_service_registration_consul_tls_skip_verify: false
 
-# Kubernetes service registration settings
+# Enable Kubernetes service registration
 vault_service_registration_kubernetes_enable: false
+
+# Kubernetes service registration template filename
 vault_service_registration_kubernetes_template: vault_service_registration_kubernetes.hcl.j2
+
+# Kubernetes namespace to register
 vault_service_registration_kubernetes_namespace: vault
+
+# Kubernetes pod name to register
 vault_service_registration_kubernetes_pod_name: vault
 
-# ---------------------------------------------------------------------------
-# Initialization and startup script templates
-# ---------------------------------------------------------------------------
-
+# BSD init template file
 vault_bsdinit_template: vault_service_bsd_init.j2
+
+# SysV init template file
 vault_sysvinit_template: vault_sysvinit.j2
+
+# Debian init template file
 vault_debian_init_template: vault_service_debian_init.j2
+
+# Systemd service template file
 vault_systemd_template: vault_service_systemd.j2
+
+# Systemd service unit name
 vault_systemd_service_name: vault
+
 vault_systemd_unit_path: /lib/systemd/system
 
-# ---------------------------------------------------------------------------
-# TLS variables
-# ---------------------------------------------------------------------------
-
-# NB: at the end of the role there's a API Reachability check; if you rely on
-# self-signed certificates you might need to change the following to false
+# Disable Certificate Validation for API reachability check
 validate_certs_during_api_reachable_check: true
 
+# Path to TLS certificates
 vault_tls_certs_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
+
+# Path to TLS keys
 vault_tls_private_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
+
+# User-specified source directory for TLS files
 vault_tls_src_files: "{{ lookup('env', 'VAULT_TLS_SRC_FILES') | default(role_path ~ '/files', true) }}"
 
+# disable tls
 vault_tls_disable: "{{ lookup('env', 'VAULT_TLS_DISABLE') | default(1, true) }}"
+
+# Enable TLS Gossip to storage (if supported)
 vault_tls_gossip: "{{ lookup('env', 'VAULT_TLS_GOSSIP') | default(0, true) }}"
 
+# Copy TLS files from src to dest
 vault_tls_copy_keys: "{{ false if (vault_install_hashi_repo) else true }}"
+
 vault_protocol: "{% if vault_tls_disable %}http{% else %}https{% endif %}"
+
+# Server certificate
 vault_tls_cert_file: "{{ lookup('env', 'VAULT_TLS_CERT_FILE') | default(('tls.crt' if (vault_install_hashi_repo) else 'server.crt'), true) }}"
+
+# Server key
 vault_tls_key_file: "{{ lookup('env', 'VAULT_TLS_KEY_FILE') | default(('tls.key' if (vault_install_hashi_repo) else 'server.key'), true) }}"
+
+# CA certificate filename
 vault_tls_ca_file: "{{ lookup('env', 'VAULT_TLS_CA_CRT') | default('ca.crt', true) }}"
+
+# Client CA certificate filename
 vault_tls_client_ca_file: ""
 
+# Client CA certificate filename
 vault_tls_min_version: "{{ lookup('env', 'VAULT_TLS_MIN_VERSION') | default('tls12', true) }}"
+
+# Client CA certificate filename
 vault_tls_cipher_suites: ""
+
+# Copy from remote source if TLS files are already on host
 vault_tls_files_remote_src: false
+
+# Copy from remote source if TLS files are already on host
 vault_tls_require_and_verify_client_cert: false
+
+# Copy from remote source if TLS files are already on host
 vault_tls_disable_client_certs: false
 
-# ---------------------------------------------------------------------------
-# Seal variables
-# ---------------------------------------------------------------------------
-
-# transit auto unseal, see https://www.vaultproject.io/docs/configuration/seal/transit
+# Set to true to enable Vault Transit Auto-unseal
 vault_transit: false
+
+# Backend seal template filename
 vault_transit_backend: vault_seal_transit.j2
+
+# Destination configuration file
 vault_transit_config: "{{ vault_config_path }}/vault_transit.hcl"
+
+# Vault Address of the instance used for auto unseal
 vault_transit_address: ''
+
+# Token used to authenticate to the external vault instance
 vault_transit_token: ''
+
+# Wether to disable automatic token renewal
 vault_transit_disable_renewal: false
+
+# Name of the key used for auto unseal
 vault_transit_key_name: 'autounseal'
+
+# Path where the transit engine is mounted to
 vault_transit_mount_path: "transit/"
-# vault_transit_namespace: ''
+
+# Namespace of the mounted transit engine
+vault_transit_namespace: ''
+
+# CA Certificate of the external vault instance
 vault_transit_tls_ca_cert_file: "{{ vault_tls_ca_file }}"
+
+# Client Certificate of the external vault instance
 vault_transit_tls_client_cert_file: "autounseal_client_cert.pem"
+
+# Client Key of the external vault instance
 vault_transit_tls_client_key_file: "autounseal_client_key.pem"
-# vault_transit_tls_server_name: ''
+
+# TLS Servername of the external vault instance
+vault_transit_tls_server_name: ''
+
+# Wether to disable TLS certificate verification
 vault_transit_tls_skip_verify: "{{ lookup('env', 'VAULT_SKIP_VERIFY') | default('', false) }}"
 
-# awskms seal
+# Set to true to enable AWS KMS Auto-unseal
 vault_awskms: false
+
 vault_awskms_config: "{{ vault_config_path }}/vault_awskms.hcl"
+
+# Backend seal template filename
 vault_awskms_backend: vault_seal_awskms.j2
+
+# Which AWS KMS region to use
 vault_awskms_region: "{{ lookup('env', 'AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
+
+# The AWS Access Key to use for talking to AWS KMS
 vault_awskms_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') | default('', false) }}"
+
+# The AWS Secret Key ID to use for takling to AWS KMS
 vault_awskms_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') | default('', false) }}"
+
+# The KMS Key ID to use for AWS KMS
 vault_awskms_key_id: "{{ lookup('env', 'VAULT_AWSKMS_SEAL_KEY_ID') | default('', false) }}"
+
+# The endpoint to use for KMS
 vault_awskms_endpoint: "{{ lookup('env', 'AWS_KMS_ENDPOINT') | default('', false) }}"
 
-# azurekeyvault seal
+# Set to true to enable AZURE Key Vault Auto-unseal
 vault_azurekeyvault: false
+
+# Backend seal template filename
 vault_azurekeyvault_config: "{{ vault_config_path }}/vault_azurekeyvault.hcl"
+
 vault_azurekeyvault_backend: vault_seal_azurekeyvault.j2
 
-# gcpkms seal
+# Set to True to enable Google Cloud KMS Auto-Unseal.
 vault_gkms: false
+
+# Backend seal template filename
 vault_backend_gkms: vault_seal_gcpkms.j2
+
+# GCP Project where the key reside.
 vault_gkms_project: ''
+
+# User-specified source directory for GCP Credential on Ansible control node.
 vault_gkms_credentials_src_file: ''
+
+# User-specified GCP Credential file content.
 vault_gkms_credentials_content: ''
+
+# Path to GCP credential on Vault server.
 vault_gkms_credentials: '/home/vault/vault-kms.json'
+
+# GCP Region where the key reside.
 vault_gkms_region: 'global'
+
+# The id of the Google Cloud Platform KeyRing to which the key shall belong.
 vault_gkms_key_ring: 'vault'
+
+# The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
 vault_gkms_crypto_key: 'vault_key'
+
+# Copy GCP SA credentials file from Ansible control node to Vault server.
+# When not true and no value is specified for vault_gkms_credentials_src_file, the default instance service account credentials are used.
 vault_gkms_copy_sa: true
 
-# pkcs11 seal
+# # Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
 vault_enterprise_premium_hsm: false
-# WARNING: the following variable is deprecated as this section will become
-#          _only_ a pkcs11 seal soon. Please take note that vault_hsm_app will
-#          soon be removed!
+
+# Set which cryptography app to use.
 vault_hsm_app: pkcs11
+
+# Backend seal template filename
 vault_backend_seal: vault_seal_pkcs11.j2
+
+# Set to the absolute path of the HSM library vault will call
 vault_seal_lib: /lib64/hsmlibrary.so
+
+# The PIN for login. May also be specified by the VAULT_HSM_PIN environment variable.
+# If set via the environment variable, Vault will obfuscate the environment variable after reading it, and it will need to be re-set if Vault is restarted.
 vault_seal_pin: 12345
+
+# The label of the key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated key.
+# May also be specified by the VAULT_HSM_KEY_LABEL environment variable.
 vault_seal_key_label: vault-hsm-key
+
+# The label of the HMAC key to use. If the key does not exist and generation is enabled, this is the label that will be given to the generated HMAC key.
+# May also be specified by the VAULT_HSM_HMAC_KEY_LABEL environment variable.
 vault_seal_hmac_key_label: ''
+
+# If no existing key with the label specified by key_label can be found at Vault initialization time, instructs Vault to generate a key.
+# This is a boolean expressed as a string (e.g. "true").
+# May also be specified by the VAULT_HSM_GENERATE_KEY environment variable.
+# Vault may not be able to successfully generate keys in all circumstances, such as if proprietary vendor extensions are required to create keys of a suitable type.
 vault_seal_generate_key: false
+
+# Do not change this unles you know you need to.
+# The encryption/decryption mechanism to use, specified as a decimal or hexadecimal (prefixed by 0x) string.
+# May also be specified by the VAULT_HSM_MECHANISM environment variable.
 vault_seal_key_mechanism: ''
+
+# The slot token label to use. May also be specified by the VAULT_HSM_TOKEN_LABEL environment variable.
+# This label will only be applied when vault_softcard_enable is true.
 vault_seal_token_label: ''
+
+# The slot number to use, specified as a string (e.g. "0").
+# May also be specified by the VAULT_HSM_SLOT environment variable.
+# This label will only be applied when vault_softcard_enable is false (default).
 vault_seal_slot: 0
 vault_softcard_enable: false
 vault_telemetry_enabled: false
 vault_unauthenticated_metrics_access: false
+
+# Set to True to include entropy stanza which enables entropy augmentation for supported seals.
+# Supported Seal types include PKCS11, AWS KMS, and Vault Transit.
 vault_entropy_seal: false
 
-# ---------------------------------------------------------------------------
-# Enterprise related variables
-# ---------------------------------------------------------------------------
-
+# Set this to true when installing Vault Enterprise; this is not currently possible as a "remote only" install method
 vault_enterprise: "{{ lookup('env', 'VAULT_ENTERPRISE') | default(false, true) }}"
+
+# package filename
 vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+
+# SHA summaries filename (included for convenience not for modification)
 vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
+
+# Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
 vault_enterprise_premium: false
 
-# Manage enterprise license file with this role
+# Manage enterprise license file with this role. Set to true to use vault_license_path or vault_license_file.
 vault_configure_enterprise_license: false
-# Path to enterprise license on the remote host (destination path)
-# https://www.vaultproject.io/docs/configuration#license_path
+
+# Path to enterprise license on the remote host (destination path). license_path in the main configuration file.
+# Only used if vault_configure_enterprise_license: true.
 vault_license_path: "{{ vault_config_path }}/license.hclic"
-# Path to enterprise license on the Ansible controller (source file for upload)
-# Upload skipped when empty or undefined
+# Path to enterprise license on the Ansible controller (source file for upload).
+# Upload skipped when empty or undefined. Only used if vault_configure_enterprise_license: true.
 vault_license_file: ""
 
-# -----------------
-# Vault plugins
-# -----------------
+# List of plugins to enable (Check uner tasks/plugins to see supported plugins.)
 vault_plugins_enable: []
-vault_plugins_src_dir_remote: /usr/local/src/vault/plugins  # Directory for storing vault plugin src/zip files on target hosts
-vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for storing vault plugin src/zip files locally
-vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
 
-# vault acme plugin
+# Directory where temporary plugin zip/installation files are placed. When installation is processed remotely.
+vault_plugins_src_dir_remote: /usr/local/src/vault/plugins
+
+# Directory where temporary plugin zip/installation files are placed. When installation is processed locally.
+vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"
+
+# Whether to clean up the temporary plugin zip/installation file directory after plugin install.
+# Warning: When plugins don't provide a version number this could cause the plugins to be downloaded every time and thus breaking idempotence.
+vault_plugins_src_dir_cleanup: false
+
+
+# Setting this to remote will download the acme plugin to each target instead of copying it from localhost.
 vault_plugin_install: false
-vault_plugin_acme_install: remote  # remote / local
+
+# Setting this to remote will download the acme plugin to each target instead of copying it from localhost.
+vault_plugin_acme_install: remote
+
+# Whether to install vault acme sidecar for HTTP-01/TLS_ALPN_01 challenges in addition to DNS-01.
 vault_plugin_acme_sidecar_install: false
+
+# Version of the acme plugin to install, can be set to latest for obtaining the latest available version.
 vault_plugin_acme_version: "latest"
+
 vault_plugin_acme_zip: "{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_plugin_acme_release_url: "https://github.com/remilapeyre/vault-acme/releases/download/v{{ vault_plugin_acme_version }}"
 vault_plugin_acme_zip_sha256sum: "{{ (lookup('url', vault_plugin_acme_release_url ~ '/vault-acme_SHA256SUMS',
