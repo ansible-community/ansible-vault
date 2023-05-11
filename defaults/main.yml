@@ -46,7 +46,7 @@ vault_harden_file_perms: true
 vault_manage_user: "{{ false if (vault_install_hashi_repo) else true }}"
 vault_user: vault
 vault_manage_group: false
-vault_group: "{{ 'vault' if (vault_install_hashi_repo) else 'bin' }}"
+vault_group: "{{ 'bin' if (vault_install_hashi_repo) else 'vault' }}"
 vault_groups: null
 
 vault_dotfile: ".bashrc"
