@@ -1269,6 +1269,12 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 - Path to enterprise license on the Ansible controller (source file for upload). Upload skipped when empty or undefined. Only used if `vault_configure_enterprise_license: true`.
 - Default value: ""
 
+### `vault_license_reporting`
+
+- Opt out of automated License utilization reporting by setting this value to `false`. `vault_license_reporting=false` includes the necessary [`reporting`](https://developer.hashicorp.com/vault/docs/enterprise/license/utilization-reporting) stanza in the main configuration file.
+- The `reporting` stanza is only effective for Vault Enterprise >= `1.14.0`, Vault Enterprise >= `1.13.4`, Vault Enterprise >= `1.12.8`, Vault Enterprise >= `1.12.8` and  Vault Enterprise >= `1.11.12`. The `reporting` stanza is ignored (warning in the server log) in earlier Vault releases.
+- Default value: true
+
 ### `vault_hsm_app`
 
 - Set which cryptography app to use.
