@@ -393,6 +393,9 @@ vault_license_path: "{{ vault_config_path }}/license.hclic"
 # Path to enterprise license on the Ansible controller (source file for upload)
 # Upload skipped when empty or undefined
 vault_license_file: ""
+# Automated license utilization reporting
+# https://developer.hashicorp.com/vault/docs/enterprise/license/utilization-reporting
+vault_license_reporting: true
 
 # -----------------
 # Vault plugins

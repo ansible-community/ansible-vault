@@ -139,6 +139,16 @@ telemetry {
 license_path = "{{ vault_license_path }}"
 {% endif -%}
 
+{% if not (vault_license_reporting | bool) -%}
+reporting {
+  license {
+    # Opt out of automated license utilization reporting
+    # https://developer.hashicorp.com/vault/docs/enterprise/license/utilization-reporting
+    enabled = false
+  }
+}
+{% endif -%}
+
 {% if vault_custom_configuration is defined -%}
 {{ vault_custom_configuration }}
 {% endif -%}
