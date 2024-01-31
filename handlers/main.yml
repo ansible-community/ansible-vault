@@ -1,12 +1,88 @@
 ---
 # handlers file for vault
 
+- name: Identify leader
+  vars:
+    vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
+  environment:
+    no_proxy: "{{ vault_api_addr | urlsplit('hostname') }}"
+  uri:
+    validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
+    url: "{{ vault_api_addr }}/v1/sys/leader"
+    method: GET
+    body_format: json
+  register: result
+  when: 
+    - vault_service_restart | bool
+    - vault_rolling_service_restart | bool
+  listen: Restart vault
+
+- name: Show leader
+  debug:
+    msg: "leader"
+  when:
+    - result.json.is_self | bool
+    - vault_service_restart | bool
+    - vault_rolling_service_restart | bool
+  listen: Restart vault
+
+- name: Restart followers
+  become: true
+  service:
+    name: vault
+    state: restarted
+  when:
+    - not result.json.is_self | bool
+    - vault_service_restart | bool
+    - vault_rolling_service_restart | bool
+  listen: Restart vault
+
+- name: Wait for followers to become available again
+  vars:
+    vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
+  environment:
+    no_proxy: "{{ vault_api_addr | urlsplit('hostname') }}"
+  uri:
+    validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
+    url: "{{ vault_api_addr }}/v1/sys/health"
+    method: GET
+    # 200 if initialized, unsealed, and active
+    # 429 if unsealed and standby
+    # 472 if data recovery mode replication secondary and active
+    # 473 if performance standby
+    # See: https://www.vaultproject.io/api/system/health.html
+    status_code: 429, 472, 473
+    body_format: json
+  register: check_result
+  retries: 6
+  until: check_result is succeeded
+  delay: 10
+  changed_when: false
+  when:
+    - not result.json.is_self | bool
+    - vault_service_restart | bool
+    - vault_rolling_service_restart | bool
+  listen: Restart vault
+
+- name: Restart leader
+  become: true
+  service:
+    name: vault
+    state: restarted
+  when:
+    - result.json.is_self | bool
+    - vault_service_restart | bool
+    - vault_rolling_service_restart | bool
+  listen: Restart vault
+
 - name: Restart vault
   become: true
   service:
     name: '{{ vault_systemd_service_name }}'
     state: restarted
-  when: vault_service_restart | bool
+  when: 
+    - vault_service_restart | bool
+    - not vault_rolling_service_restart | bool
 
 - name: Reload vault
   become: true

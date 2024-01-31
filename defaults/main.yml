@@ -61,6 +61,7 @@ vault_exec_output: ''
 
 # Handlers
 vault_service_restart: true
+vault_rolling_service_restart: false
 vault_service_reload: false
 
 # ---------------------------------------------------------------------------

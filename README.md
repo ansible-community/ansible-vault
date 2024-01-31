@@ -279,6 +279,11 @@ The role defines variables in `defaults/main.yml`:
 - Should the playbook restart Vault service when needed
 - Default value: true
 
+### `vault_rolling_service_restart`
+
+- Following [HashiCorp's rolling upgrade manual](https://developer.hashicorp.com/vault/tutorials/standard-procedures/sop-upgrade#rolling-upgrade-procedure-for-upgrading-a-single-ha-cluster), restart followers before leader in cluster to minimize downtime
+- Default value: false
+
 ### `vault_service_reload`
 
 - Should the playbook reload Vault service when the main config changes.
