@@ -1,5 +1,5 @@
  # Vault
-[![Build Status](https://travis-ci.org/ansible-community/ansible-vault.svg?branch=master)](https://travis-ci.org/ansible-community/ansible-vault)
+[![Build Status](https://github.com/ansible-community/ansible-vault/actions/workflows/molecule.yml/badge.svg?branch=master)](https://github.com/ansible-community/ansible-vault/actions/workflows/molecule.yml?query=branch%3Amaster)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/ansible-community/ansible-vault.svg)](http://isitmaintained.com/project/ansible-community/ansible-vault "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/ansible-community/ansible-vault.svg)](http://isitmaintained.com/project/ansible-community/ansible-vault "Percentage of issues still open")
 
