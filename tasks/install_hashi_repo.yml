@@ -70,6 +70,7 @@
     name: "{{ _vault_repo_pkg }}"
     state: present
   become: true
+  notify: Restart vault
   vars:
     _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf']) %}\
                   vault-{{ vault_version }}\
