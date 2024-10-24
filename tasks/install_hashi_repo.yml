@@ -67,17 +67,9 @@
 
 - name: Ensure Enterprise package is not present when OSS is desired and vice versa
   package:
-    name: "{{ _vault_repo_pkg }}"
+    name: "{{ 'vault' ~ ('-enterprise' if not (vault_enterprise | bool) else '') }}"
     state: absent
   become: true
-  vars:
-    _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf']) %}\
-                  vault-{{ 'enterprise-' if not (vault_enterprise | bool) else '' }}{ vault_version }}\
-                {% elif (ansible_pkg_mgr == 'apt') %}\
-                  vault{{ '-enterprise' if not (vault_enterprise | bool) else '' }}={{ vault_version }}\
-                {% else %}\
-                  vault{{ '-enterprise' if not (vault_enterprise | bool) else '' }}={{ vault_version }}\
-                {% endif %}"
 
 - name: Install Vault package
   package:
