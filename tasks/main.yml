@@ -58,7 +58,6 @@
   when:
     - vault_enterprise | bool
     - not vault_install_remotely | bool
-    - not vault_install_remote_repo | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via control host
