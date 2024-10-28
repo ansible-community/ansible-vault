@@ -3,6 +3,27 @@
 - Add support for proxy configuration
 - Add support for system certificates with `vault_tls_certs_path` and `vault_tls_private_path`
 
+## v2.5.9
+- Add ability to install Vaul Enterprise via HashiCorp Repo
+- Removed check of non-existent variable
+- Update valt to v1.18.0
+
+## v2.5.8
+- Add vault_unauthenticated_metrics_access to listener
+
+## v2.5.7
+- Added support for useful options when running Vault behind a load balancer
+
+## v2.5.6
+- Fix systemd forking process bug that prevents to stop/restart vault properly
+- Use exec to replace the calling process which effectively nullify the forkin problem
+
+## v2.5.5
+- become_user vault_user when modifying files in vault_home
+
+## v2.5.4 
+- New installation instructions
+
 ## v2.5.3
 - Add Prometheus telemetry support (thanks @bbayszczak)
 - Add tag check_vault to to Vault status debug task (thanks @NorthFuture)
