@@ -6,7 +6,7 @@
 ## v2.5.9
 - Add ability to install Vaul Enterprise via HashiCorp Repo
 - Removed check of non-existent variable
-- Update valt to v1.18.0
+- Update Vault to v1.18.0
 
 ## v2.5.8
 - Add vault_unauthenticated_metrics_access to listener
