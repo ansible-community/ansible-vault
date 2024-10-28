@@ -97,13 +97,15 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: 1.5.5
+- Default value: 1.18.0
 
 ### `vault_enterprise`
 
 - Set this to true when installing Vault Enterprise; this is not currently
   possible as a "remote only" install method
   - Can be overridden with `VAULT_ENTERPRISE` environment variable
+- When vault_install_hashi_repo is *true* it will install Vault Enterprise via the
+  repo
 - Default value: *false*
 
 ### `vault_pkg`
@@ -1239,6 +1241,11 @@ The role can install Vault Enterprise based instances.
 Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
 variable. Attempts to download the package from `vault_zip_url` if zip is not found in files/.
+
+Since v2.5.9 of this role you can also install Vault Enterprise via the HashiCorp
+Repo. In order to install Vault Enterprise via the HashiCorp Repo set `vault_install_hashi_repo: true*` as well as `vault_enterprise: true`.
+
+**Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to *true* and vice versa. 
 
 ### `vault_enterprise_premium`
 
