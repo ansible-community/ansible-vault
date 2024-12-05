@@ -41,6 +41,7 @@ jobs:
       - name: molecule
         uses: gofrolist/molecule-action@v2
         with:
+          molecule_working_dir: .
           molecule_command: lint
           molecule_args: --scenario-name ${{ matrix.scenario }}
 
@@ -59,5 +60,6 @@ jobs:
       - name: molecule
         uses: gofrolist/molecule-action@v2
         with:
+          molecule_working_dir: .
           molecule_command: test
           molecule_args: --scenario-name ${{ matrix.scenario }}
