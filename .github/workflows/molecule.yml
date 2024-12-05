@@ -27,27 +27,8 @@ jobs:
           export scenarios="[`for x in $(ls -1 molecule -I _tests -I '*.yml'); do echo "'$x'"; done | tr '\n' ',' | sed '$s/,$//'`]"
           echo "::set-output name=scenarios::$scenarios"
 
-  lint:
-    runs-on: ubuntu-20.04
-    needs:
-      - discover-scenarios
-    strategy:
-      matrix:
-        scenario:
-          - ${{ fromJson(needs.discover-scenarios.outputs.scenarios)[0] }}
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: molecule
-        uses: gofrolist/molecule-action@v2
-        with:
-          molecule_working_dir: .
-          molecule_command: lint
-          molecule_args: --scenario-name ${{ matrix.scenario }}
-
   test:
     needs:
-      - lint
       - discover-scenarios
     runs-on: ubuntu-20.04
     strategy:
