@@ -7,7 +7,7 @@ This Ansible role performs a basic [Vault](https://vaultproject.io/)
 installation, including filesystem structure and example configuration.
 
 It can also bootstrap a minimal development or evaluation server or HA
-Consul-backed cluster in a Vagrant and VirtualBox based environment. See
+Consul-backed cluster in a Vagrant based environment. See
 [README_VAGRANT.md](https://github.com/ansible-community/ansible-vault/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/ansible-community/ansible-vault/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 ## Installation
@@ -1211,12 +1211,12 @@ ansible-playbook -i hosts site.yml --extra-vars "vault_backend_file=backend_file
 You need to make sure that the template file `backend_file.j2` is in the
 role directory for this to work.
 
-### Vagrant and VirtualBox
+### Vagrant
 
 See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
-under VirtualBox for testing, etc.
+for testing, etc.
 
-## example virtualBox playbook
+## example playbook
 example playbook for a file based  vault instance.
 
 ```
