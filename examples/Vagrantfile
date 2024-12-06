@@ -6,7 +6,7 @@
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
 BOX_MEM = ENV['BOX_MEM'] || "2048"
-BOX_NAME =  ENV['BOX_NAME'] || "debian/buster64"
+BOX_NAME =  ENV['BOX_NAME'] || "debian/bookworm64"
 VAULT_HOSTS = ENV['VAULT_HOSTS'] || "vagrant_hosts"
 LOGLEVEL = ENV['VAULT_LOGLEVEL'] || "info"
 VAGRANTFILE_API_VERSION = "2"
@@ -29,6 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     end
+    vault_config.vm.synced_folder '.', '/vagrant', disabled: true
     vault_config.vm.provision :ansible do |ansible|
       ansible.inventory_path = VAULT_HOSTS
       # Extra Ansible variables can be defined here
