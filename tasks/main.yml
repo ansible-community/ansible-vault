@@ -126,7 +126,7 @@
     dest: /etc/logrotate.d/vault
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: vault_enable_logrotate | bool
 
 - name: TLS configuration
@@ -342,7 +342,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
-    mode: 0600
+    mode: "0600"
   when:
     - not vault_dotfile_disable
     - ansible_os_family != 'Windows'
@@ -356,7 +356,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     create: true
-    mode: 0600
+    mode: "0600"
   when:
     - not vault_dotfile_disable
     - not vault_tls_disable | bool

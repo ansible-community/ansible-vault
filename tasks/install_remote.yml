@@ -14,7 +14,7 @@
   file:
     path: /tmp/vault
     state: directory
-    mode: 0750
+    mode: "0750"
 
 - name: Check Vault package file
   stat:
@@ -28,7 +28,7 @@
     dest: "/tmp/vault/{{ vault_pkg }}"
     checksum: "sha256:{{ (lookup('url', vault_checksum_file_url, wantlist=true) | select('match', '.*' + vault_pkg + '$') | first).split()[0] }}"
     timeout: "42"
-    mode: 0644
+    mode: "0644"
   tags: installation
   when: not vault_package.stat.exists | bool
 
