@@ -10,6 +10,12 @@ galaxy_info:
   platforms:
     - name: Amazon Linux 2
     - name: ArchLinux
+    - name: AlmaLinux
+      versions:
+        - '9'
+    - name: CentOS Stream
+      versions:
+        - '9'
     - name: Debian
       versions:
         - bullseye
@@ -19,6 +25,7 @@ galaxy_info:
         - '9'
     - name: Ubuntu
       versions:
+        - focal
         - jammy
         - noble
 
