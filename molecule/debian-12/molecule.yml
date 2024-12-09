@@ -3,7 +3,7 @@ platforms:
   - name: debian-12
     groups:
       - vault_raft_servers
-    image: dokken/debian-12
+    image: ghcr.io/hspaans/molecule-containers:debian-12
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
