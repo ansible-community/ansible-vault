@@ -8,24 +8,19 @@ galaxy_info:
   min_ansible_version: '2.7'
 
   platforms:
-    - name: Amazon
     - name: Amazon Linux 2
     - name: ArchLinux
     - name: Debian
       versions:
-        - stretch
-        - buster
         - bullseye
-    - name: EL
+        - bookworm
+    - name: EL / Rocky Linux
       versions:
-        - '7'
-        - '8'
         - '9'
     - name: Ubuntu
       versions:
-        - bionic
-        - focal
         - jammy
+        - noble
 
   galaxy_tags:
     - networking
