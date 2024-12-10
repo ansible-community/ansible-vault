@@ -72,11 +72,11 @@
   become: true
   vars:
     _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf']) %}\
-                  vault-{{ vault_version }}\
+                  vault-{{ vault_version }}{{ vault_version_repo_suffix }}\
                 {% elif (ansible_pkg_mgr == 'apt') %}\
-                  vault={{ vault_version }}\
+                  vault={{ vault_version }}{{ vault_version_repo_suffix }}\
                 {% else %}\
-                  vault={{ vault_version }}\
+                  vault={{ vault_version }}{{ vault_version_repo_suffix }}\
                 {% endif %}"
 
 - name: Mask default Vault config from package
