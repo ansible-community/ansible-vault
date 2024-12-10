@@ -8,7 +8,7 @@
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: 0700
+    mode: "0700"
   with_items:
     - "{{ vault_backend_tls_certs_path }}"
     - "{{ vault_backend_tls_private_path }}"

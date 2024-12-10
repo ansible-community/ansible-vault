@@ -1,17 +1,17 @@
 ---
 platforms:
-  - name: rockylinux-8
+  - name: ubuntu-24.04
     groups:
       - vault_raft_servers
-    image: dokken/rockylinux-8
+    image: dokken/ubuntu-24.04
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-  - name: rockylinux-8_repo
+  - name: ubuntu-24.04_repo
     groups:
       - vault_raft_servers
-    image: dokken/rockylinux-8
+    image: dokken/ubuntu-24.04
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
@@ -20,7 +20,7 @@ platforms:
 provisioner:
   inventory:
     host_vars:
-      rockylinux-8_repo:
+      ubuntu-24.04_repo:
         vault_install_hashi_repo: true
         vault_bin_path: /usr/bin
         vault_group: vault

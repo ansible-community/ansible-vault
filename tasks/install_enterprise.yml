@@ -44,7 +44,7 @@
     dest: "{{ role_path }}/files/{{ vault_enterprise_pkg }}"
     checksum: sha256:{{ vault_sha256.stdout }}
     timeout: 42
-    mode: 0644
+    mode: "0644"
   become: false
   run_once: true
   tags: installation

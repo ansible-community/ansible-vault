@@ -6,7 +6,9 @@
 # ---------------------------------------------------------------------------
 
 # Package variables
-vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.0', true) }}{{ '+prem' if vault_enterprise_premium else '' }}{{ '.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version_suffix: "{{ '+prem' if vault_enterprise_premium else '' }}{{ '.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.2', true) }}{{ vault_version_suffix }}"
+vault_version_repo_suffix: "-1"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -126,7 +128,8 @@ vault_backend_gcs: vault_backend_gcs.j2
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1 }}"
 vault_cluster_addr: "{{ vault_protocol }}://{{ vault_cluster_address }}"
-vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address | default(hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
+vault_api_addr: "{{ vault_protocol }}://{{ vault_redirect_address |
+  default(hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address']) }}:{{ vault_port }}"
 vault_disable_api_health_check: false
 
 vault_max_lease_ttl: "768h"
@@ -213,7 +216,8 @@ vault_raft_cluster_members: |
     {
       "peer": "{{ server }}",
       "api_addr": "{{ hostvars[server]['vault_api_addr'] |
-      default(vault_protocol + '://' + hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}"
+      default(vault_protocol + '://' +
+      hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}"
     },
   {% endfor %}
   ]

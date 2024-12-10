@@ -1,0 +1,17 @@
+---
+name: Ansible Lint
+on:
+  push:
+    tags_ignore:
+      - '*'
+  pull_request:
+jobs:
+  run:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main
+        with:
+          requirements_file: molecule/requirements.yml
