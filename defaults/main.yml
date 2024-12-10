@@ -8,7 +8,7 @@
 # Package variables
 vault_version_suffix: "{{ '+prem' if vault_enterprise_premium else '' }}{{ '.hsm' if vault_enterprise_premium_hsm else '' }}"
 vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.2', true) }}{{ vault_version_suffix }}"
-vault_version_repo_suffix: "-1"
+vault_version_repo_suffix: "{{ '+ent' if vault_enterprise }}-1"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
