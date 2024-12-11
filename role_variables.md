@@ -19,8 +19,7 @@ The role defines variables in `defaults/main.yml`:
 
 - Version to install
   - Can be overridden with `VAULT_VERSION` environment variable
-  - Will include "+prem" if vault_enterprise_premium=True
-  - Will include ".hsm" if vault_enterprise_premium_hsm=True
+  - Will include ".hsm" if vault_enterprise_hsm=True
 
 - Default value: 1.5.5
 
@@ -1123,18 +1122,13 @@ Since v2.5.9 of this role you can also install Vault Enterprise via the HashiCor
 
 **Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to *true* and vice versa. 
 
-## `vault_enterprise_premium`
-
-- Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
-- Default value: *False*
-
 # Vault Enterprise with HSM
 
 The role can configure HSM based instances. Make sure to reference the [HSM support page](https://www.vaultproject.io/docs/configuration/seal/index.html) and take notice of the [behavior changes](https://www.vaultproject.io/docs/enterprise/hsm/behavior.html#initialization) after HSM is installed.
 
-## `vault_enterprise_premium_hsm`
+## `vault_enterprise_hsm`
 
-- Set to True if using premium hsm binary. Basically just includes ".hsm" in "vault_version" var
+- Set to True if using hsm binary. Basically just includes ".hsm" in "vault_version" var
 - Default value: false
 
 ## `vault_configure_enterprise_license`

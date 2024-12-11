@@ -103,7 +103,7 @@ ui = {{ vault_ui | bool | lower }}
   {% include 'vault_entropy_seal.j2' with context %}
 {% endif %}
 
-{% if vault_enterprise_premium_hsm | bool -%}
+{% if vault_enterprise_hsm | bool -%}
   {% include vault_backend_seal with context %}
 {% endif %}
 
