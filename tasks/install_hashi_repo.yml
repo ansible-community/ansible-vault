@@ -84,6 +84,7 @@
                 {% else %}\
                   vault{{ '-enterprise' if (vault_enterprise | bool) else '' }}={{ vault_version }}{{ vault_version_repo_suffix }}\
                 {% endif %}"
+  notify: Restart vault
 
 - name: Mask default Vault config from package
   become: true
