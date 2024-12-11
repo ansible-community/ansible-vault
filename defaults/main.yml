@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------
 
 # Package variables
-vault_version_suffix: "{{ '+prem' if vault_enterprise_premium else '' }}{{ '.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version_suffix: "{{ '.hsm' if vault_enterprise_hsm else '' }}"
 vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.2', true) }}{{ vault_version_suffix }}"
 vault_version_repo_suffix: "{{ '+ent' if vault_enterprise }}-1"
 vault_architecture_map:
@@ -361,7 +361,7 @@ vault_ocikms_crypto_endpoint: "{{ lookup('env','VAULT_OCIKMS_CRYPTO_ENDPOINT') |
 vault_ocikms_management_endpoint: "{{ lookup('env','VAULT_OCIKMS_MANAGEMENT_ENDPOINT') | default('', false) }}"
 
 # pkcs11 seal
-vault_enterprise_premium_hsm: false
+vault_enterprise_hsm: false
 # WARNING: the following variable is deprecated as this section will become
 #          _only_ a pkcs11 seal soon. Please take note that vault_hsm_app will
 #          soon be removed!
@@ -387,7 +387,6 @@ vault_entropy_seal: false
 vault_enterprise: "{{ lookup('env', 'VAULT_ENTERPRISE') | default(false, true) }}"
 vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
-vault_enterprise_premium: false
 
 # Manage enterprise license file with this role
 vault_configure_enterprise_license: false
