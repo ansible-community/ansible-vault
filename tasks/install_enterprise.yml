@@ -6,6 +6,7 @@
   package:
     name: "{{ vault_os_packages }}"
     state: present
+    update_cache: true
   tags: installation
 
 - name: "[Enterprise] Check vault_enterprise_shasums (local)"
