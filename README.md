@@ -75,6 +75,10 @@ to load any new configuration deployed.
 
 ## [Role Variables](role_variables.md)
 
+## Misc
+
+### [Vault Release Scheme](vault_releases.md)
+
 ## License
 
 BSD-2-Clause

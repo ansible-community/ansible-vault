@@ -6,9 +6,12 @@
 # ---------------------------------------------------------------------------
 
 # Package variables
-vault_version_suffix: "{{ '.hsm' if vault_enterprise_hsm else '' }}"
-vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.2', true) }}{{ vault_version_suffix }}"
-vault_version_repo_suffix: "{{ '+ent' if vault_enterprise }}-1"
+vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.2', true) }}"
+
+vault_version_release_site_suffix: "{{ '+ent' if vault_enterprise }}{{ '.hsm' if vault_enterprise_hsm }}"
+vault_version_repo_suffix: "{{ '+ent' if vault_enterprise }}"
+vault_version_debian_repo_suffix: "-1"
+
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -17,10 +20,13 @@ vault_architecture_map:
   aarch64: arm64
 vault_architecture: "{{ vault_architecture_map[ansible_architecture] }}"
 vault_os: "{{ ansible_system | lower }}"
-vault_pkg: "vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
-vault_shasums: "vault_{{ vault_version }}_SHA256SUMS"
-vault_zip_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
-vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_SHA256SUMS"
+
+vault_pkg_stub: "vault_{{ vault_version }}{{ vault_version_release_site_suffix }}"
+vault_pkg: "{{ vault_pkg_stub }}_{{ vault_os }}_{{ vault_architecture }}.zip"
+vault_shasums: "{{ vault_pkg_stub }}_SHA256SUMS"
+vault_url_stub: "https://releases.hashicorp.com/vault/{{ vault_version }}{{ vault_version_release_site_suffix }}"
+vault_zip_url: "{{ vault_url_stub }}/{{ vault_pkg }}"
+vault_checksum_file_url: "{{ vault_url_stub }}/{{ vault_shasums }}"
 vault_repository_url: "{{ _vault_repository_url | default() }}"
 vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
 vault_rhsm_subscription_name:
@@ -385,8 +391,6 @@ vault_entropy_seal: false
 # ---------------------------------------------------------------------------
 
 vault_enterprise: "{{ lookup('env', 'VAULT_ENTERPRISE') | default(false, true) }}"
-vault_enterprise_pkg: "vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"
-vault_enterprise_shasums: "vault-enterprise_{{ vault_version }}_SHA256SUMS"
 
 # Manage enterprise license file with this role
 vault_configure_enterprise_license: false

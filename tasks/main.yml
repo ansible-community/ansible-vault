@@ -51,20 +51,11 @@
 
 - name: Compute if installation is required
   set_fact:
-    installation_required: "{{ vault_installation is failed or installed_vault_version.stdout != vault_version }}"
-
-- name: Install OS packages and Vault Enterprise via control host
-  include_tasks: install_enterprise.yml
-  when:
-    - vault_enterprise | bool
-    - not vault_install_remotely | bool
-    - not vault_install_hashi_repo | bool
-    - installation_required | bool
+    installation_required: "{{ vault_installation is failed or installed_vault_version.stdout != vault_version~('+ent' if vault_enterprise) }}"
 
 - name: Install OS packages and Vault via control host
   include_tasks: install.yml
   when:
-    - not vault_enterprise | bool
     - not vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
     - installation_required | bool
