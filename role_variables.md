@@ -1119,6 +1119,10 @@ Place the Vault Enterprise zip archive into `{{ role_path }}/files` and set
 `vault_enterprise: true` or use the `VAULT_ENTERPRISE="true"` environment
 variable. Attempts to download the package from `vault_zip_url` if zip is not found in files/.
 
+Since v2.5.9 of this role you can also install Vault Enterprise via the HashiCorp Repo. In order to install Vault Enterprise via the HashiCorp Repo, set `vault_install_hashi_repo: true*` as well as `vault_enterprise: true`.
+
+**Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to *true* and vice versa. 
+
 ## `vault_enterprise_premium`
 
 - Set to True if using premium binary. Basically just includes "+prem" in "vault_version" var
