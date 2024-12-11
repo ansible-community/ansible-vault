@@ -3,7 +3,7 @@
 - Add support for proxy configuration
 - Add support for system certificates with `vault_tls_certs_path` and `vault_tls_private_path`
 
-## v2.5.9 - WIP
+## v2.5.9
 - Add ability to install Vault Enterprise via HashiCorp Repo
 - Removed check of non-existent variable "vault_install_remote_repo" in tasks/main.yml
 - Bumped Vault version to v1.18.2
