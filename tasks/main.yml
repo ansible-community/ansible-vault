@@ -101,7 +101,7 @@
     - path: "{{ vault_config_path }}"
       mode: "{{ vault_harden_file_perms | ternary('0550', '0750') }}"
     - path: "{{ vault_plugin_path }}"
-      mode: "{{ vault_harden_file_perms | ternary('0550', '0750') }}"
+      mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
     - path: "{{ vault_data_path }}"
       mode: "0750"
     - path: "{{ vault_log_path }}"
@@ -140,7 +140,7 @@
     dest: "{{ vault_gkms_credentials }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0600"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
   when:
     - vault_gkms | bool
     - vault_gkms_credentials_content | length > 0 or
@@ -152,7 +152,7 @@
     dest: "{{ vault_gcs_credentials_dst_file }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0600"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
   when:
     - vault_backend == "gcs"
     - vault_gcs_copy_sa | bool
@@ -164,7 +164,7 @@
     dest: "{{ vault_main_config }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0400"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
   notify:
     - Restart vault
@@ -177,7 +177,7 @@
     dest: "{{ vault_transit_config }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0400"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
   when: vault_transit | bool
   notify: Restart vault
@@ -189,7 +189,7 @@
     dest: "{{ vault_awskms_config }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0400"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
   when: vault_awskms | bool
   notify: Restart vault
@@ -201,7 +201,7 @@
     dest: "{{ vault_azurekeyvault_config }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0400"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
   when: vault_azurekeyvault | bool
   notify: Restart vault
@@ -213,7 +213,7 @@
     dest: "{{ vault_license_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0644"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0644') }}"
   when:
     - vault_configure_enterprise_license | bool
     - vault_license_file | length > 0

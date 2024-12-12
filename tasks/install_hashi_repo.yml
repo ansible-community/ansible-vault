@@ -91,7 +91,7 @@
   copy:
     owner: root
     group: root
-    mode: "0644"
+    mode: "{{ vault_harden_file_perms | ternary('0444', '0644') }}"
     dest: /etc/vault.d/vault.hcl
     content: |
       # Placeholder to mask default RPM/DPKG Vault config file.
@@ -100,3 +100,13 @@
       # in this directory. Keeping an empty placeholder prevents package updates
       # from re-installing the default config.
   when: ansible_pkg_mgr in ['yum', 'dnf', 'apt']
+
+- name: Harden binary perms
+  become: true
+  ansible.builtin.file:
+    path: "{{ vault_bin_path }}/vault"
+    mode: "0755" # Package default is 0775
+    owner: root # Package default
+    group: root # Package default
+  when: vault_harden_file_perms
+
