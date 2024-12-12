@@ -15,4 +15,3 @@ jobs:
         uses: ansible/ansible-lint@main
         with:
           requirements_file: molecule/requirements.yml
-

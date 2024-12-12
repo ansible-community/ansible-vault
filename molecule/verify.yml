@@ -28,7 +28,7 @@
         register: download_goss
         until: download_goss is succeeded
         retries: 3
-  
+
       - name: Copy Goss tests to remote
         template:
           src: "{{ item }}"
@@ -36,12 +36,12 @@
           mode: 0644
         with_fileglob:
           - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/_tests/test_*.j2"
-  
+
       - name: Register test files
         shell: "ls {{ goss_test_directory }}/test_*.yml"
         changed_when: false
         register: test_files
-  
+
       - name: Execute Goss tests
         environment:
           # yamllint disable-line rule:line-length
@@ -50,15 +50,14 @@
         changed_when: false
         register: test_results
         with_items: "{{ test_files.stdout_lines }}"
-  
+
       - name: Display details about the Goss results
         debug:
           msg: "{{ item.stdout_lines }}"
         with_items: "{{ test_results.results }}"
-  
+
       - name: Fail when tests fail
         fail:
           msg: "Goss failed to validate"
         when: item.rc != 0
         with_items: "{{ test_results.results }}"
-
