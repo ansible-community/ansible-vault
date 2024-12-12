@@ -22,7 +22,7 @@
 ## v2.5.5
 - become_user vault_user when modifying files in vault_home
 
-## v2.5.4 
+## v2.5.4
 - New installation instructions
 
 ## v2.5.3

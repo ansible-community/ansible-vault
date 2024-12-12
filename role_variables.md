@@ -1120,7 +1120,7 @@ variable. Attempts to download the package from `vault_zip_url` if zip is not fo
 
 Since v2.5.9 of this role you can also install Vault Enterprise via the HashiCorp Repo. In order to install Vault Enterprise via the HashiCorp Repo, set `vault_install_hashi_repo: true*` as well as `vault_enterprise: true`.
 
-**Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to *true* and vice versa. 
+**Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to *true* and vice versa.
 
 # Vault Enterprise with HSM
 
