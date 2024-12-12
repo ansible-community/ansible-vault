@@ -110,3 +110,19 @@
     group: root # Package default
   when: vault_harden_file_perms
 
+- name: Delete vault.env
+  become: true
+  ansible.builtin.file:
+    state: absent
+    path: /etc/vault.d/vault.env
+  when: vault_harden_file_perms
+
+- name: Delete default certs
+  become: true
+  ansible.builtin.file:
+    state: absent
+    path: /opt/vault/tls/{{ item }}
+  with_items:
+    - tls.crt
+    - tls.key
+  when: vault_tls_disable or vault_tls_copy_keys
