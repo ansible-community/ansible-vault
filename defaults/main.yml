@@ -292,7 +292,8 @@ vault_systemd_unit_path: /lib/systemd/system
 validate_certs_during_api_reachable_check: true
 
 vault_tls_certs_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
-vault_tls_private_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
+_vault_tls_private_path: "{{ lookup('env', 'VAULT_TLS_DIR') | default(('/opt/vault/tls' if (vault_install_hashi_repo) else '/etc/vault/tls'), true) }}"
+vault_tls_private_path: "{{ _vault_tls_private_path ~ ('/private' if vault_harden_file_perms and vault_tls_copy_keys) }}"
 vault_tls_src_files: "{{ lookup('env', 'VAULT_TLS_SRC_FILES') | default(role_path ~ '/files', true) }}"
 
 vault_tls_disable: "{{ lookup('env', 'VAULT_TLS_DISABLE') | default(true, true) }}"

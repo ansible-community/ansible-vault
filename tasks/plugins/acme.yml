@@ -51,7 +51,9 @@
         remote_src: "{{ (vault_plugin_acme_install == 'remote') }}"
         src: "{{ __vault_plugin_acme_zip_dir.path }}/{{ item.src }}"
         dest: "{{ item.dest }}"
-        mode: "+x"
+        mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
+        owner: "{{ vault_user }}"
+        group: "{{ vault_group }}"
       when: (item.when | default(true))
       loop:
         - src: "acme-plugin"

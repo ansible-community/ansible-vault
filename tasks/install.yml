@@ -60,7 +60,7 @@
     dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0755"
+    mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
   notify: Restart vault
   tags: installation
 

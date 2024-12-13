@@ -4,15 +4,25 @@
 - name: Create TLS directory
   become: true
   file:
-    dest: "{{ item }}"
+    dest: "{{ vault_tls_certs_path }}"
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
-    mode: "0750"
-  with_items:
-    - "{{ vault_tls_certs_path }}"
-    - "{{ vault_tls_private_path }}"
+    mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
   when: vault_tls_copy_keys | bool
+  tags:
+    - tls
+
+- name: Create private TLS directory
+  file:
+    dest: "{{ vault_tls_private_path }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "{{ vault_harden_file_perms | ternary('0500', '0700') }}"
+  when:
+    - vault_tls_copy_keys | bool
+    - vault_tls_certs_path != vault_tls_private_path
   tags:
     - tls
 
@@ -28,13 +38,13 @@
   with_items:
     - src: "{{ vault_tls_src_files }}/{{ vault_tls_ca_file }}"
       dest: "{{ vault_tls_certs_path }}/{{ vault_tls_ca_file }}"
-      mode: "0644"
+      mode: "{{ vault_harden_file_perms | ternary('0444', '0644') }}"
     - src: "{{ vault_tls_src_files }}/{{ vault_tls_cert_file }}"
       dest: "{{ vault_tls_certs_path }}/{{ vault_tls_cert_file }}"
-      mode: "0644"
+      mode: "{{ vault_harden_file_perms | ternary('0444', '0644') }}"
     - src: "{{ vault_tls_src_files }}/{{ vault_tls_key_file }}"
       dest: "{{ vault_tls_private_path }}/{{ vault_tls_key_file }}"
-      mode: "0600"
+      mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
   when: vault_tls_copy_keys | bool
   notify:
     - Restart vault
