@@ -3,6 +3,9 @@
     "main",
     "master"
   ],
+  "overrides": {
+    "conventional-changelog-conventionalcommits": ">= 8.0.0"
+  },
   "ci": false,
   "plugins": [
     [
