@@ -1,4 +1,5 @@
 name: Semantic Releaser
+
 on:
   push:
     branches:
@@ -21,6 +22,6 @@ jobs:
           extra_plugins: |
             @semantic-release/changelog@6.0.0
             @semantic-release/git@10.0.0
-            conventional-changelog-conventionalcommits@4.6.3
+            conventional-changelog-conventionalcommits@8.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
