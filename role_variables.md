@@ -816,6 +816,18 @@ available starting at Vault version 1.4.
 - Comma separated values which specify hosts that should be exluded from proxying.  Follows [golang conventions](https://godoc.org/golang.org/x/net/http/httpproxy)
 - Default value: `""`
 
+## `vault_additional_environment_variables`
+
+- Dict of items of type `Dict[str, str]` to add additional environment variables to the systemd service
+- Default value: `{}`
+
+Example:
+
+```yaml
+vault_additional_environment_variables:
+  FOO: bar
+```
+
 ## `vault_cluster_address`
 
 - Address to bind to for cluster server-to-server requests
