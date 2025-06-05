@@ -21,7 +21,6 @@ vault_architecture_map:
 vault_architecture: "{{ vault_architecture_map[ansible_architecture] }}"
 vault_os: "{{ ansible_system | lower }}"
 
-vault_manage_hashi_repo: true
 vault_pkg_stub: "vault_{{ vault_version }}{{ vault_version_release_site_suffix }}"
 vault_pkg: "{{ vault_pkg_stub }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_shasums: "{{ vault_pkg_stub }}_SHA256SUMS"
@@ -38,6 +37,7 @@ vault_start_pause_seconds: 0
 
 # Install method variables
 vault_install_hashi_repo: false
+vault_manage_hashi_repo: true
 vault_install_remotely: false
 vault_privileged_install: false
 
