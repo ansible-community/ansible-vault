@@ -61,6 +61,11 @@ The role defines variables in `defaults/main.yml`:
   repository used.
 - Default value: *false*
 
+## `vault_manage_hashi_repo`
+
+- Should this role manage the vault repo?
+- Default value: `true`
+
 ## `vault_rhsm_repo_id`
 
 - Name of rhsm repo
