@@ -3,7 +3,7 @@
 #       Install Vault via HashiCorp Linux repository
 
 - name: Manage Vault/Hashicorp repo
-  when: vault_manage_repo
+  when: vault_manage_hashi_repo
   become: true
   block:
     - name: Add Vault/Hashicorp rpm repo
