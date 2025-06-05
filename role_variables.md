@@ -63,7 +63,7 @@ The role defines variables in `defaults/main.yml`:
 
 ## `vault_manage_hashi_repo`
 
-- Should this role manage the vault repo?
+- Should this role manage the vault repo? Set to `false` if you don't want this role to manage HashiCorp repo on target machine.
 - Default value: `true`
 
 ## `vault_rhsm_repo_id`
