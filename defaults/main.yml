@@ -37,6 +37,7 @@ vault_start_pause_seconds: 0
 
 # Install method variables
 vault_install_hashi_repo: false
+vault_manage_hashi_repo: true
 vault_install_remotely: false
 vault_privileged_install: false
 
