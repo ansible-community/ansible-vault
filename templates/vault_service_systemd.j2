@@ -21,9 +21,9 @@ PrivateDevices=yes
 SecureBits=keep-caps
 Capabilities=CAP_IPC_LOCK+ep
 {% if systemd_version.stdout is version('230', '>=') %}
-AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
+AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK {{ "CAP_NET_BIND_SERVICE" if vault_port < 1024 }}
 {% endif %}
-CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK {{ "CAP_NET_BIND_SERVICE" if vault_port < 1024 }}
 NoNewPrivileges=yes
 {% if vault_gcs_copy_sa and vault_gcs_credentials_src_file is defined and vault_gcs_credentials_dst_file|length -%}
 Environment=GOOGLE_APPLICATION_CREDENTIALS={{ vault_gcs_credentials_dst_file }}
