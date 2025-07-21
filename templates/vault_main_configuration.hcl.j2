@@ -123,6 +123,9 @@ telemetry {
   {% if vault_statsd_address is defined %}
   statsd_address = "{{vault_statsd_address}}"
   {% endif -%}
+  {% if vault_dogstatsd_address is defined %}
+  dogstatsd_addr = "{{vault_dogstatsd_address}}"
+  {% endif -%}
   {% if vault_prometheus_retention_time is defined %}
   prometheus_retention_time = "{{ vault_prometheus_retention_time }}"
   {% endif -%}
