@@ -402,8 +402,13 @@ vault_configure_enterprise_license: false
 # https://www.vaultproject.io/docs/configuration#license_path
 vault_license_path: "{{ vault_config_path }}/license.hclic"
 # Path to enterprise license on the Ansible controller (source file for upload)
-# Upload skipped when empty or undefined
+# Upload skipped when empty or undefined, if `vault_license_file` is also empty or undefined
+# Only used if `vault_configure_enterprise_license: true`
 vault_license_file: ""
+# Value of the enterprise license to use
+# Upload skipped when empty or undefined, if `vault_license_file` is also empty or undefined
+# Only used if `vault_configure_enterprise_license: true`
+vault_license_content: ""
 
 # -----------------
 # Vault plugins
