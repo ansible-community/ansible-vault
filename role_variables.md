@@ -1128,7 +1128,7 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 ## `vault_configure_enterprise_license`
 
-- Manage enterprise license file with this role. Set to `true` to use `vault_license_path` or `vault_license_file`.
+- Manage enterprise license file with this role. Set to `true` to use `vault_license_path`, and `vault_license_file` or `vault_license_content`.
 - Default value: false
 
 ## `vault_license_path`
@@ -1138,7 +1138,12 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 ## `vault_license_file`
 
-- Path to enterprise license on the Ansible controller (source file for upload). Upload skipped when empty or undefined. Only used if `vault_configure_enterprise_license: true`.
+- Path to enterprise license on the Ansible controller (source file for upload). Upload skipped when empty or undefined, if `vault_license_content` is also empty or undefined. Only used if `vault_configure_enterprise_license: true`.
+- Default value: ""
+
+## `vault_license_content`
+
+- Path to enterprise license on the Ansible controller (source file for upload). Upload skipped when empty or undefined, if `vault_license_file` is also empty or undefined. Only used if `vault_configure_enterprise_license: true`.
 - Default value: ""
 
 ## `vault_hsm_app`
