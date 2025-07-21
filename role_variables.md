@@ -978,11 +978,6 @@ differences across distributions:
 - List of OS packages to install
 - Default value: list
 
-## `vault_pkg`
-
-- Vault package filename
-- Default value: `"{{ vault_version }}_linux_amd64.zip"`
-
 ## `vault_debian_url`
 
 - Vault package download URL
