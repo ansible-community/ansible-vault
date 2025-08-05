@@ -282,7 +282,13 @@ vault_tcp_listeners:
 - CA certificate used for backend communication (if supported). This defaults to system bundle if not specified.
 - `{{ vault_tls_ca_file }}`
 
-## Raft Storage Backend
+## Raft Integrated Storage Backend
+
+## `vault_backend_raft`
+
+- Backend raft integrated storage template filename
+- Default value: `vault_backend_raft.j2`
+
 ## `vault_raft_leader_tls_servername`
 
 - TLS servername to use when connecting with HTTPS
@@ -468,58 +474,6 @@ vault_tcp_listeners:
 
 - Backend file template filename
 - Default value: `backend_file.j2`
-
-## Raft Integrated Storage Backend
-
-## `vault_backend_raft`
-
-- Backend raft integrated storage template filename
-- Default value: `vault_backend_raft.j2`
-
-## `vault_raft_node_id`
-
-- Identifier for the node in the integrated storage Raft cluster
-- Default value: "raft_node_1"
-
-## `vault_raft_retry_join`
-
-- Details of all the nodes are known beforehand
-- Default value: "[]"
-
-### `leader_api_addr`
-
-- Address of a possible leader node.
-- Default value: ""
-
-### `leader_ca_cert_file`
-
-- File path to the CA cert of the possible leader node.
-- Default value: ""
-
-### `leader_client_cert_file`
-
-- File path to the client certificate for the follower node to establish client authentication with the possible leader node.
-- Default value: ""
-
-### `leader_client_key_file`
-
-- File path to the client key for the follower node to establish client authentication with the possible leader node.
-- Default value: ""
-
-### `leader_ca_cert`
-
-- CA cert of the possible leader node.
-- Default value: ""
-
-### `leader_client_cert`
-
-- Client certificate for the follower node to establish client authentication with the possible leader node.
-- Default value: ""
-
-### `leader_client_key`
-
-- Client key for the follower node to establish client authentication with the possible leader node.
-- Default value: ""
 
 ## DynamoDB Storage Backend
 
