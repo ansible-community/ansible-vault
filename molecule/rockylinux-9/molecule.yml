@@ -18,6 +18,8 @@ platforms:
     cgroup_parent: docker.slice
 
 provisioner:
+  playbooks:
+    prepare: prepare.yml
   inventory:
     host_vars:
       rockylinux-9_repo:

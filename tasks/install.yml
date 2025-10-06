@@ -3,17 +3,16 @@
 
 - name: OS packages
   become: true
-  package:
+  ansible.builtin.package:
     name: "{{ vault_os_packages }}"
     state: present
-    update_cache: true
   tags: installation
   when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
 
 # Temporary place for one-off version diff packages, etc.
 - name: OS packages diff (Debian)
   become: true
-  package:
+  ansible.builtin.package:
     name: "libcap2-bin"
     state: present
   tags: installation
@@ -22,7 +21,7 @@
     - (ansible_distribution_version == 'buster/sid') or (ansible_distribution_version is version(8.5, '>'))
 
 - name: Check Vault package file (local)
-  stat:
+  ansible.builtin.stat:
     path: "{{ role_path }}/files/{{ vault_pkg }}"
   become: false
   run_once: true
@@ -30,12 +29,12 @@
   delegate_to: 127.0.0.1
 
 - name: "Download Vault (local) → {{ vault_zip_url }}"
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ vault_zip_url }}"
     dest: "{{ role_path }}/files/{{ vault_pkg }}"
     checksum:
       "sha256:{{ (lookup('url', vault_checksum_file_url, wantlist=true) | select('match', '.*' + (vault_pkg | regex_escape()) + '$') | first).split()[0] }}"
-    timeout: "42"
+    timeout: 42
     mode: "0644"
   become: "{{ vault_privileged_install }}"
   run_once: true
@@ -44,7 +43,7 @@
   delegate_to: 127.0.0.1
 
 - name: Unarchive Vault (local)
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ role_path }}/files/{{ vault_pkg }}"
     dest: "{{ role_path }}/files/"
     creates: "{{ role_path }}/files/vault"
@@ -55,7 +54,7 @@
 
 - name: Install Vault
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ role_path }}/files/vault"
     dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
@@ -65,7 +64,7 @@
   tags: installation
 
 - name: Cleanup (local)
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: "absent"
   become: "{{ vault_privileged_install }}"
