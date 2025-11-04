@@ -3,8 +3,8 @@
 
 - name: Create TLS directory
   become: true
-  file:
-    dest: "{{ vault_tls_certs_path }}"
+  ansible.builtin.file:
+    path: "{{ vault_tls_certs_path }}"
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
@@ -14,8 +14,8 @@
     - tls
 
 - name: Create private TLS directory
-  file:
-    dest: "{{ vault_tls_private_path }}"
+  ansible.builtin.file:
+    path: "{{ vault_tls_private_path }}"
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
@@ -28,7 +28,7 @@
 
 - name: Vault SSL Certificate and Key
   become: true
-  copy:
+  ansible.builtin.copy:
     remote_src: "{{ vault_tls_files_remote_src }}"
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

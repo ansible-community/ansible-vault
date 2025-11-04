@@ -4,37 +4,37 @@
 
 - name: OS packages
   become: true
-  package:
+  ansible.builtin.package:
     name: "{{ vault_os_packages }}"
     state: present
   tags: installation
   when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
 
 - name: Ensure remote vault dir exists
-  file:
+  ansible.builtin.file:
     path: /tmp/vault
     state: directory
     mode: "0750"
 
 - name: Check Vault package file
-  stat:
+  ansible.builtin.stat:
     path: "/tmp/vault/{{ vault_pkg }}"
   register: vault_package
   tags: installation
 
 - name: "Download Vault → {{ vault_zip_url }}"
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ vault_zip_url }}"
     dest: "/tmp/vault/{{ vault_pkg }}"
     checksum: "sha256:{{ (lookup('url', vault_checksum_file_url, wantlist=true) | select('match', '.*' + vault_pkg + '$') | first).split()[0] }}"
-    timeout: "42"
+    timeout: 42
     mode: "0644"
   tags: installation
   when: not vault_package.stat.exists | bool
 
 - name: Unarchive Vault and install binary
   become: true
-  unarchive:
+  ansible.builtin.unarchive:
     remote_src: true
     src: "/tmp/vault/{{ vault_pkg }}"
     dest: "{{ vault_bin_path }}"
@@ -45,7 +45,7 @@
   tags: installation
 
 - name: Cleanup
-  file:
+  ansible.builtin.file:
     path: "/tmp/vault"
     state: absent
   tags: installation
