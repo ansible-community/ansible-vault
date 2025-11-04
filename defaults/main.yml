@@ -92,6 +92,9 @@ vault_listener_localhost_enable: false
 vault_http_proxy: ""
 vault_https_proxy: ""
 vault_no_proxy: ""
+vault_additional_environment_variables: {}
+# FOO: bar
+# FOO2: bar2
 
 # ---------------------------------------------------------------------------
 # TCP listeners

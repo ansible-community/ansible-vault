@@ -37,6 +37,9 @@ Environment=HTTPS_PROXY={{ vault_https_proxy }}
 {% if vault_no_proxy -%}
 Environment=NO_PROXY={{ vault_no_proxy }}
 {% endif -%}
+{% for _vault_variable_name, _vault_variable_value in vault_additional_environment_variables.items() -%}
+Environment={{ _vault_variable_name }}={{ _vault_variable_value }}
+{% endfor -%}
 ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/vault server -config={{ vault_config_path if vault_use_config_path else vault_main_config }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}'
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
