@@ -330,8 +330,8 @@ vault_transit_key_name: 'autounseal'
 vault_transit_mount_path: "transit/"
 # vault_transit_namespace: ''
 vault_transit_tls_ca_cert_file: "{{ vault_tls_ca_file }}"
-vault_transit_tls_client_cert_file: "autounseal_client_cert.pem"
-vault_transit_tls_client_key_file: "autounseal_client_key.pem"
+vault_transit_tls_client_cert_file: "{{ vault_transit_tls_client_cert | default('autounseal_client_cert.pem', true) }}"
+vault_transit_tls_client_key_file: "{{ vault_transit_tls_client_key | default('autounseal_client_key.pem', true) }}"
 # vault_transit_tls_server_name: ''
 vault_transit_tls_skip_verify: "{{ lookup('env', 'VAULT_SKIP_VERIFY') | default('', false) }}"
 
