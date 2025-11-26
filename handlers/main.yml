@@ -3,14 +3,14 @@
 
 - name: Restart vault
   become: true
-  service:
+  ansible.builtin.service:
     name: '{{ vault_systemd_service_name }}'
     state: restarted
   when: vault_service_restart | bool
 
 - name: Reload vault
   become: true
-  service:
+  ansible.builtin.service:
     name: '{{ vault_systemd_service_name }}'
     state: reloaded
   when: vault_service_reload | bool

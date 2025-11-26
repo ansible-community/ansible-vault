@@ -2,47 +2,47 @@
 # File: tasks/asserts.yml - Asserts for this role
 
 - name: Check distribution compatibility
-  fail:
+  ansible.builtin.fail:
     msg: "{{ ansible_distribution }} is not supported by this role"
   when:
     - ansible_distribution not in _vault_nix_distros
     - ansible_os_family != 'Windows'
 
 - name: Fail if not a new release of Red Hat / CentOS
-  fail:
+  ansible.builtin.fail:
     msg: "{{ ansible_distribution_version }} is not a supported version of {{ ansible_distribution }} for this role"
   when:
     - ansible_distribution in ['RedHat', 'CentOS']
     - ansible_distribution_version is version(7, '<')
 
 - name: Fail if not a new release of Debian
-  fail:
+  ansible.builtin.fail:
     msg: "{{ ansible_distribution_version }} is not a supported version of {{ ansible_distribution }} for this role"
   when:
     - ansible_distribution == "Debian"
     - (ansible_distribution_version != 'buster/sid') and (ansible_distribution_version is version(8.5, '<'))
 
 - name: Fail if not a new release of FreeBSD
-  fail:
+  ansible.builtin.fail:
     msg: "{{ ansible_distribution_version }} is not a supported version."
   when:
     - ansible_distribution == "FreeBSD"
     - ansible_distribution_version is version(10, '<')
 
 - name: Fail if not a new release of Ubuntu
-  fail:
+  ansible.builtin.fail:
     msg: "{{ ansible_distribution_version }} is not a supported version of {{ ansible_distribution }} for this role"
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version(13.04, '<')
 
 - name: Check for vault_redirect_address usage
-  debug:
+  ansible.builtin.debug:
     msg: "vault_redirect_address is deprecated. Check for vault_api_addr in the README."
   when: vault_redirect_address is defined
 
 - name: Check if vault_transit_address and vault_transit_token has been specified
-  fail:
+  ansible.builtin.fail:
     msg: "need vault_transit_address and vault_transit_token defined for vault transit seal configuration."
   when:
     - vault_transit | bool

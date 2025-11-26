@@ -1,17 +1,17 @@
 ---
 - name: Include asserts
-  include_tasks: asserts.yml
+  ansible.builtin.include_tasks: asserts.yml
 
 - name: Add Vault group
   become: true
-  group:
+  ansible.builtin.group:
     name: "{{ vault_group }}"
     state: present
   when: vault_manage_group | bool
 
 - name: Add Vault user
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ vault_user }}"
     comment: "Vault user"
     group: "{{ vault_group }}"
@@ -20,7 +20,7 @@
   when: vault_manage_user | bool
 
 - name: Include OS-specific variables
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -30,7 +30,8 @@
         - vars
 
 - name: Check Vault installation
-  shell: command -v vault  # noqa command-instead-of-shell  # command is a shell builtin
+  ansible.builtin.shell:
+    cmd: command -v vault  # noqa command-instead-of-shell  # command is a shell builtin
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
@@ -39,9 +40,10 @@
   check_mode: false
 
 - name: Get installed Vault version
-  shell: |
-    set -o pipefail
-    {{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      {{ vault_installation.stdout }} -version | cut -d' ' -f2 | tr -d 'v'
   args:
     executable: /bin/bash
   when: not vault_installation is failed
@@ -50,25 +52,25 @@
   register: installed_vault_version
 
 - name: Compute if installation is required
-  set_fact:
+  ansible.builtin.set_fact:
     installation_required: "{{ vault_installation is failed or installed_vault_version.stdout != vault_version~('+ent' if vault_enterprise) }}"
 
 - name: Install OS packages and Vault via control host
-  include_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
   when:
     - not vault_install_remotely | bool
     - not vault_install_hashi_repo | bool
     - installation_required | bool
 
 - name: Install Vault via HashiCorp repository
-  include_tasks: install_hashi_repo.yml
+  ansible.builtin.include_tasks: install_hashi_repo.yml
   when:
     - not vault_install_remotely | bool
     - vault_install_hashi_repo | bool
     - installation_required | bool
 
 - name: Install OS packages and Vault via remote hosts
-  include_tasks: install_remote.yml
+  ansible.builtin.include_tasks: install_remote.yml
   when:
     - not vault_enterprise | bool
     - vault_install_remotely | bool
@@ -77,22 +79,24 @@
 
 - name: Check Vault mlock capability
   become: true
-  command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+  ansible.builtin.command:
+    cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   changed_when: false  # read-only task
   ignore_errors: true
   register: vault_mlock_capability
 
 - name: Enable non root mlock capability
   become: true
-  command: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+  ansible.builtin.command:
+    cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   register: output
   changed_when: output.rc != 0
   when: vault_mlock_capability is failed
 
 - name: Create directories
   become: true
-  file:
-    dest: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
     state: directory
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
@@ -111,7 +115,7 @@
 
 - name: Enable logrotate for vault
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ vault_logrotate_template }}"
     dest: /etc/logrotate.d/vault
     owner: root
@@ -120,22 +124,22 @@
   when: vault_enable_logrotate | bool
 
 - name: TLS configuration
-  include_tasks: ../tasks/tls.yml
+  ansible.builtin.include_tasks: tls.yml
   when: not vault_tls_disable | bool
 
 - name: Backend storage TLS configuration
-  include_tasks: ../tasks/backend_tls.yml
+  ansible.builtin.include_tasks: backend_tls.yml
   when: vault_tls_gossip | bool
 
 - name: "Get content of GCP Credentials from file"
-  set_fact:
+  ansible.builtin.set_fact:
     vault_gkms_credentials_content: "{{ lookup('file', vault_gkms_credentials_src_file) }}"
   when:
     - vault_gkms | bool
     - vault_gkms_credentials_src_file | length > 0
 
 - name: "Copy over GCP Credentials for Auto Unseal"  # noqa template-instead-of-copy  # https://github.com/ansible/ansible-lint/issues/2501
-  copy:
+  ansible.builtin.copy:
     content: "{{ vault_gkms_credentials_content }}"
     dest: "{{ vault_gkms_credentials }}"
     owner: "{{ vault_user }}"
@@ -147,7 +151,7 @@
       vault_gkms_copy_sa | bool
 
 - name: "Copy GCP Credentials for gcs backend"
-  copy:
+  ansible.builtin.copy:
     src: "{{ vault_gcs_credentials_src_file }}"
     dest: "{{ vault_gcs_credentials_dst_file }}"
     owner: "{{ vault_user }}"
@@ -159,7 +163,7 @@
 
 - name: Vault main configuration
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ vault_main_configuration_template }}"
     dest: "{{ vault_main_config }}"
     owner: "{{ vault_user }}"
@@ -172,7 +176,7 @@
 
 - name: Vault transit seal configuration
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ vault_transit_backend }}"
     dest: "{{ vault_transit_config }}"
     owner: "{{ vault_user }}"
@@ -184,7 +188,7 @@
 
 - name: Vault awskms seal configuration
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ vault_awskms_backend }}"
     dest: "{{ vault_awskms_config }}"
     owner: "{{ vault_user }}"
@@ -196,7 +200,7 @@
 
 - name: Vault azurekeyvault seal configuration
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ vault_azurekeyvault_backend }}"
     dest: "{{ vault_azurekeyvault_config }}"
     owner: "{{ vault_user }}"
@@ -208,7 +212,7 @@
 
 - name: Upload Vault license file to vault_license_path
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ vault_license_file }}"
     dest: "{{ vault_license_path }}"
     owner: "{{ vault_user }}"
@@ -219,12 +223,12 @@
     - vault_license_file | length > 0
 
 - name: "Set Exec output to log path when enabled log"
-  set_fact:
+  ansible.builtin.set_fact:
     vault_exec_output: ">> {{ vault_log_path }}/vault.log 2>&1"
   when: vault_enable_log
 
 - name: BSD init script
-  template:
+  ansible.builtin.template:
     src: "{{ vault_bsdinit_template }}"
     dest: /etc/rc.d/vault
     owner: root
@@ -233,7 +237,7 @@
   when: ansible_os_family == "FreeBSD"
 
 - name: SYSV init script
-  template:
+  ansible.builtin.template:
     src: "{{ vault_sysvinit_template }}"
     dest: /etc/init.d/vault
     owner: root
@@ -246,7 +250,7 @@
     - not ansible_os_family == "Solaris"
 
 - name: Debian init script
-  template:
+  ansible.builtin.template:
     src: "{{ vault_debian_init_template }}"
     dest: /etc/init.d/vault
     owner: root
@@ -259,9 +263,10 @@
     - not ansible_os_family == "Solaris"
 
 - name: Extract systemd version
-  shell: |
-    set -o pipefail
-    systemctl --version systemd | head -n 1 | cut -d' ' -f2
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      systemctl --version systemd | head -n 1 | cut -d' ' -f2
   args:
     executable: /bin/bash
   changed_when: false
@@ -275,7 +280,7 @@
 
 - name: Systemd unit
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ vault_systemd_template }}"
     dest: "{{ vault_systemd_unit_path }}/{{ vault_systemd_service_name }}.service"
     force: true
@@ -291,8 +296,8 @@
 
 - name: Reload systemd
   become: true
-  systemd:
-    daemon-reload: true
+  ansible.builtin.systemd:
+    daemon_reload: true
   notify: Restart Vault
   when:
     - ansible_service_mgr == "systemd"
@@ -303,29 +308,29 @@
 
 - name: Start Vault
   become: true
-  service:
+  ansible.builtin.service:
     name: '{{ vault_systemd_service_name }}'
     state: started
     enabled: true
   register: start_vault
 
 - name: Pause to let Vault startup correctly
-  pause:
+  ansible.builtin.pause:
     seconds: "{{ vault_start_pause_seconds }}"
   when:
     - start_vault is changed   # noqa no-handler
     - vault_start_pause_seconds | int > 0
 
 - name: Restart Vault if needed
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Compute TLS friendly vault_addr
-  set_fact:
+  ansible.builtin.set_fact:
     vault_addr: "{{ (vault_address == '0.0.0.0') | ternary('127.0.0.1', vault_address) }}"
 
 - name: Insert http(s) export in dotfile
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ vault_home }}/{{ vault_dotfile }}"
     regexp: "^export VAULT_ADDR="
     line: "export VAULT_ADDR='{{ vault_tls_disable | ternary('http', 'https') }}://{{ vault_addr }}:{{ vault_port }}'"
@@ -339,7 +344,7 @@
 
 - name: Insert CA cert export in dotfile
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ vault_home }}/{{ vault_dotfile }}"
     regexp: "^export VAULT_CACERT="
     line: "export VAULT_CACERT={{ vault_tls_certs_path }}/{{ vault_tls_ca_file }}"
@@ -359,7 +364,7 @@
     vault_addr_protocol: "{{ vault_tls_disable | ternary('http', 'https') }}"
   environment:
     no_proxy: "{{ vault_api_addr | urlsplit('hostname') }}"
-  uri:
+  ansible.builtin.uri:
     validate_certs: "{{ validate_certs_during_api_reachable_check | bool }}"
     url: "{{ vault_api_addr }}/v1/sys/health"
     method: GET
@@ -383,7 +388,7 @@
     - not vault_disable_api_health_check | bool
 
 - name: Install/configure vault plugins
-  include_tasks: "plugins/{{ _index_plugin }}.yml"
+  ansible.builtin.include_tasks: "plugins/{{ _index_plugin }}.yml"
   loop: "{{ ('molecule-notest' not in ansible_skip_tags) | ternary(vault_plugins_enable,
          lookup('fileglob', 'tasks/plugins/*.yml', wantlist=true) | map('basename') | map('splitext') | map('first')) }}"
   loop_control:
@@ -399,7 +404,7 @@
   when: vault_plugin_install | bool
 
 - name: Vault status
-  debug:
+  ansible.builtin.debug:
     msg: "Vault is {{ vault_http_status[check_result.status | string] }}"
   tags:
     - check_vault

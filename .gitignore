@@ -10,3 +10,6 @@ files/vault
 files/vault*_SHA256SUMS
 meta/.galaxy_install_info
 examples/roles/ansible-community.ansible-vault
+.venv/
+.idea/
+.ansible/

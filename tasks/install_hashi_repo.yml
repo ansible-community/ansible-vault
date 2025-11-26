@@ -3,7 +3,7 @@
 #       Install Vault via HashiCorp Linux repository
 
 - name: Add Vault/Hashicorp rpm repo
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: hashicorp
     description: Hashicorp Stable - $basearch
     baseurl: "{{ vault_repository_url }}"
@@ -16,14 +16,14 @@
     - not vault_rhsm_repo_id
 
 - name: Add Vault/Hashicorp apt key
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ vault_repository_key_url }}"
     state: present
   become: true
   when: ansible_pkg_mgr == 'apt'
 
 - name: Add Vault/Hashicorp apt repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb {{ vault_repository_url }} {{ ansible_distribution_release }} main"
     state: present
   become: true
@@ -34,45 +34,45 @@
   become: true
   block:
     - name: Check if Hashicorp/Vault RHSM repo subscription is enabled
-      command:
+      ansible.builtin.command:
         cmd: "subscription-manager list --consumed --matches={{ vault_rhsm_subscription_name | quote }} --pool-only"
       register: _subscription_manager_consumed
       changed_when: false
-      when: (vault_rhsm_subscription_name)
+      when: vault_rhsm_subscription_name is truthy
 
     - name: Find Hashicorp/Vault RHSM repo subscription pool id
-      command:
+      ansible.builtin.command:
         cmd: "subscription-manager list --available --matches={{ vault_rhsm_subscription_name | quote }} --pool-only"
       register: _subscription_manager_available
       changed_when: false
       when:
-        - (vault_rhsm_subscription_name)
+        - vault_rhsm_subscription_name is truthy
         - _subscription_manager_consumed.stdout | length <= 0
 
     - name: Attach Hashicorp/Vault RHSM subscription
-      command:
+      ansible.builtin.command:
         cmd: "subscription-manager attach --pool={{ _subscription_manager_available.stdout }}"
       register: _subscription_manager_attach
       changed_when: _subscription_manager_attach.stdout is search('Successfully attached a subscription')
       failed_when: _subscription_manager_attach.stdout is search('could not be found')
       when:
-        - (vault_rhsm_subscription_name)
+        - vault_rhsm_subscription_name is truthy
         - _subscription_manager_consumed.stdout | default() | length <= 0
         - _subscription_manager_available.stdout | default() | length > 0
 
     - name: Enable RHSM repository
-      rhsm_repository:
+      community.general.rhsm_repository:
         name: "{{ vault_rhsm_repo_id }}"
         state: enabled
 
 - name: Ensure Enterprise package is not present when OSS is desired and vice versa
-  package:
+  ansible.builtin.package:
     name: "{{ 'vault' ~ ('-enterprise' if not (vault_enterprise | bool) else '') }}"
     state: absent
   become: true
 
 - name: "Install Vault package {{ _vault_repo_pkg }}"
-  package:
+  ansible.builtin.package:
     name: "{{ _vault_repo_pkg }}"
     state: present
   become: true
@@ -88,7 +88,7 @@
 
 - name: Mask default Vault config from package
   become: true
-  copy:
+  ansible.builtin.copy:
     owner: root
     group: root
     mode: "{{ vault_harden_file_perms | ternary('0444', '0644') }}"
