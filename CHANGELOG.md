@@ -1,3 +1,21 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [3.1.0](https://github.com/ansible-community/ansible-vault/compare/v3.0.0...v3.1.0) (2025-11-26)
+
+### Features
+
+* allow additional environment variables ([#366](https://github.com/ansible-community/ansible-vault/issues/366)) ([da957e0](https://github.com/ansible-community/ansible-vault/commit/da957e0d3880f3ba87d0f62751c59b5e98ae10fa))
+* **GHA:** add commitlint and semrel ([#362](https://github.com/ansible-community/ansible-vault/issues/362)) ([d5bae97](https://github.com/ansible-community/ansible-vault/commit/d5bae97c79a783b2b7044d3b166dd2f0495666e9))
+
+### Bug Fixes
+
+* Avoid triggering semantic release on forks ([#388](https://github.com/ansible-community/ansible-vault/issues/388)) ([188f145](https://github.com/ansible-community/ansible-vault/commit/188f1456bab4a52ccc2df75fbaa852a0c6a64eb2))
+* **semrel:** fix branch ([#363](https://github.com/ansible-community/ansible-vault/issues/363)) ([ec91b6c](https://github.com/ansible-community/ansible-vault/commit/ec91b6ca1bc61444be0cf8b916ba4ebce6608962))
+* **semrel:** fix branch ([#364](https://github.com/ansible-community/ansible-vault/issues/364)) ([2c87dd4](https://github.com/ansible-community/ansible-vault/commit/2c87dd4a372defffa77670dab6ce00cbd3ae219d))
+* **smerel:** bump changelog to 8.0.0 ([#365](https://github.com/ansible-community/ansible-vault/issues/365)) ([7e2fded](https://github.com/ansible-community/ansible-vault/commit/7e2fdeddec3405756aae10f1dedcace4ba94779b))
+
 ## NEXT
 
 - Add support for proxy configuration
