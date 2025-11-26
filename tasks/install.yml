@@ -1,6 +1,11 @@
 ---
 # File: tasks/install.yml - package installation tasks for vault
 
+- name: Update package cache
+  ansible.builtin.package:
+    update_cache: true
+  tags: update_cache
+
 - name: OS packages
   become: true
   ansible.builtin.package:
