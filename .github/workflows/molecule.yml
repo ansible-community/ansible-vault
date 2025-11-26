@@ -13,7 +13,7 @@ env:
 
 jobs:
   discover-scenarios:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       scenarios: ${{ steps.set-scenarios.outputs.scenarios }}
     steps:
@@ -30,7 +30,7 @@ jobs:
   test:
     needs:
       - discover-scenarios
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:

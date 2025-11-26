@@ -5,16 +5,16 @@
 
   tasks:
     - name: Prepare CI environment
-      when: (lookup('env', 'CI'))
+      when: lookup('env', 'CI') is truthy
       block:
         - name: Install OS packages on controlling host
           when: ansible_distribution != 'MacOSX'
-          package:
+          ansible.builtin.package:
             name: unzip
           become: true
 
         - name: Install netaddr dependency on controlling host
-          pip:
+          ansible.builtin.pip:
             name: netaddr
           become: false
 
@@ -22,7 +22,7 @@
   hosts: all
   tasks:
     - name: Set Permission on /etc/shadow
-      file:
+      ansible.builtin.file:
         path: /etc/shadow
         mode: '0640'
         owner: root
