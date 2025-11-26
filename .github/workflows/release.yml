@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   semrel:
+    if: github.repository == 'ansible-community/ansible-vault'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
