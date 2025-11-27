@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.1](https://github.com/ansible-community/ansible-vault/compare/v3.1.0...v3.1.1) (2025-11-27)
+
+### Bug Fixes
+
+* replace usage of deprecated apt-key usage (fixes [#386](https://github.com/ansible-community/ansible-vault/issues/386)) ([#390](https://github.com/ansible-community/ansible-vault/issues/390)) ([f3eae77](https://github.com/ansible-community/ansible-vault/commit/f3eae778ab0e47a29b7e1bd61d566c8326bd7179))
+
 ## [3.1.0](https://github.com/ansible-community/ansible-vault/compare/v3.0.0...v3.1.0) (2025-11-26)
 
 ### Features
