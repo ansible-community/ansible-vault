@@ -42,7 +42,7 @@ steps to get up and running:
 1. Install the following prerequisites:
   - [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [Vagrant-libvirt](https://vagrant-libvirt.github.io/vagrant-libvirt/#installation)
   - [Vagrant](http://downloads.vagrantup.com/)
-  - [vagrant-hosts plugin](https://docs.ansible.com/ansible/latest/installation_guide/index.html).
+  - [vagrant-hosts plugin](https://docs.ansible.com/projects/ansible/latest/installation_guide/index.html).
 2. Edit `/etc/hosts` or use the included `bin/preinstall` script to add
    the following entries to your development system's `/etc/hosts` file:
   - `10.1.42.240 vault1.local vault1`
