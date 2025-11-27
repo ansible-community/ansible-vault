@@ -729,6 +729,8 @@ available starting at Vault version 1.4.
 ## `vault_port`
 
 - TCP port number to on which to listen
+- Setting `vault_port` below 1024 will add the `CAP_NET_BIND_SERVICE` capability to the systemd service
+  - This capability allows an unprivileged user to start a service on a privileged port
 - Default value: 8200
 
 ## `vault_max_lease_ttl`
