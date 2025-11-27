@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.2](https://github.com/ansible-community/ansible-vault/compare/v3.2.1...v3.2.2) (2025-11-27)
+
+### Bug Fixes
+
+* add become to create private tls directory ([#396](https://github.com/ansible-community/ansible-vault/issues/396)) ([a11b8a4](https://github.com/ansible-community/ansible-vault/commit/a11b8a48bdac04e55bd8747e47ef6f8eed843002))
+
 ## [3.2.1](https://github.com/ansible-community/ansible-vault/compare/v3.2.0...v3.2.1) (2025-11-27)
 
 ### Bug Fixes
