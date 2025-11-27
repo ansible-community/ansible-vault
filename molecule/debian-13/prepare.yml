@@ -1,5 +1,5 @@
 ---
-- name: Prepare
+- name: Prepare controlling host
   hosts: localhost
   connection: local
 
@@ -9,11 +9,18 @@
       block:
         - name: Install OS packages on controlling host
           when: ansible_distribution != 'MacOSX'
-          package:
+          ansible.builtin.package:
             name: unzip
           become: true
 
         - name: Install netaddr dependency on controlling host
-          pip:
+          ansible.builtin.pip:
             name: netaddr
           become: false
+
+- name: Prepare Debian
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Bootstrap Python
+      ansible.builtin.raw: "test -e /usr/bin/python || apt-get install --update python3 -y"

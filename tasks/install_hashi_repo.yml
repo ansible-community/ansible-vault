@@ -15,16 +15,25 @@
     - ansible_pkg_mgr in ['yum', 'dnf']
     - not vault_rhsm_repo_id
 
+- name: Make sure apt keyring directory exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+  become: true
+  when: ansible_pkg_mgr == 'apt'
+
 - name: Add Vault/Hashicorp apt key
-  ansible.builtin.apt_key:
+  ansible.builtin.get_url:
     url: "{{ vault_repository_key_url }}"
-    state: present
+    dest: /etc/apt/keyrings/hashicorp-archive-keyring.asc
+    mode: '0644'
   become: true
   when: ansible_pkg_mgr == 'apt'
 
 - name: Add Vault/Hashicorp apt repo
   ansible.builtin.apt_repository:
-    repo: "deb {{ vault_repository_url }} {{ ansible_distribution_release }} main"
+    repo: "deb [signed-by=/etc/apt/keyrings/hashicorp-archive-keyring.asc] {{ vault_repository_url }} {{ ansible_distribution_release }} main"
     state: present
   become: true
   when: ansible_pkg_mgr == 'apt'
