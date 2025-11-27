@@ -6,6 +6,7 @@ vault_os_packages:
   - unzip
   - acl
   - gpg
+  - libcap2-bin
 
 _vault_repository_url: "https://apt.releases.hashicorp.com"
 _vault_repository_key_url: "{{ _vault_repository_url }}/gpg"

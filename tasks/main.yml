@@ -2,23 +2,6 @@
 - name: Include asserts
   ansible.builtin.include_tasks: asserts.yml
 
-- name: Add Vault group
-  become: true
-  ansible.builtin.group:
-    name: "{{ vault_group }}"
-    state: present
-  when: vault_manage_group | bool
-
-- name: Add Vault user
-  become: true
-  ansible.builtin.user:
-    name: "{{ vault_user }}"
-    comment: "Vault user"
-    group: "{{ vault_group }}"
-    groups: "{{ vault_groups }}"
-    system: true
-  when: vault_manage_user | bool
-
 - name: Include OS-specific variables
   ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
@@ -28,6 +11,10 @@
         - "{{ ansible_os_family }}.yml"
       paths:
         - vars
+
+- name: Run preinstall tasks
+  ansible.builtin.include_tasks: preinstall.yml
+  tags: preinstall
 
 - name: Check Vault installation
   ansible.builtin.shell:
