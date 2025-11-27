@@ -2,14 +2,6 @@
 # File: tasks/install_remote.yml
 #       Package installation tasks for vault
 
-- name: OS packages
-  become: true
-  ansible.builtin.package:
-    name: "{{ vault_os_packages }}"
-    state: present
-  tags: installation
-  when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
-
 - name: Ensure remote vault dir exists
   ansible.builtin.file:
     path: /tmp/vault

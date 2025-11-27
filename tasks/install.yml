@@ -1,30 +1,6 @@
 ---
 # File: tasks/install.yml - package installation tasks for vault
 
-- name: Update package cache
-  ansible.builtin.package:
-    update_cache: true
-  tags: update_cache
-
-- name: OS packages
-  become: true
-  ansible.builtin.package:
-    name: "{{ vault_os_packages }}"
-    state: present
-  tags: installation
-  when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
-
-# Temporary place for one-off version diff packages, etc.
-- name: OS packages diff (Debian)
-  become: true
-  ansible.builtin.package:
-    name: "libcap2-bin"
-    state: present
-  tags: installation
-  when:
-    - ansible_distribution == "Debian"
-    - (ansible_distribution_version == 'buster/sid') or (ansible_distribution_version is version(8.5, '>'))
-
 - name: Check Vault package file (local)
   ansible.builtin.stat:
     path: "{{ role_path }}/files/{{ vault_pkg }}"

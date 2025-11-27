@@ -1,0 +1,31 @@
+---
+# File: tasks/preinstall.yml - pre-installation tasks for vault
+
+- name: Add Vault group
+  become: true
+  ansible.builtin.group:
+    name: "{{ vault_group }}"
+    state: present
+  when: vault_manage_group | bool
+
+- name: Add Vault user
+  become: true
+  ansible.builtin.user:
+    name: "{{ vault_user }}"
+    comment: "Vault user"
+    group: "{{ vault_group }}"
+    groups: "{{ vault_groups }}"
+    system: true
+  when: vault_manage_user | bool
+
+- name: Update package cache
+  ansible.builtin.package:
+    update_cache: true
+  tags: update_cache
+
+- name: OS packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ vault_os_packages }}"
+    state: present
+  when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
