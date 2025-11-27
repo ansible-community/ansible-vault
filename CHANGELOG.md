@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.1](https://github.com/ansible-community/ansible-vault/compare/v3.2.0...v3.2.1) (2025-11-27)
+
+### Bug Fixes
+
+* solve crash if vault_port is set below 1024 by adding CAP_NET_ADMIN ([#376](https://github.com/ansible-community/ansible-vault/issues/376)) ([858a6f0](https://github.com/ansible-community/ansible-vault/commit/858a6f04c6f4731f25d5dd28097d7f2ee5ac2231))
+
 ## [3.2.0](https://github.com/ansible-community/ansible-vault/compare/v3.1.2...v3.2.0) (2025-11-27)
 
 ### Features
