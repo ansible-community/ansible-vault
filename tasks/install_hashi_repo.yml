@@ -13,7 +13,7 @@
   become: true
   when:
     - ansible_pkg_mgr in ['yum', 'dnf']
-    - not vault_rhsm_repo_id
+    - vault_rhsm_repo_id is falsy
 
 - name: Make sure apt keyring directory exists
   ansible.builtin.file:
@@ -39,7 +39,7 @@
   when: ansible_pkg_mgr == 'apt'
 
 - name: Attach RHSM subscription / repo
-  when: (vault_rhsm_repo_id)
+  when: vault_rhsm_repo_id is truthy
   become: true
   block:
     - name: Check if Hashicorp/Vault RHSM repo subscription is enabled
