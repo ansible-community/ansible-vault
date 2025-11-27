@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.0](https://github.com/ansible-community/ansible-vault/compare/v3.1.2...v3.2.0) (2025-11-27)
+
+### Features
+
+* consolidated preinstall tasks ([#392](https://github.com/ansible-community/ansible-vault/issues/392)) ([8909f88](https://github.com/ansible-community/ansible-vault/commit/8909f88bcdc0e8ec0825343786b96b7ad9e0fd46))
+
 ## [3.1.2](https://github.com/ansible-community/ansible-vault/compare/v3.1.1...v3.1.2) (2025-11-27)
 
 ### Bug Fixes
