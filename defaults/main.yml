@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------
 
 # Package variables
-vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.18.2', true) }}"
+vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('1.21.1', true) }}"
 
 vault_version_release_site_suffix: "{{ '+ent' if vault_enterprise }}{{ '.hsm' if vault_enterprise_hsm }}"
 vault_version_repo_suffix: "{{ '+ent' if vault_enterprise }}"
