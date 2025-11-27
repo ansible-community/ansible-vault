@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.2](https://github.com/ansible-community/ansible-vault/compare/v3.1.1...v3.1.2) (2025-11-27)
+
+### Bug Fixes
+
+* added gpg Debian derivates ([#391](https://github.com/ansible-community/ansible-vault/issues/391)) ([a6c797c](https://github.com/ansible-community/ansible-vault/commit/a6c797c90ec78900cf76fc6e04c577800f6da1fd))
+
 ## [3.1.1](https://github.com/ansible-community/ansible-vault/compare/v3.1.0...v3.1.1) (2025-11-27)
 
 ### Bug Fixes
