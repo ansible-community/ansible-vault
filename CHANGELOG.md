@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.3](https://github.com/ansible-community/ansible-vault/compare/v3.2.2...v3.2.3) (2025-11-28)
+
+### Bug Fixes
+
+* convert vault_raft_cluster_members and rhsm_repo_id to work with ansible 12 ([#397](https://github.com/ansible-community/ansible-vault/issues/397)) ([192d6ea](https://github.com/ansible-community/ansible-vault/commit/192d6eabc23e7b6cc2333ffb5cd29b25792bc1a8))
+
 ## [3.2.2](https://github.com/ansible-community/ansible-vault/compare/v3.2.1...v3.2.2) (2025-11-27)
 
 ### Bug Fixes
