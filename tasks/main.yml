@@ -209,6 +209,18 @@
     - vault_configure_enterprise_license | bool
     - vault_license_file | length > 0
 
+- name: Upload Vault license content to vault_license_path
+  become: true
+  copy:
+    content: "{{ vault_license_content }}"
+    dest: "{{ vault_license_path }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "{{ vault_harden_file_perms | ternary('0400', '0644') }}"
+  when:
+    - vault_configure_enterprise_license | bool
+    - vault_license_content | length > 0
+
 - name: "Set Exec output to log path when enabled log"
   ansible.builtin.set_fact:
     vault_exec_output: ">> {{ vault_log_path }}/vault.log 2>&1"
