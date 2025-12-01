@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.4](https://github.com/ansible-community/ansible-vault/compare/v3.2.3...v3.2.4) (2025-12-01)
+
+### Bug Fixes
+
+* allow user defined tls variables to be set instead of hardcoded default values ([#385](https://github.com/ansible-community/ansible-vault/issues/385)) ([db36693](https://github.com/ansible-community/ansible-vault/commit/db36693ead780df7c69aefdf757bf538a4800f65))
+
 ## [3.2.3](https://github.com/ansible-community/ansible-vault/compare/v3.2.2...v3.2.3) (2025-11-28)
 
 ### Bug Fixes
