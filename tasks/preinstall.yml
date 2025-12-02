@@ -18,9 +18,32 @@
     system: true
   when: vault_manage_user | bool
 
+###
+
+- name: Check if booted with ostree
+  stat:
+    path: /run/ostree-booted
+  register: ostree
+
+- name: Check in /etc/os-release for Fedora CoreOS
+  lineinfile:
+    path: /etc/os-release
+    line: "VARIANT_ID=coreos"
+    state: present
+  check_mode: yes
+  register: os_variant_coreos
+  changed_when: false
+
+- name: Set fact if OS is Fedora CoreOS
+  set_fact:
+    is_fedora_coreos: "{{ ostree.stat.exists and os_variant_coreos is not changed }}"
+
+###
+
 - name: Update package cache
   ansible.builtin.package:
     update_cache: true
+  when: not is_fedora_coreos
   tags: update_cache
 
 - name: OS packages
@@ -28,4 +51,4 @@
   ansible.builtin.package:
     name: "{{ vault_os_packages }}"
     state: present
-  when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
+  when: (vault_os_packages is defined) and (vault_os_packages | length > 0) and (not is_fedora_coreos)
