@@ -10,15 +10,6 @@
     - name: Fetch acme vault plugin
       delegate_to: "{{ (vault_plugin_acme_install == 'local') | ternary('localhost', inventory_hostname) }}"
       block:
-        - name: Install dependencies
-          ansible.builtin.package:
-            name: "{{ vault_os_packages }}"
-            state: present
-          become: true
-          when:
-            - (vault_plugin_acme_install == 'remote')
-            - (vault_os_packages is defined) and (vault_os_packages | length > 0)
-
         - name: Create temporary directory for acme vault plugin
           ansible.builtin.file:
             path: "{{ (vault_plugin_acme_install == 'local') | ternary(vault_plugins_src_dir_local, vault_plugins_src_dir_remote) }}/acme"
