@@ -17,3 +17,26 @@
           ansible.builtin.pip:
             name: netaddr
           become: false
+
+- name: Stub out vault enterprise service
+  hosts: all
+  tasks:
+    - name: Prepare CI environment
+      when:
+        - "'enterprise' in lookup('env', 'MOLECULE_SCENARIO_DIRECTORY')"
+        - ansible_service_mgr == "systemd"
+      block:
+        - name: Make sure dropin directory exists
+          ansible.builtin.file:
+            path: /etc/systemd/system/vault.service.d/
+            state: directory
+            mode: '0755'
+
+        - name: Write dropin file
+          ansible.builtin.copy:
+            dest: /etc/systemd/system/vault.service.d/fake-service.conf
+            mode: '0644'
+            content: |
+              [Service]
+              ExecStart=
+              ExecStart=/usr/bin/sleep 100000
