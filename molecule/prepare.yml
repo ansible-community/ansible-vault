@@ -1,5 +1,5 @@
 ---
-- name: Prepare
+- name: Prepare host
   hosts: localhost
   connection: local
 
@@ -9,11 +9,11 @@
       block:
         - name: Install OS packages on controlling host
           when: ansible_distribution != 'MacOSX'
-          package:
+          ansible.builtin.package:
             name: unzip
           become: true
 
         - name: Install netaddr dependency on controlling host
-          pip:
+          ansible.builtin.pip:
             name: netaddr
           become: false

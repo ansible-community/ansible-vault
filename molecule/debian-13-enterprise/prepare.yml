@@ -1,26 +1,11 @@
 ---
-- name: Prepare controlling host
-  hosts: localhost
-  connection: local
-
-  tasks:
-    - name: Prepare CI environment
-      when: lookup('env', 'CI') is truthy
-      block:
-        - name: Install OS packages on controlling host
-          when: ansible_distribution != 'MacOSX'
-          ansible.builtin.package:
-            name: unzip
-          become: true
-
-        - name: Install netaddr dependency on controlling host
-          ansible.builtin.pip:
-            name: netaddr
-          become: false
-
 - name: Prepare Debian
   hosts: all
   gather_facts: false
   tasks:
     - name: Bootstrap Python
       ansible.builtin.raw: "test -e /usr/bin/python || apt-get install --update python3 -y"
+      changed_when: true
+
+- name: Common prepare
+  ansible.builtin.import_playbook: ../prepare.yml
