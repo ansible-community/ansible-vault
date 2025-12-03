@@ -22,10 +22,11 @@
   ansible.builtin.package:
     update_cache: true
   tags: update_cache
+  when: vault_os_packages | default([]) | length > 0
 
 - name: OS packages
   become: true
   ansible.builtin.package:
     name: "{{ vault_os_packages }}"
     state: present
-  when: (vault_os_packages is defined) and (vault_os_packages | length > 0)
+  when: vault_os_packages | default([]) | length > 0
