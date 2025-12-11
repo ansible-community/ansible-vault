@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.0](https://github.com/ansible-community/ansible-vault/compare/v3.2.4...v3.3.0) (2025-12-11)
+
+### Features
+
+* add a way to upload license from variable (not file) ([#378](https://github.com/ansible-community/ansible-vault/issues/378)) ([b8fffb3](https://github.com/ansible-community/ansible-vault/commit/b8fffb330aebd777e72ff54a818bc2bbff3e2c0d))
+
+### Bug Fixes
+
+* only run cache update if we have packages to install ([#400](https://github.com/ansible-community/ansible-vault/issues/400)) ([2619857](https://github.com/ansible-community/ansible-vault/commit/261985731887d9ebe05841b0163937f3e1903cd9))
+
 ## [3.2.4](https://github.com/ansible-community/ansible-vault/compare/v3.2.3...v3.2.4) (2025-12-01)
 
 ### Bug Fixes
