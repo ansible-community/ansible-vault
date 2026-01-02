@@ -12,7 +12,7 @@
     enabled: true
   become: true
   when:
-    - ansible_pkg_mgr in ['yum', 'dnf']
+    - ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']
     - vault_rhsm_repo_id is falsy
 
 - name: Make sure apt keyring directory exists
@@ -86,7 +86,7 @@
     state: present
   become: true
   vars:
-    _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf']) %}\
+    _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']) %}\
                   vault{{ '-enterprise' if vault_enterprise }}-{{ vault_version }}{{ vault_version_repo_suffix }}\
                 {% elif (ansible_pkg_mgr == 'apt') %}\
                   vault{{ '-enterprise' if vault_enterprise }}={{ vault_version }}{{ vault_version_repo_suffix }}{{ vault_version_debian_repo_suffix }}\
@@ -108,7 +108,7 @@
       # Package-installed config would interfere with Ansible-managed config files
       # in this directory. Keeping an empty placeholder prevents package updates
       # from re-installing the default config.
-  when: ansible_pkg_mgr in ['yum', 'dnf', 'apt']
+  when: ansible_pkg_mgr in ['yum', 'dnf', 'dnf5', 'apt']
 
 - name: Harden binary perms
   become: true
