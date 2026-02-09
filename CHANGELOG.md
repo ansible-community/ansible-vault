@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.2](https://github.com/ansible-community/ansible-vault/compare/v3.3.1...v3.3.2) (2026-02-09)
+
+### Bug Fixes
+
+* add dnf5 to list of package managers ([#404](https://github.com/ansible-community/ansible-vault/issues/404)) ([6b13d27](https://github.com/ansible-community/ansible-vault/commit/6b13d275370ac80c34d2c41e62c6bdb382208c8a))
+
 ## [3.3.1](https://github.com/ansible-community/ansible-vault/compare/v3.3.0...v3.3.1) (2026-02-09)
 
 ### Bug Fixes
