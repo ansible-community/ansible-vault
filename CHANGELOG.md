@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.1](https://github.com/ansible-community/ansible-vault/compare/v3.3.0...v3.3.1) (2026-02-09)
+
+### Bug Fixes
+
+* ensure the "vault_port" variable is cast to type int ([b0be472](https://github.com/ansible-community/ansible-vault/commit/b0be472283c8688cd97421b4167f5f10725436ee))
+
 ## [3.3.0](https://github.com/ansible-community/ansible-vault/compare/v3.2.4...v3.3.0) (2025-12-11)
 
 ### Features
