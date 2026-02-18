@@ -22,4 +22,13 @@ storage "mysql" {
   {% if vault_mysql_max_connection_lifetime is defined and vault_mysql_max_connection_lifetime|length -%}
   max_connection_lifetime = "{{ vault_mysql_max_connection_lifetime }}"
   {% endif -%}
+  {% if vault_mysql_plaintext_connection_allowed is defined and vault_mysql_plaintext_connection_allowed|length -%}
+  plaintext_connection_allowed = "{{ vault_mysql_plaintext_connection_allowed }}"
+  {% endif -%}
+  {% if vault_mysql_ha_enabled is defined and vault_mysql_ha_enabled|bool -%}
+  ha_enabled = "{{ vault_mysql_ha_enabled | bool | lower }}"
+  {% endif -%}
+  {% if vault_mysql_lock_table is defined and vault_mysql_lock_table|length -%}
+  lock_table = "{{ vault_mysql_lock_table }}"
+  {% endif -%}
 }
