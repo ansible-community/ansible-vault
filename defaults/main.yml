@@ -61,11 +61,12 @@ vault_dotfile: ".bashrc"
 vault_dotfile_disable: "{{ true if (vault_install_hashi_repo) else false }}"
 
 # Logging
-vault_enable_log: false
-vault_enable_logrotate: false
-vault_logrotate_freq: 7
-vault_logrotate_template: vault_logrotate.j2
-vault_exec_output: ''
+vault_log_file: "{{ vault_log_path }}/vault.log"
+vault_log_level: "info"
+vault_log_format: "standard"
+vault_log_rotate_duration: "24h"
+vault_log_rotate_bytes: 52428800
+vault_log_rotate_max_files: 7
 
 # Handlers
 vault_service_restart: true
@@ -77,7 +78,6 @@ vault_service_reload: false
 
 vault_cluster_name: dc1
 vault_datacenter: dc1
-vault_log_level: "{{ lookup('env', 'VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_iface: "{{ lookup('env', 'VAULT_IFACE') | default(ansible_default_ipv4.interface, true) }}"
 vault_address: "{{ hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
