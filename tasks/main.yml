@@ -95,20 +95,18 @@
       mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
     - path: "{{ vault_data_path }}"
       mode: "0750"
-    - path: "{{ vault_log_path }}"
-      mode: "0750"
     - path: "{{ vault_run_path }}"
       mode: "0750"
 
-- name: Enable logrotate for vault
+- name: Create log directory when vault_log_file is configured
   become: true
-  ansible.builtin.template:
-    src: "{{ vault_logrotate_template }}"
-    dest: /etc/logrotate.d/vault
-    owner: root
-    group: root
-    mode: "0644"
-  when: vault_enable_logrotate | bool
+  ansible.builtin.file:
+    path: "{{ vault_log_path }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+  when: vault_log_file | length > 0
 
 - name: TLS configuration
   ansible.builtin.include_tasks: tls.yml
@@ -220,11 +218,6 @@
   when:
     - vault_configure_enterprise_license | bool
     - vault_license_content | length > 0
-
-- name: "Set Exec output to log path when enabled log"
-  ansible.builtin.set_fact:
-    vault_exec_output: ">> {{ vault_log_path }}/vault.log 2>&1"
-  when: vault_enable_log
 
 - name: BSD init script
   ansible.builtin.template:

@@ -139,6 +139,25 @@ telemetry {
 license_path = "{{ vault_license_path }}"
 {% endif -%}
 
+{% if vault_log_file is defined and vault_log_file | length > 0 %}
+log_file = "{{ vault_log_file }}"
+{% if vault_log_level is defined %}
+log_level = "{{ vault_log_level }}"
+{% endif %}
+{% if vault_log_format is defined %}
+log_format = "{{ vault_log_format }}"
+{% endif %}
+{% if vault_log_rotate_duration is defined %}
+log_rotate_duration = "{{ vault_log_rotate_duration }}"
+{% endif %}
+{% if vault_log_rotate_bytes is defined %}
+log_rotate_bytes = {{ vault_log_rotate_bytes | int }}
+{% endif %}
+{% if vault_log_rotate_max_files is defined %}
+log_rotate_max_files = {{ vault_log_rotate_max_files | int }}
+{% endif %}
+{% endif %}
+
 {% if vault_custom_configuration is defined -%}
 {{ vault_custom_configuration }}
 {% endif -%}

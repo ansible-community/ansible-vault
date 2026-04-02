@@ -708,13 +708,6 @@ available starting at Vault version 1.4.
 - Kubernetes pod name to register
 - Default value: vault
 
-## `vault_log_level`
-
-- [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
-  - Supported values: trace, debug, info, warn, err
-- Default value: info
-- Requires Vault version 0.11.1 or higher
-
 ## `vault_iface`
 
 - Network interface
@@ -1028,25 +1021,36 @@ differences across distributions:
 - Vault package SHA256 summary
 - Default value: SHA256 summary
 
-## `vault_enable_log`
+## `vault_log_file`
 
-- Enable log to `vault_log_path`
-- Default value: false
+- Vault log file path
+- Default value: `{{ vault_log_path }}/vault.log`
 
-## `vault_enable_logrotate`
+## `vault_log_level`
 
-- Enable logrotation for systemd based systems
-- Default value: false
+- [Log level](https://developer.hashicorp.com/vault/docs/commands/server#_log_level)
+  - Supported values: trace, debug, info, warn, error
+- Default value: info
 
-## `vault_logrotate_freq`
+## `vault_log_format`
 
-- Determines how frequently to rotate vault logs
-- Default value: 7
+- Vault log format
+- Default value: `standard`
 
-## `vault_logrotate_template`
+## `vault_log_rotate_duration`
 
-- Logrotate template file
-- Default value: `vault_logrotate.j2`
+- Vault log rotate duration
+- Default value: `24h`
+
+## `vault_log_rotate_bytes`
+
+- Vault log rotate bytes
+- Default value: `52428800`
+
+## `vault_log_rotate_max_files`
+
+- Vault log rotate max files
+- Default value: `7`
 
 ## `vault_ubuntu_os_packages`
 
