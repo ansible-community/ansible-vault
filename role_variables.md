@@ -198,6 +198,11 @@ The role defines variables in `defaults/main.yml`:
 - Enable vault web UI
 - Default value:  true
 
+## `vault_systemd_use_subshell`
+
+- When `true`, the systemd `ExecStart` wraps the vault command in `/bin/sh -c 'exec ...'`. When `false`, vault is launched directly, so systemd logs show `vault[PID]` instead of `sh[PID]`. Set to `false` if you want cleaner journal output. Note: disabling the subshell means shell expansion (e.g. glob patterns in `vault_exec_output`) will not be available.
+- Default value: true
+
 ## `vault_service_restart`
 
 - Should the playbook restart Vault service when needed

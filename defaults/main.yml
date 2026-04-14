@@ -66,6 +66,7 @@ vault_enable_logrotate: false
 vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2
 vault_exec_output: ''
+vault_systemd_use_subshell: true
 
 # Handlers
 vault_service_restart: true
