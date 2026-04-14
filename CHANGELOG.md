@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.0](https://github.com/ansible-community/ansible-vault/compare/v3.3.2...v3.4.0) (2026-04-14)
+
+### Features
+
+* optionally do not use subshell for systemd execstart ([#415](https://github.com/ansible-community/ansible-vault/issues/415)) ([7102730](https://github.com/ansible-community/ansible-vault/commit/7102730499b11dcdce105e0273233dfcdd4e96a0))
+
 ## [3.3.2](https://github.com/ansible-community/ansible-vault/compare/v3.3.1...v3.3.2) (2026-02-09)
 
 ### Bug Fixes
