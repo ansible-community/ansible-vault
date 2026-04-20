@@ -28,6 +28,10 @@
     url: "{{ vault_repository_key_url }}"
     dest: /etc/apt/keyrings/hashicorp-archive-keyring.asc
     mode: '0644'
+  register: __vault_hashicorp_apt_key_download
+  retries: 6
+  until: __vault_hashicorp_apt_key_download is succeeded
+  delay: 10
   become: true
   when: ansible_pkg_mgr == 'apt'
 
