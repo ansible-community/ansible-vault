@@ -413,6 +413,14 @@ vault_license_file: ""
 # Upload skipped when empty or undefined, if `vault_license_file` is also empty or undefined
 # Only used if `vault_configure_enterprise_license: true`
 vault_license_content: ""
+# reporting stanza settings (enterprise only)
+# Added to config only if `vault_enterprise: true` and one or more values are non-default
+# https://developer.hashicorp.com/vault/docs/configuration/reporting
+vault_reporting_snapshot_retention_time: "9600h"
+vault_reporting_disable_product_usage_reporting: false
+vault_reporting_license_enabled: true
+vault_reporting_license_billing_start_timestamp: ""
+vault_reporting_license_development_cluster: false
 
 # -----------------
 # Vault plugins
