@@ -49,6 +49,9 @@ vault_log_path: /var/log/vault
 vault_run_path: /var/run/vault
 vault_home: "/home/{{ vault_user }}"
 vault_harden_file_perms: true
+vault_disable_swap: false
+vault_disable_swap_persist: true
+vault_disable_shell_history: false
 
 # System user and group
 vault_manage_user: "{{ false if (vault_install_hashi_repo) else true }}"

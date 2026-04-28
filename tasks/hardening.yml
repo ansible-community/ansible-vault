@@ -1,0 +1,81 @@
+---
+# File: tasks/hardening.yml - host hardening tasks for Vault
+
+- name: Check active swap devices
+  become: true
+  ansible.builtin.command:
+    cmd: swapon --summary --noheadings
+  register: vault_active_swap
+  changed_when: false
+  failed_when: false
+  when:
+    - ansible_system == "Linux"
+    - vault_disable_swap | bool
+
+- name: Disable active swap
+  become: true
+  ansible.builtin.command:
+    cmd: swapoff -a
+  register: vault_swapoff
+  changed_when: vault_swapoff.rc == 0
+  when:
+    - ansible_system == "Linux"
+    - vault_disable_swap | bool
+    - vault_active_swap.stdout | default('') | trim | length > 0
+
+- name: Disable swap entries in /etc/fstab
+  become: true
+  ansible.builtin.replace:
+    path: /etc/fstab
+    regexp: '^(\s*[^#\s]\S*\s+\S+\s+swap\s+\S+\s+\S+\s+\S+.*)$'
+    replace: '# \1 # disabled by ansible-vault role'
+  when:
+    - ansible_system == "Linux"
+    - vault_disable_swap | bool
+    - vault_disable_swap_persist | bool
+
+- name: Gather passwd database for shell history hardening
+  ansible.builtin.getent:
+    database: passwd
+  when:
+    - ansible_os_family != "Windows"
+    - vault_disable_shell_history | bool
+
+- name: Configure bash history to ignore vault commands
+  become: true
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_facts.getent_passwd[vault_user][4] }}/.bashrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - vault history hardening (bash)"
+    create: true
+    owner: "{{ vault_user }}"
+    mode: "0600"
+    block: |
+      # Ignore vault commands in bash history.
+      export HISTIGNORE="${HISTIGNORE:+$HISTIGNORE:}vault:vault *"
+  when:
+    - ansible_os_family != "Windows"
+    - vault_disable_shell_history | bool
+    - (ansible_facts.getent_passwd[vault_user][5] | basename) == 'bash'
+
+- name: Configure zsh history to ignore vault commands
+  become: true
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_facts.getent_passwd[vault_user][4] }}/.zshrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - vault history hardening (zsh)"
+    create: true
+    owner: "{{ vault_user }}"
+    mode: "0600"
+    block: |
+      # Ignore vault commands in zsh history.
+      function vault_history_ignore() {
+        case "$1" in
+          vault|vault\ *) return 1 ;;
+        esac
+        return 0
+      }
+      autoload -Uz add-zsh-hook
+      add-zsh-hook zshaddhistory vault_history_ignore
+  when:
+    - ansible_os_family != "Windows"
+    - vault_disable_shell_history | bool
+    - (ansible_facts.getent_passwd[vault_user][5] | basename) == 'zsh'
