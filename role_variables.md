@@ -158,6 +158,25 @@ The role defines variables in `defaults/main.yml`:
   path. This should be enabled to follow [Production Hardening](https://learn.hashicorp.com/tutorials/vault/production-hardening).
 - Default value: false
 
+## `vault_disable_swap`
+
+- Disable active swap on Linux hosts and (optionally) persist the setting by
+  commenting swap entries in `/etc/fstab`.
+- Default value: false
+
+## `vault_disable_swap_persist`
+
+- When `vault_disable_swap` is enabled, comment swap entries in `/etc/fstab`
+  to keep swap disabled after reboot.
+- Default value: true
+
+## `vault_disable_shell_history`
+
+- Enable shell history hardening for the `vault_user` account.
+- The role determines the user's shell from `/etc/passwd` and applies
+  shell-specific history filtering for `vault` commands.
+- Default value: false
+
 ## `vault_manage_user`
 
 - Should this role manage the vault user?

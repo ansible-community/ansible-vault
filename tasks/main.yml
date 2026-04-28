@@ -16,6 +16,10 @@
   ansible.builtin.include_tasks: preinstall.yml
   tags: preinstall
 
+- name: Run hardening tasks
+  ansible.builtin.include_tasks: hardening.yml
+  tags: hardening
+
 - name: Check Vault installation
   ansible.builtin.shell:
     cmd: command -v vault  # noqa command-instead-of-shell  # command is a shell builtin
