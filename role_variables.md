@@ -61,6 +61,11 @@ The role defines variables in `defaults/main.yml`:
   repository used.
 - Default value: *false*
 
+## `vault_version_lock`
+
+- When `true` and `vault_install_hashi_repo` is `true`, the role will lock the installed Vault package to the version specified in `vault_version` to prevent unintended upgrades.
+- Default value: *false*
+
 ## `vault_rhsm_repo_id`
 
 - Name of rhsm repo

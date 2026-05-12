@@ -39,6 +39,7 @@ vault_start_pause_seconds: 0
 vault_install_hashi_repo: false
 vault_install_remotely: false
 vault_privileged_install: false
+vault_version_lock: false
 
 # Paths
 vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo) else '/usr/local/bin' }}"
