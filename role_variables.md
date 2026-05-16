@@ -200,7 +200,7 @@ The role defines variables in `defaults/main.yml`:
 
 ## `vault_systemd_use_subshell`
 
-- When `true`, the systemd `ExecStart` wraps the vault command in `/bin/sh -c 'exec ...'`. When `false`, vault is launched directly, so systemd logs show `vault[PID]` instead of `sh[PID]`. Set to `false` if you want cleaner journal output. Note: disabling the subshell means shell expansion (e.g. glob patterns in `vault_exec_output`) will not be available.
+- When `true`, the systemd `ExecStart` wraps the vault command in `/bin/sh -c 'exec ...'`. When `false`, vault is launched directly, so systemd logs show `vault[PID]` instead of `sh[PID]`. Set to `false` if you want cleaner journal output. Note: disabling the subshell means shell expansion will  not be available.
 - Default value: true
 
 ## `vault_service_restart`
@@ -713,13 +713,6 @@ available starting at Vault version 1.4.
 - Kubernetes pod name to register
 - Default value: vault
 
-## `vault_log_level`
-
-- [Log level](https://www.consul.io/docs/agent/options.html#_log_level)
-  - Supported values: trace, debug, info, warn, err
-- Default value: info
-- Requires Vault version 0.11.1 or higher
-
 ## `vault_iface`
 
 - Network interface
@@ -1038,20 +1031,37 @@ differences across distributions:
 - Enable log to `vault_log_path`
 - Default value: false
 
-## `vault_enable_logrotate`
+## `vault_log_file`
 
-- Enable logrotation for systemd based systems
-- Default value: false
+- Vault log file path
+- Default value: `{{ vault_log_path }}/vault.log`
 
-## `vault_logrotate_freq`
+## `vault_log_level`
 
-- Determines how frequently to rotate vault logs
-- Default value: 7
+- [Log level](https://developer.hashicorp.com/vault/docs/commands/server#_log_level)
+  - Supported values: trace, debug, info, warn, error
+- Default value: info
 
-## `vault_logrotate_template`
+## `vault_log_format`
 
-- Logrotate template file
-- Default value: `vault_logrotate.j2`
+- Vault log format
+- Supported values: standard, json
+- Default value: `standard`
+
+## `vault_log_rotate_duration`
+
+- Vault log rotate duration
+- Default value: `24h`
+
+## `vault_log_rotate_bytes`
+
+- Vault log rotate bytes
+- Default value: `0`
+
+## `vault_log_rotate_max_files`
+
+- Vault log rotate max files
+- Default value: `0`
 
 ## `vault_ubuntu_os_packages`
 
