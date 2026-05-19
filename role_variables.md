@@ -61,6 +61,11 @@ The role defines variables in `defaults/main.yml`:
   repository used.
 - Default value: *false*
 
+## `vault_version_lock`
+
+- When `true` and `vault_install_hashi_repo` is `true`, the role will lock the installed Vault package to the version specified in `vault_version` to prevent unintended upgrades.
+- Default value: *false*
+
 ## `vault_rhsm_repo_id`
 
 - Name of rhsm repo
@@ -231,8 +236,8 @@ vault_tcp_listeners:
   - vault_address: '{{ vault_address }}'
     vault_port: '{{ vault_port }}'
     vault_cluster_address: '{{ vault_cluster_address }}'
-    # vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
-    # vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
+    vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
+    vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
     vault_tls_disable: '{{ vault_tls_disable }}'
     vault_tls_certs_path: '{{ vault_tls_certs_path }}'
     vault_tls_private_path: '{{ vault_tls_private_path }}'
