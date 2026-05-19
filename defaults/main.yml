@@ -41,6 +41,10 @@ vault_install_remotely: false
 vault_privileged_install: false
 vault_version_lock: false
 
+# Proxy
+vault_proxy_protocol_behavior: 
+vault_proxy_protocol_authorized_addrs:
+
 # Paths
 vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo) else '/usr/local/bin' }}"
 vault_config_path: /etc/vault.d
