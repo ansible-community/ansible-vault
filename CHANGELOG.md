@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.1](https://github.com/ansible-community/ansible-vault/compare/v3.7.0...v3.7.1) (2026-05-19)
+
+### Bug Fixes
+
+* unquote boolean values. ([#341](https://github.com/ansible-community/ansible-vault/issues/341)) ([8a25da3](https://github.com/ansible-community/ansible-vault/commit/8a25da3809a3894f5a40fa6c51f75d7891fe057c))
+
 ## [3.7.0](https://github.com/ansible-community/ansible-vault/compare/v3.6.0...v3.7.0) (2026-05-19)
 
 ### Features
