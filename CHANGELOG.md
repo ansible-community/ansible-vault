@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.6.0](https://github.com/ansible-community/ansible-vault/compare/v3.5.1...v3.6.0) (2026-05-19)
+
+### Features
+
+* uncomment proxy protocol variables, add version locking ([#417](https://github.com/ansible-community/ansible-vault/issues/417)) ([82f3bb5](https://github.com/ansible-community/ansible-vault/commit/82f3bb5840943aaa2a4af57678e60aa80a91f9b4)), closes [/github.com/ansible-community/ansible-vault/blob/master/templates/vault_main_configuration.hcl.j2#L17-L20](https://github.com/ansible-community//github.com/ansible-community/ansible-vault/blob/master/templates/vault_main_configuration.hcl.j2/issues/L17-L20)
+
 ## [3.5.1](https://github.com/ansible-community/ansible-vault/compare/v3.5.0...v3.5.1) (2026-05-19)
 
 ### Bug Fixes
