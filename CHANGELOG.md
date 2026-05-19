@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.2](https://github.com/ansible-community/ansible-vault/compare/v3.7.1...v3.7.2) (2026-05-19)
+
+### Bug Fixes
+
+* add missing default vars, remove squishy enterprise ci tests ([#421](https://github.com/ansible-community/ansible-vault/issues/421)) ([f56b2ce](https://github.com/ansible-community/ansible-vault/commit/f56b2ce4c810b2b094572d5c71b840dccb9ce882))
+
 ## [3.7.1](https://github.com/ansible-community/ansible-vault/compare/v3.7.0...v3.7.1) (2026-05-19)
 
 ### Bug Fixes
