@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.5.1](https://github.com/ansible-community/ansible-vault/compare/v3.5.0...v3.5.1) (2026-05-19)
+
+### Bug Fixes
+
+* recursive definition caused by typo in vault_transit_tls_ca_cert ([#410](https://github.com/ansible-community/ansible-vault/issues/410)) ([3b64557](https://github.com/ansible-community/ansible-vault/commit/3b64557bfe44c64d6af0519cec498604de77a3ba))
+
 ## [3.5.0](https://github.com/ansible-community/ansible-vault/compare/v3.4.0...v3.5.0) (2026-04-14)
 
 ### Features
