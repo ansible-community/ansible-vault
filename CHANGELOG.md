@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0](https://github.com/ansible-community/ansible-vault/compare/v3.7.2...v4.0.0) (2026-05-19)
+
+### ⚠ BREAKING CHANGES
+
+* enterprise + hardening updates (#419)
+
+### Features
+
+* enterprise + hardening updates ([#419](https://github.com/ansible-community/ansible-vault/issues/419)) ([550309a](https://github.com/ansible-community/ansible-vault/commit/550309a0d3af16fdeb0e7ef3217fb6049e88277a))
+
 ## [3.7.2](https://github.com/ansible-community/ansible-vault/compare/v3.7.1...v3.7.2) (2026-05-19)
 
 ### Bug Fixes
