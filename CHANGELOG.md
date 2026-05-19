@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.0](https://github.com/ansible-community/ansible-vault/compare/v3.6.0...v3.7.0) (2026-05-19)
+
+### Features
+
+* retry on get_url ([#418](https://github.com/ansible-community/ansible-vault/issues/418)) ([cb37160](https://github.com/ansible-community/ansible-vault/commit/cb37160a920317436cac042c6e028802059770be))
+
 ## [3.6.0](https://github.com/ansible-community/ansible-vault/compare/v3.5.1...v3.6.0) (2026-05-19)
 
 ### Features
