@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.7.2](https://github.com/ansible-community/ansible-vault/compare/v3.7.1...v3.7.2) (2026-05-19)
+
+### Bug Fixes
+
+* add missing default vars, remove squishy enterprise ci tests ([#421](https://github.com/ansible-community/ansible-vault/issues/421)) ([f56b2ce](https://github.com/ansible-community/ansible-vault/commit/f56b2ce4c810b2b094572d5c71b840dccb9ce882))
+
+## [3.7.1](https://github.com/ansible-community/ansible-vault/compare/v3.7.0...v3.7.1) (2026-05-19)
+
+### Bug Fixes
+
+* unquote boolean values. ([#341](https://github.com/ansible-community/ansible-vault/issues/341)) ([8a25da3](https://github.com/ansible-community/ansible-vault/commit/8a25da3809a3894f5a40fa6c51f75d7891fe057c))
+
+## [3.7.0](https://github.com/ansible-community/ansible-vault/compare/v3.6.0...v3.7.0) (2026-05-19)
+
+### Features
+
+* retry on get_url ([#418](https://github.com/ansible-community/ansible-vault/issues/418)) ([cb37160](https://github.com/ansible-community/ansible-vault/commit/cb37160a920317436cac042c6e028802059770be))
+
+## [3.6.0](https://github.com/ansible-community/ansible-vault/compare/v3.5.1...v3.6.0) (2026-05-19)
+
+### Features
+
+* uncomment proxy protocol variables, add version locking ([#417](https://github.com/ansible-community/ansible-vault/issues/417)) ([82f3bb5](https://github.com/ansible-community/ansible-vault/commit/82f3bb5840943aaa2a4af57678e60aa80a91f9b4)), closes [/github.com/ansible-community/ansible-vault/blob/master/templates/vault_main_configuration.hcl.j2#L17-L20](https://github.com/ansible-community//github.com/ansible-community/ansible-vault/blob/master/templates/vault_main_configuration.hcl.j2/issues/L17-L20)
+
+## [3.5.1](https://github.com/ansible-community/ansible-vault/compare/v3.5.0...v3.5.1) (2026-05-19)
+
+### Bug Fixes
+
+* recursive definition caused by typo in vault_transit_tls_ca_cert ([#410](https://github.com/ansible-community/ansible-vault/issues/410)) ([3b64557](https://github.com/ansible-community/ansible-vault/commit/3b64557bfe44c64d6af0519cec498604de77a3ba))
+
 ## [3.5.0](https://github.com/ansible-community/ansible-vault/compare/v3.4.0...v3.5.0) (2026-04-14)
 
 ### Features

@@ -41,6 +41,10 @@ vault_install_remotely: false
 vault_privileged_install: false
 vault_version_lock: false
 
+# Proxy
+vault_proxy_protocol_behavior: 
+vault_proxy_protocol_authorized_addrs:
+
 # Paths
 vault_bin_path: "{{ '/usr/bin' if (vault_install_hashi_repo) else '/usr/local/bin' }}"
 vault_config_path: /etc/vault.d
@@ -337,7 +341,7 @@ vault_transit_disable_renewal: false
 vault_transit_key_name: 'autounseal'
 vault_transit_mount_path: "transit/"
 # vault_transit_namespace: ''
-vault_transit_tls_ca_cert_file: "{{ vault_transit_tls_ca_cert_file | default(vault_tls_ca_file) }}"
+vault_transit_tls_ca_cert_file: "{{ vault_transit_tls_ca_cert | default(vault_tls_ca_file) }}"
 vault_transit_tls_client_cert_file: "{{ vault_transit_tls_client_cert | default('autounseal_client_cert.pem', true) }}"
 vault_transit_tls_client_key_file: "{{ vault_transit_tls_client_key | default('autounseal_client_key.pem', true) }}"
 # vault_transit_tls_server_name: ''

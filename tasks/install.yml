@@ -19,6 +19,10 @@
     mode: "0644"
   become: "{{ vault_privileged_install }}"
   run_once: true
+  register: __vault_download_local_package
+  retries: 6
+  until: __vault_download_local_package is succeeded
+  delay: 10
   tags: installation
   when: not vault_package.stat.exists | bool
   delegate_to: 127.0.0.1

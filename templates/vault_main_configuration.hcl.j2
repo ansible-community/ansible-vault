@@ -31,23 +31,23 @@ listener "tcp" {
   tls_cipher_suites = "{{ l.vault_tls_cipher_suites}}"
   {% endif -%}
   {% if (l.vault_tls_require_and_verify_client_cert | bool) -%}
-  tls_require_and_verify_client_cert = "{{ l.vault_tls_require_and_verify_client_cert | bool | lower}}"
+  tls_require_and_verify_client_cert = {{ l.vault_tls_require_and_verify_client_cert | bool | lower}}
   {% endif -%}
   {% if (l.vault_tls_disable_client_certs | bool) -%}
-  tls_disable_client_certs = "{{ l.vault_tls_disable_client_certs | bool | lower}}"
+  tls_disable_client_certs = {{ l.vault_tls_disable_client_certs | bool | lower}}
   {% endif -%}
   {% endif -%}
-  tls_disable = "{{ l.vault_tls_disable | bool | lower }}"
+  tls_disable = {{ l.vault_tls_disable | bool | lower }}
   {% if (l.vault_x_forwarded_for_authorized_addrs is defined and l.vault_x_forwarded_for_authorized_addrs) -%}
   x_forwarded_for_authorized_addrs = "{{ l.vault_x_forwarded_for_authorized_addrs }}"
   {% if (l.vault_x_forwarded_for_hop_skips is defined) -%}
   x_forwarded_for_hop_skips = "{{ l.vault_x_forwarded_for_hop_skips }}"
   {% endif -%}
   {% if (l.vault_x_forwarded_for_reject_not_authorized is defined) -%}
-  x_forwarded_for_reject_not_authorized = "{{ l.vault_x_forwarded_for_reject_not_authorized | bool | lower }}"
+  x_forwarded_for_reject_not_authorized = {{ l.vault_x_forwarded_for_reject_not_authorized | bool | lower }}
   {% endif -%}
   {% if (l.vault_x_forwarded_for_reject_not_present is defined) -%}
-  x_forwarded_for_reject_not_present = "{{ l.vault_x_forwarded_for_reject_not_present | bool | lower }}"
+  x_forwarded_for_reject_not_present = {{ l.vault_x_forwarded_for_reject_not_present | bool | lower }}
   {% endif -%}
   {% endif -%}
   {% if (vault_unauthenticated_metrics_access | bool) -%}

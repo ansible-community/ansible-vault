@@ -27,6 +27,9 @@
             checksum: "sha256:{{ vault_plugin_acme_zip_sha256sum }}"
             mode: "0644"
           register: __vault_plugin_acme_zip_file
+          retries: 6
+          until: __vault_plugin_acme_zip_file is succeeded
+          delay: 10
           run_once: "{{ (vault_plugin_acme_install == 'local') }}"
 
         - name: Extract acme vault plugin
