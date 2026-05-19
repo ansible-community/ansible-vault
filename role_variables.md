@@ -163,6 +163,25 @@ The role defines variables in `defaults/main.yml`:
   path. This should be enabled to follow [Production Hardening](https://learn.hashicorp.com/tutorials/vault/production-hardening).
 - Default value: false
 
+## `vault_disable_swap`
+
+- Disable active swap on Linux hosts and (optionally) persist the setting by
+  commenting swap entries in `/etc/fstab`.
+- Default value: false
+
+## `vault_disable_swap_persist`
+
+- When `vault_disable_swap` is enabled, comment swap entries in `/etc/fstab`
+  to keep swap disabled after reboot.
+- Default value: true
+
+## `vault_disable_shell_history`
+
+- Enable shell history hardening for the `vault_user` account.
+- The role determines the user's shell from `/etc/passwd` and applies
+  shell-specific history filtering for `vault` commands.
+- Default value: false
+
 ## `vault_manage_user`
 
 - Should this role manage the vault user?
@@ -1123,6 +1142,40 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 - Value of the enterprise license to use. Upload skipped when empty or undefined, if `vault_license_file` is also empty or undefined. Only used if `vault_configure_enterprise_license: true`.
 - Default value: ""
+
+## Enterprise reporting stanza
+
+The role can render Vault's [`reporting` stanza](https://developer.hashicorp.com/vault/docs/configuration/reporting) in `vault_main.hcl`.
+
+- The stanza is rendered only when `vault_enterprise: true`.
+- The stanza is rendered only when at least one reporting value below is changed from its default.
+- When rendered, all reporting fields are included except `billing_start_timestamp`, which is only included when explicitly set.
+
+## `vault_reporting_snapshot_retention_time`
+
+- Reporting snapshot retention time.
+- Default value: `"9600h"` (Vault default `9600` hours)
+
+## `vault_reporting_disable_product_usage_reporting`
+
+- Toggle product usage reporting.
+- Default value: `false`
+
+## `vault_reporting_license_enabled`
+
+- Toggle automatic license utilization reporting in the `license` sub-stanza.
+- Default value: `true`
+
+## `vault_reporting_license_billing_start_timestamp`
+
+- Optional billing start timestamp for license reporting.
+- Included in configuration only when non-empty.
+- Default value: `""`
+
+## `vault_reporting_license_development_cluster`
+
+- Mark the cluster as a development (non-production) cluster for license reporting.
+- Default value: `false`
 
 ## `vault_hsm_app`
 

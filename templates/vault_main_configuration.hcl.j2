@@ -135,6 +135,30 @@ telemetry {
 }
 {% endif -%}
 
+{% set vault_reporting_snapshot_retention_time_non_default = (vault_reporting_snapshot_retention_time | string not in ['9600', '9600h']) -%}
+{% set vault_reporting_disable_product_usage_reporting_non_default = (vault_reporting_disable_product_usage_reporting | bool) -%}
+{% set vault_reporting_license_enabled_non_default = (not (vault_reporting_license_enabled | bool)) -%}
+{% set vault_reporting_license_billing_start_timestamp_non_default = ((vault_reporting_license_billing_start_timestamp | default('') | string | length) > 0) -%}
+{% set vault_reporting_license_development_cluster_non_default = (vault_reporting_license_development_cluster | bool) -%}
+{% set vault_reporting_non_default = vault_reporting_snapshot_retention_time_non_default
+  or vault_reporting_disable_product_usage_reporting_non_default
+  or vault_reporting_license_enabled_non_default
+  or vault_reporting_license_billing_start_timestamp_non_default
+  or vault_reporting_license_development_cluster_non_default -%}
+{% if (vault_enterprise | bool) and vault_reporting_non_default -%}
+reporting {
+  snapshot_retention_time = "{{ vault_reporting_snapshot_retention_time }}"
+  disable_product_usage_reporting = {{ vault_reporting_disable_product_usage_reporting | bool | lower }}
+  license {
+    enabled = {{ vault_reporting_license_enabled | bool | lower }}
+    {% if vault_reporting_license_billing_start_timestamp_non_default -%}
+    billing_start_timestamp = "{{ vault_reporting_license_billing_start_timestamp }}"
+    {% endif -%}
+    development_cluster = {{ vault_reporting_license_development_cluster | bool | lower }}
+  }
+}
+{% endif -%}
+
 {% if vault_configure_enterprise_license | bool -%}
 license_path = "{{ vault_license_path }}"
 {% endif -%}
