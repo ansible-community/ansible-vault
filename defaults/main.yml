@@ -66,8 +66,8 @@ vault_log_file: "{{ vault_log_path }}/vault.log"
 vault_log_level: "info"
 vault_log_format: "standard"
 vault_log_rotate_duration: "24h"
-vault_log_rotate_bytes: 52428800
-vault_log_rotate_max_files: 7
+# vault_log_rotate_bytes: 52428800
+vault_log_rotate_max_files: 0
 
 vault_systemd_use_subshell: true
 

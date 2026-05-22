@@ -108,16 +108,6 @@
     mode: "0750"
   when: vault_enable_log | bool
 
-- name: Enable logrotate for vault
-  become: true
-  ansible.builtin.template:
-    src: "{{ vault_logrotate_template }}"
-    dest: /etc/logrotate.d/vault
-    owner: root
-    group: root
-    mode: "0644"
-  when: vault_enable_logrotate | bool
-
 - name: TLS configuration
   ansible.builtin.include_tasks: tls.yml
   when: not vault_tls_disable | bool
