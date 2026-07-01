@@ -50,7 +50,7 @@ listener "tcp" {
   x_forwarded_for_reject_not_present = {{ l.vault_x_forwarded_for_reject_not_present | bool | lower }}
   {% endif -%}
   {% endif -%}
-  {% if (vault_unauthenticated_metrics_access | bool) -%}
+  {% if (l.vault_unauthenticated_metrics_access | default(vault_unauthenticated_metrics_access) | bool) -%}
   telemetry {
     unauthenticated_metrics_access = "true"
   }
