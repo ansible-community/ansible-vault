@@ -233,6 +233,8 @@ vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_f
 
 # raft storage settings
 vault_backend: raft
+# HashiCorp recommends disabling mlock when using integrated storage (raft)
+vault_disable_mlock: "{{ vault_backend == 'raft' }}"
 vault_raft_group_name: "vault_raft_servers"
 vault_raft_cluster_members: |
   [

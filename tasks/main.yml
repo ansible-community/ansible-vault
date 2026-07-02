@@ -75,7 +75,7 @@
   changed_when: false  # read-only task
   ignore_errors: true
   register: vault_mlock_capability
-  when: not vault_disable_mlock | default(false) | bool
+  when: not vault_disable_mlock | bool
 
 - name: Enable non root mlock capability
   become: true
@@ -84,7 +84,7 @@
   register: output
   changed_when: output.rc != 0
   when:
-    - not vault_disable_mlock | default(false) | bool
+    - not vault_disable_mlock | bool
     - vault_mlock_capability is failed
 
 - name: Create directories
