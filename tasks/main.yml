@@ -102,8 +102,16 @@
       mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
     - path: "{{ vault_data_path }}"
       mode: "0750"
-    - path: "{{ vault_run_path }}"
-      mode: "0750"
+
+- name: Create run directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vault_run_path }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+  when: not vault_install_hashi_repo | bool
 
 - name: Create {{ vault_log_path }} directory for vault logs
   become: true

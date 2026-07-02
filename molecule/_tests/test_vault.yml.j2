@@ -17,3 +17,7 @@ group:
 process:
   vault:
     running: true
+file:
+  {{ vault_run_path | default('/var/run/vault') }}:
+    # a vault_install_hashi_repo-based install does not use vault_run_path
+    exists: {{ 'false' if (vault_install_hashi_repo | default(false) | bool) else 'true' }}
