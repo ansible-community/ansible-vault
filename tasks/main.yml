@@ -75,6 +75,7 @@
   changed_when: false  # read-only task
   ignore_errors: true
   register: vault_mlock_capability
+  when: not vault_disable_mlock | default(false) | bool
 
 - name: Enable non root mlock capability
   become: true
@@ -82,7 +83,9 @@
     cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   register: output
   changed_when: output.rc != 0
-  when: vault_mlock_capability is failed
+  when:
+    - not vault_disable_mlock | default(false) | bool
+    - vault_mlock_capability is failed
 
 - name: Create directories
   become: true
