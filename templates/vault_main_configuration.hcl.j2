@@ -21,7 +21,7 @@ listener "tcp" {
   {% endif -%}
   {% endif -%}
   {% if not (l.vault_tls_disable | bool) -%}
-  {% if (l.vault_tls_client_ca_file is defined) -%}
+  {% if (l.vault_tls_client_ca_file is defined) and l.vault_tls_client_ca_file != "" -%}
   tls_client_ca_file="{{ l.vault_tls_certs_path }}/{{ l.vault_tls_client_ca_file }}"
   {% endif -%}
   tls_cert_file = "{{ l.vault_tls_certs_path }}/{{ l.vault_tls_cert_file }}"
