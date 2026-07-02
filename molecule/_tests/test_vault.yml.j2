@@ -21,3 +21,6 @@ file:
   {{ vault_run_path | default('/var/run/vault') }}:
     # a vault_install_hashi_repo-based install does not use vault_run_path
     exists: {{ 'false' if (vault_install_hashi_repo | default(false) | bool) else 'true' }}
+  {{ vault_log_path | default('/var/log/vault') }}:
+    # vault_log_path is only created when vault_enable_log is true
+    exists: {{ 'true' if (vault_enable_log | default(false) | bool) else 'false' }}

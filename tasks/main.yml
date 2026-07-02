@@ -103,6 +103,16 @@
     - path: "{{ vault_data_path }}"
       mode: "0750"
 
+- name: Create log directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vault_log_path }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+  when: vault_enable_log | bool
+
 - name: Create run directory
   become: true
   ansible.builtin.file:
