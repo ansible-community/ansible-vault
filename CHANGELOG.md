@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1](https://github.com/ansible-community/ansible-vault/compare/v4.0.0...v4.0.1) (2026-07-03)
+
+### Bug Fixes
+
+* add become: true to task 'Update package cache' ([#424](https://github.com/ansible-community/ansible-vault/issues/424)) ([51693d2](https://github.com/ansible-community/ansible-vault/commit/51693d2409eb52b6b8d8a8e7011e0f294cfe8c39))
+
 ## [4.0.0](https://github.com/ansible-community/ansible-vault/compare/v3.7.2...v4.0.0) (2026-05-19)
 
 ### ⚠ BREAKING CHANGES
