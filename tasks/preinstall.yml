@@ -19,6 +19,7 @@
   when: vault_manage_user | bool
 
 - name: Update package cache
+  become: true
   ansible.builtin.package:
     update_cache: true
   tags: update_cache
