@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.0](https://github.com/ansible-community/ansible-vault/compare/v4.0.1...v5.0.0) (2026-07-03)
+
+### ⚠ BREAKING CHANGES
+
+* support Vault-based logging and remove old logrotate (#423)
+
+### Features
+
+* support Vault-based logging and remove old logrotate ([#423](https://github.com/ansible-community/ansible-vault/issues/423)) ([ffcc094](https://github.com/ansible-community/ansible-vault/commit/ffcc0944ab49861c47a907c19cc62417e5517d7d))
+
 ## [4.0.1](https://github.com/ansible-community/ansible-vault/compare/v4.0.0...v4.0.1) (2026-07-03)
 
 ### Bug Fixes
