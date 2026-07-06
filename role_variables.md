@@ -268,6 +268,7 @@ vault_tcp_listeners:
     vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
     vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
     vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
+    # vault_unauthenticated_metrics_access: '{{ vault_unauthenticated_metrics_access }}'
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
     # vault_x_forwarded_for_hop_skips: '{{ vault_x_forwarded_for_hop_skips }}'
     # vault_x_forwarded_for_reject_not_authorized: '{{ vault_x_forwarded_for_reject_not_authorized }}'
@@ -975,6 +976,7 @@ vault_additional_environment_variables:
 ## `vault_unauthenticated_metrics_access`
 
 - Configure [unauthenticated metrics access](https://www.vaultproject.io/docs/configuration/listener/tcp#configuring-unauthenticated-metrics-access)
+- Can also be set per listener in `vault_tcp_listeners`; a listener-level value overrides the global one
 - Default value: false
 
 ## `vault_telemetry_usage_gauge_period`
