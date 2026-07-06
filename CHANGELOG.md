@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.0](https://github.com/ansible-community/ansible-vault/compare/v5.0.1...v5.1.0) (2026-07-06)
+
+### Features
+
+* allow to configure `unauthenticated_metrics_access` for each tcp listener ([#427](https://github.com/ansible-community/ansible-vault/issues/427)) ([67e0e61](https://github.com/ansible-community/ansible-vault/commit/67e0e615ff4679e27f57492076f42ae9a2edfc73))
+
 ## [5.0.1](https://github.com/ansible-community/ansible-vault/compare/v5.0.0...v5.0.1) (2026-07-06)
 
 ### Bug Fixes
