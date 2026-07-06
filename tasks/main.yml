@@ -75,6 +75,7 @@
   changed_when: false  # read-only task
   ignore_errors: true
   register: vault_mlock_capability
+  when: not vault_disable_mlock | bool
 
 - name: Enable non root mlock capability
   become: true
@@ -82,7 +83,9 @@
     cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
   register: output
   changed_when: output.rc != 0
-  when: vault_mlock_capability is failed
+  when:
+    - not vault_disable_mlock | bool
+    - vault_mlock_capability is failed
 
 - name: Create directories
   become: true
@@ -99,8 +102,26 @@
       mode: "{{ vault_harden_file_perms | ternary('0555', '0755') }}"
     - path: "{{ vault_data_path }}"
       mode: "0750"
-    - path: "{{ vault_run_path }}"
-      mode: "0750"
+
+- name: Create log directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vault_log_path }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+  when: vault_enable_log | bool
+
+- name: Create run directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vault_run_path }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+  when: not vault_install_hashi_repo | bool
 
 - name: Create {{ vault_log_path }} directory for vault logs
   become: true

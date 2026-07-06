@@ -263,6 +263,7 @@ vault_tcp_listeners:
     vault_tls_cert_file: '{{ vault_tls_cert_file }}'
     vault_tls_key_file: '{{ vault_tls_key_file }}'
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
+    vault_tls_client_ca_file: '{{ vault_tls_client_ca_file }}'
     vault_tls_min_version: '{{ vault_tls_min_version }}'
     vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
     vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
@@ -279,6 +280,11 @@ vault_tcp_listeners:
 
 - Which storage backend should be selected, choices are: raft, consul, etcd, file, s3, and dynamodb
 - Default value: raft
+
+## `vault_disable_mlock`
+
+- Renders `disable_mlock` in the Vault configuration and, when mlock is enabled, controls granting the IPC_LOCK capability to the vault binary
+- Default value: true when `vault_backend` is raft, false otherwise
 
 
 ## `vault_backend_tls_src_files`

@@ -123,6 +123,7 @@ vault_tcp_listeners:
     vault_tls_cert_file: '{{ vault_tls_cert_file }}'
     vault_tls_key_file: '{{ vault_tls_key_file }}'
     vault_tls_ca_file: '{{ vault_tls_ca_file }}'
+    vault_tls_client_ca_file: '{{ vault_tls_client_ca_file }}'
     vault_tls_min_version: '{{ vault_tls_min_version }}'
     vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
     vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
@@ -232,6 +233,8 @@ vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_f
 
 # raft storage settings
 vault_backend: raft
+# HashiCorp recommends disabling mlock when using integrated storage (raft)
+vault_disable_mlock: "{{ vault_backend == 'raft' }}"
 vault_raft_group_name: "vault_raft_servers"
 vault_raft_cluster_members: |
   [
