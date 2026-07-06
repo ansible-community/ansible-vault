@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.1](https://github.com/ansible-community/ansible-vault/compare/v5.0.0...v5.0.1) (2026-07-06)
+
+### Bug Fixes
+
+* multiple fixes, see details ([97f2851](https://github.com/ansible-community/ansible-vault/commit/97f2851a6ecb77d8e2037dcb823efa2e47f02f26)), closes [#368](https://github.com/ansible-community/ansible-vault/issues/368) [#370](https://github.com/ansible-community/ansible-vault/issues/370) [#369](https://github.com/ansible-community/ansible-vault/issues/369) [#339](https://github.com/ansible-community/ansible-vault/issues/339) [#287](https://github.com/ansible-community/ansible-vault/issues/287)
+
 ## [5.0.0](https://github.com/ansible-community/ansible-vault/compare/v4.0.1...v5.0.0) (2026-07-03)
 
 ### ⚠ BREAKING CHANGES
