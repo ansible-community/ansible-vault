@@ -77,9 +77,9 @@ to load any new configuration deployed.
 
 ## Seal selection
 
-Use `vault_seal_type` to select the Vault seal type. The default, `auto`, uses
-the existing legacy seal variables. If none is enabled, Vault uses Shamir.
-Supported values: `auto`, `shamir`, `transit`, `awskms`, `azurekeyvault`, `gcpckms`, `ocikms`, and `pkcs11`.
+Use `vault_seal_type` to select the Vault seal type. The default is `shamir`.
+For compatibility, an enabled legacy seal variable takes priority over `shamir`.
+Supported values: `shamir`, `transit`, `awskms`, `azurekeyvault`, `gcpckms`, `ocikms`, and `pkcs11`.
 
 
 ## Misc

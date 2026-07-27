@@ -44,8 +44,8 @@
 - name: Validate Vault seal type
   ansible.builtin.assert:
     that:
-      - vault_seal_type | lower in ['auto', 'shamir', 'transit', 'awskms', 'azurekeyvault', 'gcpckms', 'ocikms', 'pkcs11']
-    fail_msg: "vault_seal_type must be: auto, shamir, transit, awskms, azurekeyvault, gcpckms, ocikms, or pkcs11."
+      - vault_seal_type | lower in ['shamir', 'transit', 'awskms', 'azurekeyvault', 'gcpckms', 'ocikms', 'pkcs11']
+    fail_msg: "vault_seal_type must be: shamir, transit, awskms, azurekeyvault, gcpckms, ocikms, or pkcs11."
 
 - name: Validate legacy Vault seal flags
   ansible.builtin.assert:
@@ -63,7 +63,7 @@
   ansible.builtin.assert:
     that:
       - >-
-        vault_seal_type | lower == 'auto'
+        vault_seal_type | lower == 'shamir'
         or not (vault_transit | bool or vault_awskms | bool or vault_azurekeyvault | bool
         or vault_gkms | bool or vault_ocikms | bool or vault_enterprise_hsm | bool)
         or (vault_seal_type | lower == 'transit' and vault_transit | bool)
@@ -74,27 +74,6 @@
         or (vault_seal_type | lower == 'pkcs11' and vault_enterprise_hsm | bool)
     fail_msg: "vault_seal_type conflicts with the enabled legacy Vault seal flag."
 
-- name: Resolve effective Vault seal type
-  ansible.builtin.set_fact:
-    _vault_seal_type_effective: >-
-      {{
-        vault_seal_type | lower
-        if vault_seal_type | lower != 'auto'
-        else (
-          'transit' if vault_transit | bool
-          else 'awskms' if vault_awskms | bool
-          else 'azurekeyvault' if vault_azurekeyvault | bool
-          else 'gcpckms' if vault_gkms | bool
-          else 'ocikms' if vault_ocikms | bool
-          else 'pkcs11' if vault_enterprise_hsm | bool
-          else 'shamir'
-        )
-      }}
-
-- name: Set Vault configuration path mode
-  ansible.builtin.set_fact:
-    vault_use_config_path: "{{ _vault_seal_type_effective != 'shamir' }}"
-
 - name: Check if vault_transit_address and vault_transit_token has been specified
   ansible.builtin.assert:
     that:
@@ -102,4 +81,4 @@
       - vault_transit_token | length > 0
     fail_msg: "vault_transit_address and vault_transit_token must both be defined for the Vault Transit seal."
   when:
-    - _vault_seal_type_effective == 'transit'
+    - vault_transit | bool

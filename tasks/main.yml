@@ -145,7 +145,7 @@
   ansible.builtin.set_fact:
     vault_gkms_credentials_content: "{{ lookup('file', vault_gkms_credentials_src_file) }}"
   when:
-    - _vault_seal_type_effective == 'gcpckms'
+    - vault_gkms | bool
     - vault_gkms_credentials_src_file | length > 0
 
 - name: "Copy over GCP Credentials for Auto Unseal"  # noqa template-instead-of-copy  # https://github.com/ansible/ansible-lint/issues/2501
@@ -156,7 +156,7 @@
     group: "{{ vault_group }}"
     mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
   when:
-    - _vault_seal_type_effective == 'gcpckms'
+    - vault_gkms | bool
     - vault_gkms_credentials_content | length > 0 or
       vault_gkms_copy_sa | bool
 
@@ -193,7 +193,7 @@
     group: "{{ vault_group }}"
     mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
-  when: _vault_seal_type_effective == 'transit'
+  when: vault_transit | bool
   notify: Restart vault
 
 - name: Vault awskms seal configuration
@@ -205,7 +205,7 @@
     group: "{{ vault_group }}"
     mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
-  when: _vault_seal_type_effective == 'awskms'
+  when: vault_awskms | bool
   notify: Restart vault
 
 - name: Vault azurekeyvault seal configuration
@@ -217,7 +217,7 @@
     group: "{{ vault_group }}"
     mode: "{{ vault_harden_file_perms | ternary('0400', '0600') }}"
     backup: "{{ vault_backup_config | default('false') | bool | lower }}"
-  when: _vault_seal_type_effective == 'azurekeyvault'
+  when: vault_azurekeyvault | bool
   notify: Restart vault
 
 - name: Upload Vault license file to vault_license_path
