@@ -41,9 +41,65 @@
     msg: "vault_redirect_address is deprecated. Check for vault_api_addr in the README."
   when: vault_redirect_address is defined
 
+- name: Validate Vault seal type
+  ansible.builtin.assert:
+    that:
+      - vault_seal_type | lower in ['auto', 'shamir', 'transit', 'awskms', 'azurekeyvault', 'gcpckms', 'ocikms', 'pkcs11']
+    fail_msg: "vault_seal_type must be: auto, shamir, transit, awskms, azurekeyvault, gcpckms, ocikms, or pkcs11."
+
+- name: Validate legacy Vault seal flags
+  ansible.builtin.assert:
+    that:
+      - >-
+        (vault_transit | bool | int)
+        + (vault_awskms | bool | int)
+        + (vault_azurekeyvault | bool | int)
+        + (vault_gkms | bool | int)
+        + (vault_ocikms | bool | int)
+        + (vault_enterprise_hsm | bool | int) <= 1
+    fail_msg: "Only one legacy Vault seal flag may be enabled. Use vault_seal_type to select one seal."
+
+- name: Validate Vault seal type agrees with legacy flag
+  ansible.builtin.assert:
+    that:
+      - >-
+        vault_seal_type | lower == 'auto'
+        or not (vault_transit | bool or vault_awskms | bool or vault_azurekeyvault | bool
+        or vault_gkms | bool or vault_ocikms | bool or vault_enterprise_hsm | bool)
+        or (vault_seal_type | lower == 'transit' and vault_transit | bool)
+        or (vault_seal_type | lower == 'awskms' and vault_awskms | bool)
+        or (vault_seal_type | lower == 'azurekeyvault' and vault_azurekeyvault | bool)
+        or (vault_seal_type | lower == 'gcpckms' and vault_gkms | bool)
+        or (vault_seal_type | lower == 'ocikms' and vault_ocikms | bool)
+        or (vault_seal_type | lower == 'pkcs11' and vault_enterprise_hsm | bool)
+    fail_msg: "vault_seal_type conflicts with the enabled legacy Vault seal flag."
+
+- name: Resolve effective Vault seal type
+  ansible.builtin.set_fact:
+    _vault_seal_type_effective: >-
+      {{
+        vault_seal_type | lower
+        if vault_seal_type | lower != 'auto'
+        else (
+          'transit' if vault_transit | bool
+          else 'awskms' if vault_awskms | bool
+          else 'azurekeyvault' if vault_azurekeyvault | bool
+          else 'gcpckms' if vault_gkms | bool
+          else 'ocikms' if vault_ocikms | bool
+          else 'pkcs11' if vault_enterprise_hsm | bool
+          else 'shamir'
+        )
+      }}
+
+- name: Set Vault configuration path mode
+  ansible.builtin.set_fact:
+    vault_use_config_path: "{{ _vault_seal_type_effective != 'shamir' }}"
+
 - name: Check if vault_transit_address and vault_transit_token has been specified
-  ansible.builtin.fail:
-    msg: "need vault_transit_address and vault_transit_token defined for vault transit seal configuration."
+  ansible.builtin.assert:
+    that:
+      - vault_transit_address | length > 0
+      - vault_transit_token | length > 0
+    fail_msg: "vault_transit_address and vault_transit_token must both be defined for the Vault Transit seal."
   when:
-    - vault_transit | bool
-    - not (vault_transit_address or vault_transit_token)
+    - _vault_seal_type_effective == 'transit'

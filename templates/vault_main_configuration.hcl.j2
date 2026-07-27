@@ -105,15 +105,15 @@ ui = {{ vault_ui | bool | lower }}
   {% include 'vault_entropy_seal.j2' with context %}
 {% endif %}
 
-{% if vault_enterprise_hsm | bool -%}
+{% if _vault_seal_type_effective == 'pkcs11' -%}
   {% include vault_backend_seal with context %}
 {% endif %}
 
-{% if vault_gkms | bool -%}
+{% if _vault_seal_type_effective == 'gcpckms' -%}
   {% include vault_backend_gkms with context %}
 {% endif %}
 
-{% if vault_ocikms | bool -%}
+{% if _vault_seal_type_effective == 'ocikms' -%}
   {% include vault_ocikms_backend with context %}
 {% endif %}
 

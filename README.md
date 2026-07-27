@@ -75,6 +75,13 @@ to load any new configuration deployed.
 
 ## [Role Variables](role_variables.md)
 
+## Seal selection
+
+Use `vault_seal_type` to select the Vault seal type. The default, `auto`, uses
+the existing legacy seal variables. If none is enabled, Vault uses Shamir.
+Supported values: `auto`, `shamir`, `transit`, `awskms`, `azurekeyvault`, `gcpckms`, `ocikms`, and `pkcs11`.
+
+
 ## Misc
 
 ### [Vault Release Scheme](vault_releases.md)

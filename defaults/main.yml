@@ -8,7 +8,7 @@
 # Package variables
 vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('2.0.3', true) }}"
 
-vault_version_release_site_suffix: "{{ '+ent' if vault_enterprise }}{{ '.hsm' if vault_enterprise_hsm }}"
+vault_version_release_site_suffix: "{{ '+ent' if vault_enterprise }}{{ '.hsm' if (_vault_seal_type_effective | default('shamir') == 'pkcs11') }}"
 vault_version_repo_suffix: "{{ '+ent-1' if vault_enterprise else '-1' }}"
 
 vault_architecture_map:
@@ -93,8 +93,9 @@ vault_address: "{{ hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4'
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
 
-# seal configs are written in separate files in vault_config_path, if ony of those is enabled, we need to use vault_config_path in the systemD unit file
-vault_use_config_path: "{{ vault_transit or vault_awskms or vault_azurekeyvault or vault_gkms | default(false) }}"
+# This value is derived from _vault_seal_type_effective in tasks/asserts.yml.
+# A configuration directory is required so Vault can load any selected auto-unseal configuration, including separate legacy seal files.
+vault_use_config_path: false
 
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
@@ -335,6 +336,12 @@ vault_tls_disable_client_certs: false
 # ---------------------------------------------------------------------------
 # Seal variables
 # ---------------------------------------------------------------------------
+
+# Select the seal implementation. `auto` preserves the legacy behaviour and
+# derives the type from the legacy boolean variables below.
+# Valid values: auto, shamir, transit, awskms, azurekeyvault, gcpckms, ocikms,
+# and pkcs11. `gcpckms` matches Vault's seal stanza name.
+vault_seal_type: auto
 
 # transit auto unseal, see https://www.vaultproject.io/docs/configuration/seal/transit
 vault_transit: false

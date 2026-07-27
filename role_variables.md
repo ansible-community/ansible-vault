@@ -111,7 +111,8 @@ The role defines variables in `defaults/main.yml`:
 ## `vault_use_config_path`
 
 - Use `"{{ vault_config_path }}"` to configure vault instead of `"{{ vault_main_config }}"`
-- default vaule: _false_
+- Derived from the effective seal type: `true` for every auto-unseal seal and `false` for Shamir.
+- Default value: `false` when `vault_seal_type: auto` and no legacy seal flag is enabled.
 
 ## `vault_plugin_path`
 
@@ -1156,8 +1157,22 @@ Since v2.5.9 of this role you can also install Vault Enterprise via the HashiCor
 
 The role can configure HSM based instances. Make sure to reference the [HSM support page](https://www.vaultproject.io/docs/configuration/seal/index.html) and take notice of the [behavior changes](https://www.vaultproject.io/docs/enterprise/hsm/behavior.html#initialization) after HSM is installed.
 
+# Vault Seal Selection
+
+## `vault_seal_type`
+
+- Selects one Vault seal mechanism.
+- Supported values: `auto`, `shamir`, `transit`, `awskms`, `azurekeyvault`, `gcpckms`, `ocikms`, and `pkcs11`.
+- `auto` derives the type from one enabled legacy boolean. With no enabled legacy boolean, it uses Shamir behavior and renders no `seal` stanza.
+- `gcpckms` matches the Vault seal stanza; the legacy role variables retain their established `vault_gkms` prefix.
+- An explicit selector must agree with an enabled legacy boolean. Multiple legacy booleans and selector conflicts fail before role changes are applied.
+- Default value: `auto`
+
+The legacy variables remain supported for compatibility, but new inventories should set `vault_seal_type`. The role does not automatically delete obsolete seal configuration files: they can be needed by Vault seal migration.
+
 ## `vault_enterprise_hsm`
 
+- Legacy boolean for the `pkcs11` seal. New inventories should use `vault_seal_type: pkcs11`.
 - Set to True if using hsm binary. Basically just includes ".hsm" in "vault_version" var
 - Default value: false
 
