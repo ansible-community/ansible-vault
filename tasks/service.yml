@@ -1,0 +1,97 @@
+---
+- name: BSD init script
+  ansible.builtin.template:
+    src: "{{ vault_bsdinit_template }}"
+    dest: /etc/rc.d/vault
+    owner: root
+    group: wheel
+    mode: "0755"
+  when: ansible_os_family == "FreeBSD"
+
+- name: SYSV init script
+  ansible.builtin.template:
+    src: "{{ vault_sysvinit_template }}"
+    dest: /etc/init.d/vault
+    owner: root
+    group: root
+    mode: "0755"
+  when:
+    - not ansible_service_mgr == "systemd"
+    - not ansible_os_family == "Debian"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+
+- name: Debian init script
+  ansible.builtin.template:
+    src: "{{ vault_debian_init_template }}"
+    dest: /etc/init.d/vault
+    owner: root
+    group: root
+    mode: "0755"
+  when:
+    - not ansible_service_mgr == "systemd"
+    - ansible_os_family == "Debian"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+
+- name: Extract systemd version
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      systemctl --version systemd | head -n 1 | cut -d' ' -f2
+  args:
+    executable: /bin/bash
+  changed_when: false
+  check_mode: false
+  register: systemd_version
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+  tags: skip_ansible_lint
+
+- name: Systemd unit
+  become: true
+  ansible.builtin.template:
+    src: "{{ vault_systemd_template }}"
+    dest: "{{ vault_systemd_unit_path }}/{{ vault_systemd_service_name }}.service"
+    force: true
+    owner: root
+    group: root
+    mode: "0644"
+  register: systemd_unit
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+    - systemd_version is defined
+
+- name: Reload systemd
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+  notify: Restart Vault
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
+    - systemd_version is defined
+    - systemd_unit is changed
+
+- name: Start Vault
+  become: true
+  ansible.builtin.service:
+    name: '{{ vault_systemd_service_name }}'
+    state: started
+    enabled: true
+  register: start_vault
+
+- name: Pause to let Vault startup correctly
+  ansible.builtin.pause:
+    seconds: "{{ vault_start_pause_seconds }}"
+  when:
+    - start_vault is changed   # noqa no-handler
+    - vault_start_pause_seconds | int > 0
+
+- name: Restart Vault if needed
+  ansible.builtin.meta: flush_handlers

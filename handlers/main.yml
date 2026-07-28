@@ -6,11 +6,15 @@
   ansible.builtin.service:
     name: '{{ vault_systemd_service_name }}'
     state: restarted
-  when: vault_service_restart | bool
+  when:
+    - not (vault_agent_supervisor_mode | bool)
+    - vault_service_restart | bool
 
 - name: Reload vault
   become: true
   ansible.builtin.service:
     name: '{{ vault_systemd_service_name }}'
     state: reloaded
-  when: vault_service_reload | bool
+  when:
+    - not (vault_agent_supervisor_mode | bool)
+    - vault_service_reload | bool

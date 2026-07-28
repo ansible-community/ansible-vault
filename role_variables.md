@@ -227,6 +227,13 @@ The role defines variables in `defaults/main.yml`:
 - When `true`, the systemd `ExecStart` wraps the vault command in `/bin/sh -c 'exec ...'`. When `false`, vault is launched directly, so systemd logs show `vault[PID]` instead of `sh[PID]`. Set to `false` if you want cleaner journal output. Note: disabling the subshell means shell expansion will  not be available.
 - Default value: true
 
+## `vault_agent_supervisor_mode`
+
+- Enable when Vault Agent Process Supervisor manages the Vault Server lifecycle.
+- When `true`, the role continues to install Vault and render its configuration, but does not create, enable, start, reload, or restart the Vault init or systemd service.
+- If Vault Agent Supervisor starts Vault after this role completes, also set `vault_disable_api_health_check: true`.
+- Default value: false
+
 ## `vault_service_restart`
 
 - Should the playbook restart Vault service when needed
