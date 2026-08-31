@@ -18,11 +18,32 @@
     system: true
   when: vault_manage_user | bool
 
+- name: Check whether HSM group is present
+  become: true
+  ansible.builtin.getent:
+    database: group
+    key: "{{ vault_hsm_group }}"
+    fail_key: false
+  when: vault_enterprise_hsm | bool
+
+- name: Add Vault user to HSM group
+  become: true
+  ansible.builtin.user:
+    name: "{{ vault_user }}"
+    groups: "{{ vault_hsm_group }}"
+    append: true
+  when:
+    - vault_enterprise_hsm | bool
+    - ansible_facts.getent_group[vault_hsm_group] | default(none) is not none
+  notify: Restart vault
+
 - name: Update package cache
   become: true
   ansible.builtin.package:
     update_cache: true
-  tags: update_cache
+  tags:
+    - update_cache
+    - molecule-idempotence-notest
   when: vault_os_packages | default([]) | length > 0
 
 - name: OS packages

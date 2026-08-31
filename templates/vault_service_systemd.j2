@@ -17,7 +17,15 @@ Group={{ vault_group }}
 ProtectSystem=full
 ProtectHome=read-only
 PrivateTmp=yes
+{% if vault_systemd_device_allow | length > 0 %}
+PrivateDevices=no
+DevicePolicy=closed
+{% for _device in vault_systemd_device_allow %}
+DeviceAllow={{ _device }} rw
+{% endfor %}
+{% else %}
 PrivateDevices=yes
+{% endif %}
 SecureBits=keep-caps
 Capabilities=CAP_IPC_LOCK+ep
 {% if systemd_version.stdout is version('230', '>=') %}

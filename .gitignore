@@ -13,3 +13,5 @@ examples/roles/ansible-community.ansible-vault
 .venv/
 .idea/
 .ansible/
+.direnv/
+.envrc

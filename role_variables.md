@@ -4,16 +4,16 @@ The role defines variables in `defaults/main.yml`:
 
 ## `vault_listener_localhost_enable`
 
- - Set this to true if you enable listen vault on localhost
- - Default value: *false*
+- Set this to true if you enable listen vault on localhost
+- Default value: _false_
 
 ## `vault_privileged_install`
 
- - Set this to true if you see permission errors when the vault files are
-   downloaded and unpacked locally. This issue can show up if the role has
-   been downloaded by one user (like root), and the installation is done
-   with a different user.
- - Default value: *false*
+- Set this to true if you see permission errors when the vault files are
+  downloaded and unpacked locally. This issue can show up if the role has
+  been downloaded by one user (like root), and the installation is done
+  with a different user.
+- Default value: _false_
 
 ## `vault_version`
 
@@ -28,7 +28,7 @@ The role defines variables in `defaults/main.yml`:
 - Set this to true when installing Vault Enterprise; this is not currently
   possible as a "remote only" install method
   - Can be overridden with `VAULT_ENTERPRISE` environment variable
-- Default value: *false*
+- Default value: _false_
 
 ## `vault_pkg`
 
@@ -59,12 +59,12 @@ The role defines variables in `defaults/main.yml`:
   When set, you can also define `vault_repository_key_url` and `vault_repository_url`
   to override the default URL of the GPG key for the repository and the default URL of the
   repository used.
-- Default value: *false*
+- Default value: _false_
 
 ## `vault_version_lock`
 
 - When `true` and `vault_install_hashi_repo` is `true`, the role will lock the installed Vault package to the version specified in `vault_version` to prevent unintended upgrades.
-- Default value: *false*
+- Default value: _false_
 
 ## `vault_rhsm_repo_id`
 
@@ -85,7 +85,7 @@ The role defines variables in `defaults/main.yml`:
 ## `vault_install_remotely`
 
 - Set this to `true` will download Vault binary from each target instead of localhost
-- Default value: *false*
+- Default value: _false_
 
 ## `vault_shasums`
 
@@ -111,7 +111,7 @@ The role defines variables in `defaults/main.yml`:
 ## `vault_use_config_path`
 
 - Use `"{{ vault_config_path }}"` to configure vault instead of `"{{ vault_main_config }}"`
-- default vaule: *false*
+- default vaule: _false_
 
 ## `vault_plugin_path`
 
@@ -215,16 +215,16 @@ The role defines variables in `defaults/main.yml`:
 ## `vault_datacenter`
 
 - Datacenter label
-- Default value:  dc1
+- Default value: dc1
 
 ## `vault_ui`
 
 - Enable vault web UI
-- Default value:  true
+- Default value: true
 
 ## `vault_systemd_use_subshell`
 
-- When `true`, the systemd `ExecStart` wraps the vault command in `/bin/sh -c 'exec ...'`. When `false`, vault is launched directly, so systemd logs show `vault[PID]` instead of `sh[PID]`. Set to `false` if you want cleaner journal output. Note: disabling the subshell means shell expansion will  not be available.
+- When `true`, the systemd `ExecStart` wraps the vault command in `/bin/sh -c 'exec ...'`. When `false`, vault is launched directly, so systemd logs show `vault[PID]` instead of `sh[PID]`. Set to `false` if you want cleaner journal output. Note: disabling the subshell means shell expansion will not be available.
 - Default value: true
 
 ## `vault_agent_supervisor_mode`
@@ -257,24 +257,25 @@ The role defines variables in `defaults/main.yml`:
 
 - A list of tcp listeners. Each listener can define any of the listener specific variables described in further detail below.
 - Default value:
+
 ```yaml
 vault_tcp_listeners:
-  - vault_address: '{{ vault_address }}'
-    vault_port: '{{ vault_port }}'
-    vault_cluster_address: '{{ vault_cluster_address }}'
-    vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
-    vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
-    vault_tls_disable: '{{ vault_tls_disable }}'
-    vault_tls_certs_path: '{{ vault_tls_certs_path }}'
-    vault_tls_private_path: '{{ vault_tls_private_path }}'
-    vault_tls_cert_file: '{{ vault_tls_cert_file }}'
-    vault_tls_key_file: '{{ vault_tls_key_file }}'
-    vault_tls_ca_file: '{{ vault_tls_ca_file }}'
-    vault_tls_client_ca_file: '{{ vault_tls_client_ca_file }}'
-    vault_tls_min_version: '{{ vault_tls_min_version }}'
-    vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
-    vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
-    vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
+  - vault_address: "{{ vault_address }}"
+    vault_port: "{{ vault_port }}"
+    vault_cluster_address: "{{ vault_cluster_address }}"
+    vault_proxy_protocol_behavior: "{{ vault_proxy_protocol_behavior }}"
+    vault_proxy_protocol_authorized_addrs: "{{ vault_proxy_protocol_authorized_addrs }}"
+    vault_tls_disable: "{{ vault_tls_disable }}"
+    vault_tls_certs_path: "{{ vault_tls_certs_path }}"
+    vault_tls_private_path: "{{ vault_tls_private_path }}"
+    vault_tls_cert_file: "{{ vault_tls_cert_file }}"
+    vault_tls_key_file: "{{ vault_tls_key_file }}"
+    vault_tls_ca_file: "{{ vault_tls_ca_file }}"
+    vault_tls_client_ca_file: "{{ vault_tls_client_ca_file }}"
+    vault_tls_min_version: "{{ vault_tls_min_version }}"
+    vault_tls_cipher_suites: "{{ vault_tls_cipher_suites }}"
+    vault_tls_require_and_verify_client_cert: "{{ vault_tls_require_and_verify_client_cert }}"
+    vault_tls_disable_client_certs: "{{ vault_tls_disable_client_certs }}"
     # vault_unauthenticated_metrics_access: '{{ vault_unauthenticated_metrics_access }}'
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
     # vault_x_forwarded_for_hop_skips: '{{ vault_x_forwarded_for_hop_skips }}'
@@ -293,7 +294,6 @@ vault_tcp_listeners:
 
 - Renders `disable_mlock` in the Vault configuration and, when mlock is enabled, controls granting the IPC_LOCK capability to the vault binary
 - Default value: true when `vault_backend` is raft, false otherwise
-
 
 ## `vault_backend_tls_src_files`
 
@@ -605,7 +605,6 @@ for the DynamoDB storage backend.
 - Specifies if high availability mode is enabled.
 - Default value: `"false"`
 
-
 ## `vault_gcs_chunk_size`
 
 - Specifies the maximum size (in kilobytes) to send in a single request. If set to 0, it will attempt to send the whole object at once, but will not retry any failures.
@@ -780,13 +779,14 @@ available starting at Vault version 1.4.
 - Default value: 768h (32 days)
 
 ## `vault_main_config`
+
 - Main configuration file name (full path)
 - Default value: `"{{ vault_config_path }}/vault_main.hcl"`
 
 ## `vault_main_configuration_template`
 
 - Vault main configuration template file
-- Default value: *vault_main_configuration.hcl.j2*
+- Default value: _vault_main_configuration.hcl.j2_
 
 ## `vault_custom_configuration`
 
@@ -805,7 +805,7 @@ available starting at Vault version 1.4.
 
 ## `vault_no_proxy`
 
-- Comma separated values which specify hosts that should be exluded from proxying.  Follows [golang conventions](https://godoc.org/golang.org/x/net/http/httpproxy)
+- Comma separated values which specify hosts that should be exluded from proxying. Follows [golang conventions](https://godoc.org/golang.org/x/net/http/httpproxy)
 - Default value: `""`
 
 ## `vault_additional_environment_variables`
@@ -856,7 +856,7 @@ vault_additional_environment_variables:
 - May be one of `use_always`, `allow_authorized`, or `deny_unauthorized`
 - Enables [PROXY protocol](https://www.vaultproject.io/docs/configuration/listener/tcp#proxy_protocol_behavior) for listener.
 - If enabled and set to something other than `use_always`, you must also set
-  - [*vault_proxy_protocol_authorized_addrs*](https://www.vaultproject.io/docs/configuration/listener/tcp#proxy_protocol_authorized_addrs)
+  - [_vault_proxy_protocol_authorized_addrs_](https://www.vaultproject.io/docs/configuration/listener/tcp#proxy_protocol_authorized_addrs)
   - Comma-separated list of source IPs for which PROXY protocol information will be used.
 - Default value: ""
 
@@ -946,39 +946,59 @@ vault_additional_environment_variables:
 - Comma-separated list of source IP CIDRs for which an X-Forwarded-For header will be trusted.
 - Enables [X-Forwarded-For support.](https://www.vaultproject.io/docs/configuration/listener/tcp#x_forwarded_for_authorized_addrs)
 - If enabled, you may also set any of the following parameters:
-  - *vault_x_forwarded_for_hop_skips* with a format of "N" for the number of hops to skip
-  - *vault_x_forwarded_for_reject_not_authorized* with true/false
-  - *vault_x_forwarded_for_reject_not_present* with true/false
+  - _vault_x_forwarded_for_hop_skips_ with a format of "N" for the number of hops to skip
+  - _vault_x_forwarded_for_reject_not_authorized_ with true/false
+  - _vault_x_forwarded_for_reject_not_present_ with true/false
 - Default value: ""
 
 ## `vault_bsdinit_template`
+
 - BSD init template file
 - Default value: `vault_service_bsd_init.j2`
 
 ## `vault_sysvinit_template`
-- SysV init  template file
+
+- SysV init template file
 - Default value: `vault_sysvinit.j2`
 
 ## `vault_debian_init_template`
+
 - Debian init template file
 - Default value: `vault_service_debian_init.j2`
 
 ## `vault_systemd_template`
+
 - Systemd service template file
 - Default value: `vault_service_systemd.j2`
 
 ## `vault_systemd_service_name`
+
 - Systemd service unit name
 - Default value: "vault"
 
+## `vault_systemd_device_allow`
+
+- List of device nodes added to `DeviceAllow` in the systemd service unit.
+  When non-empty, `PrivateDevices=yes` is replaced with `PrivateDevices=no` +
+  `DevicePolicy=closed` so only the listed devices are accessible to the Vault process.
+- Required on IBM LinuxONE / IBM Z when using a PKCS#11 HSM backed by Crypto Express adapters.
+- Example:
+  ```yaml
+  vault_systemd_device_allow:
+    - /dev/z90crypt # IBM Z Crypto Express (LinuxONE)
+    - /dev/nfast0 # Entrust/nCipher PCIe HSM
+  ```
+- Default value: `[]`
+
 ## `vault_telemetry_enabled`
+
 - Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
 - If enabled, you must set at least one of the following parameters according to your telemetry provider:
-  - *vault_statsite_address* with a format of "FQDN:PORT"
-  - *vault_statsd_address* with a format of "FQDN:PORT"
-  - *vault_prometheus_retention_time* e.g: "30s" or "24h"
-- If enabled, optionally set *vault_telemetry_disable_hostname* to strip the hostname prefix from telemetry data
-- Default value: *false*
+  - _vault_statsite_address_ with a format of "FQDN:PORT"
+  - _vault_statsd_address_ with a format of "FQDN:PORT"
+  - _vault_prometheus_retention_time_ e.g: "30s" or "24h"
+- If enabled, optionally set _vault_telemetry_disable_hostname_ to strip the hostname prefix from telemetry data
+- Default value: _false_
 
 ## `vault_unauthenticated_metrics_access`
 
@@ -989,8 +1009,8 @@ vault_additional_environment_variables:
 ## `vault_telemetry_usage_gauge_period`
 
 - Specifies the interval at which high-cardinality usage data is collected,
-such as token counts, entity counts, and secret counts.
-- Default value: *undefined*
+  such as token counts, entity counts, and secret counts.
+- Default value: _undefined_
 
 # OS Distribution Variables
 
@@ -1110,7 +1130,7 @@ differences across distributions:
 # Dependencies
 
 > **NOTE**: Read these before executing the role to avoid certain frequently
-encountered issues which are resolved by installing the correct dependencies.
+> encountered issues which are resolved by installing the correct dependencies.
 
 ## `gtar`
 
@@ -1137,7 +1157,7 @@ variable. Attempts to download the package from `vault_zip_url` if zip is not fo
 
 Since v2.5.9 of this role you can also install Vault Enterprise via the HashiCorp Repo. In order to install Vault Enterprise via the HashiCorp Repo, set `vault_install_hashi_repo: true*` as well as `vault_enterprise: true`.
 
-**Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to *true* and vice versa.
+**Warning:** Non-Enterprise Package will be removed if already installed and vault_enterprise is set to _true_ and vice versa.
 
 # Vault Enterprise with HSM
 
@@ -1147,6 +1167,20 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 - Set to True if using hsm binary. Basically just includes ".hsm" in "vault_version" var
 - Default value: false
+
+## `vault_hsm_group`
+
+- Group that grants access to the PKCS#11 token/device. When `vault_enterprise_hsm` is
+  enabled and this group already exists on the host, the Vault user is appended to it.
+  The group is never created by the role.
+- Default value: `pkcs11`
+
+## `vault_systemd_device_allow` (HSM)
+
+- See [`vault_systemd_device_allow`](#vault_systemd_device_allow) above.
+  On IBM LinuxONE set this to `['/dev/z90crypt']`; on most x86 HSMs no device
+  entry is needed as the PKCS#11 library communicates with the hardware via a
+  userspace driver without a `/dev` node.
 
 ## `vault_configure_enterprise_license`
 
@@ -1241,7 +1275,7 @@ The role can render Vault's [`reporting` stanza](https://developer.hashicorp.com
 
 ## `vault_seal_key_mechanism`
 
--  Do not change this unles you know you need to. The encryption/decryption mechanism to use, specified as a decimal or hexadecimal (prefixed by 0x) string. May also be specified by the VAULT_HSM_MECHANISM environment variable.
+- Do not change this unles you know you need to. The encryption/decryption mechanism to use, specified as a decimal or hexadecimal (prefixed by 0x) string. May also be specified by the VAULT_HSM_MECHANISM environment variable.
 - Default value: ''
 - Example for RSA: 0x0009
 
@@ -1266,6 +1300,7 @@ The role can render Vault's [`reporting` stanza](https://developer.hashicorp.com
 - Default value: false
 
 The following stanza will be included in the hcl main configuration file if `vault_entropy_seal=true`:
+
 ```
 entropy "seal" {
   mode = "augmentation"
@@ -1366,6 +1401,7 @@ aid in the creation of new or ephemeral clusters.
 - Default value: VAULT_OCIKMS_MANAGEMENT_ENDPOINT
 
 # Vault Transit Auto-unseal
+
 This enables Vault to use another Vault instance for the unseal process using its transit secret engine
 
 ## `vault_transit`
@@ -1416,17 +1452,17 @@ This enables Vault to use another Vault instance for the unseal process using it
 ## `vault_transit_tls_ca_cert`:
 
 - CA Certificate of the external vault instance
-- Default value: `ca_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+- Default value: `ca_cert.pem`, omitted if `vault_transit_tls_skip_verify: true`
 
 ## `vault_transit_tls_client_cert`:
 
 - Client Certificate of the external vault instance
-- Default value: `client_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+- Default value: `client_cert.pem`, omitted if `vault_transit_tls_skip_verify: true`
 
 ## `vault_transit_tls_client_key`:
 
 - Client Key of the external vault instance
-- Default value: `ca_cert.pem`,  omitted if `vault_transit_tls_skip_verify: true`
+- Default value: `ca_cert.pem`, omitted if `vault_transit_tls_skip_verify: true`
 
 ## `vault_transit_tls_server_name`
 
@@ -1524,14 +1560,17 @@ This feature enabled operators to delegate the unsealing process to AZURE Key Va
 Installs vault-acme plugin, also enables the plugin if authenticated against vault (`VAULT_ADDR`, `VAULT_TOKEN` env).
 
 ## `vault_plugin_acme_install`
+
 - Setting this to `remote` will download the acme plugin to each target instead of copying it from localhost.
 - Choices: remote / local
 - Default value: `remote`
 
 ## `vault_plugin_acme_sidecar_install`
+
 - Whether to install vault acme sidecar for `HTTP-01`/`TLS_ALPN_01` challenges in addition to DNS-01.
 - Default value: `false`
 
 ## `vault_plugin_acme_version`
+
 - Version of the acme plugin to install, can be set to `latest` for obtaining the latest available version.
 - Default value: `latest`

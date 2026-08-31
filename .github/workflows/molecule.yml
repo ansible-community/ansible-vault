@@ -3,13 +3,13 @@ name: Ansible Molecule
 
 on:
   push:
-    tags_ignore:
-      - '*'
+    tags-ignore:
+      - "*"
   pull_request:
 
 env:
-  ANSIBLE_FORCE_COLOR: '1'
-  PY_COLORS: '1'
+  ANSIBLE_FORCE_COLOR: "1"
+  PY_COLORS: "1"
 
 jobs:
   discover-scenarios:
@@ -19,11 +19,14 @@ jobs:
     steps:
       - name: Check out codebase
         uses: actions/checkout@v3
+        with:
+          path: ansible-vault
 
       - name: Discover scenarios
         id: set-scenarios
         # Find path to all scenarios
         run: |
+          cd ansible-vault
           scenarios="[`for x in $(ls -1 molecule -I _tests -I '*.yml'); do echo "'$x'"; done | tr '\n' ',' | sed '$s/,$//'`]"
           echo "scenarios=$scenarios" >> $GITHUB_OUTPUT
 
@@ -38,9 +41,13 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+        with:
+          path: ansible-vault
       - name: molecule
         uses: gofrolist/molecule-action@v2
+        env:
+          ANSIBLE_ROLES_PATH: "/github/workspace:/github/home/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles"
         with:
-          molecule_working_dir: .
+          molecule_working_dir: ansible-vault
           molecule_command: test
           molecule_args: --scenario-name ${{ matrix.scenario }}

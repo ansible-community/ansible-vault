@@ -9,8 +9,7 @@
 vault_version: "{{ lookup('env', 'VAULT_VERSION') | default('2.0.3', true) }}"
 
 vault_version_release_site_suffix: "{{ '+ent' if vault_enterprise }}{{ '.hsm' if vault_enterprise_hsm }}"
-vault_version_repo_suffix: "{{ '+ent' if vault_enterprise }}"
-vault_version_debian_repo_suffix: "-1"
+vault_version_repo_suffix: "{{ '+ent-1' if vault_enterprise else '-1' }}"
 
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
@@ -42,7 +41,7 @@ vault_privileged_install: false
 vault_version_lock: false
 
 # Proxy
-vault_proxy_protocol_behavior: 
+vault_proxy_protocol_behavior:
 vault_proxy_protocol_authorized_addrs:
 
 # Paths
@@ -113,22 +112,22 @@ vault_additional_environment_variables: {}
 # ---------------------------------------------------------------------------
 
 vault_tcp_listeners:
-  - vault_address: '{{ vault_address }}'
-    vault_port: '{{ vault_port }}'
-    vault_cluster_address: '{{ vault_cluster_address }}'
-    vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
-    vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
-    vault_tls_disable: '{{ vault_tls_disable }}'
-    vault_tls_certs_path: '{{ vault_tls_certs_path }}'
-    vault_tls_private_path: '{{ vault_tls_private_path }}'
-    vault_tls_cert_file: '{{ vault_tls_cert_file }}'
-    vault_tls_key_file: '{{ vault_tls_key_file }}'
-    vault_tls_ca_file: '{{ vault_tls_ca_file }}'
-    vault_tls_client_ca_file: '{{ vault_tls_client_ca_file }}'
-    vault_tls_min_version: '{{ vault_tls_min_version }}'
-    vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
-    vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
-    vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
+  - vault_address: "{{ vault_address }}"
+    vault_port: "{{ vault_port }}"
+    vault_cluster_address: "{{ vault_cluster_address }}"
+    vault_proxy_protocol_behavior: "{{ vault_proxy_protocol_behavior }}"
+    vault_proxy_protocol_authorized_addrs: "{{ vault_proxy_protocol_authorized_addrs }}"
+    vault_tls_disable: "{{ vault_tls_disable }}"
+    vault_tls_certs_path: "{{ vault_tls_certs_path }}"
+    vault_tls_private_path: "{{ vault_tls_private_path }}"
+    vault_tls_cert_file: "{{ vault_tls_cert_file }}"
+    vault_tls_key_file: "{{ vault_tls_key_file }}"
+    vault_tls_ca_file: "{{ vault_tls_ca_file }}"
+    vault_tls_client_ca_file: "{{ vault_tls_client_ca_file }}"
+    vault_tls_min_version: "{{ vault_tls_min_version }}"
+    vault_tls_cipher_suites: "{{ vault_tls_cipher_suites }}"
+    vault_tls_require_and_verify_client_cert: "{{ vault_tls_require_and_verify_client_cert }}"
+    vault_tls_disable_client_certs: "{{ vault_tls_disable_client_certs }}"
     # vault_unauthenticated_metrics_access: '{{ vault_unauthenticated_metrics_access }}'
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
     # vault_x_forwarded_for_hop_skips: '{{ vault_x_forwarded_for_hop_skips }}'
@@ -342,10 +341,10 @@ vault_tls_disable_client_certs: false
 vault_transit: false
 vault_transit_backend: vault_seal_transit.j2
 vault_transit_config: "{{ vault_config_path }}/vault_transit.hcl"
-vault_transit_address: ''
-vault_transit_token: ''
+vault_transit_address: ""
+vault_transit_token: ""
 vault_transit_disable_renewal: false
-vault_transit_key_name: 'autounseal'
+vault_transit_key_name: "autounseal"
 vault_transit_mount_path: "transit/"
 # vault_transit_namespace: ''
 vault_transit_tls_ca_cert_file: "{{ vault_transit_tls_ca_cert | default(vault_tls_ca_file) }}"
@@ -372,13 +371,13 @@ vault_azurekeyvault_backend: vault_seal_azurekeyvault.j2
 # gcpkms seal
 vault_gkms: false
 vault_backend_gkms: vault_seal_gcpkms.j2
-vault_gkms_project: ''
-vault_gkms_credentials_src_file: ''
-vault_gkms_credentials_content: ''
-vault_gkms_credentials: '/home/vault/vault-kms.json'
-vault_gkms_region: 'global'
-vault_gkms_key_ring: 'vault'
-vault_gkms_crypto_key: 'vault_key'
+vault_gkms_project: ""
+vault_gkms_credentials_src_file: ""
+vault_gkms_credentials_content: ""
+vault_gkms_credentials: "/home/vault/vault-kms.json"
+vault_gkms_region: "global"
+vault_gkms_key_ring: "vault"
+vault_gkms_crypto_key: "vault_key"
 vault_gkms_copy_sa: true
 
 # ocikms seal
@@ -391,6 +390,10 @@ vault_ocikms_management_endpoint: "{{ lookup('env', 'VAULT_OCIKMS_MANAGEMENT_END
 
 # pkcs11 seal
 vault_enterprise_hsm: false
+# Group granting access to the PKCS#11 token; only applied when it already exists
+vault_hsm_group: pkcs11
+# Device nodes added to DeviceAllow in the systemd unit (e.g. ['/dev/z90crypt'] on LinuxONE)
+vault_systemd_device_allow: []
 # WARNING: the following variable is deprecated as this section will become
 #          _only_ a pkcs11 seal soon. Please take note that vault_hsm_app will
 #          soon be removed!
@@ -399,10 +402,10 @@ vault_backend_seal: vault_seal_pkcs11.j2
 vault_seal_lib: /lib64/hsmlibrary.so
 vault_seal_pin: 12345
 vault_seal_key_label: vault-hsm-key
-vault_seal_hmac_key_label: ''
+vault_seal_hmac_key_label: ""
 vault_seal_generate_key: false
-vault_seal_key_mechanism: ''
-vault_seal_token_label: ''
+vault_seal_key_mechanism: ""
+vault_seal_token_label: ""
 vault_seal_slot: 0
 vault_softcard_enable: false
 vault_telemetry_enabled: false
@@ -441,16 +444,17 @@ vault_reporting_license_development_cluster: false
 # Vault plugins
 # -----------------
 vault_plugins_enable: []
-vault_plugins_src_dir_remote: /usr/local/src/vault/plugins  # Directory for storing vault plugin src/zip files on target hosts
-vault_plugins_src_dir_local: "{{ role_path }}/files/plugins"  # Directory for storing vault plugin src/zip files locally
-vault_plugins_src_dir_cleanup: false  # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
+vault_plugins_src_dir_remote: /usr/local/src/vault/plugins # Directory for storing vault plugin src/zip files on target hosts
+vault_plugins_src_dir_local: "{{ role_path }}/files/plugins" # Directory for storing vault plugin src/zip files locally
+vault_plugins_src_dir_cleanup: false # Cleanup vault plugin src/zip dir after plugin install. WARNING: could cause plugins to be downloaded each time.
 
 # vault acme plugin
 vault_plugin_install: false
-vault_plugin_acme_install: remote  # remote / local
+vault_plugin_acme_install: remote # remote / local
 vault_plugin_acme_sidecar_install: false
 vault_plugin_acme_version: "latest"
 vault_plugin_acme_zip: "{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_plugin_acme_release_url: "https://github.com/remilapeyre/vault-acme/releases/download/v{{ vault_plugin_acme_version }}"
-vault_plugin_acme_zip_sha256sum: "{{ (lookup('url', vault_plugin_acme_release_url ~ '/vault-acme_SHA256SUMS',
-                              wantlist=true) | select('match', '.*' + vault_plugin_acme_zip + '$') | first).split()[0] }}"
+vault_plugin_acme_zip_sha256sum:
+  "{{ (lookup('url', vault_plugin_acme_release_url ~ '/vault-acme_SHA256SUMS',
+  wantlist=true) | select('match', '.*' + vault_plugin_acme_zip + '$') | first).split()[0] }}"

@@ -4,6 +4,7 @@ platforms:
     groups:
       - vault_raft_servers
     image: carlodepieri/docker-archlinux-ansible
+    pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice

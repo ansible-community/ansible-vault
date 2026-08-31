@@ -19,7 +19,7 @@
   ansible.builtin.file:
     path: /etc/apt/keyrings
     state: directory
-    mode: '0755'
+    mode: "0755"
   become: true
   when: ansible_pkg_mgr == 'apt'
 
@@ -27,7 +27,7 @@
   ansible.builtin.get_url:
     url: "{{ vault_repository_key_url }}"
     dest: /etc/apt/keyrings/hashicorp-archive-keyring.asc
-    mode: '0644'
+    mode: "0644"
   register: __vault_hashicorp_apt_key_download
   retries: 6
   until: __vault_hashicorp_apt_key_download is succeeded
@@ -78,9 +78,19 @@
         name: "{{ vault_rhsm_repo_id }}"
         state: enabled
 
+- name: Compute Vault package names for HashiCorp repositories
+  ansible.builtin.set_fact:
+    _vault_repo_pkg_name: "{{ _vault_repo_pkg_base }}{{ '-hsm' if (vault_enterprise | bool and vault_enterprise_hsm | bool) else '' }}"
+  vars:
+    _vault_repo_pkg_base: "{{ 'vault' ~ ('-enterprise' if vault_enterprise | bool else '') }}"
+
+- name: Compute conflicting Vault package names for HashiCorp repositories
+  ansible.builtin.set_fact:
+    _vault_repo_conflicting_pkgs: "{{ ['vault', 'vault-enterprise', 'vault-enterprise-hsm'] | difference([_vault_repo_pkg_name]) }}"
+
 - name: Ensure Enterprise package is not present when OSS is desired and vice versa
   ansible.builtin.package:
-    name: "{{ 'vault' ~ ('-enterprise' if not (vault_enterprise | bool) else '') }}"
+    name: "{{ _vault_repo_conflicting_pkgs }}"
     state: absent
   become: true
 
@@ -95,7 +105,7 @@
 
 - name: Remove Vault versionlock if Vault is already installed
   community.general.yum_versionlock:
-    name: "vault{{ '-enterprise' if vault_enterprise}}"
+    name: "{{ _vault_repo_pkg_name }}"
     state: absent
   become: true
   when:
@@ -109,17 +119,15 @@
   become: true
   vars:
     _vault_repo_pkg: "{% if (ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']) %}\
-                  vault{{ '-enterprise' if vault_enterprise }}-{{ vault_version }}{{ vault_version_repo_suffix }}\
-                {% elif (ansible_pkg_mgr == 'apt') %}\
-                  vault{{ '-enterprise' if vault_enterprise }}={{ vault_version }}{{ vault_version_repo_suffix }}{{ vault_version_debian_repo_suffix }}\
-                {% else %}\
-                  vault{{ '-enterprise' if vault_enterprise }}={{ vault_version }}{{ vault_version_repo_suffix }}\
-                {% endif %}"
+      {{ _vault_repo_pkg_name }}-{{ vault_version }}{{ vault_version_repo_suffix }}\
+      {% else %}\
+      {{ _vault_repo_pkg_name }}={{ vault_version }}{{ vault_version_repo_suffix }}\
+      {% endif %}"
   notify: Restart vault
 
 - name: Lock Vault package version if version locking is enabled
   community.general.yum_versionlock:
-    name: "vault{{ '-enterprise' if vault_enterprise }}"
+    name: "{{ _vault_repo_pkg_name }}"
     state: present
   become: true
   when:
