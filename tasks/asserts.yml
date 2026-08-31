@@ -74,6 +74,12 @@
         or (vault_seal_type | lower == 'pkcs11' and vault_enterprise_hsm | bool)
     fail_msg: "vault_seal_type conflicts with the enabled legacy Vault seal flag."
 
+- name: Validate PKCS#11 seal requires Vault Enterprise
+  ansible.builtin.assert:
+    that:
+      - not (vault_enterprise_hsm | bool) or vault_enterprise | bool
+    fail_msg: "The pkcs11 seal requires vault_enterprise to be enabled."
+
 - name: Check if vault_transit_address and vault_transit_token has been specified
   ansible.builtin.assert:
     that:

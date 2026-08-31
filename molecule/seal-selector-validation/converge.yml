@@ -1,0 +1,115 @@
+---
+- name: Validate Vault seal selector
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Accept the default Shamir selector
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+        tasks_from: asserts
+
+    - name: Accept a Transit selector with complete credentials
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+        tasks_from: asserts
+      vars:
+        vault_seal_type: transit
+        vault_transit_address: https://vault-unseal.example.com
+        vault_transit_token: test-token
+
+    - name: Accept one legacy seal flag with the default selector
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+        tasks_from: asserts
+      vars:
+        vault_seal_type: shamir
+        vault_transit: true
+        vault_transit_address: https://vault-unseal.example.com
+        vault_transit_token: test-token
+
+    - name: Accept PKCS11 with Vault Enterprise
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+        tasks_from: asserts
+      vars:
+        vault_enterprise: true
+        vault_seal_type: pkcs11
+
+    - name: Verify invalid selectors are rejected
+      block:
+        - name: Run assertions with an invalid selector
+          ansible.builtin.include_role:
+            name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+            tasks_from: asserts
+          vars:
+            vault_seal_type: invalid
+
+        - name: Fail if the invalid selector was accepted
+          ansible.builtin.fail:
+            msg: "The invalid Vault seal selector was accepted."
+      rescue:
+        - name: Check the invalid selector failure
+          ansible.builtin.assert:
+            that:
+              - "'vault_seal_type must be' in ansible_failed_result.msg"
+
+    - name: Verify conflicting legacy flags are rejected
+      block:
+        - name: Run assertions with conflicting legacy flags
+          ansible.builtin.include_role:
+            name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+            tasks_from: asserts
+          vars:
+            vault_seal_type: shamir
+            vault_transit: true
+            vault_awskms: true
+            vault_transit_address: https://vault-unseal.example.com
+            vault_transit_token: test-token
+
+        - name: Fail if conflicting legacy flags were accepted
+          ansible.builtin.fail:
+            msg: "Conflicting legacy Vault seal flags were accepted."
+      rescue:
+        - name: Check the conflicting legacy flags failure
+          ansible.builtin.assert:
+            that:
+              - "'Only one legacy Vault seal flag' in ansible_failed_result.msg"
+
+    - name: Verify selector and legacy flag conflicts are rejected
+      block:
+        - name: Run assertions with a selector and legacy flag conflict
+          ansible.builtin.include_role:
+            name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+            tasks_from: asserts
+          vars:
+            vault_seal_type: transit
+            vault_transit: false
+            vault_awskms: true
+
+        - name: Fail if the selector and legacy flag conflict was accepted
+          ansible.builtin.fail:
+            msg: "A conflicting Vault seal selector and legacy flag were accepted."
+      rescue:
+        - name: Check the selector and legacy flag conflict failure
+          ansible.builtin.assert:
+            that:
+              - "'vault_seal_type conflicts' in ansible_failed_result.msg"
+
+    - name: Verify PKCS11 requires Vault Enterprise
+      block:
+        - name: Run assertions with PKCS11 on Vault OSS
+          ansible.builtin.include_role:
+            name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+            tasks_from: asserts
+          vars:
+            vault_enterprise: false
+            vault_seal_type: pkcs11
+
+        - name: Fail if PKCS11 was accepted for Vault OSS
+          ansible.builtin.fail:
+            msg: "The PKCS11 seal was accepted for Vault OSS."
+      rescue:
+        - name: Check the PKCS11 Enterprise failure
+          ansible.builtin.assert:
+            that:
+              - "'pkcs11 seal requires vault_enterprise' in ansible_failed_result.msg"

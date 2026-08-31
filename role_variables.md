@@ -1165,10 +1165,11 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 - Supported values: `shamir`, `transit`, `awskms`, `azurekeyvault`, `gcpckms`, `ocikms`, and `pkcs11`.
 - The default is `shamir`. An enabled legacy boolean takes priority over `shamir` for compatibility.
 - `gcpckms` matches the Vault seal stanza; the legacy role variables retain their established `vault_gkms` prefix.
+- `pkcs11` requires `vault_enterprise: true`; the role rejects an OSS/HSM combination before installation.
 - An explicit non-Shamir selector must agree with an enabled legacy boolean. Legacy booleans take priority over `shamir` for compatibility. Multiple legacy booleans and other selector conflicts fail before role changes are applied.
 - Default value: `shamir`
 
-The legacy variables remain supported for compatibility, but new inventories should set `vault_seal_type`. The role does not automatically delete obsolete seal configuration files: they can be needed by Vault seal migration.
+The legacy variables remain supported for compatibility, but new inventories should set `vault_seal_type`. The role does not automatically delete obsolete seal configuration files: they can be needed by Vault seal migration. After completing a seal migration, remove configuration files for the old seal before the next restart so Vault does not load both the old and new seal stanzas.
 
 ## `vault_enterprise_hsm`
 
