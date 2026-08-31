@@ -232,6 +232,7 @@ The role defines variables in `defaults/main.yml`:
 - Enable when Vault Agent Process Supervisor manages the Vault Server lifecycle.
 - When `true`, the role continues to install Vault and render its configuration, but does not create, enable, start, reload, or restart the Vault init or systemd service.
 - If Vault Agent Supervisor starts Vault after this role completes, also set `vault_disable_api_health_check: true`.
+- When migrating a host previously managed by this role, stop and disable the old service before enabling supervisor mode, then verify that Vault Agent Supervisor is ready to start Vault. The role intentionally leaves an existing service untouched so enabling this variable cannot stop a running Vault server before the supervisor is configured.
 - Default value: false
 
 ## `vault_service_restart`

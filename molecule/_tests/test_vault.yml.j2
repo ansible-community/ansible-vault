@@ -3,11 +3,11 @@
 port:
   tcp:8200:
     listening: true
+{% endif %}
 service:
   vault.service:
-    enabled: true
-    running: true
-{% endif %}
+    enabled: {{ 'false' if (vault_agent_supervisor_mode | default(false) | bool) else 'true' }}
+    running: {{ 'false' if (vault_agent_supervisor_mode | default(false) | bool) else 'true' }}
 user:
   vault:
     exists: true
