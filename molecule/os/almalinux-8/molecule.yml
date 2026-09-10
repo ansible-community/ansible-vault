@@ -1,17 +1,17 @@
 ---
 platforms:
-  - name: centos-stream-9
+  - name: almalinux-8
     groups:
       - vault_raft_servers
-    image: dokken/centos-stream-9
+    image: dokken/almalinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-  - name: centos-stream-9_repo
+  - name: almalinux-8_repo
     groups:
       - vault_raft_servers
-    image: dokken/centos-stream-9
+    image: dokken/almalinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
@@ -21,8 +21,11 @@ provisioner:
   playbooks:
     prepare: prepare.yml
   inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3.11
     host_vars:
-      centos-stream-9_repo:
+      almalinux-8_repo:
         vault_install_hashi_repo: true
         vault_bin_path: /usr/bin
         vault_group: vault

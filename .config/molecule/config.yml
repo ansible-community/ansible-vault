@@ -20,8 +20,8 @@ provisioner:
     connection:
       pipelining: true
   playbooks:
-    prepare: ../prepare.yml
-    converge: ../converge.yml
-    verify: ../verify.yml
+    prepare: ../../prepare.yml
+    converge: ../../converge.yml
+    verify: ../../verify.yml
 verifier:
   name: ansible

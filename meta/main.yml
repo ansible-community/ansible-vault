@@ -5,28 +5,35 @@ galaxy_info:
   description: HashiCorp Vault server role
   company: Brian Shumate
   license: BSD
-  min_ansible_version: '2.7'
+  min_ansible_version: "2.10"
 
   platforms:
-    - name: Amazon
-    - name: Amazon Linux 2
+    - name: AlmaLinux
+      versions:
+        - "8"
+        - "9"
+        - "10"
+    - name: Amazon Linux
+      versions:
+        - "2023"
     - name: ArchLinux
     - name: Debian
       versions:
-        - stretch
-        - buster
-        - bullseye
-    - name: EL
+        - bookworm
+        - trixie
+    - name: EL # inferred from CentOS, Alma and Rocky Linux
       versions:
-        - '7'
-        - '8'
-        - '9'
+        - "8"
+        - "9"
+        - "10"
+    - name: Rocky
+      versions:
+        - all
     - name: Ubuntu
       versions:
-        - bionic
-        - focal
         - jammy
-
+        - noble
+        - resolute
   galaxy_tags:
     - networking
     - security

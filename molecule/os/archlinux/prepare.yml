@@ -1,6 +1,6 @@
 ---
 - name: Common prepare
-  ansible.builtin.import_playbook: ../prepare.yml
+  ansible.builtin.import_playbook: ../../prepare.yml
 
 - name: Prepare ArchLinux
   hosts: all
