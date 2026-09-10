@@ -3,8 +3,9 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Install python3
-      ansible.builtin.raw: "test -e /usr/bin/python3 || (dnf install -y python3 || yum install -y python3)"
+    # default /usr/bin/python3 on EL8 is 3.6, too old for current ansible-core modules
+    - name: Install python3.11
+      ansible.builtin.raw: "test -e /usr/bin/python3.11 || (dnf install -y python3.11 || yum install -y python3.11)"
       changed_when: true
 
 - name: Common prepare

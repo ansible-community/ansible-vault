@@ -21,6 +21,9 @@ provisioner:
   playbooks:
     prepare: prepare.yml
   inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3.11
     host_vars:
       rockylinux-8_repo:
         vault_install_hashi_repo: true
