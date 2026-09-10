@@ -100,7 +100,7 @@
     state: present
   become: true
   when:
-    - ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']
+    - ansible_pkg_mgr in ['yum', 'dnf']
     - vault_version_lock | bool
 
 - name: Remove Vault versionlock if Vault is already installed
@@ -109,8 +109,55 @@
     state: absent
   become: true
   when:
-    - ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']
+    - ansible_pkg_mgr == 'yum'
     - vault_version_lock | bool
+
+- name: Remove Vault dnf versionlock if Vault is already installed
+  community.general.dnf_versionlock:
+    name: "{{ _vault_repo_pkg_name }}"
+    state: absent
+  become: true
+  when:
+    - ansible_pkg_mgr == 'dnf'
+    - vault_version_lock | bool
+
+- name: Check for an existing Vault dnf5 versionlock
+  ansible.builtin.command:
+    cmd: "dnf5 versionlock list"
+  register: _vault_dnf5_versionlock_list
+  changed_when: false
+  become: true
+  when:
+    - ansible_pkg_mgr == 'dnf5'
+    - vault_version_lock | bool
+
+- name: Remove Vault dnf5 versionlock if Vault is already installed
+  ansible.builtin.command:
+    cmd: "dnf5 versionlock delete {{ _vault_repo_pkg_name }}"
+  changed_when: true
+  become: true
+  when:
+    - ansible_pkg_mgr == 'dnf5'
+    - vault_version_lock | bool
+    - _vault_dnf5_versionlock_list.stdout is search(_vault_repo_pkg_name)
+
+- name: Gather package facts for apt version locking
+  ansible.builtin.package_facts:
+    manager: auto
+  become: true
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - vault_version_lock | bool
+
+- name: Remove Vault apt hold if Vault is already installed
+  ansible.builtin.dpkg_selections:
+    name: "{{ _vault_repo_pkg_name }}"
+    selection: install
+  become: true
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - vault_version_lock | bool
+    - _vault_repo_pkg_name in ansible_facts.packages
 
 - name: "Install Vault package {{ _vault_repo_pkg }}"
   ansible.builtin.package:
@@ -131,7 +178,34 @@
     state: present
   become: true
   when:
-    - ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']
+    - ansible_pkg_mgr == 'yum'
+    - vault_version_lock | bool
+
+- name: Lock Vault package version with dnf if version locking is enabled
+  community.general.dnf_versionlock:
+    name: "{{ _vault_repo_pkg_name }}"
+    state: present
+  become: true
+  when:
+    - ansible_pkg_mgr == 'dnf'
+    - vault_version_lock | bool
+
+- name: Lock Vault package version with dnf5 if version locking is enabled
+  ansible.builtin.command:
+    cmd: "dnf5 versionlock add {{ _vault_repo_pkg_name }}"
+  changed_when: true
+  become: true
+  when:
+    - ansible_pkg_mgr == 'dnf5'
+    - vault_version_lock | bool
+
+- name: Lock Vault package version with apt if version locking is enabled
+  ansible.builtin.dpkg_selections:
+    name: "{{ _vault_repo_pkg_name }}"
+    selection: hold
+  become: true
+  when:
+    - ansible_pkg_mgr == 'apt'
     - vault_version_lock | bool
 
 - name: Mask default Vault config from package

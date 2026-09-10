@@ -1,0 +1,9 @@
+---
+user:
+  vault:
+    exists: true
+    groups:
+      - {{ vault_group | default('bin') }}
+group:
+  {{ vault_group | default('bin') }}:
+    exists: true
