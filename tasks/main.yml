@@ -22,7 +22,7 @@
 
 - name: Check Vault installation
   ansible.builtin.shell:
-    cmd: command -v vault  # noqa command-instead-of-shell  # command is a shell builtin
+    cmd: command -v vault # noqa command-instead-of-shell  # command is a shell builtin
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
@@ -72,7 +72,7 @@
   become: true
   ansible.builtin.command:
     cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
-  changed_when: false  # read-only task
+  changed_when: false # read-only task
   ignore_errors: true
   register: vault_mlock_capability
   when: not vault_disable_mlock | bool
@@ -123,7 +123,7 @@
     mode: "0750"
   when: not vault_install_hashi_repo | bool
 
-- name: Create {{ vault_log_path }} directory for vault logs
+- name: Create directory for vault logs
   become: true
   ansible.builtin.file:
     path: "{{ vault_log_path }}"
@@ -148,7 +148,7 @@
     - vault_gkms | bool
     - vault_gkms_credentials_src_file | length > 0
 
-- name: "Copy over GCP Credentials for Auto Unseal"  # noqa template-instead-of-copy  # https://github.com/ansible/ansible-lint/issues/2501
+- name: "Copy over GCP Credentials for Auto Unseal" # noqa template-instead-of-copy  # https://github.com/ansible/ansible-lint/issues/2501
   ansible.builtin.copy:
     content: "{{ vault_gkms_credentials_content }}"
     dest: "{{ vault_gkms_credentials }}"
@@ -234,7 +234,7 @@
 
 - name: Upload Vault license content to vault_license_path
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "{{ vault_license_content }}"
     dest: "{{ vault_license_path }}"
     owner: "{{ vault_user }}"
@@ -313,17 +313,18 @@
 
 - name: Install/configure vault plugins
   ansible.builtin.include_tasks: "plugins/{{ _index_plugin }}.yml"
-  loop: "{{ ('molecule-notest' not in ansible_skip_tags) | ternary(vault_plugins_enable,
-         lookup('fileglob', 'tasks/plugins/*.yml', wantlist=true) | map('basename') | map('splitext') | map('first')) }}"
+  loop:
+    "{{ ('molecule-notest' not in ansible_skip_tags) | ternary(vault_plugins_enable,
+    lookup('fileglob', 'tasks/plugins/*.yml', wantlist=true) | map('basename') | map('splitext') | map('first')) }}"
   loop_control:
     loop_var: _index_plugin
   args:
     apply:
       environment:
         VAULT_ADDR: "{{ lookup('env', 'VAULT_ADDR') |
-                     default(vault_tls_disable | ternary('http', 'https') ~ '://' ~ vault_addr ~ ':' ~ vault_port, true) }}"
+          default(vault_tls_disable | ternary('http', 'https') ~ '://' ~ vault_addr ~ ':' ~ vault_port, true) }}"
         VAULT_CACERT: "{{ lookup('env', 'VAULT_CACERT') |
-                       default(vault_tls_config_path ~ '/' ~ vault_tls_ca_file if not (vault_tls_disable) else '', true) }}"
+          default(vault_tls_config_path ~ '/' ~ vault_tls_ca_file if not (vault_tls_disable) else '', true) }}"
         VAULT_TOKEN: "{{ lookup('env', 'VAULT_TOKEN') | default(lookup('file', '~/.vault-token', errors='ignore'), true) }}"
   when: vault_plugin_install | bool
 
