@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.5.0](https://github.com/ansible-community/ansible-vault/compare/v5.4.0...v5.5.0) (2026-09-10)
+
+### Features
+
+* support Vault Agent Process Supervisor mode ([#432](https://github.com/ansible-community/ansible-vault/issues/432)) ([d56a1f3](https://github.com/ansible-community/ansible-vault/commit/d56a1f3e9409e828562c04a91565e978026485de)), closes [#431](https://github.com/ansible-community/ansible-vault/issues/431)
+
 ## [5.4.0](https://github.com/ansible-community/ansible-vault/compare/v5.3.0...v5.4.0) (2026-09-10)
 
 ### Features
