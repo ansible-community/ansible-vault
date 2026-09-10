@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.0](https://github.com/ansible-community/ansible-vault/compare/v5.5.0...v6.0.0) (2026-09-10)
+
+### ⚠ BREAKING CHANGES
+
+* vault_version_lock: true is no longer supported when
+Ansible reports ansible_pkg_mgr=yum. Use a supported apt, dnf, or dnf5
+distribution instead.
+
+### Features
+
+* enhance version locking for Vault packages, remove yum support (dnf still works) ([#436](https://github.com/ansible-community/ansible-vault/issues/436)) ([d10889f](https://github.com/ansible-community/ansible-vault/commit/d10889f24d2babb4a99f4d28fde844f6583b48bf))
+
 ## [5.5.0](https://github.com/ansible-community/ansible-vault/compare/v5.4.0...v5.5.0) (2026-09-10)
 
 ### Features
