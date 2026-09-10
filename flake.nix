@@ -15,7 +15,7 @@
         default = pkgs.mkShell {
           venvDir = ".venv";
           packages = with pkgs;
-            [ ansible ansible-lint python312 ]
+            [ ansible ansible-lint molecule python312 ]
             ++ (with pkgs.python312Packages; [ pip venvShellHook ]);
         };
       });
