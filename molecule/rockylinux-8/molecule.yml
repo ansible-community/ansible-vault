@@ -1,17 +1,17 @@
 ---
 platforms:
-  - name: centos-stream-9
+  - name: rockylinux-8
     groups:
       - vault_raft_servers
-    image: dokken/centos-stream-9
+    image: dokken/rockylinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
     cgroup_parent: docker.slice
-  - name: centos-stream-9_repo
+  - name: rockylinux-8_repo
     groups:
       - vault_raft_servers
-    image: dokken/centos-stream-9
+    image: dokken/rockylinux-8
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
@@ -22,7 +22,7 @@ provisioner:
     prepare: prepare.yml
   inventory:
     host_vars:
-      centos-stream-9_repo:
+      rockylinux-8_repo:
         vault_install_hashi_repo: true
         vault_bin_path: /usr/bin
         vault_group: vault
