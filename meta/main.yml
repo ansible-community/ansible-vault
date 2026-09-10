@@ -23,7 +23,6 @@ galaxy_info:
         - trixie
     - name: EL # inferred from CentOS, Alma and Rocky Linux
       versions:
-        - "7"
         - "8"
         - "9"
         - "10"
