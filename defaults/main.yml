@@ -93,8 +93,8 @@ vault_address: "{{ hostvars[inventory_hostname]['ansible_' + vault_iface]['ipv4'
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
 
-# seal configs are written in separate files in vault_config_path, if ony of those is enabled, we need to use vault_config_path in the systemD unit file
-vault_use_config_path: "{{ vault_transit or vault_awskms or vault_azurekeyvault or vault_gkms | default(false) }}"
+# Use the configuration directory whenever an auto-unseal seal is enabled.
+vault_use_config_path: "{{ vault_transit or vault_awskms or vault_azurekeyvault or vault_gkms or vault_ocikms or vault_enterprise_hsm }}"
 
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
@@ -336,8 +336,12 @@ vault_tls_disable_client_certs: false
 # Seal variables
 # ---------------------------------------------------------------------------
 
+# Select the seal implementation. Legacy boolean variables below take priority over `shamir` for backwards compatibility.
+# Valid values: shamir, transit, awskms, azurekeyvault, gcpckms, ocikms and pkcs11. `gcpckms` matches Vault's seal stanza name.
+vault_seal_type: shamir
+
 # transit auto unseal, see https://www.vaultproject.io/docs/configuration/seal/transit
-vault_transit: false
+vault_transit: "{{ vault_seal_type | lower == 'transit' }}"
 vault_transit_backend: vault_seal_transit.j2
 vault_transit_config: "{{ vault_config_path }}/vault_transit.hcl"
 vault_transit_address: ""
@@ -353,7 +357,7 @@ vault_transit_tls_client_key_file: "{{ vault_transit_tls_client_key | default('a
 vault_transit_tls_skip_verify: "{{ lookup('env', 'VAULT_SKIP_VERIFY') | default('', false) }}"
 
 # awskms seal
-vault_awskms: false
+vault_awskms: "{{ vault_seal_type | lower == 'awskms' }}"
 vault_awskms_config: "{{ vault_config_path }}/vault_awskms.hcl"
 vault_awskms_backend: vault_seal_awskms.j2
 vault_awskms_region: "{{ lookup('env', 'AWS_DEFAULT_REGION') | default('us-east-1', false) }}"
@@ -363,12 +367,12 @@ vault_awskms_key_id: "{{ lookup('env', 'VAULT_AWSKMS_SEAL_KEY_ID') | default('',
 vault_awskms_endpoint: "{{ lookup('env', 'AWS_KMS_ENDPOINT') | default('', false) }}"
 
 # azurekeyvault seal
-vault_azurekeyvault: false
+vault_azurekeyvault: "{{ vault_seal_type | lower == 'azurekeyvault' }}"
 vault_azurekeyvault_config: "{{ vault_config_path }}/vault_azurekeyvault.hcl"
 vault_azurekeyvault_backend: vault_seal_azurekeyvault.j2
 
 # gcpkms seal
-vault_gkms: false
+vault_gkms: "{{ vault_seal_type | lower == 'gcpckms' }}"
 vault_backend_gkms: vault_seal_gcpkms.j2
 vault_gkms_project: ""
 vault_gkms_credentials_src_file: ""
@@ -380,7 +384,7 @@ vault_gkms_crypto_key: "vault_key"
 vault_gkms_copy_sa: true
 
 # ocikms seal
-vault_ocikms: false
+vault_ocikms: "{{ vault_seal_type | lower == 'ocikms' }}"
 vault_ocikms_backend: vault_seal_ocikms.j2
 vault_ocikms_auth_type_api_key: false
 vault_ocikms_key_id: "{{ lookup('env', 'VAULT_OCIKMS_SEAL_KEY_ID') | default('', false) }}"
@@ -388,7 +392,7 @@ vault_ocikms_crypto_endpoint: "{{ lookup('env', 'VAULT_OCIKMS_CRYPTO_ENDPOINT') 
 vault_ocikms_management_endpoint: "{{ lookup('env', 'VAULT_OCIKMS_MANAGEMENT_ENDPOINT') | default('', false) }}"
 
 # pkcs11 seal
-vault_enterprise_hsm: false
+vault_enterprise_hsm: "{{ vault_seal_type | lower == 'pkcs11' }}"
 # Group granting access to the PKCS#11 token; only applied when it already exists
 vault_hsm_group: pkcs11
 # Device nodes added to DeviceAllow in the systemd unit (e.g. ['/dev/z90crypt'] on LinuxONE)
