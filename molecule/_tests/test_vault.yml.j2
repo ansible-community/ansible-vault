@@ -1,11 +1,13 @@
 ---
+{% if not (vault_agent_supervisor_mode | default(false) | bool) %}
 port:
   tcp:8200:
     listening: true
+{% endif %}
 service:
   vault.service:
-    enabled: true
-    running: true
+    enabled: {{ 'false' if (vault_agent_supervisor_mode | default(false) | bool) else 'true' }}
+    running: {{ 'false' if (vault_agent_supervisor_mode | default(false) | bool) else 'true' }}
 user:
   vault:
     exists: true
@@ -14,10 +16,16 @@ user:
 group:
   {{ vault_group | default('bin') }}:
     exists: true
+{% if not (vault_agent_supervisor_mode | default(false) | bool) %}
 process:
   vault:
     running: true
+{% endif %}
 file:
+{% if vault_agent_supervisor_mode | default(false) | bool %}
+  {{ vault_systemd_unit_path | default('/lib/systemd/system') }}/{{ vault_systemd_service_name | default('vault') }}.service:
+    exists: false
+{% endif %}
   {{ vault_run_path | default('/var/run/vault') }}:
     # a vault_install_hashi_repo-based install does not use vault_run_path
     exists: {{ 'false' if (vault_install_hashi_repo | default(false) | bool) else 'true' }}

@@ -81,6 +81,7 @@ vault_systemd_use_subshell: true
 # Handlers
 vault_service_restart: true
 vault_service_reload: false
+vault_agent_supervisor_mode: false
 
 # ---------------------------------------------------------------------------
 # Vault variables
