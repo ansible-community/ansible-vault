@@ -1,0 +1,21 @@
+---
+platforms:
+  - name: rockylinux-9-version-lock
+    groups:
+      - vault_raft_servers
+    image: dokken/rockylinux-9
+    pre_build_image: true
+    command: /lib/systemd/systemd
+    privileged: true
+    cgroup_parent: docker.slice
+
+provisioner:
+  playbooks:
+    prepare: prepare.yml
+  inventory:
+    host_vars:
+      rockylinux-9-version-lock:
+        vault_install_hashi_repo: true
+        vault_bin_path: /usr/bin
+        vault_group: vault
+        vault_version_lock: true

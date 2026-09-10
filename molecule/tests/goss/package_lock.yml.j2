@@ -1,0 +1,11 @@
+---
+{% set lock_enabled = (vault_install_hashi_repo | default(false) | bool) and (vault_version_lock | default(false) | bool) %}
+{% set package_name = (_vault_repo_pkg_name | default('vault')) %}
+{% set lock_supported = (ansible_pkg_mgr in ['apt', 'dnf', 'dnf5']) %}
+{% set lock_command = 'apt-mark showhold' if ansible_pkg_mgr == 'apt' else ansible_pkg_mgr ~ ' versionlock list' %}
+{% set package_pattern = '(^|[[:space:]])' ~ package_name ~ '(-|:|[[:space:]]|$)' %}
+command:
+  vault-package-version-lock:
+    exec: >-
+      {{ (lock_command ~ " | grep -Eq '" ~ package_pattern ~ "'") if lock_supported else 'true' }}
+    exit-status: {{ (0 if lock_enabled else 1) if lock_supported else 0 }}

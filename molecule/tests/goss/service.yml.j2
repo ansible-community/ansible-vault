@@ -1,0 +1,15 @@
+---
+{% if not (vault_agent_supervisor_mode | default(false) | bool) %}
+port:
+  tcp:8200:
+    listening: true
+{% endif %}
+service:
+  vault.service:
+    enabled: {{ 'false' if (vault_agent_supervisor_mode | default(false) | bool) else 'true' }}
+    running: {{ 'false' if (vault_agent_supervisor_mode | default(false) | bool) else 'true' }}
+{% if not (vault_agent_supervisor_mode | default(false) | bool) %}
+process:
+  vault:
+    running: true
+{% endif %}

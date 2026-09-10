@@ -1,4 +1,5 @@
 # Ansible role to install Hashicorp Vault
+
 [![Ansible Lint](https://github.com/ansible-community/ansible-vault/actions/workflows/ansible-lint.yml/badge.svg?branch=master)](https://github.com/ansible-community/ansible-vault/actions/workflows/ansible-lint.yml?query=branch%3Amaster)
 [![Ansible Molecule](https://github.com/ansible-community/ansible-vault/actions/workflows/molecule.yml/badge.svg?branch=master)](https://github.com/ansible-community/ansible-vault/actions/workflows/molecule.yml?query=branch%3Amaster)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/ansible-community/ansible-vault.svg)](http://isitmaintained.com/project/ansible-community/ansible-vault "Average time to resolve an issue")
@@ -12,6 +13,7 @@ Consul-backed cluster in a Vagrant based environment. See
 [README_VAGRANT.md](https://github.com/ansible-community/ansible-vault/blob/master/examples/README_VAGRANT.md) and the associated [Vagrantfile](https://github.com/ansible-community/ansible-vault/blob/master/examples/Vagrantfile) for more details about the developer mode setup.
 
 ## Installation
+
 This role resides on GitHub pending the integration with Ansible Galaxy. To install this role create a `roles/requirements.yml` file in your Ansible project folder with the following contents:
 
 ```yaml
@@ -54,8 +56,25 @@ This role requires Archlinux, AmazonLinux, FreeBSD, Debian or a RHEL based Linux
 might work with other software versions, but does work with the following
 specific software and versions. Sorry, there is no planned support at the moment for Windows.
 
+The minimum supported Ansible version is 2.10. Current supported test environments require
+Python 3.9 or newer on managed hosts. Older distributions that only use `yum`, such as CentOS 7,
+RHEL 7, and Amazon Linux 2, are no longer supported.
+
 See the [molecule scenarios](https://github.com/ansible-community/ansible-vault/tree/master/molecule)
 for currently tested distributions.
+
+### Tested distribution matrix
+
+| Distribution | Versions tested     | Preferred installation source |
+| ------------ | ------------------- | ----------------------------- |
+| AlmaLinux    | 8, 9                | dnf                           |
+| AlmaLinux    | 10                  | dnf5                          |
+| Amazon Linux | 2023                | dnf                           |
+| ArchLinux    | rolling             | binary                        |
+| Debian       | 12, 13              | apt                           |
+| Rocky Linux  | 8, 9                | dnf                           |
+| Rocky Linux  | 10                  | dnf5                          |
+| Ubuntu       | 22.04, 24.04, 26.04 | apt                           |
 
 ## Warning
 
@@ -80,7 +99,6 @@ to load any new configuration deployed.
 Use `vault_seal_type` to select the Vault seal type. The default is `shamir`.
 For compatibility, an enabled legacy seal variable takes priority over `shamir`.
 Supported values: `shamir`, `transit`, `awskms`, `azurekeyvault`, `gcpckms`, `ocikms`, and `pkcs11`.
-
 
 ## Misc
 
