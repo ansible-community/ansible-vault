@@ -3,8 +3,9 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Install python3
-      ansible.builtin.raw: "test -x /usr/bin/python3 || yum install -y python3"
+    - name: Install Python 3.8
+      ansible.builtin.raw: >-
+        test -x /usr/bin/python3.8 || amazon-linux-extras install -y python3.8
       changed_when: true
 
 - name: Common prepare

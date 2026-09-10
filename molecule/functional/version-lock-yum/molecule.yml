@@ -15,6 +15,7 @@ provisioner:
   inventory:
     host_vars:
       amazonlinux-2-version-lock:
+        ansible_python_interpreter: /usr/bin/python3.8
         vault_install_hashi_repo: true
         vault_bin_path: /usr/bin
         vault_group: vault
