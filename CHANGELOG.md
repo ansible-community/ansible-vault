@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.0](https://github.com/ansible-community/ansible-vault/compare/v5.3.0...v5.4.0) (2026-09-10)
+
+### Features
+
+* add explicit Vault seal type selector ([#430](https://github.com/ansible-community/ansible-vault/issues/430)) ([c2916bc](https://github.com/ansible-community/ansible-vault/commit/c2916bc216cddd6c0c580164ee0d7201ef16a78f)), closes [#429](https://github.com/ansible-community/ansible-vault/issues/429)
+
 ## [5.3.0](https://github.com/ansible-community/ansible-vault/compare/v5.2.0...v5.3.0) (2026-08-13)
 
 ### Features
