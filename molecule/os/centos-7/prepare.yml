@@ -9,13 +9,3 @@
 
 - name: Common prepare
   ansible.builtin.import_playbook: ../../prepare.yml
-
-- name: Prepare AlmaLinux
-  hosts: all
-  tasks:
-    - name: Set Permission on /etc/shadow
-      ansible.builtin.file:
-        path: /etc/shadow
-        mode: "0640"
-        owner: root
-        group: root
