@@ -1,28 +1,22 @@
 {
   description = "A Nix-flake-based ansible development environment";
 
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
   outputs = { self, nixpkgs }:
     let
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
-      });
-    in
-    {
+      supportedSystems =
+        [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      forEachSupportedSystem = f:
+        nixpkgs.lib.genAttrs supportedSystems
+        (system: f { pkgs = import nixpkgs { inherit system; }; });
+    in {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           venvDir = ".venv";
-          packages = with pkgs; [ 
-            ansible
-            ansible-lint
-            python312
-          ] ++
-            (with pkgs.python312Packages; [
-              pip
-              venvShellHook
-            ]);
+          packages = with pkgs;
+            [ ansible ansible-lint python312 ]
+            ++ (with pkgs.python312Packages; [ pip venvShellHook ]);
         };
       });
     };
