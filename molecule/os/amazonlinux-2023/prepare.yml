@@ -5,10 +5,9 @@
 - name: Prepare Amazon Linux
   hosts: all
   tasks:
-    # sudo's PAM account phase fails without sssd running unless "files" comes first
+    # sudo's PAM account phase fails without sssd running unless "files" comes first.
     - name: Prefer files over sss in nsswitch.conf
       ansible.builtin.replace:
         path: /etc/nsswitch.conf
         regexp: "(?m)^(passwd|group|shadow):.*$"
         replace: '\1: files sss systemd'
-      become: true
