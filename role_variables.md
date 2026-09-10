@@ -64,6 +64,7 @@ The role defines variables in `defaults/main.yml`:
 ## `vault_version_lock`
 
 - When `true` and `vault_install_hashi_repo` is `true`, the role will lock the installed Vault package to the version specified in `vault_version` to prevent unintended upgrades.
+- Package version locking is supported with `apt`, `dnf`, and `dnf5`. Other package managers are rejected when version locking is enabled.
 - Default value: _false_
 
 ## `vault_rhsm_repo_id`

@@ -94,23 +94,21 @@
     state: absent
   become: true
 
-- name: Ensure versionlock plugin is installed for yum/dnf when version locking is enabled
+- name: Ensure dnf versionlock plugin is installed when version locking is enabled
   ansible.builtin.package:
-    name: "{{ 'yum-plugin-versionlock' if ansible_pkg_mgr == 'yum' else 'python3-dnf-plugin-versionlock' }}"
+    name: python3-dnf-plugin-versionlock
     state: present
   become: true
   when:
-    - ansible_pkg_mgr in ['yum', 'dnf']
+    - ansible_pkg_mgr == 'dnf'
     - vault_version_lock | bool
 
-- name: Remove Vault versionlock if Vault is already installed
-  community.general.yum_versionlock:
-    name: "{{ _vault_repo_pkg_name }}"
-    state: absent
-  become: true
+- name: Reject unsupported package managers for version locking
+  ansible.builtin.fail:
+    msg: "vault_version_lock is supported only with apt, dnf, and dnf5; detected {{ ansible_pkg_mgr }}"
   when:
-    - ansible_pkg_mgr == 'yum'
     - vault_version_lock | bool
+    - ansible_pkg_mgr not in ['apt', 'dnf', 'dnf5']
 
 - name: Remove Vault dnf versionlock if Vault is already installed
   community.general.dnf_versionlock:
@@ -171,15 +169,6 @@
       {{ _vault_repo_pkg_name }}={{ vault_version }}{{ vault_version_repo_suffix }}\
       {% endif %}"
   notify: Restart vault
-
-- name: Lock Vault package version if version locking is enabled
-  community.general.yum_versionlock:
-    name: "{{ _vault_repo_pkg_name }}"
-    state: present
-  become: true
-  when:
-    - ansible_pkg_mgr == 'yum'
-    - vault_version_lock | bool
 
 - name: Lock Vault package version with dnf if version locking is enabled
   community.general.dnf_versionlock:
